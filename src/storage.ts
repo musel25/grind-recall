@@ -109,8 +109,9 @@ export function validateState(input: unknown): StudyState {
   }
   const t = s.settings;
   if (
+    (t.planMode !== undefined && !["time", "deadline"].includes(t.planMode)) ||
     !validDate(t.startDate) ||
-    !numeric(t.weeks, 1, 52) ||
+    !numeric(t.weeks, 1, 200) ||
     !Number.isInteger(t.weeks) ||
     !numeric(t.hours, 1, 80) ||
     !numeric(t.reviewMultiplier, 0.1, 2) ||

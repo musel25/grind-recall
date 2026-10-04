@@ -29,6 +29,7 @@ export type Attempt = {
   previous: Progress | null;
 };
 export type Settings = {
+  planMode?: "time" | "deadline";
   startDate: string;
   weeks: number;
   hours: number;

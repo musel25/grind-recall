@@ -38,15 +38,17 @@ test("calendar arithmetic survives DST and timezone boundary", () => {
     day,
   );
 });
-test("new attempts and failures return tomorrow; repeated successes expand interval", () => {
+test("new attempts use FSRS; failures return tomorrow; successes expand interval", () => {
   let s = initialState(day, false);
   const id = problems[0].id;
   s = recordAttempt(s, id, 3, day, 15, "");
-  assert.equal(s.progress[id].due, "2026-10-05");
+  assert.equal(s.progress[id].due, "2026-10-07");
   let card = s.progress[id].card!;
-  let first = nextReview(card, 3, "2026-10-05");
+  let first = nextReview(card, 3, s.progress[id].due);
   let second = nextReview(first.card, 3, first.due);
-  assert.ok(dayDiff(first.due, second.due) > dayDiff("2026-10-05", first.due));
+  assert.ok(
+    dayDiff(first.due, second.due) > dayDiff(s.progress[id].due, first.due),
+  );
   assert.equal(
     nextReview(second.card, 1, second.due).due,
     addDays(second.due, 1),

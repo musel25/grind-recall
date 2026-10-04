@@ -60,10 +60,9 @@ export function nextReview(
       }
     : createEmptyCard(now);
   const result = engine.next(card, now, rating as Grade).card;
-  // Coding practice is day-based. First exposure and lapses get a next-day retry;
+  // Coding practice is day-based. Lapses get a next-study-day retry;
   // stability/difficulty still come from FSRS, not a reset to an empty card.
-  const interval =
-    !stored || rating === 1 ? 1 : Math.max(1, result.scheduled_days);
+  const interval = rating === 1 ? 1 : Math.max(1, result.scheduled_days);
   const due = reviewDay(addDays(day, interval), state);
   result.due = new Date(due + "T12:00:00Z");
   result.scheduled_days = dayDiff(day, due);
