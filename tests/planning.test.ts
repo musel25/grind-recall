@@ -1,8 +1,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { initialState, setStudyBreak } from "../src/model";
+import { initialState, setStudyBreak, problems } from "../src/model";
 import { nextReview, addDays } from "../src/scheduler";
-import { estimatePlan, simulatePace } from "../src/planning";
+import { estimatePlan, simulatePace, applyEstimate } from "../src/planning";
 import { validateState } from "../src/storage";
 const day = "2026-10-04";
 const base = () =>
@@ -56,4 +56,28 @@ test("legacy backups work; valid mode persists and invalid mode rejected", () =>
   assert.equal(validateState(s).settings.planMode, "time");
   (s.settings as any).planMode = "wrong";
   assert.throws(() => validateState(s));
+});
+
+test("long elapsed time produces a state that can still save practice", () => {
+  const s = initialState("2020-01-01", true);
+  const e = estimatePlan(s, day);
+  assert.ok(e.weeks > 200);
+  assert.doesNotThrow(() => validateState(applyEstimate(s, e)));
+});
+test("completed deadline plans preserve review budget and cannot claim a missed deadline was met", () => {
+  const s = base();
+  s.settings.planMode = "deadline";
+  s.settings.weeks = 1;
+  for (const p of problems)
+    s.progress[p.id] = {
+      due: "2026-10-15",
+      card: null,
+      imported: true,
+      note: "",
+      independent: false,
+    };
+  const e = estimatePlan(s, "2026-10-15");
+  assert.equal(e.completed, true);
+  assert.equal(e.hours, 10);
+  assert.equal(e.feasible, false);
 });

@@ -47,6 +47,7 @@ export function simulatePace(
   return { finish: null, minutes };
 }
 export type PlanEstimate = {
+  completed?: boolean;
   mode: "time" | "deadline";
   hours: number;
   weeks: number;
@@ -61,6 +62,24 @@ export function estimatePlan(state: StudyState, day: string): PlanEstimate {
     state.settings.startDate,
     state.settings.weeks * 7 - 1,
   );
+  if (Object.keys(state.progress).length === data.length) {
+    const finish =
+      state.history
+        .filter((a) => a.wasNew)
+        .map((a) => a.day)
+        .sort()
+        .at(-1) ?? day;
+    return {
+      mode,
+      completed: true,
+      finish,
+      target: mode === "time" ? finish : target,
+      hours: state.settings.hours,
+      weeks: state.settings.weeks,
+      minutes: 0,
+      feasible: mode === "time" || finish <= target,
+    };
+  }
   if (mode === "time") {
     const result = simulatePace(state, day, state.settings.hours);
     return {
@@ -123,7 +142,10 @@ export function applyEstimate(
       ...state.settings,
       planMode: estimate.mode,
       hours: estimate.feasible ? estimate.hours : state.settings.hours,
-      weeks: estimate.feasible ? estimate.weeks : state.settings.weeks,
+      // Stored weeks is bounded for legacy backups; display uses the full estimate.
+      weeks: estimate.feasible
+        ? Math.min(200, estimate.weeks)
+        : state.settings.weeks,
     },
   };
 }
