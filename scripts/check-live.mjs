@@ -39,7 +39,7 @@ try {
   await page
     .getByRole("button", { name: "Start practice", exact: true })
     .click();
-  await page.getByRole("button", { name: "I've finished my attempt" }).click();
+  await page.getByRole("button", { name: "Rate my attempt" }).click();
   await page
     .getByRole("button", { name: /^Good Solved independently/ })
     .click();

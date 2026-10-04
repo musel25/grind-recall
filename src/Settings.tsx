@@ -1,7 +1,10 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { Download, Upload, Info } from "lucide-react";
 import { downloadBackup, validateState } from "./storage";
 import { StudyBreak } from "./StudyBreak";
+import { estimatePlan, applyEstimate } from "./planning";
+import { todayIn } from "./scheduler";
+import { PlanSummary } from "./PlanSummary";
 import type { StudyState } from "./types";
 export function Settings({
   state,
@@ -14,6 +17,14 @@ export function Settings({
 }) {
   const [draft, setDraft] = useState(state.settings);
   useEffect(() => setDraft(state.settings), [state.settings]);
+  const preview = useMemo(() => {
+    try {
+      const candidate = validateState({ ...state, settings: draft });
+      return estimatePlan(candidate, todayIn(draft.timezone));
+    } catch {
+      return null;
+    }
+  }, [state, draft]);
   const [message, setMessage] = useState("");
   const input = useRef<HTMLInputElement>(null);
   const zones = [
@@ -45,7 +56,11 @@ export function Settings({
               settings: draft,
               revision: state.revision + 1,
             });
-            if (onSave(s))
+            if (!preview || (!preview.feasible && !preview.completed))
+              throw Error(
+                "Adjust your plan until a completion estimate is available.",
+              );
+            if (onSave(applyEstimate(s, preview)))
               setMessage(
                 "Settings saved. Your existing review dates are unchanged.",
               );
@@ -68,32 +83,50 @@ export function Settings({
             />
           </label>
           <label>
-            Plan length (weeks)
-            <input
-              type="number"
-              required
-              min="1"
-              max="52"
-              value={draft.weeks}
+            Plan by
+            <select
+              value={draft.planMode ?? "time"}
               onChange={(e) =>
-                setDraft({ ...draft, weeks: Number(e.target.value) })
+                setDraft({
+                  ...draft,
+                  planMode: e.target.value as "time" | "deadline",
+                })
               }
-            />
+            >
+              <option value="time">My daily study time</option>
+              <option value="deadline">My finish deadline</option>
+            </select>
           </label>
-          <label>
-            Time available (hours/week)
-            <input
-              type="number"
-              required
-              min="1"
-              max="80"
-              step="0.5"
-              value={draft.hours}
-              onChange={(e) =>
-                setDraft({ ...draft, hours: Number(e.target.value) })
-              }
-            />
-          </label>
+          {draft.planMode === "deadline" ? (
+            <label>
+              Plan length (weeks)
+              <input
+                type="number"
+                required
+                min="1"
+                max="104"
+                value={draft.weeks}
+                onChange={(e) =>
+                  setDraft({ ...draft, weeks: Number(e.target.value) })
+                }
+              />
+            </label>
+          ) : (
+            <label>
+              Study time (hours/day)
+              <input
+                type="number"
+                required
+                min="0.15"
+                max="11.42"
+                step="0.01"
+                value={Number((draft.hours / 7).toFixed(2))}
+                onChange={(e) =>
+                  setDraft({ ...draft, hours: Number(e.target.value) * 7 })
+                }
+              />
+            </label>
+          )}
           <label>
             Study timezone
             <select
@@ -128,6 +161,7 @@ export function Settings({
           Changing this estimate adjusts the time forecast, not your review
           dates. Brief recall is less practice than writing a complete solution.
         </p>
+        {preview && <PlanSummary plan={preview} />}
         <button className="button primary" type="submit">
           Save settings
         </button>
@@ -191,11 +225,13 @@ export function Settings({
           <Info size={19} /> How reviews work
         </h2>
         <p>
-          First attempts and <strong>Again</strong> return tomorrow, or the next
-          study day during a planned break. After that, FSRS adjusts the
-          interval using your previous results. <strong>Hard</strong> means you
-          solved it independently with difficulty. If you needed hints or the
-          solution, choose <strong>Again</strong>.
+          Every first attempt and review is rated Again, Hard, Good, or Easy.
+          <strong> Again</strong> returns the next study day. FSRS uses your
+          rating from the first attempt onward: Hard generally returns sooner,
+          Easy later. Each rating shows its next review date.{" "}
+          <strong>Hard</strong> means you solved it independently with
+          difficulty. If you needed hints or the solution, choose{" "}
+          <strong>Again</strong>.
         </p>
         <p>
           The default FSRS model targets 90% recall, but this is not a promise

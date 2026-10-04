@@ -26,17 +26,12 @@ import {
   undoAttempt,
   addExtraProblem,
 } from "./model";
-import {
-  addDays,
-  dailyPlan,
-  dayDiff,
-  forecast,
-  todayIn,
-  reviewDay,
-} from "./scheduler";
+import { addDays, dailyPlan, dayDiff, todayIn, reviewDay } from "./scheduler";
 import { loadState, saveState, STORAGE_KEY } from "./storage";
 import { Session, duration, dateLabel } from "./Session";
 import { TodayControls } from "./TodayControls";
+import { estimatePlan, applyEstimate } from "./planning";
+import { PlanSummary, fullDate } from "./PlanSummary";
 import { Settings } from "./Settings";
 import type { Problem, StudyState } from "./types";
 function read() {
@@ -52,7 +47,7 @@ function read() {
 }
 export default function App() {
   const [loaded] = useState(read);
-  const [state, setState] = useState<StudyState | null>(loaded.state);
+  const [savedState, setState] = useState<StudyState | null>(loaded.state);
   const [error, setError] = useState(loaded.error);
   const [view, setView] = useState("today");
   const [selected, setSelected] = useState<Problem | null>(null);
@@ -81,13 +76,20 @@ export default function App() {
     return () => window.removeEventListener("storage", listener);
   }, []);
   const day = todayIn(
-    state?.settings.timezone ??
+    savedState?.settings.timezone ??
       Intl.DateTimeFormat().resolvedOptions().timeZone,
   );
   void tick;
   const projection = useMemo(
-    () => (state ? forecast(state, day) : null),
-    [state, day],
+    () => (savedState ? estimatePlan(savedState, day) : null),
+    [savedState, day],
+  );
+  const state = useMemo(
+    () =>
+      savedState && projection
+        ? applyEstimate(savedState, projection)
+        : savedState,
+    [savedState, projection],
   );
   function commit(next: StudyState) {
     try {
@@ -178,7 +180,7 @@ export default function App() {
               </button>
             </>
           )}
-          <small>15 weeks · All 169 problems · Saved in this browser</small>
+          <small>Your pace · All 169 problems · Saved in this browser</small>
         </div>
         <a
           className="welcome-credit"
@@ -189,12 +191,19 @@ export default function App() {
       </div>
     );
   const plan = dailyPlan(state, day);
+  const finishDate =
+    projection!.mode === "time" ? projection!.finish : projection!.target;
+  const daysRemaining = finishDate
+    ? Math.max(0, dayDiff(day, finishDate) + 1)
+    : null;
+  const displayWeeks = projection!.weeks;
+  const trackWeeks = Math.min(52, displayWeeks);
   const practiced = Object.keys(state.progress).length;
   const independent = Object.values(state.progress).filter(
     (p) => p.independent,
   ).length;
   const week = Math.min(
-    state.settings.weeks,
+    displayWeeks,
     Math.max(1, Math.floor(dayDiff(state.settings.startDate, day) / 7) + 1),
   );
   const queue = [...plan.reviews, ...plan.newProblems];
@@ -260,7 +269,9 @@ export default function App() {
         </nav>
         <div className="sidebar-plan">
           <div className="small-heading">
-            Your {state.settings.weeks}-week journey{" "}
+            {projection?.feasible
+              ? `Your ${displayWeeks}-week journey`
+              : "Your study journey"}{" "}
             <span>{Math.round((practiced / 169) * 100)}%</span>
           </div>
           <div className="progress-track">
@@ -294,7 +305,8 @@ export default function App() {
             <span className="status-dot" /> Your daily practice space
           </span>
           <span>
-            Week {week} of {state.settings.weeks}
+            Week {week}
+            {projection?.feasible ? ` of ${displayWeeks}` : ""}
           </span>
         </header>
         {error && (
@@ -408,28 +420,40 @@ export default function App() {
                 <p>
                   <strong>{practiced} / 169</strong> problems practiced{" "}
                   <span>
-                    Target {dateLabel(plan.end)}
-                    {plan.daysLeft === 0 ? " · Target date passed" : ""}
+                    {projection?.completed
+                      ? "All problems practiced · keep reviewing"
+                      : finishDate
+                        ? `${projection?.mode === "time" ? "Estimated finish" : "Target"} ${fullDate(finishDate)}`
+                        : "Choose a sustainable pace in Settings"}
                   </span>
                 </p>
               </div>
               <div
                 className="week-track"
-                aria-label={`Week ${week} of ${state.settings.weeks}`}
+                aria-label={`Week ${week} of ${displayWeeks}`}
               >
-                {Array.from({ length: state.settings.weeks }, (_, i) => (
+                {Array.from({ length: trackWeeks }, (_, i) => (
                   <span
                     key={i}
-                    title={`Week ${i + 1}`}
+                    title={`Week ${Math.ceil(((i + 1) * displayWeeks) / trackWeeks)}`}
                     className={
-                      i + 1 < week ? "past" : i + 1 === week ? "current" : ""
+                      i + 1 < Math.ceil((week * trackWeeks) / displayWeeks)
+                        ? "past"
+                        : i + 1 ===
+                            Math.ceil((week * trackWeeks) / displayWeeks)
+                          ? "current"
+                          : ""
                     }
                   />
                 ))}
               </div>
               <div className="journey-bottom">
                 <span>Week {week}</span>
-                <span>{plan.daysLeft} days left</span>
+                <span>
+                  {daysRemaining === null
+                    ? "Estimate unavailable"
+                    : `${daysRemaining} days left`}
+                </span>
               </div>
             </section>
             <div className="section-header">
@@ -482,7 +506,7 @@ export default function App() {
                   {plan.beforeStart
                     ? `Your daily assignments begin ${dateLabel(state.settings.startDate)}.`
                     : plan.onBreak
-                      ? `Reviews resume ${dateLabel(reviewDay(day, state))}. Your target date is unchanged.`
+                      ? `Reviews resume ${dateLabel(reviewDay(day, state))}. Your finish estimate accounts for this break.`
                       : nextDue
                         ? `Your next review is ${dateLabel(nextDue)}. Add one more problem whenever you feel like it.`
                         : "Come back tomorrow for your next assignment, or pick an extra problem."}
@@ -553,24 +577,14 @@ export default function App() {
               <div className="workload-note">
                 <Info size={18} />
                 <div>
-                  <strong>
-                    {projection.hoursPerWeek > state.settings.hours
-                      ? "Your target needs more time."
-                      : "Your workload forecast"}
-                  </strong>
-                  <p>
-                    About {projection.hoursPerWeek.toFixed(1)}h/week needed for
-                    the overall target vs. your usual {state.settings.hours}h
-                    goal. Today fits your chosen time; a lower pace may miss the
-                    target. Assumes successful scheduled reviews
-                    {state.settings.reviewMultiplier !== 1
-                      ? ` at ${Math.round(state.settings.reviewMultiplier * 100)}% of listed time`
-                      : ""}
-                    ; retries can add more.
-                    {estimate > budget
-                      ? ` Today's plan is about ${duration(estimate)}, above your ${duration(budget)} budget.`
-                      : ""}
-                  </p>
+                  <PlanSummary plan={projection} />
+                  {estimate > budget && (
+                    <p>
+                      Today's reviews and assignments need about{" "}
+                      {duration(estimate)}, above your {duration(budget)}{" "}
+                      budget. Due reviews remain visible.
+                    </p>
+                  )}
                   <button
                     className="text-button"
                     onClick={() => setView("settings")}

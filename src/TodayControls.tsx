@@ -47,7 +47,9 @@ export function TodayControls({
               if (hours !== plan.week.goalMinutes / 60)
                 next = setWeekHours(next, day, hours);
               if (next === state || onSave(next))
-                setError("Plan updated. The overall target date is unchanged.");
+                setError(
+                  "Plan updated. Your completion estimate includes this adjustment.",
+                );
             } catch (e) {
               setError((e as Error).message);
             }
@@ -81,7 +83,7 @@ export function TodayControls({
                 type="number"
                 min="0"
                 max="80"
-                step="0.5"
+                step="any"
                 required
                 value={hours}
                 onChange={(e) => setHours(Number(e.target.value))}
@@ -94,7 +96,7 @@ export function TodayControls({
                     setError("Using your usual weekly goal.");
                 }}
               >
-                Use usual {state.settings.hours}h goal
+                Use usual {Number(state.settings.hours.toFixed(1))}h goal
               </button>
             </label>
           </div>

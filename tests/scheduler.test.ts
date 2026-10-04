@@ -12,7 +12,6 @@ import {
   todayIn,
   nextReview,
   dailyPlan,
-  forecast,
 } from "../src/scheduler.ts";
 const day = "2026-10-04";
 test("dataset matches supplied 169 problem list and time budget", () => {
@@ -86,11 +85,4 @@ test("missed days adjust pace; overdue reviews remain unique; deadline does not 
   assert.equal(dailyPlan(s, "2026-10-03").newProblems.length, 0);
   assert.equal(dailyPlan(s, "2027-02-01").daysLeft, 0);
   assert.equal(dailyPlan(s, "2027-02-01").reviews.length, 10);
-});
-test("forecast exposes that 10h/week cannot fund first passes and full reviews", () => {
-  const result = forecast(initialState(day, true), day);
-  assert.equal(result.newMinutes, 8800);
-  assert.ok(result.reviewMinutes > 0);
-  assert.ok(result.hoursPerWeek > 10);
-  assert.equal(result.newCount, 159);
 });

@@ -19,9 +19,7 @@ test("complete daily work, preserve it on reload, undo and backup round trip", a
       .getByRole("button", { name: "Start practice", exact: true })
       .click();
     await expect(page.getByRole("dialog")).toBeVisible();
-    await page
-      .getByRole("button", { name: "I've finished my attempt" })
-      .click();
+    await page.getByRole("button", { name: "Rate my attempt" }).click();
     await page
       .getByLabel("What should you remember?")
       .fill("Check empty inputs");
@@ -65,7 +63,7 @@ test("search and rate an existing problem on mobile without overflow", async ({
   await page.getByRole("textbox", { name: "Search problems" }).fill("Two Sum");
   await expect(page.locator(".problem-row")).toHaveCount(1);
   await page.locator(".problem-row").click();
-  await page.getByRole("button", { name: "I've finished my attempt" }).click();
+  await page.getByRole("button", { name: "Rate my attempt" }).click();
   await page.getByRole("button", { name: /^Again Needed help/ }).click();
   const state = await page.evaluate(() =>
     JSON.parse(localStorage.getItem("grind-recall:v1")!),
@@ -91,6 +89,7 @@ test("imported settings appear immediately and saving cannot restore stale setti
   const backup = await page.evaluate(() => {
     const state = JSON.parse(localStorage.getItem("grind-recall:v1")!);
     state.settings.weeks = 20;
+    state.settings.planMode = "deadline";
     state.settings.hours = 25;
     state.settings.timezone = "UTC";
     return JSON.stringify(state);
@@ -102,9 +101,8 @@ test("imported settings appear immediately and saving cannot restore stale setti
     buffer: Buffer.from(backup),
   });
   await expect(page.getByLabel("Plan length (weeks)")).toHaveValue("20");
-  await expect(page.getByLabel("Time available (hours/week)")).toHaveValue(
-    "25",
-  );
+  await expect(page.getByLabel("Plan by")).toHaveValue("deadline");
+  await expect(page.getByLabel("Plan estimate")).toContainText("20 weeks");
   await page
     .getByRole("button", { name: "Save settings", exact: true })
     .click();
@@ -150,4 +148,117 @@ test("one-click extras, day/week controls and visible breaks persist", async ({
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
   ).toBe(true);
+});
+
+test("plan by time or deadline; preserve pause and ratings survive reload", async ({
+  page,
+}) => {
+  await page.goto("./");
+  await page
+    .getByRole("button", { name: "Continue with my first 10 completed" })
+    .click();
+  await page.getByRole("button", { name: "Settings", exact: true }).click();
+  await page.getByLabel("Study time (hours/day)").fill("2");
+  await expect(page.getByLabel("Plan estimate")).toContainText(
+    "14.0 hours/week",
+  );
+  await page.getByLabel("Break starts").fill("2026-10-08");
+  await page.getByLabel("Break ends").fill("2026-10-12");
+  await page
+    .getByRole("button", { name: "Save study break", exact: true })
+    .click();
+  // Restore the time draft after the independent break settings save.
+  await page.getByLabel("Study time (hours/day)").fill("2");
+  await page
+    .getByRole("button", { name: "Save settings", exact: true })
+    .click();
+  await page.reload();
+  await page.getByRole("button", { name: "Settings", exact: true }).click();
+  await expect(page.getByLabel("Study time (hours/day)")).toHaveValue("2");
+  await page.getByLabel("Plan by").selectOption("deadline");
+  await page.getByLabel("Plan length (weeks)").fill("20");
+  await expect(page.getByLabel("Plan estimate")).toContainText("20 weeks");
+  await page
+    .getByRole("button", { name: "Save settings", exact: true })
+    .click();
+  const saved = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem("grind-recall:v1")!),
+  );
+  expect(saved.settings.planMode).toBe("deadline");
+  expect(saved.settings.weeks).toBe(20);
+  expect(saved.settings.hours).toBeGreaterThan(10);
+  expect(saved.planning.breaks).toHaveLength(5);
+  await page.getByRole("button", { name: "Today", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Start practice", exact: true })
+    .click();
+  await page
+    .getByRole("button", { name: "Rate my attempt", exact: true })
+    .click();
+  const easy = page.getByRole("button", {
+    name: /^Easy Solved with confidence/,
+  });
+  const hard = page.getByRole("button", {
+    name: /^Hard Solved, with difficulty/,
+  });
+  expect(await easy.locator("small").innerText()).not.toBe(
+    await hard.locator("small").innerText(),
+  );
+  await easy.click();
+  await page.reload();
+  const result = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem("grind-recall:v1")!),
+  );
+  expect(result.history.at(-1).rating).toBe(4);
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  await page.screenshot({ path: "/tmp/grind-plan-mobile.png", fullPage: true });
+});
+
+test("completed lists preserve review budget and allow saving settings after deadline", async ({
+  page,
+}) => {
+  const { default: problems } = await import("../../src/problems.json", {
+    with: { type: "json" },
+  });
+  await page.goto("./");
+  await page
+    .getByRole("button", { name: "Continue with my first 10 completed" })
+    .click();
+  await page.evaluate(
+    (ids) => {
+      const s = JSON.parse(localStorage.getItem("grind-recall:v1")!);
+      s.settings.planMode = "deadline";
+      s.settings.startDate = "2020-01-01";
+      s.settings.weeks = 1;
+      for (const id of ids)
+        s.progress[id] = {
+          due: "2026-10-05",
+          card: null,
+          imported: true,
+          note: "",
+          independent: false,
+        };
+      localStorage.setItem("grind-recall:v1", JSON.stringify(s));
+    },
+    problems.map((p) => p.id),
+  );
+  await page.reload();
+  await expect(page.getByLabel("Plan estimate")).toContainText(
+    "All 169 problems practiced",
+  );
+  await page.getByRole("button", { name: "Settings", exact: true }).click();
+  await page.getByLabel("Estimated review duration").selectOption("0.5");
+  await page
+    .getByRole("button", { name: "Save settings", exact: true })
+    .click();
+  const result = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem("grind-recall:v1")!),
+  );
+  expect(result.settings.hours).toBe(10);
+  expect(result.settings.reviewMultiplier).toBe(0.5);
 });

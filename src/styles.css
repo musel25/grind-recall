@@ -1593,3 +1593,31 @@ footer {
 .extra-label {
   color: #536fc2;
 }
+
+.plan-estimate {
+  padding: 18px 20px;
+  margin: 16px 0;
+  border: 1px solid #dce5ef;
+  border-radius: 14px;
+  background: #f5f8fc;
+}
+.plan-estimate strong {
+  display: block;
+  font-size: 1.12rem;
+  color: #233f62;
+}
+.plan-estimate p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+.plan-estimate small {
+  display: block;
+  line-height: 1.6;
+  color: #59697d;
+}
+.workload-note .plan-estimate {
+  margin: 0 0 10px;
+  background: transparent;
+  border: 0;
+  padding: 0;
+}

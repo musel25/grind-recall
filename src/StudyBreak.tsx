@@ -37,7 +37,8 @@ export function StudyBreak({
       </h2>
       <p>
         No daily assignments on these dates. Reviews move to the next available
-        day; the overall target date stays the same.
+        day. A time-based plan updates its finish estimate; a deadline-based
+        plan adjusts the required study time.
       </p>
       <div className="settings-grid break-inputs">
         <label>

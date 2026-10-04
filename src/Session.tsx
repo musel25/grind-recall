@@ -78,7 +78,8 @@ export function Session({
       </div>
       <p className="session-prompt">
         Try it without hints. Explain your approach and its time and space
-        complexity, then record how it went.
+        complexity, then rate it Again, Hard, Good, or Easy. Practicing a
+        problem does not retire it from reviews.
       </p>
       <a
         className="button primary"
@@ -106,7 +107,7 @@ export function Session({
               className="button secondary finish-button"
               onClick={() => setFinished(true)}
             >
-              I've finished my attempt <Check size={17} />
+              Rate my attempt <Check size={17} />
             </button>
           ) : (
             <div className="rating-area">
