@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, Check, Clock3, X, RotateCcw } from "lucide-react";
-import { nextReview, dayDiff, reviewDay } from "./scheduler";
+import { ArrowUpRight, Check, Clock3, X, RotateCcw, Sun } from "lucide-react";
+import { nextReview, dayDiff, reviewDay, awaitingEvening } from "./scheduler";
 import type { Problem, StudyState } from "./types";
 export function dateLabel(day: string) {
   return new Date(day + "T12:00:00Z").toLocaleDateString(undefined, {
@@ -20,11 +20,13 @@ export function Session({
   day,
   onClose,
   onSave,
+  onMorning,
 }: {
   problem: Problem;
   state: StudyState;
   day: string;
   onClose: () => void;
+  onMorning: (marked: boolean) => boolean;
   onSave: (rating: 1 | 2 | 3 | 4, minutes: number, note: string) => boolean;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
@@ -44,6 +46,7 @@ export function Session({
   useEffect(() => {
     ref.current?.showModal();
   }, []);
+  const morning = awaitingEvening(state, p.id, day);
   const rated = history.some((a) => a.day === day);
   const labels = ["Again", "Hard", "Good", "Easy"] as const;
   const descriptions = [
@@ -89,6 +92,45 @@ export function Session({
       >
         Open on LeetCode <ArrowUpRight size={17} />
       </a>
+      {!rated && !finished && (
+        <div className="morning-action">
+          {morning ? (
+            <>
+              <p>
+                Studied {dateLabel(state.morningStudy![p.id])}. Try it from
+                scratch tonight, then rate your attempt.
+              </p>
+              <button
+                className="text-button"
+                onClick={() => {
+                  if (onMorning(false)) onClose();
+                }}
+              >
+                Undo morning mark
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                className="button secondary"
+                disabled={
+                  day < state.settings.startDate ||
+                  state.planning?.breaks?.includes(day)
+                }
+                onClick={() => {
+                  if (onMorning(true)) onClose();
+                }}
+              >
+                <Sun size={17} /> Studied this morning
+              </button>
+              <p>
+                Save it for tonight. No rating or review interval is recorded
+                yet.
+              </p>
+            </>
+          )}
+        </div>
+      )}
       {rated ? (
         <div className="notice success">
           <Check size={18} />
@@ -123,6 +165,12 @@ export function Session({
                   />
                 </label>
               </div>
+              {morning && (
+                <p className="hint">
+                  Include morning study and evening practice in the time above.
+                  The morning mark itself records no minutes.
+                </p>
+              )}
               <label>
                 What should you remember?
                 <textarea

@@ -73,6 +73,14 @@ export function validateState(input: unknown): StudyState {
     s.history.length > 100000
   )
     return fail();
+  if (
+    s.morningStudy !== undefined &&
+    (!object(s.morningStudy) ||
+      Object.entries(s.morningStudy).some(
+        ([id, day]) => !ids.has(id) || !validDate(day),
+      ))
+  )
+    return fail();
   if (s.planning !== undefined) {
     if (
       !object(s.planning) ||

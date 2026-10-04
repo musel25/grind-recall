@@ -17,6 +17,8 @@ import {
   ShieldCheck,
   Plus,
   CalendarOff,
+  Moon,
+  Sun,
   X,
 } from "lucide-react";
 import {
@@ -25,6 +27,7 @@ import {
   recordAttempt,
   undoAttempt,
   addExtraProblem,
+  markMorningStudy,
 } from "./model";
 import { addDays, dailyPlan, dayDiff, todayIn, reviewDay } from "./scheduler";
 import { loadState, saveState, STORAGE_KEY } from "./storage";
@@ -206,7 +209,26 @@ export default function App() {
     displayWeeks,
     Math.max(1, Math.floor(dayDiff(state.settings.startDate, day) / 7) + 1),
   );
-  const queue = [...plan.reviews, ...plan.newProblems];
+  const eveningIds = new Set(plan.eveningProblems.map((p) => p.id));
+  const readyReviews = plan.reviews.filter((p) => !eveningIds.has(p.id));
+  const readyNew = plan.newProblems.filter((p) => !eveningIds.has(p.id));
+  const queue = [...readyReviews, ...readyNew, ...plan.eveningProblems];
+  function morningMark(p: Problem, marked: boolean) {
+    try {
+      if (commit(markMorningStudy(state!, p.id, day, marked))) {
+        setToast(
+          marked
+            ? `${p.title} saved for evening practice.`
+            : "Morning mark removed.",
+        );
+        return true;
+      }
+      return false;
+    } catch (e) {
+      setError((e as Error).message);
+      return false;
+    }
+  }
   const budget = plan.budgetMinutes;
   const estimate = plan.totalMinutes + plan.doneMinutes;
   const nextDue = Object.values(state.progress)
@@ -469,28 +491,65 @@ export default function App() {
                 </button>
               )}
             </div>
-            {plan.reviews.length > 0 && (
+            {readyReviews.length > 0 && (
               <ProblemSection
                 title="Review & remember"
                 subtitle="Due today and overdue"
                 icon={<Repeat2 size={16} />}
-                items={plan.reviews}
+                items={readyReviews}
                 state={state}
                 day={day}
                 onSelect={setSelected}
                 review
               />
             )}
-            {plan.newProblems.length > 0 && (
+            {readyNew.length > 0 && (
               <ProblemSection
                 title="Learn something new"
                 subtitle="Next in your plan"
                 icon={<BookOpen size={16} />}
-                items={plan.newProblems}
+                items={readyNew}
+                onMorning={(p) => morningMark(p, true)}
                 state={state}
                 day={day}
                 onSelect={setSelected}
               />
+            )}
+            {plan.eveningProblems.length > 0 && (
+              <section
+                className="problem-section evening-section"
+                aria-label="Practice tonight"
+              >
+                <div className="problem-section-header">
+                  <span>
+                    <Moon size={16} /> Practice tonight
+                  </span>
+                  <small>Morning study saved · rating still needed</small>
+                </div>
+                {plan.eveningProblems.map((p) => (
+                  <div className="study-row" key={p.id}>
+                    <ProblemRow
+                      p={p}
+                      state={state}
+                      day={day}
+                      onSelect={setSelected}
+                      review={!!state.progress[p.id]}
+                    />
+                    <div className="study-row-footer">
+                      <span>
+                        Studied {dateLabel(state.morningStudy![p.id])}
+                      </span>
+                      <button
+                        className="text-button"
+                        aria-label={`Undo morning mark for ${p.title}`}
+                        onClick={() => morningMark(p, false)}
+                      >
+                        Undo mark
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </section>
             )}
             {queue.length === 0 && (
               <div className="empty-state">
@@ -684,6 +743,7 @@ export default function App() {
           state={state}
           day={day}
           onClose={() => setSelected(null)}
+          onMorning={(marked) => morningMark(selected, marked)}
           onSave={(rating, minutes, note) => {
             try {
               const next = recordAttempt(
@@ -783,7 +843,9 @@ function ProblemSection({
   day,
   onSelect,
   review = false,
+  onMorning,
 }: {
+  onMorning?: (p: Problem) => void;
   title: string;
   subtitle: string;
   icon: React.ReactNode;
@@ -803,14 +865,26 @@ function ProblemSection({
         <small>{subtitle}</small>
       </div>
       {items.map((p) => (
-        <ProblemRow
-          key={p.id}
-          p={p}
-          state={state}
-          day={day}
-          onSelect={onSelect}
-          review={review}
-        />
+        <div className="study-row" key={p.id}>
+          <ProblemRow
+            p={p}
+            state={state}
+            day={day}
+            onSelect={onSelect}
+            review={review}
+          />
+          {onMorning && (
+            <div className="study-row-footer">
+              <button
+                className="text-button"
+                aria-label={`Studied ${p.title} this morning`}
+                onClick={() => onMorning(p)}
+              >
+                <Sun size={14} /> Studied this morning
+              </button>
+            </div>
+          )}
+        </div>
       ))}
     </section>
   );

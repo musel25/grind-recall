@@ -104,6 +104,16 @@ export function studyWeek(s: StudyState, day: string) {
     remainingMinutes: Math.max(0, goalMinutes - doneMinutes),
   };
 }
+export function awaitingEvening(s: StudyState, id: string, day: string) {
+  const marked = s.morningStudy?.[id];
+  return (
+    !!marked &&
+    marked <= day &&
+    !s.history.some(
+      (a) => a.problemId === id && a.day >= marked && a.day <= day,
+    )
+  );
+}
 export function dailyPlan(s: StudyState, day: string) {
   const end = addDays(s.settings.startDate, s.settings.weeks * 7 - 1);
   const daysLeft = Math.max(0, dayDiff(day, end) + 1);
@@ -119,6 +129,11 @@ export function dailyPlan(s: StudyState, day: string) {
   const newDoneIds = new Set(
     todays.filter((a) => a.wasNew).map((a) => a.problemId),
   );
+  const eveningProblems =
+    beforeStart || onBreak
+      ? []
+      : problems.filter((p) => awaitingEvening(s, p.id, day));
+  const eveningIds = new Set(eveningProblems.map((p) => p.id));
   const remaining = problems.filter((p) => !s.progress[p.id]);
   const remainingMinutes = remaining.reduce((sum, p) => sum + p.minutes * 2, 0);
   const doneNewMinutes = problems
@@ -141,7 +156,8 @@ export function dailyPlan(s: StudyState, day: string) {
           .filter(
             (p) =>
               s.progress[p.id] &&
-              reviewDay(s.progress[p.id].due, s) <= day &&
+              (reviewDay(s.progress[p.id].due, s) <= day ||
+                eveningIds.has(p.id)) &&
               !doneIds.has(p.id),
           )
           .sort(
@@ -181,7 +197,7 @@ export function dailyPlan(s: StudyState, day: string) {
       if (!s.progress[p.id]) newProblems.push(p);
       room -= p.minutes * 2;
     }
-    for (const id of extraIds) {
+    for (const id of new Set([...extraIds, ...eveningIds])) {
       const p = remaining.find((p) => p.id === id);
       if (p && !newProblems.some((assigned) => assigned.id === id))
         newProblems.push(p);
@@ -195,6 +211,7 @@ export function dailyPlan(s: StudyState, day: string) {
   const newMinutes = newProblems.reduce((sum, p) => sum + p.minutes * 2, 0);
   return {
     end,
+    eveningProblems,
     week,
     budgetMinutes,
     nextExtra,

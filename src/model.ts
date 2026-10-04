@@ -157,3 +157,31 @@ export function setStudyBreak(
     next.planning.breaks.push(day);
   return next;
 }
+
+export function markMorningStudy(
+  state: StudyState,
+  id: string,
+  day: string,
+  marked: boolean,
+): StudyState {
+  if (!problems.some((p) => p.id === id)) throw Error("Unknown problem.");
+  if (
+    !/^\d{4}-\d{2}-\d{2}$/.test(day) ||
+    !Number.isFinite(Date.parse(day)) ||
+    new Date(day + "T12:00:00Z").toISOString().slice(0, 10) !== day
+  )
+    throw Error("Invalid study date.");
+  if (marked && state.history.some((a) => a.problemId === id && a.day === day))
+    throw Error("This problem is already rated today.");
+  if (
+    marked &&
+    (day < state.settings.startDate || state.planning?.breaks?.includes(day))
+  )
+    throw Error("Choose an available study day.");
+  const s = structuredClone(state);
+  s.morningStudy ??= {};
+  if (marked) s.morningStudy[id] = day;
+  else delete s.morningStudy[id];
+  s.revision++;
+  return s;
+}

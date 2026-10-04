@@ -1621,3 +1621,40 @@ footer {
   border: 0;
   padding: 0;
 }
+
+.study-row + .study-row {
+  border-top: 1px solid #edf0f5;
+}
+.study-row .problem-row {
+  border-bottom: 0;
+}
+.study-row-footer {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px 12px 68px;
+  color: #64748b;
+  font-size: 12px;
+}
+.study-row-footer .text-button {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 12px;
+}
+.evening-section .problem-section-header {
+  background: #f1effa;
+}
+.morning-action {
+  margin-top: 18px;
+  padding: 14px;
+  background: #f8f7ef;
+  border-radius: 12px;
+}
+.morning-action p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #637084;
+  margin: 8px 0 0;
+}

@@ -54,3 +54,7 @@ The Planner service worker must exclude `/grind/` from its navigation fallback. 
 Use Today → Adjust time for a one-day time budget or current study-week hours override. Weeks are seven-day blocks anchored to the plan start. Settings → Planned study break blocks an inclusive date range. Existing review due dates are preserved internally and displayed/queued on the next available day; new ratings store the adjusted due date. This preserves FSRS memory history; time mode updates the completion estimate and deadline mode recalculates the required study time. No assignments appear on break days. For the requested October 8–12, 2026 break, the initial imported reviews on October 8 and 9 appear on October 13. Break dates live in the browser’s saved state and export with backups.
 
 Timer’s sidebar (Tools → Grind Recall), or More → Grind Recall on mobile, links directly to this app. Navigation uses a full-page link so the separate app loads correctly.
+
+## Morning study, evening recall
+
+“Studied this morning” on a new problem row or inside its practice dialog records a date-only marker. It does not create a rating, change FSRS cards/due dates, increase completed counts, or log minutes. Pending work appears once in “Practice tonight”, persists across reloads/backups, and carries forward until rated or unmarked (hidden during study breaks). The evening attempt records the combined study/practice time once. Rating resolves the marker via history; Undo last attempt restores the pending item. Existing backups without morning markers remain valid.

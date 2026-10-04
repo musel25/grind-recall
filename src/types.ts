@@ -43,6 +43,7 @@ export type StudyState = {
   progress: Record<string, Progress>;
   history: Attempt[];
   planning?: Planning;
+  morningStudy?: Record<string, string>;
 };
 
 export type DayAdjustment = { minutes?: number; extras: string[] };

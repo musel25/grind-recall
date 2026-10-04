@@ -262,3 +262,72 @@ test("completed lists preserve review budget and allow saving settings after dea
   expect(result.settings.hours).toBe(10);
   expect(result.settings.reviewMultiplier).toBe(0.5);
 });
+
+test("morning study survives reload, stays unrated, and evening rating completes it", async ({
+  page,
+}) => {
+  await page.goto("./");
+  await page
+    .getByRole("button", { name: "Continue with my first 10 completed" })
+    .click();
+  const before = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem("grind-recall:v1")!),
+  );
+  await page
+    .getByRole("button", {
+      name: "Studied Balanced Binary Tree this morning",
+      exact: true,
+    })
+    .click();
+  await expect(
+    page.getByRole("region", { name: "Practice tonight" }),
+  ).toContainText("Balanced Binary Tree");
+  await page.reload();
+  const marked = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem("grind-recall:v1")!),
+  );
+  expect(marked.progress).toEqual(before.progress);
+  expect(marked.history).toEqual(before.history);
+  expect(
+    await page
+      .locator(".problem-row")
+      .filter({ hasText: "Balanced Binary Tree" })
+      .count(),
+  ).toBe(1);
+  await page
+    .getByRole("region", { name: "Practice tonight" })
+    .locator(".problem-row")
+    .click();
+  await expect(
+    page.getByRole("button", { name: "Undo morning mark", exact: true }),
+  ).toBeVisible();
+  await page
+    .getByRole("button", { name: "Rate my attempt", exact: true })
+    .click();
+  await page
+    .getByRole("button", { name: /^Good Solved independently/ })
+    .click();
+  await expect(
+    page.getByRole("region", { name: "Practice tonight" }),
+  ).toHaveCount(0);
+  await page.getByRole("button", { name: "Undo last attempt" }).click();
+  await expect(
+    page.getByRole("region", { name: "Practice tonight" }),
+  ).toBeVisible();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.screenshot({
+    path: "/tmp/grind-morning-mobile.png",
+    fullPage: true,
+  });
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  await page
+    .getByRole("button", { name: "Undo morning mark for Balanced Binary Tree" })
+    .click();
+  await expect(
+    page.getByRole("region", { name: "Practice tonight" }),
+  ).toHaveCount(0);
+});
