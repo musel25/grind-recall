@@ -57,7 +57,15 @@ sudo ln -sfn "$base/releases/$release" "$base/current.next"
 sudo mv -Tf "$base/current.next" "$base/current"
 sudo nginx -t
 sudo systemctl reload nginx
-curl -fsS https://timer.musel.dev/grind/ | grep -q '<title>Grind Recall</title>'
+healthy=false
+for attempt in {1..10}; do
+  if curl --max-time 10 -fsS https://timer.musel.dev/grind/ | grep -q '<title>Grind Recall</title>'; then
+    healthy=true
+    break
+  fi
+  sleep 1
+done
+[[ "$healthy" = true ]]
 curl -fsS https://timer.musel.dev/api/health
 printf '\nDeployed release %s\n' "$release"
 trap - ERR
