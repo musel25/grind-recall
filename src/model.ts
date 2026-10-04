@@ -1,5 +1,5 @@
 import data from "./problems.json";
-import { addDays, nextReview } from "./scheduler";
+import { addDays, nextReview, dailyPlan, studyWeek } from "./scheduler";
 import type { Problem, StudyState } from "./types";
 export const problems: Problem[] = data;
 export function initialState(day: string, importTen = false): StudyState {
@@ -72,4 +72,57 @@ export function undoAttempt(state: StudyState): StudyState {
   else delete s.progress[a.problemId];
   s.revision++;
   return s;
+}
+
+function mutablePlan(state: StudyState) {
+  const next = structuredClone(state);
+  next.planning ??= { days: {}, weeks: {} };
+  next.revision++;
+  return next as StudyState & { planning: NonNullable<StudyState["planning"]> };
+}
+export function setDayMinutes(
+  state: StudyState,
+  day: string,
+  minutes: number | null,
+): StudyState {
+  if (
+    minutes !== null &&
+    (!Number.isInteger(minutes) || minutes < 0 || minutes > 1440)
+  )
+    throw new Error("Choose between 0 and 1440 minutes.");
+  const next = mutablePlan(state);
+  const adjustment = (next.planning.days[day] ??= { extras: [] });
+  if (minutes === null) delete adjustment.minutes;
+  else adjustment.minutes = minutes;
+  return next;
+}
+export function setWeekHours(
+  state: StudyState,
+  day: string,
+  hours: number | null,
+): StudyState {
+  if (hours !== null && (!Number.isFinite(hours) || hours < 0 || hours > 80))
+    throw new Error("Choose between 0 and 80 hours.");
+  const next = mutablePlan(state);
+  const key = studyWeek(state, day).start;
+  if (hours === null) delete next.planning.weeks[key];
+  else next.planning.weeks[key] = hours;
+  return next;
+}
+export function addExtraProblem(state: StudyState, day: string): StudyState {
+  const problem = dailyPlan(state, day).nextExtra;
+  if (!problem) throw new Error("No more new problems to add today.");
+  const next = mutablePlan(state);
+  (next.planning.days[day] ??= { extras: [] }).extras.push(problem.id);
+  return next;
+}
+export function removeExtraProblem(
+  state: StudyState,
+  day: string,
+  id: string,
+): StudyState {
+  const next = mutablePlan(state);
+  const adjustment = next.planning.days[day];
+  if (adjustment) adjustment.extras = adjustment.extras.filter((p) => p !== id);
+  return next;
 }

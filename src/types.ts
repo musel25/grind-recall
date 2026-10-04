@@ -41,4 +41,11 @@ export type StudyState = {
   settings: Settings;
   progress: Record<string, Progress>;
   history: Attempt[];
+  planning?: Planning;
+};
+
+export type DayAdjustment = { minutes?: number; extras: string[] };
+export type Planning = {
+  days: Record<string, DayAdjustment>;
+  weeks: Record<string, number>;
 };

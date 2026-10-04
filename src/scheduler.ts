@@ -62,6 +62,35 @@ export function nextReview(
     } as StoredCard,
   };
 }
+export function studyWeek(s: StudyState, day: string) {
+  const index = Math.max(0, Math.floor(dayDiff(s.settings.startDate, day) / 7));
+  const start = addDays(s.settings.startDate, index * 7);
+  const end = addDays(start, 6);
+  const goalMinutes = Math.round(
+    (s.planning?.weeks[start] ?? s.settings.hours) * 60,
+  );
+  const attempts = s.history.filter((a) => a.day >= start && a.day <= end);
+  const doneMinutes = attempts.reduce((n, a) => n + a.minutes, 0);
+  const beforeToday = attempts
+    .filter((a) => a.day < day)
+    .reduce((n, a) => n + a.minutes, 0);
+  const daysLeft = Math.min(7, Math.max(1, dayDiff(day, end) + 1));
+  // Today's completed time must not shrink today's assignment while doing it.
+  const autoMinutes = Math.min(
+    1440,
+    Math.ceil(Math.max(0, goalMinutes - beforeToday) / daysLeft),
+  );
+  return {
+    start,
+    end,
+    index,
+    goalMinutes,
+    doneMinutes,
+    daysLeft,
+    autoMinutes,
+    remainingMinutes: Math.max(0, goalMinutes - doneMinutes),
+  };
+}
 export function dailyPlan(s: StudyState, day: string) {
   const end = addDays(s.settings.startDate, s.settings.weeks * 7 - 1);
   const daysLeft = Math.max(0, dayDiff(day, end) + 1);
@@ -78,12 +107,12 @@ export function dailyPlan(s: StudyState, day: string) {
     .reduce((sum, p) => sum + p.minutes * 2, 0);
   const targetMinutes =
     (remainingMinutes + doneNewMinutes) / Math.max(1, daysLeft);
-  const newProblems: Problem[] = [];
+  const paceProblems: Problem[] = [];
   let assigned = doneNewMinutes;
   if (!beforeStart)
     for (const p of remaining) {
       if (assigned >= targetMinutes) break;
-      newProblems.push(p);
+      paceProblems.push(p);
       assigned += p.minutes * 2;
     }
   const reviews = beforeStart
@@ -104,9 +133,47 @@ export function dailyPlan(s: StudyState, day: string) {
     (sum, p) => sum + Math.round(p.minutes * s.settings.reviewMultiplier),
     0,
   );
+  const week = studyWeek(s, day);
+  const budgetMinutes = s.planning?.days[day]?.minutes ?? week.autoMinutes;
+  const extraIds = new Set(s.planning?.days[day]?.extras ?? []);
+  // Extras sit outside the automatic assignment. Doing an extra first must
+  // not remove a different problem from the original daily list.
+  const completedEstimate = todays.reduce((total, a) => {
+    if (a.wasNew && extraIds.has(a.problemId)) return total;
+    const p = problems.find((p) => p.id === a.problemId)!;
+    return (
+      total +
+      (a.wasNew
+        ? p.minutes * 2
+        : Math.round(p.minutes * s.settings.reviewMultiplier))
+    );
+  }, 0);
+  let room = Math.max(0, budgetMinutes - reviewMinutes - completedEstimate);
+  const newProblems: Problem[] = [];
+  if (!beforeStart) {
+    for (const p of remaining) {
+      if (extraIds.has(p.id)) continue;
+      if (p.minutes * 2 > room) break;
+      newProblems.push(p);
+      room -= p.minutes * 2;
+    }
+    for (const id of extraIds) {
+      const p = remaining.find((p) => p.id === id);
+      if (p) newProblems.push(p);
+    }
+  }
+  const assignedIds = new Set(newProblems.map((p) => p.id));
+  const nextExtra = beforeStart
+    ? undefined
+    : remaining.find((p) => !assignedIds.has(p.id));
   const newMinutes = newProblems.reduce((sum, p) => sum + p.minutes * 2, 0);
   return {
     end,
+    week,
+    budgetMinutes,
+    nextExtra,
+    extraIds,
+    paceProblems,
     daysLeft,
     beforeStart,
     targetMinutes,
@@ -130,11 +197,13 @@ export function forecast(state: StudyState, day: string) {
     reviewMinutes = 0,
     reviews = 0,
     newCount = 0;
-  // Optimistic scenario: every future attempt is Good, completed on its due date.
+  // Required-effort scenario: keep the deadline pace, regardless of available time.
+  // Actual daily assignments respect the time budget; this is a separate
+  // optimistic estimate of the hours needed to finish, with all-Good reviews.
   for (let d = 0; d < days; d++) {
     const date = addDays(start, d);
     const daily = dailyPlan(s, date);
-    for (const p of [...daily.reviews, ...daily.newProblems]) {
+    for (const p of [...daily.reviews, ...daily.paceProblems]) {
       const previous = s.progress[p.id];
       const isNew = !previous;
       const next = nextReview(previous?.card ?? null, 3, date);

@@ -73,6 +73,31 @@ export function validateState(input: unknown): StudyState {
     s.history.length > 100000
   )
     return fail();
+  if (s.planning !== undefined) {
+    if (
+      !object(s.planning) ||
+      !object(s.planning.days) ||
+      !object(s.planning.weeks)
+    )
+      return fail();
+    for (const [day, entry] of Object.entries(s.planning.days)) {
+      if (
+        !validDate(day) ||
+        !object(entry) ||
+        (entry.minutes !== undefined &&
+          (!numeric(entry.minutes, 0, 1440) ||
+            !Number.isInteger(entry.minutes))) ||
+        !Array.isArray(entry.extras) ||
+        entry.extras.length > 169 ||
+        new Set(entry.extras).size !== entry.extras.length ||
+        entry.extras.some((id) => !ids.has(id))
+      )
+        return fail();
+    }
+    for (const [day, hours] of Object.entries(s.planning.weeks)) {
+      if (!validDate(day) || !numeric(hours, 0, 80)) return fail();
+    }
+  }
   const t = s.settings;
   if (
     !validDate(t.startDate) ||
