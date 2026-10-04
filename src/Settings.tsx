@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Download, Upload, Info } from "lucide-react";
 import { downloadBackup, validateState } from "./storage";
 import type { StudyState } from "./types";
@@ -12,6 +12,7 @@ export function Settings({
   onImport: (s: StudyState) => boolean;
 }) {
   const [draft, setDraft] = useState(state.settings);
+  useEffect(() => setDraft(state.settings), [state.settings]);
   const [message, setMessage] = useState("");
   const input = useRef<HTMLInputElement>(null);
   const zones = [

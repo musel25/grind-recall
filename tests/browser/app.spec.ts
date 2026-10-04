@@ -79,3 +79,40 @@ test("search and rate an existing problem on mobile without overflow", async ({
   ).toBe(true);
   await page.screenshot({ path: "/tmp/grind-mobile.png", fullPage: true });
 });
+
+test("imported settings appear immediately and saving cannot restore stale settings", async ({
+  page,
+}) => {
+  await page.goto("./");
+  await page
+    .getByRole("button", { name: "Continue with my first 10 completed" })
+    .click();
+  await page.getByRole("button", { name: "Settings", exact: true }).click();
+  const backup = await page.evaluate(() => {
+    const state = JSON.parse(localStorage.getItem("grind-recall:v1")!);
+    state.settings.weeks = 20;
+    state.settings.hours = 25;
+    state.settings.timezone = "UTC";
+    return JSON.stringify(state);
+  });
+  page.on("dialog", (dialog) => dialog.accept());
+  await page
+    .getByLabel("Import backup file")
+    .setInputFiles({
+      name: "backup.json",
+      mimeType: "application/json",
+      buffer: Buffer.from(backup),
+    });
+  await expect(page.getByLabel("Plan length (weeks)")).toHaveValue("20");
+  await expect(page.getByLabel("Time available (hours/week)")).toHaveValue(
+    "25",
+  );
+  await page
+    .getByRole("button", { name: "Save settings", exact: true })
+    .click();
+  expect(
+    await page.evaluate(
+      () => JSON.parse(localStorage.getItem("grind-recall:v1")!).settings.weeks,
+    ),
+  ).toBe(20);
+});
