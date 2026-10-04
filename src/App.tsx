@@ -15,13 +15,28 @@ import {
   Search,
   Settings2,
   ShieldCheck,
-  Sparkles,
+  Plus,
+  CalendarOff,
   X,
 } from "lucide-react";
-import { problems, initialState, recordAttempt, undoAttempt } from "./model";
-import { addDays, dailyPlan, dayDiff, forecast, todayIn } from "./scheduler";
+import {
+  problems,
+  initialState,
+  recordAttempt,
+  undoAttempt,
+  addExtraProblem,
+} from "./model";
+import {
+  addDays,
+  dailyPlan,
+  dayDiff,
+  forecast,
+  todayIn,
+  reviewDay,
+} from "./scheduler";
 import { loadState, saveState, STORAGE_KEY } from "./storage";
 import { Session, duration, dateLabel } from "./Session";
+import { TodayControls } from "./TodayControls";
 import { Settings } from "./Settings";
 import type { Problem, StudyState } from "./types";
 function read() {
@@ -43,6 +58,7 @@ export default function App() {
   const [selected, setSelected] = useState<Problem | null>(null);
   const [toast, setToast] = useState("");
   const [tick, setTick] = useState(0);
+  const [upcomingDay, setUpcomingDay] = useState<string | null>(null);
   useEffect(() => {
     const id = setInterval(() => setTick((n) => n + 1), 30000);
     return () => clearInterval(id);
@@ -182,12 +198,22 @@ export default function App() {
     Math.max(1, Math.floor(dayDiff(state.settings.startDate, day) / 7) + 1),
   );
   const queue = [...plan.reviews, ...plan.newProblems];
-  const budget = Math.round((state.settings.hours * 60) / 7);
+  const budget = plan.budgetMinutes;
   const estimate = plan.totalMinutes + plan.doneMinutes;
   const nextDue = Object.values(state.progress)
-    .map((p) => p.due)
+    .map((p) => reviewDay(p.due, state))
     .filter((d) => d > day)
     .sort()[0];
+  const breakDays = (state.planning?.breaks ?? [])
+    .filter((date) => date >= day)
+    .sort();
+  const upcomingProblems = upcomingDay
+    ? problems.filter(
+        (p) =>
+          state.progress[p.id] &&
+          reviewDay(state.progress[p.id].due, state) === upcomingDay,
+      )
+    : [];
   return (
     <div className="app-shell">
       <aside className="sidebar">
@@ -248,6 +274,9 @@ export default function App() {
           </span>
         </div>
         <div className="sidebar-bottom">
+          <a href="/week">
+            Back to Timer <ArrowUpRight size={13} />
+          </a>
           <ShieldCheck size={17} />
           <span>Saved on this device</span>
           <a
@@ -359,6 +388,20 @@ export default function App() {
                 </div>
               </div>
             </section>
+            <TodayControls state={state} day={day} onSave={commit} />
+            {breakDays.length > 0 && (
+              <div className="break-banner">
+                <CalendarOff size={17} />
+                <span>
+                  Study break:{" "}
+                  <strong>
+                    {dateLabel(breakDays[0])}–{dateLabel(breakDays.at(-1)!)}
+                  </strong>
+                  . Reviews resume{" "}
+                  {dateLabel(reviewDay(breakDays.at(-1)!, state))}.
+                </span>
+              </div>
+            )}
             <section className="journey">
               <div>
                 <span className="small-heading">The bigger picture</span>
@@ -431,14 +474,18 @@ export default function App() {
                 <h2>
                   {plan.beforeStart
                     ? "Your plan is ready."
-                    : "All set for today."}
+                    : plan.onBreak
+                      ? "Enjoy your study break."
+                      : "All set for today."}
                 </h2>
                 <p>
                   {plan.beforeStart
                     ? `Your daily assignments begin ${dateLabel(state.settings.startDate)}.`
-                    : nextDue
-                      ? `Your next review is ${dateLabel(nextDue)}. You can also choose extra practice from All problems.`
-                      : "Come back tomorrow for your next assignment, or pick an extra problem."}
+                    : plan.onBreak
+                      ? `Reviews resume ${dateLabel(reviewDay(day, state))}. Your target date is unchanged.`
+                      : nextDue
+                        ? `Your next review is ${dateLabel(nextDue)}. Add one more problem whenever you feel like it.`
+                        : "Come back tomorrow for your next assignment, or pick an extra problem."}
                 </p>
                 <button
                   className="button secondary"
@@ -446,6 +493,25 @@ export default function App() {
                 >
                   Browse problems
                 </button>
+              </div>
+            )}
+            {plan.nextExtra && (
+              <div className="extra-action">
+                <button
+                  className="button secondary"
+                  onClick={() => {
+                    try {
+                      const next = addExtraProblem(state, day);
+                      if (commit(next))
+                        setToast(plan.nextExtra!.title + " added to today.");
+                    } catch (e) {
+                      setError((e as Error).message);
+                    }
+                  }}
+                >
+                  <Plus size={17} /> Add one more problem
+                </button>
+                <span>Next: {plan.nextExtra.title}</span>
               </div>
             )}
             {plan.todays.length > 0 && (
@@ -493,9 +559,10 @@ export default function App() {
                       : "Your workload forecast"}
                   </strong>
                   <p>
-                    {projection.hoursPerWeek.toFixed(1)}h/week projected vs.{" "}
-                    {state.settings.hours}h available. Assumes successful full
-                    scheduled reviews
+                    About {projection.hoursPerWeek.toFixed(1)}h/week needed for
+                    the overall target vs. your usual {state.settings.hours}h
+                    goal. Today fits your chosen time; a lower pace may miss the
+                    target. Assumes successful scheduled reviews
                     {state.settings.reviewMultiplier !== 1
                       ? ` at ${Math.round(state.settings.reviewMultiplier * 100)}% of listed time`
                       : ""}
@@ -519,13 +586,24 @@ export default function App() {
                 <span>Known reviews only</span>
               </div>
               <div className="upcoming-days">
-                {Array.from({ length: 7 }, (_, i) => {
+                {Array.from({ length: 14 }, (_, i) => {
                   const date = addDays(day, i + 1);
                   const n = Object.values(state.progress).filter(
-                    (p) => p.due === date,
+                    (p) => reviewDay(p.due, state) === date,
                   ).length;
                   return (
-                    <div key={date} className={n ? "has-reviews" : ""}>
+                    <button
+                      key={date}
+                      className={
+                        (n ? "has-reviews " : "") +
+                        (upcomingDay === date ? "selected-day" : "")
+                      }
+                      aria-label={`Reviews for ${dateLabel(date)}`}
+                      aria-pressed={upcomingDay === date}
+                      onClick={() =>
+                        setUpcomingDay(upcomingDay === date ? null : date)
+                      }
+                    >
                       <span>
                         {new Date(date + "T12:00:00Z").toLocaleDateString(
                           undefined,
@@ -534,12 +612,35 @@ export default function App() {
                       </span>
                       <strong>{date.slice(-2)}</strong>
                       <small>
-                        {n ? `${n} review${n > 1 ? "s" : ""}` : "—"}
+                        {state.planning?.breaks?.includes(date)
+                          ? "Break"
+                          : n
+                            ? `${n} review${n > 1 ? "s" : ""}`
+                            : "—"}
                       </small>
-                    </div>
+                    </button>
                   );
                 })}
               </div>
+              {upcomingDay && (
+                <div className="upcoming-detail">
+                  <h3>{dateLabel(upcomingDay)}</h3>
+                  {upcomingProblems.length ? (
+                    upcomingProblems.map((p) => (
+                      <button key={p.id} onClick={() => setSelected(p)}>
+                        {p.title}
+                        <ChevronRight size={15} />
+                      </button>
+                    ))
+                  ) : (
+                    <p>
+                      {state.planning?.breaks?.includes(upcomingDay)
+                        ? "Study break — no reviews scheduled."
+                        : "No reviews scheduled yet."}
+                    </p>
+                  )}
+                </div>
+              )}
             </section>
           </>
         )}
@@ -581,7 +682,7 @@ export default function App() {
               );
               if (commit(next)) {
                 setToast(
-                  `${selected.title} recorded. Next review ${dateLabel(next.progress[selected.id].due)}.`,
+                  `${selected.title} recorded. Next review ${dateLabel(reviewDay(next.progress[selected.id].due, next))}.`,
                 );
                 return true;
               }
@@ -639,9 +740,15 @@ function ProblemRow({
             )}
             {review ? " review" : " solve + study"}
           </span>
-          {review && progress.due < day && (
+          {review && (
+            <span>Due {dateLabel(reviewDay(progress.due, state))}</span>
+          )}
+          {!review && state.planning?.days[day]?.extras.includes(p.id) && (
+            <span className="extra-label">Extra today</span>
+          )}
+          {review && reviewDay(progress.due, state) < day && (
             <span className="overdue">
-              {dayDiff(progress.due, day)}d overdue
+              {dayDiff(reviewDay(progress.due, state), day)}d overdue
             </span>
           )}
         </span>
@@ -715,7 +822,9 @@ function ProblemList({
           ? !state.progress[p.id]
           : status === "Practiced"
             ? !!state.progress[p.id]
-            : state.progress[p.id]?.due <= day)),
+            : !!state.progress[p.id] &&
+              reviewDay(state.progress[p.id].due, state) <= day &&
+              !state.planning?.breaks?.includes(day))),
   );
   return (
     <>

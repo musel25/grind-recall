@@ -107,3 +107,36 @@ test("legacy backup and flexible plan round-trip; invalid overrides rejected", (
   extras.push(extras[0]);
   assert.throws(() => validateState(duplicate));
 });
+
+test("adding a long next problem does not silently add a shorter following problem too", () => {
+  let s = initialState(day, true);
+  // Leave Diameter of Binary Tree (60m solve+study) followed by Middle (40m).
+  for (const id of [
+    "balanced-binary-tree",
+    "linked-list-cycle",
+    "implement-queue-using-stacks",
+    "first-bad-version",
+    "ransom-note",
+    "climbing-stairs",
+    "longest-palindrome",
+    "reverse-linked-list",
+    "majority-element",
+    "add-binary",
+  ])
+    s.progress[id] = {
+      due: "2026-11-01",
+      card: null,
+      imported: true,
+      note: "",
+      independent: false,
+    };
+  s = setDayMinutes(s, day, 40);
+  assert.equal(dailyPlan(s, day).newProblems.length, 0);
+  s = addExtraProblem(s, day);
+  assert.deepEqual(
+    dailyPlan(s, day).newProblems.map((p) => p.id),
+    ["diameter-of-binary-tree"],
+  );
+  s = recordAttempt(s, "diameter-of-binary-tree", 3, day, 30, "");
+  assert.equal(dailyPlan(s, day).newProblems.length, 0);
+});

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Download, Upload, Info } from "lucide-react";
 import { downloadBackup, validateState } from "./storage";
+import { StudyBreak } from "./StudyBreak";
 import type { StudyState } from "./types";
 export function Settings({
   state,
@@ -136,6 +137,7 @@ export function Settings({
           </p>
         )}
       </form>
+      <StudyBreak state={state} onSave={onSave} />
       <section className="settings-panel">
         <h2>Your progress belongs to you.</h2>
         <p>
@@ -189,11 +191,11 @@ export function Settings({
           <Info size={19} /> How reviews work
         </h2>
         <p>
-          First attempts and <strong>Again</strong> return tomorrow. After that,
-          FSRS adjusts the interval using your previous results.{" "}
-          <strong>Hard</strong> means you solved it independently with
-          difficulty. If you needed hints or the solution, choose{" "}
-          <strong>Again</strong>.
+          First attempts and <strong>Again</strong> return tomorrow, or the next
+          study day during a planned break. After that, FSRS adjusts the
+          interval using your previous results. <strong>Hard</strong> means you
+          solved it independently with difficulty. If you needed hints or the
+          solution, choose <strong>Again</strong>.
         </p>
         <p>
           The default FSRS model targets 90% recall, but this is not a promise
@@ -201,9 +203,9 @@ export function Settings({
           history after failures, and show the next review date before you rate.
         </p>
         <p>
-          New problems are spread by estimated effort across the days left.
-          Estimates include solving and studying the answer. Reviews continue
-          after your target date.
+          New problems fit the time available today, after due reviews. Extra
+          problems are always your choice. Estimates include solving and
+          studying the answer. Reviews continue after your target date.
         </p>
         <a
           href="https://github.com/open-spaced-repetition/ts-fsrs"

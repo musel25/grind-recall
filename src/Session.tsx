@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Check, Clock3, X, RotateCcw } from "lucide-react";
-import { nextReview, dayDiff } from "./scheduler";
+import { nextReview, dayDiff, reviewDay } from "./scheduler";
 import type { Problem, StudyState } from "./types";
 export function dateLabel(day: string) {
   return new Date(day + "T12:00:00Z").toLocaleDateString(undefined, {
@@ -92,7 +92,8 @@ export function Session({
         <div className="notice success">
           <Check size={18} />
           <div>
-            Recorded for today. Next review {dateLabel(progress.due)}.<br />
+            Recorded for today. Next review{" "}
+            {dateLabel(reviewDay(progress.due, state))}.<br />
             <small>
               Close this window and use Undo last attempt to change your rating.
             </small>
@@ -135,7 +136,12 @@ export function Session({
               <div className="rating-grid">
                 {labels.map((label, i) => {
                   const grade = (i + 1) as 1 | 2 | 3 | 4;
-                  const next = nextReview(progress?.card ?? null, grade, day);
+                  const next = nextReview(
+                    progress?.card ?? null,
+                    grade,
+                    day,
+                    state,
+                  );
                   const days = dayDiff(day, next.due);
                   return (
                     <button

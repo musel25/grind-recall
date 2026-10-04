@@ -96,13 +96,11 @@ test("imported settings appear immediately and saving cannot restore stale setti
     return JSON.stringify(state);
   });
   page.on("dialog", (dialog) => dialog.accept());
-  await page
-    .getByLabel("Import backup file")
-    .setInputFiles({
-      name: "backup.json",
-      mimeType: "application/json",
-      buffer: Buffer.from(backup),
-    });
+  await page.getByLabel("Import backup file").setInputFiles({
+    name: "backup.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(backup),
+  });
   await expect(page.getByLabel("Plan length (weeks)")).toHaveValue("20");
   await expect(page.getByLabel("Time available (hours/week)")).toHaveValue(
     "25",
@@ -115,4 +113,41 @@ test("imported settings appear immediately and saving cannot restore stale setti
       () => JSON.parse(localStorage.getItem("grind-recall:v1")!).settings.weeks,
     ),
   ).toBe(20);
+});
+
+test("one-click extras, day/week controls and visible breaks persist", async ({
+  page,
+}) => {
+  await page.goto("./");
+  await page
+    .getByRole("button", { name: "Continue with my first 10 completed" })
+    .click();
+  const baseline = await page.locator(".problem-row").count();
+  await page
+    .getByRole("button", { name: "Add one more problem", exact: true })
+    .click();
+  await expect(page.locator(".problem-row")).toHaveCount(baseline + 1);
+  await page.reload();
+  await expect(page.locator(".problem-row")).toHaveCount(baseline + 1);
+  await page.getByText("Adjust time", { exact: true }).click();
+  await page.getByLabel("Today's time (minutes)").fill("180");
+  await page.getByLabel("This week's goal (hours)").fill("20");
+  await page.getByRole("button", { name: "Update this plan" }).click();
+  const saved = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem("grind-recall:v1")!),
+  );
+  expect(saved.settings.hours).toBe(10);
+  expect(Object.values(saved.planning.weeks)).toContain(20);
+  await page.getByRole("button", { name: "Settings", exact: true }).click();
+  await page.getByLabel("Break starts").fill("2026-10-08");
+  await page.getByLabel("Break ends").fill("2026-10-11");
+  await page.getByRole("button", { name: "Save study break" }).click();
+  await page.getByRole("button", { name: "Today", exact: true }).click();
+  await expect(page.locator(".break-banner")).toContainText("Oct 8");
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
 });

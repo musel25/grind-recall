@@ -159,30 +159,33 @@ export function dailyPlan(s: StudyState, day: string) {
     ? 0
     : (s.planning?.days[day]?.minutes ?? week.autoMinutes);
   const extraIds = new Set(s.planning?.days[day]?.extras ?? []);
-  // Extras sit outside the automatic assignment. Doing an extra first must
-  // not remove a different problem from the original daily list.
-  const completedEstimate = todays.reduce((total, a) => {
-    if (a.wasNew && extraIds.has(a.problemId)) return total;
-    const p = problems.find((p) => p.id === a.problemId)!;
-    return (
-      total +
-      (a.wasNew
-        ? p.minutes * 2
-        : Math.round(p.minutes * s.settings.reviewMultiplier))
-    );
-  }, 0);
-  let room = Math.max(0, budgetMinutes - reviewMinutes - completedEstimate);
+  // Reconstruct the ordered first-pass candidates at the start of today.
+  // This keeps the automatic queue stable when an extra is done first, or
+  // when adding a long problem would otherwise expose a shorter one after it.
+  const completedReviewEstimate = todays
+    .filter((a) => !a.wasNew)
+    .reduce((total, a) => {
+      const p = problems.find((p) => p.id === a.problemId)!;
+      return total + Math.round(p.minutes * s.settings.reviewMultiplier);
+    }, 0);
+  let room = Math.max(
+    0,
+    budgetMinutes - reviewMinutes - completedReviewEstimate,
+  );
+  const startOfDayCandidates = problems.filter(
+    (p) => !s.progress[p.id] || newDoneIds.has(p.id),
+  );
   const newProblems: Problem[] = [];
   if (!beforeStart && !onBreak) {
-    for (const p of remaining) {
-      if (extraIds.has(p.id)) continue;
+    for (const p of startOfDayCandidates) {
       if (p.minutes * 2 > room) break;
-      newProblems.push(p);
+      if (!s.progress[p.id]) newProblems.push(p);
       room -= p.minutes * 2;
     }
     for (const id of extraIds) {
       const p = remaining.find((p) => p.id === id);
-      if (p) newProblems.push(p);
+      if (p && !newProblems.some((assigned) => assigned.id === id))
+        newProblems.push(p);
     }
   }
   const assignedIds = new Set(newProblems.map((p) => p.id));
