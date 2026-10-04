@@ -80,6 +80,15 @@ export function validateState(input: unknown): StudyState {
       !object(s.planning.weeks)
     )
       return fail();
+    const breaks = s.planning.breaks;
+    if (
+      breaks !== undefined &&
+      (!Array.isArray(breaks) ||
+        breaks.length > 366 ||
+        new Set(breaks).size !== breaks.length ||
+        breaks.some((day) => !validDate(day)))
+    )
+      return fail();
     for (const [day, entry] of Object.entries(s.planning.days)) {
       if (
         !validDate(day) ||

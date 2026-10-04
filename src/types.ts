@@ -46,6 +46,7 @@ export type StudyState = {
 
 export type DayAdjustment = { minutes?: number; extras: string[] };
 export type Planning = {
+  breaks?: string[];
   days: Record<string, DayAdjustment>;
   weeks: Record<string, number>;
 };

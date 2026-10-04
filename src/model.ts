@@ -1,5 +1,11 @@
 import data from "./problems.json";
-import { addDays, nextReview, dailyPlan, studyWeek } from "./scheduler";
+import {
+  addDays,
+  nextReview,
+  dailyPlan,
+  studyWeek,
+  dayDiff,
+} from "./scheduler";
 import type { Problem, StudyState } from "./types";
 export const problems: Problem[] = data;
 export function initialState(day: string, importTen = false): StudyState {
@@ -45,7 +51,7 @@ export function recordAttempt(
     );
   const s = structuredClone(state);
   const previous = s.progress[id] ?? null;
-  const next = nextReview(previous?.card ?? null, rating, day);
+  const next = nextReview(previous?.card ?? null, rating, day, state);
   s.progress[id] = {
     ...next,
     imported: previous?.imported ?? false,
@@ -124,5 +130,30 @@ export function removeExtraProblem(
   const next = mutablePlan(state);
   const adjustment = next.planning.days[day];
   if (adjustment) adjustment.extras = adjustment.extras.filter((p) => p !== id);
+  return next;
+}
+
+export function setStudyBreak(
+  state: StudyState,
+  start: string | null,
+  end: string | null,
+): StudyState {
+  const next = mutablePlan(state);
+  if (start === null && end === null) {
+    next.planning.breaks = [];
+    return next;
+  }
+  const valid = (s: string | null): s is string =>
+    typeof s === "string" &&
+    /^\d{4}-\d{2}-\d{2}$/.test(s) &&
+    Number.isFinite(Date.parse(s)) &&
+    new Date(s + "T12:00:00Z").toISOString().slice(0, 10) === s;
+  if (!valid(start) || !valid(end) || end < start || dayDiff(start, end) > 365)
+    throw new Error(
+      "Choose a valid break of up to 366 days, with the end on or after the start.",
+    );
+  next.planning.breaks = [];
+  for (let day = start; day <= end; day = addDays(day, 1))
+    next.planning.breaks.push(day);
   return next;
 }
