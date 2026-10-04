@@ -42,3 +42,7 @@ Releases: `/var/www/grind-recall/releases/<git-sha>`, active symlink: `/var/www/
 ## Attribution
 
 Problem list, order, supplied difficulty classifications and time estimates: [Grind 75 by Tech Interview Handbook](https://www.techinterviewhandbook.org/grind75/?weeks=15&hours=10). Individual problem statements remain on LeetCode. Scheduling library: [ts-fsrs](https://github.com/open-spaced-repetition/ts-fsrs).
+
+### Shared-origin compatibility
+
+The Planner service worker must exclude `/grind/` from its navigation fallback. This is configured in the timer repository (`client/vite.config.ts`, commit `871da52`) and deployed. `npm run test:live` checks the live app after first installing Planner’s service worker, then verifies practice, persistence and mobile layout in an isolated browser.
