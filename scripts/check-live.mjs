@@ -1,66 +1,131 @@
 import { chromium } from "@playwright/test";
 import assert from "node:assert/strict";
+import { randomUUID, randomBytes } from "node:crypto";
+import { execFileSync } from "node:child_process";
+const origin = "https://timer.musel.dev";
+const password = randomBytes(24).toString("hex");
+const created = [];
 const browser = await chromium.launch({
   headless: true,
   executablePath: process.env.CHROME_PATH || "/usr/bin/google-chrome",
   args: ["--no-sandbox"],
 });
+async function register(page, email) {
+  await page.goto(`${origin}/grind/`);
+  await page
+    .getByRole("button", { name: "New here? Create an account" })
+    .click();
+  await page.getByLabel("Email", { exact: true }).fill(email);
+  await page.getByLabel("Password", { exact: true }).fill(password);
+  const response = page.waitForResponse(
+    (r) =>
+      r.url().includes("/api/grind/register") &&
+      r.request().method() === "POST",
+  );
+  await page
+    .getByRole("button", { name: "Create account", exact: true })
+    .click();
+  const res = await response;
+  assert.equal(res.status(), 201);
+  created.push((await res.json()).user);
+}
+async function state(page) {
+  return page.evaluate(async () =>
+    (
+      await fetch(`/api/grind/state?verify=${crypto.randomUUID()}`, {
+        cache: "no-store",
+      })
+    ).json(),
+  );
+}
 try {
-  const page = await browser.newPage({
+  const desktop = await browser.newContext({
     viewport: { width: 1440, height: 1000 },
   });
-  // Reproduce a returning Planner user, whose root service worker used to
-  // intercept /grind/ and substitute the Planner shell.
-  await page.goto("https://timer.musel.dev/");
+  const page = await desktop.newPage();
+  const errors = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  await page.goto(origin);
   await page.evaluate(() =>
     Promise.race([
       navigator.serviceWorker.ready,
       new Promise((_, reject) =>
         setTimeout(
-          () => reject(Error("Service worker did not activate")),
+          () => reject(Error("Service worker activation timed out")),
           15000,
         ),
       ),
     ]),
   );
   await page.reload();
-  const response = await page.goto("https://timer.musel.dev/grind/");
+  const email = `grind-live-test-${randomUUID()}@example.com`;
+  await register(page, email);
+  await page.getByRole("button", { name: "Start from problem one" }).click();
   await page
-    .getByRole("button", { name: "Continue with my first 10 completed" })
+    .locator('.account-bar [role="status"]')
+    .filter({ hasText: /^Saved to your account$/ })
     .waitFor();
-  assert.equal(response.status(), 200);
-  assert.equal(await page.title(), "Grind Recall");
-  const errors = [];
-  page.on("pageerror", (e) => errors.push(e.message));
   await page
-    .getByRole("button", { name: "Continue with my first 10 completed" })
+    .getByRole("button", { name: "Studied Two Sum this morning", exact: true })
     .click();
-  await page.getByRole("heading", { name: "Your practice, today." }).waitFor();
   await page
-    .getByRole("button", { name: "Start practice", exact: true })
-    .click();
-  await page.getByRole("button", { name: "Rate my attempt" }).click();
-  await page
-    .getByRole("button", { name: /^Good Solved independently/ })
-    .click();
-  await page.reload();
+    .locator('.account-bar [role="status"]')
+    .filter({ hasText: /^Saved to your account$/ })
+    .waitFor();
+  const saved = await state(page);
+  assert.ok(saved.state.morningStudy["two-sum"]);
+  const phone = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+  });
+  const mobile = await phone.newPage();
+  await mobile.goto(`${origin}/grind/`);
+  await mobile.getByLabel("Email", { exact: true }).fill(email);
+  await mobile.getByLabel("Password", { exact: true }).fill(password);
+  await mobile.getByRole("button", { name: "Sign in", exact: true }).click();
+  await mobile.getByRole("region", { name: "Practice tonight" }).waitFor();
+  assert.deepEqual((await state(mobile)).state, saved.state);
   assert.equal(
-    await page.evaluate(
-      () => JSON.parse(localStorage.getItem("grind-recall:v1")).history.length,
+    await mobile.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
     ),
-    1,
+    true,
   );
-  await page.setViewportSize({ width: 390, height: 844 });
-  assert.equal(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth > innerWidth,
-    ),
-    false,
-  );
+  await mobile.screenshot({
+    path: "/tmp/grind-live-sync-mobile.png",
+    fullPage: true,
+  });
+  const separate = await browser.newContext();
+  const partner = await separate.newPage();
+  await register(partner, `grind-live-test-${randomUUID()}@example.com`);
+  await partner
+    .getByRole("button", { name: "Start from problem one" })
+    .waitFor();
+  assert.equal((await state(partner)).state, null);
+  assert.deepEqual((await state(page)).state, saved.state);
   assert.deepEqual(errors, []);
   console.log(
-    "PASS: production HTTPS, existing Planner service worker, practice, persistence, mobile layout.",
+    "PASS: live HTTPS, Planner service worker compatibility, account signup/login, VPS persistence, separate phone session, account isolation, mobile layout.",
   );
 } finally {
   await browser.close();
+  // Delete only the exact throwaway accounts this run created, never real users.
+  if (created.length) {
+    const script = `const Database = require('better-sqlite3');
+const db = new Database(process.env.TIMER_DB);
+const accounts = ${JSON.stringify(created)};
+db.transaction(() => { for (const account of accounts) {
+  if (!account.email.startsWith('grind-live-test-') || !/^[a-f0-9]{32}$/.test(account.id)) throw Error('Invalid test identity');
+  const row = db.prepare('SELECT email FROM users WHERE id=?').get(account.id);
+  if (row?.email !== account.email) throw Error('Identity mismatch');
+  db.prepare('DELETE FROM grind_states WHERE user_id=?').run(account.id);
+  db.prepare('DELETE FROM auth_sessions WHERE user_id=?').run(account.id);
+  db.prepare('DELETE FROM users WHERE id=?').run(account.id);
+}})();
+db.close();`;
+    execFileSync("ssh", ["my-vps", "docker exec -i timer node"], {
+      input: script,
+      stdio: ["pipe", "inherit", "inherit"],
+    });
+    console.log("Removed temporary verification accounts.");
+  }
 }

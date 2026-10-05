@@ -1658,3 +1658,88 @@ footer {
   color: #637084;
   margin: 8px 0 0;
 }
+
+/* Account controls stay above the practice surface on phones and desktops. */
+.account-page {
+  min-height: 80vh;
+  padding: 48px 20px;
+  display: grid;
+  place-items: center;
+}
+.account-card {
+  width: min(100%, 480px);
+  display: grid;
+  gap: 22px;
+  padding: 32px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: white;
+}
+.account-card form,
+.account-card label {
+  display: grid;
+  gap: 12px;
+}
+.account-card form {
+  gap: 20px;
+}
+.account-card h1 {
+  font-size: 34px;
+}
+.account-card p {
+  overflow-wrap: anywhere;
+}
+.account-bar {
+  padding: 12px 28px;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 18px;
+}
+.cloud-session:has(.app-shell) .account-bar {
+  margin-left: 246px;
+}
+.account-bar strong {
+  display: block;
+  overflow-wrap: anywhere;
+}
+.account-bar [role="status"] {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+.account-bar > div:first-child {
+  min-width: 0;
+  flex: 1 1 220px;
+}
+.cloud-notice {
+  flex-basis: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px;
+  background: #fff3db;
+  border-radius: 10px;
+}
+.cloud-notice p {
+  width: 100%;
+}
+@media (max-width: 1100px) {
+  .cloud-session:has(.app-shell) .account-bar {
+    margin-left: 215px;
+  }
+}
+@media (max-width: 760px) {
+  .cloud-session:has(.app-shell) .account-bar {
+    margin-left: 0;
+  }
+  .account-bar {
+    padding: 12px 20px;
+  }
+  .account-card {
+    padding: 24px;
+  }
+}

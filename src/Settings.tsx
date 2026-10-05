@@ -175,9 +175,10 @@ export function Settings({
       <section className="settings-panel">
         <h2>Your progress belongs to you.</h2>
         <p>
-          Progress is saved in this browser, on this device. Export a backup
-          before clearing browser data, or import it on another device. There is
-          no account or automatic cloud sync.
+          Progress syncs to your account so you can continue on another device.
+          Check the sync status above before switching devices. Backups include
+          your full plan and reviews; importing replaces this account’s
+          progress.
         </p>
         <div className="button-row">
           <button

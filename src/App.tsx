@@ -37,9 +37,13 @@ import { estimatePlan, applyEstimate } from "./planning";
 import { PlanSummary, fullDate } from "./PlanSummary";
 import { Settings } from "./Settings";
 import type { Problem, StudyState } from "./types";
-function read() {
+type AppStore = {
+  load: () => StudyState | null;
+  save: (next: StudyState, expected: number | null) => void;
+};
+function read(store?: AppStore) {
   try {
-    return { state: loadState(), error: "" };
+    return { state: store ? store.load() : loadState(), error: "" };
   } catch (e) {
     return {
       state: null,
@@ -48,8 +52,11 @@ function read() {
     };
   }
 }
-export default function App() {
-  const [loaded] = useState(read);
+export default function App({
+  store,
+  onCommitted,
+}: { store?: AppStore; onCommitted?: () => void } = {}) {
+  const [loaded] = useState(() => read(store));
   const [savedState, setState] = useState<StudyState | null>(loaded.state);
   const [error, setError] = useState(loaded.error);
   const [view, setView] = useState("today");
@@ -62,6 +69,7 @@ export default function App() {
     return () => clearInterval(id);
   }, []);
   useEffect(() => {
+    if (store) return;
     const listener = (e: StorageEvent) => {
       if (e.key === STORAGE_KEY) {
         try {
@@ -96,9 +104,11 @@ export default function App() {
   );
   function commit(next: StudyState) {
     try {
-      saveState(next, state?.revision ?? null);
+      if (store) store.save(next, state?.revision ?? null);
+      else saveState(next, state?.revision ?? null);
       setState(next);
       setError("");
+      onCommitted?.();
       return true;
     } catch (e) {
       setError((e as Error).message);
@@ -183,7 +193,7 @@ export default function App() {
               </button>
             </>
           )}
-          <small>Your pace · All 169 problems · Saved in this browser</small>
+          <small>Your pace · All 169 problems · Synced to your account</small>
         </div>
         <a
           className="welcome-credit"

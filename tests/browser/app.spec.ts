@@ -1,4 +1,16 @@
 import { test, expect } from "@playwright/test";
+test.beforeEach(async ({ page }) => {
+  await page.route(/fonts\.(googleapis|gstatic)\.com/, (route) =>
+    route.abort(),
+  );
+  const res = await page.request.post("/api/grind/register", {
+    data: {
+      email: "browser-" + crypto.randomUUID() + "@example.com",
+      password: "test-password-123",
+    },
+  });
+  expect(res.status()).toBe(201);
+});
 test("complete daily work, preserve it on reload, undo and backup round trip", async ({
   page,
 }) => {
@@ -65,8 +77,15 @@ test("search and rate an existing problem on mobile without overflow", async ({
   await page.locator(".problem-row").click();
   await page.getByRole("button", { name: "Rate my attempt" }).click();
   await page.getByRole("button", { name: /^Again Needed help/ }).click();
-  const state = await page.evaluate(() =>
-    JSON.parse(localStorage.getItem("grind-recall:v1")!),
+  const state = await page.evaluate(
+    () =>
+      JSON.parse(
+        localStorage.getItem(
+          Object.keys(localStorage).find((k) =>
+            /^grind-recall:account:[^:]+$/.test(k),
+          )!,
+        )!,
+      ).state,
   );
   expect(state.history).toHaveLength(1);
   expect(state.history[0].rating).toBe(1);
@@ -87,7 +106,13 @@ test("imported settings appear immediately and saving cannot restore stale setti
     .click();
   await page.getByRole("button", { name: "Settings", exact: true }).click();
   const backup = await page.evaluate(() => {
-    const state = JSON.parse(localStorage.getItem("grind-recall:v1")!);
+    const state = JSON.parse(
+      localStorage.getItem(
+        Object.keys(localStorage).find((k) =>
+          /^grind-recall:account:[^:]+$/.test(k),
+        )!,
+      )!,
+    ).state;
     state.settings.weeks = 20;
     state.settings.planMode = "deadline";
     state.settings.hours = 25;
@@ -108,7 +133,14 @@ test("imported settings appear immediately and saving cannot restore stale setti
     .click();
   expect(
     await page.evaluate(
-      () => JSON.parse(localStorage.getItem("grind-recall:v1")!).settings.weeks,
+      () =>
+        JSON.parse(
+          localStorage.getItem(
+            Object.keys(localStorage).find((k) =>
+              /^grind-recall:account:[^:]+$/.test(k),
+            )!,
+          )!,
+        ).state.settings.weeks,
     ),
   ).toBe(20);
 });
@@ -131,8 +163,15 @@ test("one-click extras, day/week controls and visible breaks persist", async ({
   await page.getByLabel("Today's time (minutes)").fill("180");
   await page.getByLabel("This week's goal (hours)").fill("20");
   await page.getByRole("button", { name: "Update this plan" }).click();
-  const saved = await page.evaluate(() =>
-    JSON.parse(localStorage.getItem("grind-recall:v1")!),
+  const saved = await page.evaluate(
+    () =>
+      JSON.parse(
+        localStorage.getItem(
+          Object.keys(localStorage).find((k) =>
+            /^grind-recall:account:[^:]+$/.test(k),
+          )!,
+        )!,
+      ).state,
   );
   expect(saved.settings.hours).toBe(10);
   expect(Object.values(saved.planning.weeks)).toContain(20);
@@ -181,8 +220,15 @@ test("plan by time or deadline; preserve pause and ratings survive reload", asyn
   await page
     .getByRole("button", { name: "Save settings", exact: true })
     .click();
-  const saved = await page.evaluate(() =>
-    JSON.parse(localStorage.getItem("grind-recall:v1")!),
+  const saved = await page.evaluate(
+    () =>
+      JSON.parse(
+        localStorage.getItem(
+          Object.keys(localStorage).find((k) =>
+            /^grind-recall:account:[^:]+$/.test(k),
+          )!,
+        )!,
+      ).state,
   );
   expect(saved.settings.planMode).toBe("deadline");
   expect(saved.settings.weeks).toBe(20);
@@ -206,8 +252,15 @@ test("plan by time or deadline; preserve pause and ratings survive reload", asyn
   );
   await easy.click();
   await page.reload();
-  const result = await page.evaluate(() =>
-    JSON.parse(localStorage.getItem("grind-recall:v1")!),
+  const result = await page.evaluate(
+    () =>
+      JSON.parse(
+        localStorage.getItem(
+          Object.keys(localStorage).find((k) =>
+            /^grind-recall:account:[^:]+$/.test(k),
+          )!,
+        )!,
+      ).state,
   );
   expect(result.history.at(-1).rating).toBe(4);
   await page.setViewportSize({ width: 390, height: 844 });
@@ -229,9 +282,18 @@ test("completed lists preserve review budget and allow saving settings after dea
   await page
     .getByRole("button", { name: "Continue with my first 10 completed" })
     .click();
+  await expect(page.locator('.account-bar [role="status"]')).toHaveText(
+    "Saved to your account",
+  );
   await page.evaluate(
     (ids) => {
-      const s = JSON.parse(localStorage.getItem("grind-recall:v1")!);
+      const s = JSON.parse(
+        localStorage.getItem(
+          Object.keys(localStorage).find((k) =>
+            /^grind-recall:account:[^:]+$/.test(k),
+          )!,
+        )!,
+      ).state;
       s.settings.planMode = "deadline";
       s.settings.startDate = "2020-01-01";
       s.settings.weeks = 1;
@@ -243,7 +305,19 @@ test("completed lists preserve review budget and allow saving settings after dea
           note: "",
           independent: false,
         };
-      localStorage.setItem("grind-recall:v1", JSON.stringify(s));
+      const key = Object.keys(localStorage).find((k) =>
+        /^grind-recall:account:[^:]+$/.test(k),
+      )!;
+      const envelope = JSON.parse(localStorage.getItem(key)!);
+      localStorage.setItem(
+        key,
+        JSON.stringify({
+          ...envelope,
+          state: s,
+          pending: true,
+          mutationId: crypto.randomUUID(),
+        }),
+      );
     },
     problems.map((p) => p.id),
   );
@@ -256,8 +330,15 @@ test("completed lists preserve review budget and allow saving settings after dea
   await page
     .getByRole("button", { name: "Save settings", exact: true })
     .click();
-  const result = await page.evaluate(() =>
-    JSON.parse(localStorage.getItem("grind-recall:v1")!),
+  const result = await page.evaluate(
+    () =>
+      JSON.parse(
+        localStorage.getItem(
+          Object.keys(localStorage).find((k) =>
+            /^grind-recall:account:[^:]+$/.test(k),
+          )!,
+        )!,
+      ).state,
   );
   expect(result.settings.hours).toBe(10);
   expect(result.settings.reviewMultiplier).toBe(0.5);
@@ -270,8 +351,15 @@ test("morning study survives reload, stays unrated, and evening rating completes
   await page
     .getByRole("button", { name: "Continue with my first 10 completed" })
     .click();
-  const before = await page.evaluate(() =>
-    JSON.parse(localStorage.getItem("grind-recall:v1")!),
+  const before = await page.evaluate(
+    () =>
+      JSON.parse(
+        localStorage.getItem(
+          Object.keys(localStorage).find((k) =>
+            /^grind-recall:account:[^:]+$/.test(k),
+          )!,
+        )!,
+      ).state,
   );
   await page
     .getByRole("button", {
@@ -283,8 +371,15 @@ test("morning study survives reload, stays unrated, and evening rating completes
     page.getByRole("region", { name: "Practice tonight" }),
   ).toContainText("Balanced Binary Tree");
   await page.reload();
-  const marked = await page.evaluate(() =>
-    JSON.parse(localStorage.getItem("grind-recall:v1")!),
+  const marked = await page.evaluate(
+    () =>
+      JSON.parse(
+        localStorage.getItem(
+          Object.keys(localStorage).find((k) =>
+            /^grind-recall:account:[^:]+$/.test(k),
+          )!,
+        )!,
+      ).state,
   );
   expect(marked.progress).toEqual(before.progress);
   expect(marked.history).toEqual(before.history);
