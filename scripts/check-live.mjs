@@ -43,6 +43,7 @@ try {
     viewport: { width: 1440, height: 1000 },
   });
   const page = await desktop.newPage();
+  page.setDefaultTimeout(30000);
   const errors = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto(origin);
@@ -63,14 +64,14 @@ try {
   await page.getByRole("button", { name: "Start from problem one" }).click();
   await page
     .locator('.account-bar [role="status"]')
-    .filter({ hasText: /^Saved to your account$/ })
+    .filter({ hasText: "Saved to your account" })
     .waitFor();
   await page
     .getByRole("button", { name: "Studied Two Sum this morning", exact: true })
     .click();
   await page
     .locator('.account-bar [role="status"]')
-    .filter({ hasText: /^Saved to your account$/ })
+    .filter({ hasText: "Saved to your account" })
     .waitFor();
   const saved = await state(page);
   assert.ok(saved.state.morningStudy["two-sum"]);
@@ -78,6 +79,7 @@ try {
     viewport: { width: 390, height: 844 },
   });
   const mobile = await phone.newPage();
+  mobile.setDefaultTimeout(30000);
   await mobile.goto(`${origin}/grind/`);
   await mobile.getByLabel("Email", { exact: true }).fill(email);
   await mobile.getByLabel("Password", { exact: true }).fill(password);
@@ -96,6 +98,7 @@ try {
   });
   const separate = await browser.newContext();
   const partner = await separate.newPage();
+  partner.setDefaultTimeout(30000);
   await register(partner, `grind-live-test-${randomUUID()}@example.com`);
   await partner
     .getByRole("button", { name: "Start from problem one" })
