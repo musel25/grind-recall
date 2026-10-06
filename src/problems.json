@@ -234,139 +234,13 @@
     "order": 26
   },
   {
-    "title": "Backspace String Compare",
-    "url": "https://leetcode.com/problems/backspace-string-compare",
-    "week": 2,
-    "difficulty": "Easy",
-    "minutes": 15,
-    "id": "backspace-string-compare",
+    "title": "House Robber",
+    "url": "https://leetcode.com/problems/house-robber",
+    "week": 7,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "house-robber",
     "order": 27
-  },
-  {
-    "title": "Counting Bits",
-    "url": "https://leetcode.com/problems/counting-bits",
-    "week": 2,
-    "difficulty": "Easy",
-    "minutes": 15,
-    "id": "counting-bits",
-    "order": 28
-  },
-  {
-    "title": "Same Tree",
-    "url": "https://leetcode.com/problems/same-tree",
-    "week": 2,
-    "difficulty": "Easy",
-    "minutes": 20,
-    "id": "same-tree",
-    "order": 29
-  },
-  {
-    "title": "Number of 1 Bits",
-    "url": "https://leetcode.com/problems/number-of-1-bits",
-    "week": 2,
-    "difficulty": "Easy",
-    "minutes": 15,
-    "id": "number-of-1-bits",
-    "order": 30
-  },
-  {
-    "title": "Longest Common Prefix",
-    "url": "https://leetcode.com/problems/longest-common-prefix",
-    "week": 2,
-    "difficulty": "Easy",
-    "minutes": 20,
-    "id": "longest-common-prefix",
-    "order": 31
-  },
-  {
-    "title": "Single Number",
-    "url": "https://leetcode.com/problems/single-number",
-    "week": 2,
-    "difficulty": "Easy",
-    "minutes": 15,
-    "id": "single-number",
-    "order": 32
-  },
-  {
-    "title": "Palindrome Linked List",
-    "url": "https://leetcode.com/problems/palindrome-linked-list",
-    "week": 2,
-    "difficulty": "Easy",
-    "minutes": 20,
-    "id": "palindrome-linked-list",
-    "order": 33
-  },
-  {
-    "title": "Move Zeroes",
-    "url": "https://leetcode.com/problems/move-zeroes",
-    "week": 3,
-    "difficulty": "Easy",
-    "minutes": 20,
-    "id": "move-zeroes",
-    "order": 34
-  },
-  {
-    "title": "Symmetric Tree",
-    "url": "https://leetcode.com/problems/symmetric-tree",
-    "week": 3,
-    "difficulty": "Easy",
-    "minutes": 20,
-    "id": "symmetric-tree",
-    "order": 35
-  },
-  {
-    "title": "Missing Number",
-    "url": "https://leetcode.com/problems/missing-number",
-    "week": 3,
-    "difficulty": "Easy",
-    "minutes": 15,
-    "id": "missing-number",
-    "order": 36
-  },
-  {
-    "title": "Palindrome Number",
-    "url": "https://leetcode.com/problems/palindrome-number",
-    "week": 3,
-    "difficulty": "Easy",
-    "minutes": 15,
-    "id": "palindrome-number",
-    "order": 37
-  },
-  {
-    "title": "Convert Sorted Array to Binary Search Tree",
-    "url": "https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree",
-    "week": 3,
-    "difficulty": "Easy",
-    "minutes": 20,
-    "id": "convert-sorted-array-to-binary-search-tree",
-    "order": 38
-  },
-  {
-    "title": "Reverse Bits",
-    "url": "https://leetcode.com/problems/reverse-bits",
-    "week": 3,
-    "difficulty": "Easy",
-    "minutes": 15,
-    "id": "reverse-bits",
-    "order": 39
-  },
-  {
-    "title": "Subtree of Another Tree",
-    "url": "https://leetcode.com/problems/subtree-of-another-tree",
-    "week": 3,
-    "difficulty": "Easy",
-    "minutes": 20,
-    "id": "subtree-of-another-tree",
-    "order": 40
-  },
-  {
-    "title": "Squares of a Sorted Array",
-    "url": "https://leetcode.com/problems/squares-of-a-sorted-array",
-    "week": 3,
-    "difficulty": "Easy",
-    "minutes": 20,
-    "id": "squares-of-a-sorted-array",
-    "order": 41
   },
   {
     "title": "Maximum Subarray",
@@ -375,115 +249,16 @@
     "difficulty": "Medium",
     "minutes": 20,
     "id": "maximum-subarray",
-    "order": 42
+    "order": 28
   },
   {
-    "title": "Insert Interval",
-    "url": "https://leetcode.com/problems/insert-interval",
-    "week": 3,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "insert-interval",
-    "order": 43
-  },
-  {
-    "title": "01 Matrix",
-    "url": "https://leetcode.com/problems/01-matrix",
-    "week": 3,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "01-matrix",
-    "order": 44
-  },
-  {
-    "title": "K Closest Points to Origin",
-    "url": "https://leetcode.com/problems/k-closest-points-to-origin",
-    "week": 3,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "k-closest-points-to-origin",
-    "order": 45
-  },
-  {
-    "title": "Longest Substring Without Repeating Characters",
-    "url": "https://leetcode.com/problems/longest-substring-without-repeating-characters",
-    "week": 3,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "longest-substring-without-repeating-characters",
-    "order": 46
-  },
-  {
-    "title": "3Sum",
-    "url": "https://leetcode.com/problems/3sum",
-    "week": 4,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "3sum",
-    "order": 47
-  },
-  {
-    "title": "Binary Tree Level Order Traversal",
-    "url": "https://leetcode.com/problems/binary-tree-level-order-traversal",
-    "week": 4,
-    "difficulty": "Medium",
-    "minutes": 20,
-    "id": "binary-tree-level-order-traversal",
-    "order": 48
-  },
-  {
-    "title": "Clone Graph",
-    "url": "https://leetcode.com/problems/clone-graph",
-    "week": 4,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "clone-graph",
-    "order": 49
-  },
-  {
-    "title": "Evaluate Reverse Polish Notation",
-    "url": "https://leetcode.com/problems/evaluate-reverse-polish-notation",
-    "week": 4,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "evaluate-reverse-polish-notation",
-    "order": 50
-  },
-  {
-    "title": "Course Schedule",
-    "url": "https://leetcode.com/problems/course-schedule",
-    "week": 4,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "course-schedule",
-    "order": 51
-  },
-  {
-    "title": "Implement Trie (Prefix Tree)",
-    "url": "https://leetcode.com/problems/implement-trie-prefix-tree",
-    "week": 4,
+    "title": "Subarray Sum Equals K",
+    "url": "https://leetcode.com/problems/subarray-sum-equals-k",
+    "week": 10,
     "difficulty": "Medium",
     "minutes": 35,
-    "id": "implement-trie-prefix-tree",
-    "order": 52
-  },
-  {
-    "title": "Coin Change",
-    "url": "https://leetcode.com/problems/coin-change",
-    "week": 4,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "coin-change",
-    "order": 53
-  },
-  {
-    "title": "Product of Array Except Self",
-    "url": "https://leetcode.com/problems/product-of-array-except-self",
-    "week": 4,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "product-of-array-except-self",
-    "order": 54
+    "id": "subarray-sum-equals-k",
+    "order": 29
   },
   {
     "title": "Min Stack",
@@ -492,7 +267,25 @@
     "difficulty": "Medium",
     "minutes": 20,
     "id": "min-stack",
-    "order": 55
+    "order": 30
+  },
+  {
+    "title": "Daily Temperatures",
+    "url": "https://leetcode.com/problems/daily-temperatures",
+    "week": 7,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "daily-temperatures",
+    "order": 31
+  },
+  {
+    "title": "Binary Tree Level Order Traversal",
+    "url": "https://leetcode.com/problems/binary-tree-level-order-traversal",
+    "week": 4,
+    "difficulty": "Medium",
+    "minutes": 20,
+    "id": "binary-tree-level-order-traversal",
+    "order": 32
   },
   {
     "title": "Validate Binary Search Tree",
@@ -501,7 +294,7 @@
     "difficulty": "Medium",
     "minutes": 20,
     "id": "validate-binary-search-tree",
-    "order": 56
+    "order": 33
   },
   {
     "title": "Number of Islands",
@@ -510,7 +303,16 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "number-of-islands",
-    "order": 57
+    "order": 34
+  },
+  {
+    "title": "Clone Graph",
+    "url": "https://leetcode.com/problems/clone-graph",
+    "week": 4,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "clone-graph",
+    "order": 35
   },
   {
     "title": "Rotting Oranges",
@@ -519,25 +321,34 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "rotting-oranges",
-    "order": 58
+    "order": 36
   },
   {
-    "title": "Search in Rotated Sorted Array",
-    "url": "https://leetcode.com/problems/search-in-rotated-sorted-array",
-    "week": 5,
+    "title": "01 Matrix",
+    "url": "https://leetcode.com/problems/01-matrix",
+    "week": 3,
     "difficulty": "Medium",
     "minutes": 30,
-    "id": "search-in-rotated-sorted-array",
-    "order": 59
+    "id": "01-matrix",
+    "order": 37
   },
   {
-    "title": "Combination Sum",
-    "url": "https://leetcode.com/problems/combination-sum",
-    "week": 5,
+    "title": "Letter Combinations of a Phone Number",
+    "url": "https://leetcode.com/problems/letter-combinations-of-a-phone-number",
+    "week": 6,
     "difficulty": "Medium",
     "minutes": 30,
-    "id": "combination-sum",
-    "order": 60
+    "id": "letter-combinations-of-a-phone-number",
+    "order": 38
+  },
+  {
+    "title": "Subsets",
+    "url": "https://leetcode.com/problems/subsets",
+    "week": 6,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "subsets",
+    "order": 39
   },
   {
     "title": "Permutations",
@@ -546,7 +357,160 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "permutations",
-    "order": 61
+    "order": 40
+  },
+  {
+    "title": "Combination Sum",
+    "url": "https://leetcode.com/problems/combination-sum",
+    "week": 5,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "combination-sum",
+    "order": 41
+  },
+  {
+    "title": "Coin Change",
+    "url": "https://leetcode.com/problems/coin-change",
+    "week": 4,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "coin-change",
+    "order": 42
+  },
+  {
+    "title": "Jump Game",
+    "url": "https://leetcode.com/problems/jump-game",
+    "week": 10,
+    "difficulty": "Medium",
+    "minutes": 20,
+    "id": "jump-game",
+    "order": 43
+  },
+  {
+    "title": "K Closest Points to Origin",
+    "url": "https://leetcode.com/problems/k-closest-points-to-origin",
+    "week": 3,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "k-closest-points-to-origin",
+    "order": 44
+  },
+  {
+    "title": "Top K Frequent Words",
+    "url": "https://leetcode.com/problems/top-k-frequent-words",
+    "week": 8,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "top-k-frequent-words",
+    "order": 45
+  },
+  {
+    "title": "Course Schedule",
+    "url": "https://leetcode.com/problems/course-schedule",
+    "week": 4,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "course-schedule",
+    "order": 46
+  },
+  {
+    "title": "Course Schedule II",
+    "url": "https://leetcode.com/problems/course-schedule-ii",
+    "week": 9,
+    "difficulty": "Medium",
+    "minutes": 35,
+    "id": "course-schedule-ii",
+    "order": 47
+  },
+  {
+    "title": "Non-overlapping Intervals",
+    "url": "https://leetcode.com/problems/non-overlapping-intervals",
+    "week": 13,
+    "difficulty": "Medium",
+    "minutes": 20,
+    "id": "non-overlapping-intervals",
+    "order": 48
+  },
+  {
+    "title": "Implement Trie (Prefix Tree)",
+    "url": "https://leetcode.com/problems/implement-trie-prefix-tree",
+    "week": 4,
+    "difficulty": "Medium",
+    "minutes": 35,
+    "id": "implement-trie-prefix-tree",
+    "order": 49
+  },
+  {
+    "title": "Group Anagrams",
+    "url": "https://leetcode.com/problems/group-anagrams",
+    "week": 8,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "group-anagrams",
+    "order": 50
+  },
+  {
+    "title": "Product of Array Except Self",
+    "url": "https://leetcode.com/problems/product-of-array-except-self",
+    "week": 4,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "product-of-array-except-self",
+    "order": 51
+  },
+  {
+    "title": "Longest Consecutive Sequence",
+    "url": "https://leetcode.com/problems/longest-consecutive-sequence",
+    "week": 9,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "longest-consecutive-sequence",
+    "order": 52
+  },
+  {
+    "title": "Longest Substring Without Repeating Characters",
+    "url": "https://leetcode.com/problems/longest-substring-without-repeating-characters",
+    "week": 3,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "longest-substring-without-repeating-characters",
+    "order": 53
+  },
+  {
+    "title": "Longest Repeating Character Replacement",
+    "url": "https://leetcode.com/problems/longest-repeating-character-replacement",
+    "week": 9,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "longest-repeating-character-replacement",
+    "order": 54
+  },
+  {
+    "title": "Find All Anagrams in a String",
+    "url": "https://leetcode.com/problems/find-all-anagrams-in-a-string",
+    "week": 7,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "find-all-anagrams-in-a-string",
+    "order": 55
+  },
+  {
+    "title": "3Sum",
+    "url": "https://leetcode.com/problems/3sum",
+    "week": 4,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "3sum",
+    "order": 56
+  },
+  {
+    "title": "Container With Most Water",
+    "url": "https://leetcode.com/problems/container-with-most-water",
+    "week": 6,
+    "difficulty": "Medium",
+    "minutes": 35,
+    "id": "container-with-most-water",
+    "order": 57
   },
   {
     "title": "Merge Intervals",
@@ -555,6 +519,42 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "merge-intervals",
+    "order": 58
+  },
+  {
+    "title": "Insert Interval",
+    "url": "https://leetcode.com/problems/insert-interval",
+    "week": 3,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "insert-interval",
+    "order": 59
+  },
+  {
+    "title": "Same Tree",
+    "url": "https://leetcode.com/problems/same-tree",
+    "week": 2,
+    "difficulty": "Easy",
+    "minutes": 20,
+    "id": "same-tree",
+    "order": 60
+  },
+  {
+    "title": "Subtree of Another Tree",
+    "url": "https://leetcode.com/problems/subtree-of-another-tree",
+    "week": 3,
+    "difficulty": "Easy",
+    "minutes": 20,
+    "id": "subtree-of-another-tree",
+    "order": 61
+  },
+  {
+    "title": "Kth Smallest Element in a BST",
+    "url": "https://leetcode.com/problems/kth-smallest-element-in-a-bst",
+    "week": 7,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "kth-smallest-element-in-a-bst",
     "order": 62
   },
   {
@@ -567,436 +567,13 @@
     "order": 63
   },
   {
-    "title": "Time Based Key-Value Store",
-    "url": "https://leetcode.com/problems/time-based-key-value-store",
-    "week": 5,
-    "difficulty": "Medium",
-    "minutes": 35,
-    "id": "time-based-key-value-store",
-    "order": 64
-  },
-  {
-    "title": "Accounts Merge",
-    "url": "https://leetcode.com/problems/accounts-merge",
-    "week": 5,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "accounts-merge",
-    "order": 65
-  },
-  {
-    "title": "Sort Colors",
-    "url": "https://leetcode.com/problems/sort-colors",
-    "week": 5,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "sort-colors",
-    "order": 66
-  },
-  {
-    "title": "Word Break",
-    "url": "https://leetcode.com/problems/word-break",
-    "week": 5,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "word-break",
-    "order": 67
-  },
-  {
-    "title": "Partition Equal Subset Sum",
-    "url": "https://leetcode.com/problems/partition-equal-subset-sum",
-    "week": 6,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "partition-equal-subset-sum",
-    "order": 68
-  },
-  {
-    "title": "String to Integer (atoi)",
-    "url": "https://leetcode.com/problems/string-to-integer-atoi",
-    "week": 6,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "string-to-integer-atoi",
-    "order": 69
-  },
-  {
-    "title": "Spiral Matrix",
-    "url": "https://leetcode.com/problems/spiral-matrix",
-    "week": 6,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "spiral-matrix",
-    "order": 70
-  },
-  {
-    "title": "Subsets",
-    "url": "https://leetcode.com/problems/subsets",
-    "week": 6,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "subsets",
-    "order": 71
-  },
-  {
-    "title": "Binary Tree Right Side View",
-    "url": "https://leetcode.com/problems/binary-tree-right-side-view",
-    "week": 6,
-    "difficulty": "Medium",
-    "minutes": 20,
-    "id": "binary-tree-right-side-view",
-    "order": 72
-  },
-  {
-    "title": "Longest Palindromic Substring",
-    "url": "https://leetcode.com/problems/longest-palindromic-substring",
-    "week": 6,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "longest-palindromic-substring",
-    "order": 73
-  },
-  {
-    "title": "Unique Paths",
-    "url": "https://leetcode.com/problems/unique-paths",
-    "week": 6,
-    "difficulty": "Medium",
-    "minutes": 20,
-    "id": "unique-paths",
-    "order": 74
-  },
-  {
-    "title": "Construct Binary Tree from Preorder and Inorder Traversal",
-    "url": "https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal",
-    "week": 6,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "construct-binary-tree-from-preorder-and-inorder-traversal",
-    "order": 75
-  },
-  {
-    "title": "Container With Most Water",
-    "url": "https://leetcode.com/problems/container-with-most-water",
-    "week": 6,
-    "difficulty": "Medium",
-    "minutes": 35,
-    "id": "container-with-most-water",
-    "order": 76
-  },
-  {
-    "title": "Letter Combinations of a Phone Number",
-    "url": "https://leetcode.com/problems/letter-combinations-of-a-phone-number",
-    "week": 6,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "letter-combinations-of-a-phone-number",
-    "order": 77
-  },
-  {
-    "title": "Word Search",
-    "url": "https://leetcode.com/problems/word-search",
-    "week": 6,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "word-search",
-    "order": 78
-  },
-  {
-    "title": "Find All Anagrams in a String",
-    "url": "https://leetcode.com/problems/find-all-anagrams-in-a-string",
-    "week": 7,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "find-all-anagrams-in-a-string",
-    "order": 79
-  },
-  {
-    "title": "Minimum Height Trees",
-    "url": "https://leetcode.com/problems/minimum-height-trees",
-    "week": 7,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "minimum-height-trees",
-    "order": 80
-  },
-  {
-    "title": "Task Scheduler",
-    "url": "https://leetcode.com/problems/task-scheduler",
-    "week": 7,
-    "difficulty": "Medium",
-    "minutes": 35,
-    "id": "task-scheduler",
-    "order": 81
-  },
-  {
-    "title": "LRU Cache",
-    "url": "https://leetcode.com/problems/lru-cache",
-    "week": 7,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "lru-cache",
-    "order": 82
-  },
-  {
-    "title": "Kth Smallest Element in a BST",
-    "url": "https://leetcode.com/problems/kth-smallest-element-in-a-bst",
-    "week": 7,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "kth-smallest-element-in-a-bst",
-    "order": 83
-  },
-  {
-    "title": "Daily Temperatures",
-    "url": "https://leetcode.com/problems/daily-temperatures",
-    "week": 7,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "daily-temperatures",
-    "order": 84
-  },
-  {
-    "title": "House Robber",
-    "url": "https://leetcode.com/problems/house-robber",
-    "week": 7,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "house-robber",
-    "order": 85
-  },
-  {
-    "title": "Gas Station",
-    "url": "https://leetcode.com/problems/gas-station",
-    "week": 7,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "gas-station",
-    "order": 86
-  },
-  {
-    "title": "Next Permutation",
-    "url": "https://leetcode.com/problems/next-permutation",
-    "week": 7,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "next-permutation",
-    "order": 87
-  },
-  {
-    "title": "Valid Sudoku",
-    "url": "https://leetcode.com/problems/valid-sudoku",
-    "week": 7,
-    "difficulty": "Medium",
-    "minutes": 35,
-    "id": "valid-sudoku",
-    "order": 88
-  },
-  {
-    "title": "Group Anagrams",
-    "url": "https://leetcode.com/problems/group-anagrams",
-    "week": 8,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "group-anagrams",
-    "order": 89
-  },
-  {
-    "title": "Maximum Product Subarray",
-    "url": "https://leetcode.com/problems/maximum-product-subarray",
-    "week": 8,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "maximum-product-subarray",
-    "order": 90
-  },
-  {
-    "title": "Design Add and Search Words Data Structure",
-    "url": "https://leetcode.com/problems/design-add-and-search-words-data-structure",
-    "week": 8,
-    "difficulty": "Medium",
-    "minutes": 35,
-    "id": "design-add-and-search-words-data-structure",
-    "order": 91
-  },
-  {
-    "title": "Pacific Atlantic Water Flow",
-    "url": "https://leetcode.com/problems/pacific-atlantic-water-flow",
-    "week": 8,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "pacific-atlantic-water-flow",
-    "order": 92
-  },
-  {
     "title": "Remove Nth Node From End of List",
     "url": "https://leetcode.com/problems/remove-nth-node-from-end-of-list",
     "week": 8,
     "difficulty": "Medium",
     "minutes": 20,
     "id": "remove-nth-node-from-end-of-list",
-    "order": 93
-  },
-  {
-    "title": "Shortest Path to Get Food",
-    "url": "https://leetcode.com/problems/shortest-path-to-get-food",
-    "week": 8,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "shortest-path-to-get-food",
-    "order": 94
-  },
-  {
-    "title": "Find the Duplicate Number",
-    "url": "https://leetcode.com/problems/find-the-duplicate-number",
-    "week": 8,
-    "difficulty": "Medium",
-    "minutes": 20,
-    "id": "find-the-duplicate-number",
-    "order": 95
-  },
-  {
-    "title": "Top K Frequent Words",
-    "url": "https://leetcode.com/problems/top-k-frequent-words",
-    "week": 8,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "top-k-frequent-words",
-    "order": 96
-  },
-  {
-    "title": "Longest Increasing Subsequence",
-    "url": "https://leetcode.com/problems/longest-increasing-subsequence",
-    "week": 8,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "longest-increasing-subsequence",
-    "order": 97
-  },
-  {
-    "title": "Graph Valid Tree",
-    "url": "https://leetcode.com/problems/graph-valid-tree",
-    "week": 8,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "graph-valid-tree",
-    "order": 98
-  },
-  {
-    "title": "Course Schedule II",
-    "url": "https://leetcode.com/problems/course-schedule-ii",
-    "week": 9,
-    "difficulty": "Medium",
-    "minutes": 35,
-    "id": "course-schedule-ii",
-    "order": 99
-  },
-  {
-    "title": "Swap Nodes in Pairs",
-    "url": "https://leetcode.com/problems/swap-nodes-in-pairs",
-    "week": 9,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "swap-nodes-in-pairs",
-    "order": 100
-  },
-  {
-    "title": "Path Sum II",
-    "url": "https://leetcode.com/problems/path-sum-ii",
-    "week": 9,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "path-sum-ii",
-    "order": 101
-  },
-  {
-    "title": "Longest Consecutive Sequence",
-    "url": "https://leetcode.com/problems/longest-consecutive-sequence",
-    "week": 9,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "longest-consecutive-sequence",
-    "order": 102
-  },
-  {
-    "title": "Rotate Array",
-    "url": "https://leetcode.com/problems/rotate-array",
-    "week": 9,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "rotate-array",
-    "order": 103
-  },
-  {
-    "title": "Odd Even Linked List",
-    "url": "https://leetcode.com/problems/odd-even-linked-list",
-    "week": 9,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "odd-even-linked-list",
-    "order": 104
-  },
-  {
-    "title": "Decode String",
-    "url": "https://leetcode.com/problems/decode-string",
-    "week": 9,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "decode-string",
-    "order": 105
-  },
-  {
-    "title": "Contiguous Array",
-    "url": "https://leetcode.com/problems/contiguous-array",
-    "week": 9,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "contiguous-array",
-    "order": 106
-  },
-  {
-    "title": "Maximum Width of Binary Tree",
-    "url": "https://leetcode.com/problems/maximum-width-of-binary-tree",
-    "week": 9,
-    "difficulty": "Medium",
-    "minutes": 20,
-    "id": "maximum-width-of-binary-tree",
-    "order": 107
-  },
-  {
-    "title": "Find K Closest Elements",
-    "url": "https://leetcode.com/problems/find-k-closest-elements",
-    "week": 9,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "find-k-closest-elements",
-    "order": 108
-  },
-  {
-    "title": "Longest Repeating Character Replacement",
-    "url": "https://leetcode.com/problems/longest-repeating-character-replacement",
-    "week": 9,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "longest-repeating-character-replacement",
-    "order": 109
-  },
-  {
-    "title": "Inorder Successor in BST",
-    "url": "https://leetcode.com/problems/inorder-successor-in-bst",
-    "week": 10,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "inorder-successor-in-bst",
-    "order": 110
-  },
-  {
-    "title": "Jump Game",
-    "url": "https://leetcode.com/problems/jump-game",
-    "week": 10,
-    "difficulty": "Medium",
-    "minutes": 20,
-    "id": "jump-game",
-    "order": 111
+    "order": 64
   },
   {
     "title": "Add Two Numbers",
@@ -1005,25 +582,25 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "add-two-numbers",
-    "order": 112
+    "order": 65
   },
   {
-    "title": "Generate Parentheses",
-    "url": "https://leetcode.com/problems/generate-parentheses",
-    "week": 10,
+    "title": "Reorder List",
+    "url": "https://leetcode.com/problems/reorder-list",
+    "week": 12,
     "difficulty": "Medium",
     "minutes": 25,
-    "id": "generate-parentheses",
-    "order": 113
+    "id": "reorder-list",
+    "order": 66
   },
   {
-    "title": "Sort List",
-    "url": "https://leetcode.com/problems/sort-list",
-    "week": 10,
+    "title": "Graph Valid Tree",
+    "url": "https://leetcode.com/problems/graph-valid-tree",
+    "week": 8,
     "difficulty": "Medium",
-    "minutes": 25,
-    "id": "sort-list",
-    "order": 114
+    "minutes": 30,
+    "id": "graph-valid-tree",
+    "order": 67
   },
   {
     "title": "Number of Connected Components in an Undirected Graph",
@@ -1032,24 +609,447 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "number-of-connected-components-in-an-undirected-graph",
+    "order": 68
+  },
+  {
+    "title": "Accounts Merge",
+    "url": "https://leetcode.com/problems/accounts-merge",
+    "week": 5,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "accounts-merge",
+    "order": 69
+  },
+  {
+    "title": "Generate Parentheses",
+    "url": "https://leetcode.com/problems/generate-parentheses",
+    "week": 10,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "generate-parentheses",
+    "order": 70
+  },
+  {
+    "title": "Word Search",
+    "url": "https://leetcode.com/problems/word-search",
+    "week": 6,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "word-search",
+    "order": 71
+  },
+  {
+    "title": "Unique Paths",
+    "url": "https://leetcode.com/problems/unique-paths",
+    "week": 6,
+    "difficulty": "Medium",
+    "minutes": 20,
+    "id": "unique-paths",
+    "order": 72
+  },
+  {
+    "title": "Decode Ways",
+    "url": "https://leetcode.com/problems/decode-ways",
+    "week": 11,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "decode-ways",
+    "order": 73
+  },
+  {
+    "title": "Word Break",
+    "url": "https://leetcode.com/problems/word-break",
+    "week": 5,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "word-break",
+    "order": 74
+  },
+  {
+    "title": "Time Based Key-Value Store",
+    "url": "https://leetcode.com/problems/time-based-key-value-store",
+    "week": 5,
+    "difficulty": "Medium",
+    "minutes": 35,
+    "id": "time-based-key-value-store",
+    "order": 75
+  },
+  {
+    "title": "Search a 2D Matrix",
+    "url": "https://leetcode.com/problems/search-a-2d-matrix",
+    "week": 11,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "search-a-2d-matrix",
+    "order": 76
+  },
+  {
+    "title": "Partition Equal Subset Sum",
+    "url": "https://leetcode.com/problems/partition-equal-subset-sum",
+    "week": 6,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "partition-equal-subset-sum",
+    "order": 77
+  },
+  {
+    "title": "Maximum Product Subarray",
+    "url": "https://leetcode.com/problems/maximum-product-subarray",
+    "week": 8,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "maximum-product-subarray",
+    "order": 78
+  },
+  {
+    "title": "Longest Increasing Subsequence",
+    "url": "https://leetcode.com/problems/longest-increasing-subsequence",
+    "week": 8,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "longest-increasing-subsequence",
+    "order": 79
+  },
+  {
+    "title": "Find Minimum in Rotated Sorted Array",
+    "url": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array",
+    "week": 12,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "find-minimum-in-rotated-sorted-array",
+    "order": 80
+  },
+  {
+    "title": "Search in Rotated Sorted Array",
+    "url": "https://leetcode.com/problems/search-in-rotated-sorted-array",
+    "week": 5,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "search-in-rotated-sorted-array",
+    "order": 81
+  },
+  {
+    "title": "Meeting Rooms II",
+    "url": "https://leetcode.com/problems/meeting-rooms-ii",
+    "week": 11,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "meeting-rooms-ii",
+    "order": 82
+  },
+  {
+    "title": "Pacific Atlantic Water Flow",
+    "url": "https://leetcode.com/problems/pacific-atlantic-water-flow",
+    "week": 8,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "pacific-atlantic-water-flow",
+    "order": 83
+  },
+  {
+    "title": "Kth Largest Element in an Array",
+    "url": "https://leetcode.com/problems/kth-largest-element-in-an-array",
+    "week": 11,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "kth-largest-element-in-an-array",
+    "order": 84
+  },
+  {
+    "title": "LRU Cache",
+    "url": "https://leetcode.com/problems/lru-cache",
+    "week": 7,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "lru-cache",
+    "order": 85
+  },
+  {
+    "title": "Encode and Decode Strings",
+    "url": "https://leetcode.com/problems/encode-and-decode-strings",
+    "week": 12,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "encode-and-decode-strings",
+    "order": 86
+  },
+  {
+    "title": "Evaluate Reverse Polish Notation",
+    "url": "https://leetcode.com/problems/evaluate-reverse-polish-notation",
+    "week": 4,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "evaluate-reverse-polish-notation",
+    "order": 87
+  },
+  {
+    "title": "Decode String",
+    "url": "https://leetcode.com/problems/decode-string",
+    "week": 9,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "decode-string",
+    "order": 88
+  },
+  {
+    "title": "Spiral Matrix",
+    "url": "https://leetcode.com/problems/spiral-matrix",
+    "week": 6,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "spiral-matrix",
+    "order": 89
+  },
+  {
+    "title": "Set Matrix Zeroes",
+    "url": "https://leetcode.com/problems/set-matrix-zeroes",
+    "week": 12,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "set-matrix-zeroes",
+    "order": 90
+  },
+  {
+    "title": "Sort Colors",
+    "url": "https://leetcode.com/problems/sort-colors",
+    "week": 5,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "sort-colors",
+    "order": 91
+  },
+  {
+    "title": "Minimum Window Substring",
+    "url": "https://leetcode.com/problems/minimum-window-substring",
+    "week": 13,
+    "difficulty": "Hard",
+    "minutes": 30,
+    "id": "minimum-window-substring",
+    "order": 92
+  },
+  {
+    "title": "Construct Binary Tree from Preorder and Inorder Traversal",
+    "url": "https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal",
+    "week": 6,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "construct-binary-tree-from-preorder-and-inorder-traversal",
+    "order": 93
+  },
+  {
+    "title": "Single Number",
+    "url": "https://leetcode.com/problems/single-number",
+    "week": 2,
+    "difficulty": "Easy",
+    "minutes": 15,
+    "id": "single-number",
+    "order": 94
+  },
+  {
+    "title": "Serialize and Deserialize Binary Tree",
+    "url": "https://leetcode.com/problems/serialize-and-deserialize-binary-tree",
+    "week": 13,
+    "difficulty": "Hard",
+    "minutes": 40,
+    "id": "serialize-and-deserialize-binary-tree",
+    "order": 95
+  },
+  {
+    "title": "Random Pick with Weight",
+    "url": "https://leetcode.com/problems/random-pick-with-weight",
+    "week": 10,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "random-pick-with-weight",
+    "order": 96
+  },
+  {
+    "title": "Maximum Frequency Stack",
+    "url": "https://leetcode.com/problems/maximum-frequency-stack",
+    "week": 14,
+    "difficulty": "Hard",
+    "minutes": 40,
+    "id": "maximum-frequency-stack",
+    "order": 97
+  },
+  {
+    "title": "Longest Palindromic Substring",
+    "url": "https://leetcode.com/problems/longest-palindromic-substring",
+    "week": 6,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "longest-palindromic-substring",
+    "order": 98
+  },
+  {
+    "title": "Path Sum II",
+    "url": "https://leetcode.com/problems/path-sum-ii",
+    "week": 9,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "path-sum-ii",
+    "order": 99
+  },
+  {
+    "title": "Binary Tree Maximum Path Sum",
+    "url": "https://leetcode.com/problems/binary-tree-maximum-path-sum",
+    "week": 14,
+    "difficulty": "Hard",
+    "minutes": 35,
+    "id": "binary-tree-maximum-path-sum",
+    "order": 100
+  },
+  {
+    "title": "Number of 1 Bits",
+    "url": "https://leetcode.com/problems/number-of-1-bits",
+    "week": 2,
+    "difficulty": "Easy",
+    "minutes": 15,
+    "id": "number-of-1-bits",
+    "order": 101
+  },
+  {
+    "title": "Design Add and Search Words Data Structure",
+    "url": "https://leetcode.com/problems/design-add-and-search-words-data-structure",
+    "week": 8,
+    "difficulty": "Medium",
+    "minutes": 35,
+    "id": "design-add-and-search-words-data-structure",
+    "order": 102
+  },
+  {
+    "title": "N-Queens",
+    "url": "https://leetcode.com/problems/n-queens",
+    "week": 15,
+    "difficulty": "Hard",
+    "minutes": 40,
+    "id": "n-queens",
+    "order": 103
+  },
+  {
+    "title": "Move Zeroes",
+    "url": "https://leetcode.com/problems/move-zeroes",
+    "week": 3,
+    "difficulty": "Easy",
+    "minutes": 20,
+    "id": "move-zeroes",
+    "order": 104
+  },
+  {
+    "title": "Merge k Sorted Lists",
+    "url": "https://leetcode.com/problems/merge-k-sorted-lists",
+    "week": 14,
+    "difficulty": "Hard",
+    "minutes": 30,
+    "id": "merge-k-sorted-lists",
+    "order": 105
+  },
+  {
+    "title": "Insert Delete GetRandom O(1)",
+    "url": "https://leetcode.com/problems/insert-delete-getrandom-o1",
+    "week": 13,
+    "difficulty": "Medium",
+    "minutes": 20,
+    "id": "insert-delete-getrandom-o1",
+    "order": 106
+  },
+  {
+    "title": "Employee Free Time",
+    "url": "https://leetcode.com/problems/employee-free-time",
+    "week": 15,
+    "difficulty": "Hard",
+    "minutes": 35,
+    "id": "employee-free-time",
+    "order": 107
+  },
+  {
+    "title": "Counting Bits",
+    "url": "https://leetcode.com/problems/counting-bits",
+    "week": 2,
+    "difficulty": "Easy",
+    "minutes": 15,
+    "id": "counting-bits",
+    "order": 108
+  },
+  {
+    "title": "Find Median from Data Stream",
+    "url": "https://leetcode.com/problems/find-median-from-data-stream",
+    "week": 13,
+    "difficulty": "Hard",
+    "minutes": 30,
+    "id": "find-median-from-data-stream",
+    "order": 109
+  },
+  {
+    "title": "Squares of a Sorted Array",
+    "url": "https://leetcode.com/problems/squares-of-a-sorted-array",
+    "week": 3,
+    "difficulty": "Easy",
+    "minutes": 20,
+    "id": "squares-of-a-sorted-array",
+    "order": 110
+  },
+  {
+    "title": "Binary Tree Right Side View",
+    "url": "https://leetcode.com/problems/binary-tree-right-side-view",
+    "week": 6,
+    "difficulty": "Medium",
+    "minutes": 20,
+    "id": "binary-tree-right-side-view",
+    "order": 111
+  },
+  {
+    "title": "Path Sum III",
+    "url": "https://leetcode.com/problems/path-sum-iii",
+    "week": 11,
+    "difficulty": "Medium",
+    "minutes": 35,
+    "id": "path-sum-iii",
+    "order": 112
+  },
+  {
+    "title": "Backspace String Compare",
+    "url": "https://leetcode.com/problems/backspace-string-compare",
+    "week": 2,
+    "difficulty": "Easy",
+    "minutes": 15,
+    "id": "backspace-string-compare",
+    "order": 113
+  },
+  {
+    "title": "Palindrome Linked List",
+    "url": "https://leetcode.com/problems/palindrome-linked-list",
+    "week": 2,
+    "difficulty": "Easy",
+    "minutes": 20,
+    "id": "palindrome-linked-list",
+    "order": 114
+  },
+  {
+    "title": "Symmetric Tree",
+    "url": "https://leetcode.com/problems/symmetric-tree",
+    "week": 3,
+    "difficulty": "Easy",
+    "minutes": 20,
+    "id": "symmetric-tree",
     "order": 115
   },
   {
-    "title": "Minimum Knight Moves",
-    "url": "https://leetcode.com/problems/minimum-knight-moves",
-    "week": 10,
-    "difficulty": "Medium",
-    "minutes": 35,
-    "id": "minimum-knight-moves",
+    "title": "Convert Sorted Array to Binary Search Tree",
+    "url": "https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree",
+    "week": 3,
+    "difficulty": "Easy",
+    "minutes": 20,
+    "id": "convert-sorted-array-to-binary-search-tree",
     "order": 116
   },
   {
-    "title": "Subarray Sum Equals K",
-    "url": "https://leetcode.com/problems/subarray-sum-equals-k",
-    "week": 10,
+    "title": "Contiguous Array",
+    "url": "https://leetcode.com/problems/contiguous-array",
+    "week": 9,
     "difficulty": "Medium",
-    "minutes": 35,
-    "id": "subarray-sum-equals-k",
+    "minutes": 30,
+    "id": "contiguous-array",
     "order": 117
   },
   {
@@ -1062,22 +1062,49 @@
     "order": 118
   },
   {
-    "title": "Random Pick with Weight",
-    "url": "https://leetcode.com/problems/random-pick-with-weight",
-    "week": 10,
+    "title": "Task Scheduler",
+    "url": "https://leetcode.com/problems/task-scheduler",
+    "week": 7,
     "difficulty": "Medium",
-    "minutes": 25,
-    "id": "random-pick-with-weight",
+    "minutes": 35,
+    "id": "task-scheduler",
     "order": 119
   },
   {
-    "title": "Kth Largest Element in an Array",
-    "url": "https://leetcode.com/problems/kth-largest-element-in-an-array",
-    "week": 11,
+    "title": "Gas Station",
+    "url": "https://leetcode.com/problems/gas-station",
+    "week": 7,
     "difficulty": "Medium",
     "minutes": 30,
-    "id": "kth-largest-element-in-an-array",
+    "id": "gas-station",
     "order": 120
+  },
+  {
+    "title": "Missing Number",
+    "url": "https://leetcode.com/problems/missing-number",
+    "week": 3,
+    "difficulty": "Easy",
+    "minutes": 15,
+    "id": "missing-number",
+    "order": 121
+  },
+  {
+    "title": "Find the Duplicate Number",
+    "url": "https://leetcode.com/problems/find-the-duplicate-number",
+    "week": 8,
+    "difficulty": "Medium",
+    "minutes": 20,
+    "id": "find-the-duplicate-number",
+    "order": 122
+  },
+  {
+    "title": "Sort List",
+    "url": "https://leetcode.com/problems/sort-list",
+    "week": 10,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "sort-list",
+    "order": 123
   },
   {
     "title": "Maximal Square",
@@ -1086,178 +1113,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "maximal-square",
-    "order": 121
-  },
-  {
-    "title": "Rotate Image",
-    "url": "https://leetcode.com/problems/rotate-image",
-    "week": 11,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "rotate-image",
-    "order": 122
-  },
-  {
-    "title": "Binary Tree Zigzag Level Order Traversal",
-    "url": "https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal",
-    "week": 11,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "binary-tree-zigzag-level-order-traversal",
-    "order": 123
-  },
-  {
-    "title": "Design Hit Counter",
-    "url": "https://leetcode.com/problems/design-hit-counter",
-    "week": 11,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "design-hit-counter",
     "order": 124
-  },
-  {
-    "title": "Path Sum III",
-    "url": "https://leetcode.com/problems/path-sum-iii",
-    "week": 11,
-    "difficulty": "Medium",
-    "minutes": 35,
-    "id": "path-sum-iii",
-    "order": 125
-  },
-  {
-    "title": "Pow(x, n)",
-    "url": "https://leetcode.com/problems/powx-n",
-    "week": 11,
-    "difficulty": "Medium",
-    "minutes": 20,
-    "id": "powx-n",
-    "order": 126
-  },
-  {
-    "title": "Search a 2D Matrix",
-    "url": "https://leetcode.com/problems/search-a-2d-matrix",
-    "week": 11,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "search-a-2d-matrix",
-    "order": 127
-  },
-  {
-    "title": "Largest Number",
-    "url": "https://leetcode.com/problems/largest-number",
-    "week": 11,
-    "difficulty": "Medium",
-    "minutes": 20,
-    "id": "largest-number",
-    "order": 128
-  },
-  {
-    "title": "Decode Ways",
-    "url": "https://leetcode.com/problems/decode-ways",
-    "week": 11,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "decode-ways",
-    "order": 129
-  },
-  {
-    "title": "Meeting Rooms II",
-    "url": "https://leetcode.com/problems/meeting-rooms-ii",
-    "week": 11,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "meeting-rooms-ii",
-    "order": 130
-  },
-  {
-    "title": "Reverse Integer",
-    "url": "https://leetcode.com/problems/reverse-integer",
-    "week": 12,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "reverse-integer",
-    "order": 131
-  },
-  {
-    "title": "Set Matrix Zeroes",
-    "url": "https://leetcode.com/problems/set-matrix-zeroes",
-    "week": 12,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "set-matrix-zeroes",
-    "order": 132
-  },
-  {
-    "title": "Reorder List",
-    "url": "https://leetcode.com/problems/reorder-list",
-    "week": 12,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "reorder-list",
-    "order": 133
-  },
-  {
-    "title": "Encode and Decode Strings",
-    "url": "https://leetcode.com/problems/encode-and-decode-strings",
-    "week": 12,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "encode-and-decode-strings",
-    "order": 134
-  },
-  {
-    "title": "Cheapest Flights Within K Stops",
-    "url": "https://leetcode.com/problems/cheapest-flights-within-k-stops",
-    "week": 12,
-    "difficulty": "Medium",
-    "minutes": 45,
-    "id": "cheapest-flights-within-k-stops",
-    "order": 135
-  },
-  {
-    "title": "All Nodes Distance K in Binary Tree",
-    "url": "https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree",
-    "week": 12,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "all-nodes-distance-k-in-binary-tree",
-    "order": 136
-  },
-  {
-    "title": "3Sum Closest",
-    "url": "https://leetcode.com/problems/3sum-closest",
-    "week": 12,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "3sum-closest",
-    "order": 137
-  },
-  {
-    "title": "Rotate List",
-    "url": "https://leetcode.com/problems/rotate-list",
-    "week": 12,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "rotate-list",
-    "order": 138
-  },
-  {
-    "title": "Find Minimum in Rotated Sorted Array",
-    "url": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array",
-    "week": 12,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "find-minimum-in-rotated-sorted-array",
-    "order": 139
-  },
-  {
-    "title": "Basic Calculator II",
-    "url": "https://leetcode.com/problems/basic-calculator-ii",
-    "week": 12,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "basic-calculator-ii",
-    "order": 140
   },
   {
     "title": "Combination Sum IV",
@@ -1266,61 +1122,25 @@
     "difficulty": "Medium",
     "minutes": 35,
     "id": "combination-sum-iv",
-    "order": 141
+    "order": 125
   },
   {
-    "title": "Insert Delete GetRandom O(1)",
-    "url": "https://leetcode.com/problems/insert-delete-getrandom-o1",
-    "week": 13,
+    "title": "Cheapest Flights Within K Stops",
+    "url": "https://leetcode.com/problems/cheapest-flights-within-k-stops",
+    "week": 12,
     "difficulty": "Medium",
-    "minutes": 20,
-    "id": "insert-delete-getrandom-o1",
-    "order": 142
+    "minutes": 45,
+    "id": "cheapest-flights-within-k-stops",
+    "order": 126
   },
   {
-    "title": "Non-overlapping Intervals",
-    "url": "https://leetcode.com/problems/non-overlapping-intervals",
-    "week": 13,
+    "title": "Shortest Path to Get Food",
+    "url": "https://leetcode.com/problems/shortest-path-to-get-food",
+    "week": 8,
     "difficulty": "Medium",
-    "minutes": 20,
-    "id": "non-overlapping-intervals",
-    "order": 143
-  },
-  {
-    "title": "Minimum Window Substring",
-    "url": "https://leetcode.com/problems/minimum-window-substring",
-    "week": 13,
-    "difficulty": "Hard",
     "minutes": 30,
-    "id": "minimum-window-substring",
-    "order": 144
-  },
-  {
-    "title": "Serialize and Deserialize Binary Tree",
-    "url": "https://leetcode.com/problems/serialize-and-deserialize-binary-tree",
-    "week": 13,
-    "difficulty": "Hard",
-    "minutes": 40,
-    "id": "serialize-and-deserialize-binary-tree",
-    "order": 145
-  },
-  {
-    "title": "Trapping Rain Water",
-    "url": "https://leetcode.com/problems/trapping-rain-water",
-    "week": 13,
-    "difficulty": "Hard",
-    "minutes": 35,
-    "id": "trapping-rain-water",
-    "order": 146
-  },
-  {
-    "title": "Find Median from Data Stream",
-    "url": "https://leetcode.com/problems/find-median-from-data-stream",
-    "week": 13,
-    "difficulty": "Hard",
-    "minutes": 30,
-    "id": "find-median-from-data-stream",
-    "order": 147
+    "id": "shortest-path-to-get-food",
+    "order": 127
   },
   {
     "title": "Word Ladder",
@@ -1329,115 +1149,16 @@
     "difficulty": "Hard",
     "minutes": 45,
     "id": "word-ladder",
-    "order": 148
+    "order": 128
   },
   {
-    "title": "Basic Calculator",
-    "url": "https://leetcode.com/problems/basic-calculator",
-    "week": 13,
-    "difficulty": "Hard",
-    "minutes": 40,
-    "id": "basic-calculator",
-    "order": 149
-  },
-  {
-    "title": "Maximum Profit in Job Scheduling",
-    "url": "https://leetcode.com/problems/maximum-profit-in-job-scheduling",
-    "week": 14,
-    "difficulty": "Hard",
-    "minutes": 45,
-    "id": "maximum-profit-in-job-scheduling",
-    "order": 150
-  },
-  {
-    "title": "Merge k Sorted Lists",
-    "url": "https://leetcode.com/problems/merge-k-sorted-lists",
-    "week": 14,
-    "difficulty": "Hard",
-    "minutes": 30,
-    "id": "merge-k-sorted-lists",
-    "order": 151
-  },
-  {
-    "title": "Largest Rectangle in Histogram",
-    "url": "https://leetcode.com/problems/largest-rectangle-in-histogram",
-    "week": 14,
-    "difficulty": "Hard",
-    "minutes": 35,
-    "id": "largest-rectangle-in-histogram",
-    "order": 152
-  },
-  {
-    "title": "Binary Tree Maximum Path Sum",
-    "url": "https://leetcode.com/problems/binary-tree-maximum-path-sum",
-    "week": 14,
-    "difficulty": "Hard",
-    "minutes": 35,
-    "id": "binary-tree-maximum-path-sum",
-    "order": 153
-  },
-  {
-    "title": "Maximum Frequency Stack",
-    "url": "https://leetcode.com/problems/maximum-frequency-stack",
-    "week": 14,
-    "difficulty": "Hard",
-    "minutes": 40,
-    "id": "maximum-frequency-stack",
-    "order": 154
-  },
-  {
-    "title": "Median of Two Sorted Arrays",
-    "url": "https://leetcode.com/problems/median-of-two-sorted-arrays",
-    "week": 14,
-    "difficulty": "Hard",
-    "minutes": 40,
-    "id": "median-of-two-sorted-arrays",
-    "order": 155
-  },
-  {
-    "title": "Longest Increasing Path in a Matrix",
-    "url": "https://leetcode.com/problems/longest-increasing-path-in-a-matrix",
-    "week": 14,
-    "difficulty": "Hard",
-    "minutes": 40,
-    "id": "longest-increasing-path-in-a-matrix",
-    "order": 156
-  },
-  {
-    "title": "Longest Valid Parentheses",
-    "url": "https://leetcode.com/problems/longest-valid-parentheses",
-    "week": 14,
-    "difficulty": "Hard",
-    "minutes": 35,
-    "id": "longest-valid-parentheses",
-    "order": 157
-  },
-  {
-    "title": "Design In-Memory File System",
-    "url": "https://leetcode.com/problems/design-in-memory-file-system",
-    "week": 15,
-    "difficulty": "Hard",
-    "minutes": 40,
-    "id": "design-in-memory-file-system",
-    "order": 158
-  },
-  {
-    "title": "Employee Free Time",
-    "url": "https://leetcode.com/problems/employee-free-time",
-    "week": 15,
-    "difficulty": "Hard",
-    "minutes": 35,
-    "id": "employee-free-time",
-    "order": 159
-  },
-  {
-    "title": "Word Search II",
-    "url": "https://leetcode.com/problems/word-search-ii",
-    "week": 15,
-    "difficulty": "Hard",
-    "minutes": 40,
-    "id": "word-search-ii",
-    "order": 160
+    "title": "All Nodes Distance K in Binary Tree",
+    "url": "https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree",
+    "week": 12,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "all-nodes-distance-k-in-binary-tree",
+    "order": 129
   },
   {
     "title": "Alien Dictionary",
@@ -1446,16 +1167,16 @@
     "difficulty": "Hard",
     "minutes": 45,
     "id": "alien-dictionary",
-    "order": 161
+    "order": 130
   },
   {
-    "title": "Bus Routes",
-    "url": "https://leetcode.com/problems/bus-routes",
-    "week": 15,
-    "difficulty": "Hard",
-    "minutes": 45,
-    "id": "bus-routes",
-    "order": 162
+    "title": "Find K Closest Elements",
+    "url": "https://leetcode.com/problems/find-k-closest-elements",
+    "week": 9,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "find-k-closest-elements",
+    "order": 131
   },
   {
     "title": "Sliding Window Maximum",
@@ -1464,52 +1185,106 @@
     "difficulty": "Hard",
     "minutes": 35,
     "id": "sliding-window-maximum",
-    "order": 163
+    "order": 132
   },
   {
-    "title": "Palindrome Pairs",
-    "url": "https://leetcode.com/problems/palindrome-pairs",
-    "week": 15,
-    "difficulty": "Hard",
-    "minutes": 40,
-    "id": "palindrome-pairs",
-    "order": 164
+    "title": "Rotate Image",
+    "url": "https://leetcode.com/problems/rotate-image",
+    "week": 11,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "rotate-image",
+    "order": 133
   },
   {
-    "title": "Reverse Nodes in k-Group",
-    "url": "https://leetcode.com/problems/reverse-nodes-in-k-group",
-    "week": 15,
-    "difficulty": "Hard",
-    "minutes": 35,
-    "id": "reverse-nodes-in-k-group",
-    "order": 165
-  },
-  {
-    "title": "Sudoku Solver",
-    "url": "https://leetcode.com/problems/sudoku-solver",
-    "week": 15,
-    "difficulty": "Hard",
-    "minutes": 40,
-    "id": "sudoku-solver",
-    "order": 166
-  },
-  {
-    "title": "First Missing Positive",
-    "url": "https://leetcode.com/problems/first-missing-positive",
-    "week": 15,
+    "title": "Trapping Rain Water",
+    "url": "https://leetcode.com/problems/trapping-rain-water",
+    "week": 13,
     "difficulty": "Hard",
     "minutes": 35,
-    "id": "first-missing-positive",
-    "order": 167
+    "id": "trapping-rain-water",
+    "order": 134
   },
   {
-    "title": "N-Queens",
-    "url": "https://leetcode.com/problems/n-queens",
+    "title": "Maximum Width of Binary Tree",
+    "url": "https://leetcode.com/problems/maximum-width-of-binary-tree",
+    "week": 9,
+    "difficulty": "Medium",
+    "minutes": 20,
+    "id": "maximum-width-of-binary-tree",
+    "order": 135
+  },
+  {
+    "title": "Largest Rectangle in Histogram",
+    "url": "https://leetcode.com/problems/largest-rectangle-in-histogram",
+    "week": 14,
+    "difficulty": "Hard",
+    "minutes": 35,
+    "id": "largest-rectangle-in-histogram",
+    "order": 136
+  },
+  {
+    "title": "Binary Tree Zigzag Level Order Traversal",
+    "url": "https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal",
+    "week": 11,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "binary-tree-zigzag-level-order-traversal",
+    "order": 137
+  },
+  {
+    "title": "Longest Increasing Path in a Matrix",
+    "url": "https://leetcode.com/problems/longest-increasing-path-in-a-matrix",
+    "week": 14,
+    "difficulty": "Hard",
+    "minutes": 40,
+    "id": "longest-increasing-path-in-a-matrix",
+    "order": 138
+  },
+  {
+    "title": "Inorder Successor in BST",
+    "url": "https://leetcode.com/problems/inorder-successor-in-bst",
+    "week": 10,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "inorder-successor-in-bst",
+    "order": 139
+  },
+  {
+    "title": "Word Search II",
+    "url": "https://leetcode.com/problems/word-search-ii",
     "week": 15,
     "difficulty": "Hard",
     "minutes": 40,
-    "id": "n-queens",
-    "order": 168
+    "id": "word-search-ii",
+    "order": 140
+  },
+  {
+    "title": "Longest Common Prefix",
+    "url": "https://leetcode.com/problems/longest-common-prefix",
+    "week": 2,
+    "difficulty": "Easy",
+    "minutes": 20,
+    "id": "longest-common-prefix",
+    "order": 141
+  },
+  {
+    "title": "Maximum Profit in Job Scheduling",
+    "url": "https://leetcode.com/problems/maximum-profit-in-job-scheduling",
+    "week": 14,
+    "difficulty": "Hard",
+    "minutes": 45,
+    "id": "maximum-profit-in-job-scheduling",
+    "order": 142
+  },
+  {
+    "title": "Palindrome Number",
+    "url": "https://leetcode.com/problems/palindrome-number",
+    "week": 3,
+    "difficulty": "Easy",
+    "minutes": 15,
+    "id": "palindrome-number",
+    "order": 143
   },
   {
     "title": "Smallest Range Covering Elements from K Lists",
@@ -1518,6 +1293,231 @@
     "difficulty": "Hard",
     "minutes": 40,
     "id": "smallest-range-covering-elements-from-k-lists",
+    "order": 144
+  },
+  {
+    "title": "Design Hit Counter",
+    "url": "https://leetcode.com/problems/design-hit-counter",
+    "week": 11,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "design-hit-counter",
+    "order": 145
+  },
+  {
+    "title": "Design In-Memory File System",
+    "url": "https://leetcode.com/problems/design-in-memory-file-system",
+    "week": 15,
+    "difficulty": "Hard",
+    "minutes": 40,
+    "id": "design-in-memory-file-system",
+    "order": 146
+  },
+  {
+    "title": "Reverse Bits",
+    "url": "https://leetcode.com/problems/reverse-bits",
+    "week": 3,
+    "difficulty": "Easy",
+    "minutes": 15,
+    "id": "reverse-bits",
+    "order": 147
+  },
+  {
+    "title": "Valid Sudoku",
+    "url": "https://leetcode.com/problems/valid-sudoku",
+    "week": 7,
+    "difficulty": "Medium",
+    "minutes": 35,
+    "id": "valid-sudoku",
+    "order": 148
+  },
+  {
+    "title": "Sudoku Solver",
+    "url": "https://leetcode.com/problems/sudoku-solver",
+    "week": 15,
+    "difficulty": "Hard",
+    "minutes": 40,
+    "id": "sudoku-solver",
+    "order": 149
+  },
+  {
+    "title": "Rotate Array",
+    "url": "https://leetcode.com/problems/rotate-array",
+    "week": 9,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "rotate-array",
+    "order": 150
+  },
+  {
+    "title": "Minimum Knight Moves",
+    "url": "https://leetcode.com/problems/minimum-knight-moves",
+    "week": 10,
+    "difficulty": "Medium",
+    "minutes": 35,
+    "id": "minimum-knight-moves",
+    "order": 151
+  },
+  {
+    "title": "Swap Nodes in Pairs",
+    "url": "https://leetcode.com/problems/swap-nodes-in-pairs",
+    "week": 9,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "swap-nodes-in-pairs",
+    "order": 152
+  },
+  {
+    "title": "Reverse Nodes in k-Group",
+    "url": "https://leetcode.com/problems/reverse-nodes-in-k-group",
+    "week": 15,
+    "difficulty": "Hard",
+    "minutes": 35,
+    "id": "reverse-nodes-in-k-group",
+    "order": 153
+  },
+  {
+    "title": "Odd Even Linked List",
+    "url": "https://leetcode.com/problems/odd-even-linked-list",
+    "week": 9,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "odd-even-linked-list",
+    "order": 154
+  },
+  {
+    "title": "Rotate List",
+    "url": "https://leetcode.com/problems/rotate-list",
+    "week": 12,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "rotate-list",
+    "order": 155
+  },
+  {
+    "title": "3Sum Closest",
+    "url": "https://leetcode.com/problems/3sum-closest",
+    "week": 12,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "3sum-closest",
+    "order": 156
+  },
+  {
+    "title": "String to Integer (atoi)",
+    "url": "https://leetcode.com/problems/string-to-integer-atoi",
+    "week": 6,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "string-to-integer-atoi",
+    "order": 157
+  },
+  {
+    "title": "Basic Calculator II",
+    "url": "https://leetcode.com/problems/basic-calculator-ii",
+    "week": 12,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "basic-calculator-ii",
+    "order": 158
+  },
+  {
+    "title": "Longest Valid Parentheses",
+    "url": "https://leetcode.com/problems/longest-valid-parentheses",
+    "week": 14,
+    "difficulty": "Hard",
+    "minutes": 35,
+    "id": "longest-valid-parentheses",
+    "order": 159
+  },
+  {
+    "title": "Basic Calculator",
+    "url": "https://leetcode.com/problems/basic-calculator",
+    "week": 13,
+    "difficulty": "Hard",
+    "minutes": 40,
+    "id": "basic-calculator",
+    "order": 160
+  },
+  {
+    "title": "Pow(x, n)",
+    "url": "https://leetcode.com/problems/powx-n",
+    "week": 11,
+    "difficulty": "Medium",
+    "minutes": 20,
+    "id": "powx-n",
+    "order": 161
+  },
+  {
+    "title": "Next Permutation",
+    "url": "https://leetcode.com/problems/next-permutation",
+    "week": 7,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "next-permutation",
+    "order": 162
+  },
+  {
+    "title": "First Missing Positive",
+    "url": "https://leetcode.com/problems/first-missing-positive",
+    "week": 15,
+    "difficulty": "Hard",
+    "minutes": 35,
+    "id": "first-missing-positive",
+    "order": 163
+  },
+  {
+    "title": "Minimum Height Trees",
+    "url": "https://leetcode.com/problems/minimum-height-trees",
+    "week": 7,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "minimum-height-trees",
+    "order": 164
+  },
+  {
+    "title": "Bus Routes",
+    "url": "https://leetcode.com/problems/bus-routes",
+    "week": 15,
+    "difficulty": "Hard",
+    "minutes": 45,
+    "id": "bus-routes",
+    "order": 165
+  },
+  {
+    "title": "Largest Number",
+    "url": "https://leetcode.com/problems/largest-number",
+    "week": 11,
+    "difficulty": "Medium",
+    "minutes": 20,
+    "id": "largest-number",
+    "order": 166
+  },
+  {
+    "title": "Median of Two Sorted Arrays",
+    "url": "https://leetcode.com/problems/median-of-two-sorted-arrays",
+    "week": 14,
+    "difficulty": "Hard",
+    "minutes": 40,
+    "id": "median-of-two-sorted-arrays",
+    "order": 167
+  },
+  {
+    "title": "Reverse Integer",
+    "url": "https://leetcode.com/problems/reverse-integer",
+    "week": 12,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "reverse-integer",
+    "order": 168
+  },
+  {
+    "title": "Palindrome Pairs",
+    "url": "https://leetcode.com/problems/palindrome-pairs",
+    "week": 15,
+    "difficulty": "Hard",
+    "minutes": 40,
+    "id": "palindrome-pairs",
     "order": 169
   }
 ]
