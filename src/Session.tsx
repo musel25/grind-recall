@@ -16,6 +16,7 @@ export function duration(n: number) {
 }
 export function Session({
   problem: p,
+  planWeek,
   state,
   day,
   onClose,
@@ -23,6 +24,7 @@ export function Session({
   onMorning,
 }: {
   problem: Problem;
+  planWeek: number;
   state: StudyState;
   day: string;
   onClose: () => void;
@@ -74,7 +76,7 @@ export function Session({
         <span className={"difficulty " + p.difficulty.toLowerCase()}>
           {p.difficulty}
         </span>
-        <span>Grind week {p.week}</span>
+        <span>Plan week {planWeek}</span>
         <span>
           <Clock3 size={14} /> {duration(p.minutes)} solving estimate
         </span>

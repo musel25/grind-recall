@@ -37,6 +37,7 @@ import { estimatePlan, applyEstimate } from "./planning";
 import { PlanSummary, fullDate } from "./PlanSummary";
 import { Settings } from "./Settings";
 import type { Problem, StudyState } from "./types";
+import { bankWeeks, type BankWeek } from "./bank";
 type AppStore = {
   load: () => StudyState | null;
   save: (next: StudyState, expected: number | null) => void;
@@ -94,6 +95,10 @@ export default function App({
   const projection = useMemo(
     () => (savedState ? estimatePlan(savedState, day) : null),
     [savedState, day],
+  );
+  const roadmap = useMemo(
+    () => bankWeeks(problems, projection?.weeks ?? 15),
+    [projection?.weeks],
   );
   const state = useMemo(
     () =>
@@ -728,7 +733,12 @@ export default function App({
           </>
         )}
         {view === "problems" && (
-          <ProblemList state={state} day={day} onSelect={setSelected} />
+          <ProblemList
+            state={state}
+            day={day}
+            onSelect={setSelected}
+            groups={roadmap}
+          />
         )}
         {view === "settings" && (
           <Settings
@@ -750,6 +760,10 @@ export default function App({
         <Session
           key={selected.id}
           problem={selected}
+          planWeek={
+            roadmap.find((g) => g.problems.some((p) => p.id === selected.id))!
+              .week
+          }
           state={state}
           day={day}
           onClose={() => setSelected(null)}
@@ -903,10 +917,12 @@ function ProblemList({
   state,
   day,
   onSelect,
+  groups,
 }: {
   state: StudyState;
   day: string;
   onSelect: (p: Problem) => void;
+  groups: BankWeek[];
 }) {
   const [search, setSearch] = useState("");
   const [difficulty, setDifficulty] = useState("All difficulties");
@@ -929,8 +945,9 @@ function ProblemList({
       <div className="page-heading">
         <h1>A little progress, every week.</h1>
         <p>
-          All 169 problems, in the order you know. Your daily queue balances
-          their effort.
+          All 169 problems in learning order, grouped across your{" "}
+          {groups.length}-week plan by estimated effort. This is your roadmap;
+          Today accounts for reviews and study breaks.
         </p>
       </div>
       <div className="list-tools">
@@ -972,14 +989,16 @@ function ProblemList({
           <p>Try a different search or filter.</p>
         </div>
       )}
-      {Array.from({ length: 15 }, (_, i) => i + 1).map((w) => {
-        const list = filtered.filter((p) => p.week === w);
-        const all = problems.filter((p) => p.week === w);
+      {groups.map(({ week: w, problems: all }) => {
+        const list = all.filter((p) => filtered.includes(p));
         const count = all.filter((p) => state.progress[p.id]).length;
-        return list.length ? (
+        return list.length ||
+          (!search &&
+            difficulty === "All difficulties" &&
+            status === "All problems") ? (
           <details
             className="week-group"
-            key={`${w}-${search}-${difficulty}-${status}`}
+            key={`${groups.length}-${w}-${search}-${difficulty}-${status}`}
             open={
               search ||
               difficulty !== "All difficulties" ||
@@ -996,10 +1015,17 @@ function ProblemList({
               <span className="week-summary">
                 {count}/{all.length}
                 <span className="mini-progress">
-                  <span style={{ width: `${(count / all.length) * 100}%` }} />
+                  <span
+                    style={{
+                      width: `${all.length ? (count / all.length) * 100 : 0}%`,
+                    }}
+                  />
                 </span>
               </span>
             </summary>
+            {all.length === 0 && (
+              <p className="results-count">Review and catch up.</p>
+            )}
             {list.map((p) => (
               <ProblemRow
                 key={p.id}

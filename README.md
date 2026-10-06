@@ -74,3 +74,7 @@ The full 169-problem bank remains in use; selectable smaller lists are a separat
 ## Learning order
 
 All 169 problems use a reviewed prerequisite-aware sequence, preserving the original first 26 already practiced and then introducing missing core patterns before advanced combinations. The full sequence, rationale, and restoration instructions are in [the curriculum review](docs/catalog/learning-order.md). The exact pre-change catalog is saved in [original-problems.json](docs/catalog/original-problems.json). Stable IDs preserve account progress, reviews, notes, morning marks and backups.
+
+## Problem-bank weeks
+
+The bank uses the same plan length as the sidebar: the selected weeks in deadline mode, or the current estimated weeks in time mode. Whole problems are grouped in learning order by cumulative solving estimates (first-pass study is a uniform 2× multiplier), rather than the original catalog's fixed 15-week labels. Grouping happens before search and filters, so a problem keeps its week when filtered. Practice dialogs show that same plan week. These groups are a curriculum roadmap, not scheduled assignments: Today continues to account for actual progress, reviews, breaks, and time overrides. Changing the roadmap never rewrites progress or FSRS dates. Very long plans may have empty groups reserved for review/catch-up.

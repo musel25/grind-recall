@@ -383,12 +383,10 @@ test("morning study survives reload, stays unrated, and evening rating completes
   );
   expect(marked.progress).toEqual(before.progress);
   expect(marked.history).toEqual(before.history);
-  expect(
-    await page
-      .locator(".problem-row")
-      .filter({ hasText: "Balanced Binary Tree" })
-      .count(),
-  ).toBe(1);
+  // Reload first checks the account asynchronously; wait for the restored UI.
+  await expect(
+    page.locator(".problem-row").filter({ hasText: "Balanced Binary Tree" }),
+  ).toHaveCount(1);
   await page
     .getByRole("region", { name: "Practice tonight" })
     .locator(".problem-row")
