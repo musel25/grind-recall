@@ -1,4 +1,6 @@
 import { test, expect } from "@playwright/test";
+import { readFileSync } from "node:fs";
+import type { StudyState, Problem } from "../../src/types";
 test.beforeEach(async ({ page }) => {
   await page.route(/fonts\.(googleapis|gstatic)\.com/, (route) =>
     route.abort(),
@@ -423,4 +425,61 @@ test("morning study survives reload, stays unrated, and evening rating completes
   await expect(
     page.getByRole("region", { name: "Practice tonight" }),
   ).toHaveCount(0);
+});
+
+test("saving a break spreads reviews and syncs stable appointments", async ({
+  page,
+}) => {
+  const problems: Problem[] = JSON.parse(
+    readFileSync(new URL("../../src/problems.json", import.meta.url), "utf8"),
+  );
+  const s: StudyState = {
+    version: 1,
+    revision: 0,
+    settings: {
+      startDate: "2026-10-04",
+      weeks: 15,
+      hours: 10,
+      timezone: "UTC",
+      reviewMultiplier: 1,
+    },
+    progress: {},
+    history: [],
+  };
+  for (const p of problems.slice(0, 19))
+    s.progress[p.id] = {
+      due: "2026-10-08",
+      card: null,
+      imported: true,
+      independent: false,
+      note: "preserve",
+    };
+  await page.goto("./");
+  await page.getByRole("button", { name: "Start from problem one" }).click();
+  await page.getByRole("button", { name: "Settings", exact: true }).click();
+  page.on("dialog", (d) => d.accept());
+  await page.getByLabel("Import backup file").setInputFiles({
+    name: "reviews.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(JSON.stringify(s)),
+  });
+  await page.getByLabel("Break starts").fill("2026-10-08");
+  await page.getByLabel("Break ends").fill("2026-10-12");
+  await page.getByRole("button", { name: "Save study break" }).click();
+  const counts = async () => {
+    const res = await page.request.get("/api/grind/state");
+    const body = await res.json();
+    return [13, 14, 15].map(
+      (n) =>
+        Object.values(body.state?.progress ?? {}).filter(
+          (p: any) => p.due === `2026-10-${n}`,
+        ).length,
+    );
+  };
+  await expect.poll(counts).toEqual([7, 7, 5]);
+  await page.reload();
+  await page.getByRole("button", { name: "Settings", exact: true }).click();
+  await expect(page.getByLabel("Break starts")).toHaveValue("2026-10-08");
+  await page.getByRole("button", { name: "Save study break" }).click();
+  await expect.poll(counts).toEqual([7, 7, 5]);
 });

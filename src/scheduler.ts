@@ -36,6 +36,46 @@ export function reviewDay(day: string, state?: StudyState) {
   while (breaks.has(next)) next = addDays(next, 1);
   return next;
 }
+// A soft count target: never hide overdue work or delay failed retries.
+export const REVIEW_TARGET = 7;
+export function reviewSlot(
+  day: string,
+  state?: StudyState,
+  problemId?: string,
+) {
+  const first = reviewDay(day, state);
+  if (!state) return first;
+  const counts = new Map<string, number>();
+  for (const [id, p] of Object.entries(state.progress)) {
+    if (id === problemId) continue;
+    const date = reviewDay(p.due, state);
+    counts.set(date, (counts.get(date) ?? 0) + 1);
+  }
+  let best = first;
+  let candidate = first;
+  // Fixed three-study-day window, not an unbounded search for an empty day.
+  for (let i = 0; i < 3; i++) {
+    const count = counts.get(candidate) ?? 0;
+    if (count < REVIEW_TARGET) return candidate;
+    if (count < (counts.get(best) ?? 0)) best = candidate;
+    candidate = reviewDay(addDays(candidate, 1), state);
+  }
+  return best;
+}
+export function moveReview(
+  progress: StudyState["progress"][string],
+  due: string,
+) {
+  progress.due = due;
+  if (progress.card) {
+    progress.card.due = due + "T12:00:00.000Z";
+    if (progress.card.last_review)
+      progress.card.scheduled_days = Math.max(
+        0,
+        dayDiff(progress.card.last_review.slice(0, 10), due),
+      );
+  }
+}
 function availableDays(start: string, end: string, state: StudyState) {
   let count = 0;
   const breaks = new Set(state.planning?.breaks ?? []);
@@ -48,6 +88,7 @@ export function nextReview(
   rating: 1 | 2 | 3 | 4,
   day: string,
   state?: StudyState,
+  problemId?: string,
 ) {
   const now = new Date(day + "T12:00:00Z");
   const card = stored
@@ -63,7 +104,11 @@ export function nextReview(
   // Coding practice is day-based. Lapses get a next-study-day retry;
   // stability/difficulty still come from FSRS, not a reset to an empty card.
   const interval = rating === 1 ? 1 : Math.max(1, result.scheduled_days);
-  const due = reviewDay(addDays(day, interval), state);
+  const requested = addDays(day, interval);
+  const due =
+    rating === 1
+      ? reviewDay(requested, state)
+      : reviewSlot(requested, state, problemId);
   result.due = new Date(due + "T12:00:00Z");
   result.scheduled_days = dayDiff(day, due);
   return {

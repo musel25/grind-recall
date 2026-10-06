@@ -25,7 +25,7 @@ export function simulatePace(
         ? Math.round(p.minutes * s.settings.reviewMultiplier)
         : p.minutes * 2;
       s.progress[p.id] = {
-        ...nextReview(previous?.card ?? null, 3, date, s),
+        ...nextReview(previous?.card ?? null, 3, date, s, p.id),
         imported: previous?.imported ?? false,
         note: "",
         independent: true,

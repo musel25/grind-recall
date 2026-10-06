@@ -25,7 +25,7 @@ export function StudyBreak({
         try {
           if (onSave(setStudyBreak(state, start, end)))
             setMessage(
-              "Study break saved. Reviews resume on the next available day.",
+              "Study break saved. Reviews spread across the following study days.",
             );
         } catch (e) {
           setMessage((e as Error).message);
@@ -36,9 +36,11 @@ export function StudyBreak({
         <CalendarOff size={18} /> Planned study break
       </h2>
       <p>
-        No daily assignments on these dates. Reviews move to the next available
-        day. A time-based plan updates its finish estimate; a deadline-based
-        plan adjusts the required study time.
+        No daily assignments on these dates. Reviews aim for seven per day
+        across the first three study days afterward. Failed retries stay on the
+        first day; overdue work can exceed this target. Removing a break keeps
+        assigned review dates. A time-based plan updates its finish estimate; a
+        deadline-based plan adjusts the required study time.
       </p>
       <div className="settings-grid break-inputs">
         <label>

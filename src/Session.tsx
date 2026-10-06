@@ -192,6 +192,7 @@ export function Session({
                     grade,
                     day,
                     state,
+                    p.id,
                   );
                   const days = dayDiff(day, next.due);
                   return (

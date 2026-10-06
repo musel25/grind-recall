@@ -5,6 +5,9 @@ import {
   dailyPlan,
   studyWeek,
   dayDiff,
+  reviewDay,
+  reviewSlot,
+  moveReview,
 } from "./scheduler";
 import type { Problem, StudyState } from "./types";
 export const problems: Problem[] = data;
@@ -51,7 +54,7 @@ export function recordAttempt(
     );
   const s = structuredClone(state);
   const previous = s.progress[id] ?? null;
-  const next = nextReview(previous?.card ?? null, rating, day, state);
+  const next = nextReview(previous?.card ?? null, rating, day, state, id);
   s.progress[id] = {
     ...next,
     imported: previous?.imported ?? false,
@@ -74,8 +77,20 @@ export function undoAttempt(state: StudyState): StudyState {
   const s = structuredClone(state);
   const a = s.history.pop();
   if (!a) return state;
-  if (a.previous) s.progress[a.problemId] = a.previous;
-  else delete s.progress[a.problemId];
+  if (a.previous) {
+    s.progress[a.problemId] = a.previous;
+    if (s.planning?.breaks?.includes(a.previous.due)) {
+      const last = [...s.history]
+        .reverse()
+        .find((h) => h.problemId === a.problemId);
+      moveReview(
+        a.previous,
+        last?.rating === 1
+          ? reviewDay(a.previous.due, s)
+          : reviewSlot(a.previous.due, s, a.problemId),
+      );
+    }
+  } else delete s.progress[a.problemId];
   s.revision++;
   return s;
 }
@@ -155,6 +170,30 @@ export function setStudyBreak(
   next.planning.breaks = [];
   for (let day = start; day <= end; day = addDays(day, 1))
     next.planning.breaks.push(day);
+  if (
+    JSON.stringify(next.planning.breaks) ===
+      JSON.stringify(state.planning?.breaks) &&
+    !Object.values(next.progress).some((p) => p.due >= start && p.due <= end)
+  )
+    return next;
+  const resume = addDays(end, 1);
+  const affected = Object.entries(next.progress).filter(
+    ([, p]) => p.due >= start && p.due <= resume,
+  );
+  const latest = new Map(next.history.map((a) => [a.problemId, a.rating]));
+  affected.sort(
+    ([a, pa], [b, pb]) =>
+      Number(latest.get(b) === 1) - Number(latest.get(a) === 1) ||
+      (pa.card?.stability ?? 0) - (pb.card?.stability ?? 0) ||
+      pa.due.localeCompare(pb.due) ||
+      a.localeCompare(b),
+  );
+  // Reserve unrelated appointments, then allocate each affected card once.
+  for (const [id] of affected) delete next.progress[id];
+  for (const [id, p] of affected) {
+    moveReview(p, latest.get(id) === 1 ? resume : reviewSlot(resume, next, id));
+    next.progress[id] = p;
+  }
   return next;
 }
 
