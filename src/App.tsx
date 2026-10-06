@@ -27,6 +27,7 @@ import {
   recordAttempt,
   undoAttempt,
   addExtraProblem,
+  removeExtraProblem,
   markMorningStudy,
 } from "./model";
 import { addDays, dailyPlan, dayDiff, todayIn, reviewDay } from "./scheduler";
@@ -209,6 +210,10 @@ export default function App({
       </div>
     );
   const plan = dailyPlan(state, day);
+  const lastExtraId = [...(state.planning?.days[day]?.extras ?? [])]
+    .reverse()
+    .find((id) => !state.progress[id] && !state.morningStudy?.[id]);
+  const lastExtra = problems.find((p) => p.id === lastExtraId);
   const finishDate =
     projection!.mode === "time" ? projection!.finish : projection!.target;
   const daysRemaining = finishDate
@@ -610,6 +615,23 @@ export default function App({
                   <Plus size={17} /> Add one more problem
                 </button>
                 <span>Next: {plan.nextExtra.title}</span>
+              </div>
+            )}
+            {lastExtra && (
+              <div className="extra-action">
+                <button
+                  className="text-button"
+                  title={`Remove ${lastExtra.title} from today's extras`}
+                  onClick={() => {
+                    if (commit(removeExtraProblem(state, day, lastExtra.id)))
+                      setToast(
+                        lastExtra.title + " removed from today's extras.",
+                      );
+                  }}
+                >
+                  <RotateCcw size={14} /> Undo last added problem
+                </button>
+                <span>{lastExtra.title}</span>
               </div>
             )}
             {plan.todays.length > 0 && (
