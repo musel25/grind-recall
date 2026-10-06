@@ -1,4 +1,4 @@
-import { validateState } from "./storage";
+import { STORAGE_KEY, validateState } from "./storage";
 import type { StudyState } from "./types";
 export type User = { id: string; email: string };
 export type Snapshot = {
@@ -70,6 +70,92 @@ export class CloudStore {
     return this.data.pending;
   }
   load = () => this.data.state;
+  // Old tabs can keep writing the pre-account key after the first migration.
+  // Compare actual work, not revisions (two independent saves can share one).
+  get legacyRecovery() {
+    const current = this.load();
+    const raw = this.storage.getItem(STORAGE_KEY);
+    if (
+      !current ||
+      !raw ||
+      this.storage.getItem(`${this.key}:skip-legacy`) === "yes" ||
+      this.storage.getItem(`${this.key}:legacy-checked`) === raw
+    )
+      return null;
+    try {
+      const original = validateState(JSON.parse(raw));
+      const missingProblems = Object.keys(original.progress).filter(
+        (id) => !current.progress[id],
+      ).length;
+      const missingAttempts = original.history.filter(
+        (a) => !current.history.some((b) => b.id === a.id),
+      ).length;
+      const missingStudy = Object.entries(original.morningStudy ?? {}).filter(
+        ([id, day]) =>
+          (current.morningStudy?.[id] ?? "") < day &&
+          !current.history.some((a) => a.problemId === id && a.day >= day),
+      ).length;
+      if (!missingProblems && !missingAttempts && !missingStudy) return null;
+      // Restoration is only offered when it cannot discard account attempts,
+      // cards, notes or morning work. Divergent copies need manual reconciliation.
+      const canRestore =
+        current.history.every((a) =>
+          original.history.some((b) => JSON.stringify(a) === JSON.stringify(b)),
+        ) &&
+        Object.entries(current.progress).every(
+          ([id, p]) =>
+            JSON.stringify(p) === JSON.stringify(original.progress[id]),
+        ) &&
+        Object.entries(current.morningStudy ?? {}).every(
+          ([id, day]) => (original.morningStudy?.[id] ?? "") >= day,
+        );
+      return {
+        missingProblems,
+        missingAttempts,
+        missingStudy,
+        canRestore,
+        error: "",
+      };
+    } catch {
+      return {
+        missingProblems: 0,
+        missingAttempts: 0,
+        missingStudy: 0,
+        canRestore: false,
+        error:
+          "The original browser progress could not be read. Export it for recovery.",
+      };
+    }
+  }
+  dismissLegacy() {
+    this.storage.setItem(`${this.key}:skip-legacy`, "yes");
+    this.changed();
+  }
+  restoreLegacy() {
+    if (!this.legacyRecovery?.canRestore)
+      throw Error(
+        "The browser and account copies conflict. Export both before reconciling.",
+      );
+    const original = validateState(
+      JSON.parse(this.storage.getItem(STORAGE_KEY)!),
+    );
+    const current = this.load()!;
+    this.storage.setItem(
+      `${this.key}:recovery:${crypto.randomUUID()}`,
+      JSON.stringify(current),
+    );
+    this.save(
+      {
+        ...original,
+        settings: current.settings,
+        planning: current.planning,
+        revision: Math.max(original.revision, current.revision) + 1,
+      },
+      current.revision,
+    );
+    this.epoch++;
+    this.changed();
+  }
   private current() {
     if (this.storage.getItem(this.key) !== this.raw)
       throw Error("Progress changed in another tab. Reload before saving.");
@@ -169,6 +255,18 @@ export class CloudStore {
             : "Unable to check for updates · Reconnecting automatically";
     } finally {
       this.busy = false;
+      // Remember a fully incorporated original so Undo or an intentional import
+      // does not cause the same old work to be offered for recovery again.
+      if (this.load() && !this.legacyRecovery) {
+        const raw = this.storage.getItem(STORAGE_KEY);
+        if (raw) {
+          try {
+            this.storage.setItem(`${this.key}:legacy-checked`, raw);
+          } catch {
+            /* A failed checkpoint must never hide saved progress. */
+          }
+        }
+      }
       this.changed();
     }
   }

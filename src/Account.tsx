@@ -195,15 +195,18 @@ function SignedIn({
     const timer = setInterval(sync, 5000);
     window.addEventListener("online", sync);
     window.addEventListener("focus", sync);
+    window.addEventListener("storage", sync);
     return () => {
       clearInterval(timer);
       window.removeEventListener("online", sync);
       window.removeEventListener("focus", sync);
+      window.removeEventListener("storage", sync);
       store.changed = () => {};
     };
   }, [store]);
   const migration =
     !store.load() && !skipLegacy && (legacy.state || legacy.error);
+  const recovery = store.legacyRecovery;
   function exportOriginal() {
     const url = URL.createObjectURL(
       new Blob([localStorage.getItem(STORAGE_KEY) ?? ""], {
@@ -225,7 +228,9 @@ function SignedIn({
             <Cloud size={15} />{" "}
             {store.pending && store.busy
               ? "Saving to your account…"
-              : store.status}
+              : recovery
+                ? "Additional browser progress needs recovery"
+                : store.status}
           </span>
         </div>
         <div className="button-row">
@@ -267,6 +272,60 @@ function SignedIn({
             Sign out
           </button>
         </div>
+        {recovery && (
+          <div className="cloud-notice" role="alert">
+            <p>
+              <strong>We found progress outside your account.</strong>
+            </p>
+            <p>
+              {recovery.error ||
+                `${recovery.missingProblems} additional problems, ${recovery.missingAttempts} attempts and ${recovery.missingStudy} morning marks are still in this browser’s original save. Refreshing or syncing does not import them.`}
+            </p>
+            {recovery.canRestore ? (
+              <>
+                <p>
+                  Restore the missing browser progress to this account while
+                  keeping your current plan. Your account copy will be backed up
+                  first. Close any old Grind tabs after recovery.
+                </p>
+                <button
+                  className="button primary"
+                  disabled={store.busy || store.locked || store.conflict}
+                  onClick={() => {
+                    try {
+                      store.restoreLegacy();
+                      void store.sync();
+                    } catch (e) {
+                      setError((e as Error).message);
+                    }
+                  }}
+                >
+                  Restore browser progress to my account
+                </button>
+              </>
+            ) : (
+              <p>
+                The copies differ. Export both copies before combining them;
+                neither has been overwritten.
+              </p>
+            )}
+            <button className="button secondary" onClick={exportOriginal}>
+              Export original browser backup
+            </button>
+            <button
+              className="button secondary"
+              onClick={() => downloadBackup(store.load()!)}
+            >
+              Export account backup
+            </button>
+            <button
+              className="text-button"
+              onClick={() => store.dismissLegacy()}
+            >
+              This browser progress belongs to someone else
+            </button>
+          </div>
+        )}
         {(store.conflict || store.locked) && (
           <div className="cloud-notice" role="alert">
             <p>{store.status}</p>
@@ -327,7 +386,13 @@ function SignedIn({
                   disabled={store.busy}
                   onClick={() => {
                     try {
-                      store.save(legacy.state!, null);
+                      // An older tab may have saved more since this screen opened.
+                      const latest = loadState();
+                      if (!latest)
+                        throw Error(
+                          "Original progress is unavailable. Export the browser backup before continuing.",
+                        );
+                      store.save(latest, null);
                       void store.sync();
                     } catch (e) {
                       setError((e as Error).message);

@@ -136,3 +136,148 @@ test("remote updates wait while a practice or settings draft is open", async () 
   assert.equal(a.load()!.settings.startDate, "2026-10-06");
   assert.equal(a.epoch, 1);
 });
+
+// An old, still-open app writes the original key after account migration.
+// Reload must reveal that work even though the account already has a snapshot.
+import { recordAttempt, problems, undoAttempt } from "../src/model";
+import { STORAGE_KEY } from "../src/storage";
+function practiced(count: number) {
+  let s = initialState("2026-10-05", true);
+  for (const p of problems.slice(10, count))
+    s = recordAttempt(s, p.id, 3, "2026-10-05", 30, "");
+  return s;
+}
+test("18 account problems cannot hide 26 original browser problems after reload", async () => {
+  const t = setup();
+  const original = practiced(26);
+  const older = {
+    ...original,
+    progress: Object.fromEntries(
+      Object.entries(original.progress).slice(0, 18),
+    ),
+    history: original.history.slice(0, 8),
+  };
+  t.replace(older);
+  t.values.set(STORAGE_KEY, JSON.stringify(original));
+  const a = t.make();
+  await a.sync();
+  assert.equal(a.legacyRecovery?.missingProblems, 8);
+  assert.equal(a.legacyRecovery?.canRestore, true);
+  a.restoreLegacy();
+  await a.sync();
+  assert.equal(Object.keys(t.remote().state.progress).length, 26);
+  assert.equal(a.legacyRecovery, null);
+  assert.ok([...t.values.keys()].some((k) => k.includes(":recovery:")));
+  assert.equal(t.values.get(STORAGE_KEY), JSON.stringify(original));
+  const reloaded = t.make();
+  await reloaded.sync();
+  assert.equal(Object.keys(reloaded.load()!.progress).length, 26);
+  // An intentional undo must not resurrect the imported original attempt.
+  reloaded.save(undoAttempt(reloaded.load()!), reloaded.load()!.revision);
+  await reloaded.sync();
+  assert.equal(reloaded.legacyRecovery, null);
+});
+test("detects an old tab saving more work after migration without overwriting either branch", async () => {
+  const t = setup();
+  const a = t.make();
+  const original = practiced(18);
+  t.values.set(STORAGE_KEY, JSON.stringify(original));
+  a.save(original, null);
+  await a.sync();
+  const extra = recordAttempt(
+    original,
+    problems[18].id,
+    3,
+    "2026-10-05",
+    30,
+    "",
+  );
+  t.values.set(STORAGE_KEY, JSON.stringify(extra));
+  await a.sync();
+  assert.equal(a.legacyRecovery?.missingProblems, 1);
+  a.save(
+    recordAttempt(a.load()!, problems[19].id, 3, "2026-10-05", 30, ""),
+    a.load()!.revision,
+  );
+  await a.sync();
+  assert.equal(a.legacyRecovery?.canRestore, false);
+  assert.throws(() => a.restoreLegacy(), /conflict/i);
+  assert.ok(t.remote().state.progress[problems[19].id]);
+  assert.equal(t.values.get(STORAGE_KEY), JSON.stringify(extra));
+});
+test("different people can leave original browser progress out of their account", async () => {
+  const t = setup();
+  t.values.set(STORAGE_KEY, JSON.stringify(practiced(26)));
+  t.replace(initialState("2026-10-05"));
+  const a = t.make();
+  await a.sync();
+  assert.ok(a.legacyRecovery);
+  a.dismissLegacy();
+  await a.sync();
+  assert.equal(a.legacyRecovery, null);
+  assert.deepEqual(t.remote().state.progress, {});
+});
+test("recovery is durable offline and remains pending until the server confirms it", async () => {
+  const t = setup();
+  const original = practiced(18);
+  t.replace(original);
+  t.values.set(
+    STORAGE_KEY,
+    JSON.stringify(
+      recordAttempt(original, problems[18].id, 3, "2026-10-05", 30, ""),
+    ),
+  );
+  const a = t.make();
+  await a.sync();
+  t.online(false);
+  a.restoreLegacy();
+  await a.sync();
+  const reloaded = t.make();
+  assert.equal(Object.keys(reloaded.load()!.progress).length, 19);
+  assert.equal(reloaded.pending, true);
+  t.online(true);
+  await reloaded.sync();
+  assert.equal(Object.keys(t.remote().state.progress).length, 19);
+});
+test("unrated original morning work is detected and corrupt originals are surfaced without replacing account data", async () => {
+  const t = setup();
+  const original = practiced(18);
+  t.replace(original);
+  t.values.set(
+    STORAGE_KEY,
+    JSON.stringify(
+      markMorningStudy(original, problems[18].id, "2026-10-05", true),
+    ),
+  );
+  const a = t.make();
+  await a.sync();
+  assert.equal(a.legacyRecovery?.missingStudy, 1);
+  t.values.set(STORAGE_KEY, "broken json");
+  await a.sync();
+  assert.equal(a.legacyRecovery?.canRestore, false);
+  assert.match(a.legacyRecovery!.error, /could not be read/);
+  assert.deepEqual(a.load(), original);
+});
+test("recovering old-tab attempts preserves newer account settings and planning", async () => {
+  const t = setup();
+  const original = practiced(18);
+  t.values.set(
+    STORAGE_KEY,
+    JSON.stringify(
+      recordAttempt(original, problems[18].id, 3, "2026-10-05", 30, ""),
+    ),
+  );
+  const current = {
+    ...original,
+    settings: { ...original.settings, hours: 7 },
+    planning: { days: {}, weeks: {}, breaks: ["2026-10-20"] },
+  };
+  t.replace(current);
+  const a = t.make();
+  await a.sync();
+  a.restoreLegacy();
+  await a.sync();
+  assert.equal(t.remote().state.settings.hours, 7);
+  assert.deepEqual(t.remote().state.planning.breaks, ["2026-10-20"]);
+  assert.equal(Object.keys(t.remote().state.progress).length, 19);
+});
