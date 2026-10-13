@@ -46,7 +46,12 @@ export type StudyState = {
   morningStudy?: Record<string, string>;
 };
 
-export type DayAdjustment = { minutes?: number; extras: string[] };
+export type DayAdjustment = {
+  minutes?: number;
+  extras: string[];
+  skipped?: string[];
+  skipBudgetMinutes?: number;
+};
 export type Planning = {
   breaks?: string[];
   days: Record<string, DayAdjustment>;

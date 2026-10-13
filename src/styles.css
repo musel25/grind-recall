@@ -1630,6 +1630,7 @@ footer {
 }
 .study-row-footer {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
   align-items: center;
   justify-content: space-between;
@@ -1645,6 +1646,27 @@ footer {
 }
 .evening-section .problem-section-header {
   background: #f1effa;
+}
+.skip-explanation {
+  margin: 14px 22px;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.skipped-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 22px;
+  border-top: 1px solid #edf0f5;
+  font-size: 14px;
+}
+.skipped-row .text-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
 }
 .morning-action {
   margin-top: 18px;

@@ -171,6 +171,7 @@ export function dailyPlan(s: StudyState, day: string) {
   );
   const todays = s.history.filter((a) => a.day === day);
   const doneIds = new Set(todays.map((a) => a.problemId));
+  const skippedIds = new Set(s.planning?.days[day]?.skipped ?? []);
   const newDoneIds = new Set(
     todays.filter((a) => a.wasNew).map((a) => a.problemId),
   );
@@ -217,7 +218,9 @@ export function dailyPlan(s: StudyState, day: string) {
   const week = studyWeek(s, day);
   const budgetMinutes = onBreak
     ? 0
-    : (s.planning?.days[day]?.minutes ?? week.autoMinutes);
+    : (s.planning?.days[day]?.minutes ??
+      s.planning?.days[day]?.skipBudgetMinutes ??
+      week.autoMinutes);
   const extraIds = new Set(s.planning?.days[day]?.extras ?? []);
   // Reconstruct the ordered first-pass candidates at the start of today.
   // This keeps the automatic queue stable when an extra is done first, or
@@ -252,11 +255,22 @@ export function dailyPlan(s: StudyState, day: string) {
   const nextExtra =
     beforeStart || onBreak
       ? undefined
-      : remaining.find((p) => !assignedIds.has(p.id));
-  const newMinutes = newProblems.reduce((sum, p) => sum + p.minutes * 2, 0);
+      : remaining.find((p) => !assignedIds.has(p.id) && !skippedIds.has(p.id));
+  // Allocate the original queue first, then hide explicit skips. Removing them
+  // before budgeting would fill the freed time with unwanted replacement work.
+  const activeNew = newProblems.filter((p) => !skippedIds.has(p.id));
+  const activeReviews = reviews.filter((p) => !skippedIds.has(p.id));
+  const activeReviewMinutes = activeReviews.reduce(
+    (sum, p) => sum + Math.round(p.minutes * s.settings.reviewMultiplier),
+    0,
+  );
+  const newMinutes = activeNew.reduce((sum, p) => sum + p.minutes * 2, 0);
   return {
     end,
-    eveningProblems,
+    eveningProblems: eveningProblems.filter((p) => !skippedIds.has(p.id)),
+    skippedProblems: problems.filter(
+      (p) => skippedIds.has(p.id) && !doneIds.has(p.id),
+    ),
     week,
     budgetMinutes,
     nextExtra,
@@ -267,12 +281,12 @@ export function dailyPlan(s: StudyState, day: string) {
     onBreak,
     studyDaysLeft,
     targetMinutes,
-    newProblems,
-    reviews,
-    reviewMinutes,
+    newProblems: activeNew,
+    reviews: activeReviews,
+    reviewMinutes: activeReviewMinutes,
     newMinutes,
     remainingMinutes,
-    totalMinutes: reviewMinutes + newMinutes,
+    totalMinutes: activeReviewMinutes + newMinutes,
     doneMinutes: todays.reduce((sum, a) => sum + a.minutes, 0),
     todays,
     remainingCount: remaining.length,

@@ -29,6 +29,7 @@ import {
   addExtraProblem,
   removeExtraProblem,
   markMorningStudy,
+  setProblemSkipped,
 } from "./model";
 import { addDays, dailyPlan, dayDiff, todayIn, reviewDay } from "./scheduler";
 import { loadState, saveState, STORAGE_KEY } from "./storage";
@@ -212,7 +213,12 @@ export default function App({
   const plan = dailyPlan(state, day);
   const lastExtraId = [...(state.planning?.days[day]?.extras ?? [])]
     .reverse()
-    .find((id) => !state.progress[id] && !state.morningStudy?.[id]);
+    .find(
+      (id) =>
+        !state.progress[id] &&
+        !state.morningStudy?.[id] &&
+        !state.planning?.days[day]?.skipped?.includes(id),
+    );
   const lastExtra = problems.find((p) => p.id === lastExtraId);
   const finishDate =
     projection!.mode === "time" ? projection!.finish : projection!.target;
@@ -233,6 +239,18 @@ export default function App({
   const readyReviews = plan.reviews.filter((p) => !eveningIds.has(p.id));
   const readyNew = plan.newProblems.filter((p) => !eveningIds.has(p.id));
   const queue = [...readyReviews, ...readyNew, ...plan.eveningProblems];
+  function skipProblem(p: Problem, skipped = true) {
+    try {
+      if (commit(setProblemSkipped(state!, day, p.id, skipped)))
+        setToast(
+          skipped
+            ? `${p.title} skipped today. It stays unfinished for a future study day.`
+            : `${p.title} restored to today.`,
+        );
+    } catch (e) {
+      setError((e as Error).message);
+    }
+  }
   function morningMark(p: Problem, marked: boolean) {
     try {
       if (commit(markMorningStudy(state!, p.id, day, marked))) {
@@ -517,6 +535,7 @@ export default function App({
                 subtitle="Due today and overdue"
                 icon={<Repeat2 size={16} />}
                 items={readyReviews}
+                onSkip={skipProblem}
                 state={state}
                 day={day}
                 onSelect={setSelected}
@@ -529,6 +548,7 @@ export default function App({
                 subtitle="Next in your plan"
                 icon={<BookOpen size={16} />}
                 items={readyNew}
+                onSkip={skipProblem}
                 onMorning={(p) => morningMark(p, true)}
                 state={state}
                 day={day}
@@ -559,6 +579,7 @@ export default function App({
                       <span>
                         Studied {dateLabel(state.morningStudy![p.id])}
                       </span>
+                      <SkipButton p={p} onSkip={skipProblem} />
                       <button
                         className="text-button"
                         aria-label={`Undo morning mark for ${p.title}`}
@@ -571,6 +592,38 @@ export default function App({
                 ))}
               </section>
             )}
+            {plan.skippedProblems.length > 0 && (
+              <section
+                className="problem-section skipped-section"
+                aria-label="Skipped today"
+              >
+                <div className="problem-section-header">
+                  <span>
+                    <CalendarOff size={16} /> Skipped today
+                  </span>
+                  <small>{plan.skippedProblems.length} still unfinished</small>
+                </div>
+                <p className="skip-explanation">
+                  Eligible again {dateLabel(reviewDay(addDays(day, 1), state))}.
+                  Reviews come first; new problems keep their learning order and
+                  fit the day's time budget. Later new work may wait longer.
+                  Nothing is marked complete, and review due dates stay
+                  unchanged.
+                </p>
+                {plan.skippedProblems.map((p) => (
+                  <div className="skipped-row" key={p.id}>
+                    <span>{p.title}</span>
+                    <button
+                      className="text-button"
+                      aria-label={`Restore ${p.title} to today`}
+                      onClick={() => skipProblem(p, false)}
+                    >
+                      <RotateCcw size={14} /> Undo
+                    </button>
+                  </div>
+                ))}
+              </section>
+            )}
             {queue.length === 0 && (
               <div className="empty-state">
                 <CheckCheck size={36} />
@@ -579,16 +632,20 @@ export default function App({
                     ? "Your plan is ready."
                     : plan.onBreak
                       ? "Enjoy your study break."
-                      : "All set for today."}
+                      : plan.skippedProblems.length
+                        ? "That's enough for today."
+                        : "All set for today."}
                 </h2>
                 <p>
                   {plan.beforeStart
                     ? `Your daily assignments begin ${dateLabel(state.settings.startDate)}.`
                     : plan.onBreak
                       ? `Reviews resume ${dateLabel(reviewDay(day, state))}. Your finish estimate accounts for this break.`
-                      : nextDue
-                        ? `Your next review is ${dateLabel(nextDue)}. Add one more problem whenever you feel like it.`
-                        : "Come back tomorrow for your next assignment, or pick an extra problem."}
+                      : plan.skippedProblems.length
+                        ? "Your skipped problems are saved above. Come back next study day, or undo a skip if you have more time."
+                        : nextDue
+                          ? `Your next review is ${dateLabel(nextDue)}. Add one more problem whenever you feel like it.`
+                          : "Come back tomorrow for your next assignment, or pick an extra problem."}
                 </p>
                 <button
                   className="button secondary"
@@ -890,8 +947,10 @@ function ProblemSection({
   onSelect,
   review = false,
   onMorning,
+  onSkip,
 }: {
   onMorning?: (p: Problem) => void;
+  onSkip?: (p: Problem) => void;
   title: string;
   subtitle: string;
   icon: React.ReactNode;
@@ -919,20 +978,41 @@ function ProblemSection({
             onSelect={onSelect}
             review={review}
           />
-          {onMorning && (
+          {(onMorning || onSkip) && (
             <div className="study-row-footer">
-              <button
-                className="text-button"
-                aria-label={`Studied ${p.title} this morning`}
-                onClick={() => onMorning(p)}
-              >
-                <Sun size={14} /> Studied this morning
-              </button>
+              {onMorning && (
+                <button
+                  className="text-button"
+                  aria-label={`Studied ${p.title} this morning`}
+                  onClick={() => onMorning(p)}
+                >
+                  <Sun size={14} /> Studied this morning
+                </button>
+              )}
+              {onSkip && <SkipButton p={p} onSkip={onSkip} />}
             </div>
           )}
         </div>
       ))}
     </section>
+  );
+}
+function SkipButton({
+  p,
+  onSkip,
+}: {
+  p: Problem;
+  onSkip: (p: Problem) => void;
+}) {
+  return (
+    <button
+      className="text-button"
+      aria-label={`Skip ${p.title} today`}
+      title="Skip today without marking complete or adding a replacement"
+      onClick={() => onSkip(p)}
+    >
+      <CalendarOff size={14} /> Not today
+    </button>
   );
 }
 function ProblemList({

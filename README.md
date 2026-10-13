@@ -55,6 +55,12 @@ Use Today → Adjust time for a one-day time budget or current study-week hours 
 
 Timer’s sidebar (Tools → Grind Recall), or More → Grind Recall on mobile, links directly to this app. Navigation uses a full-page link so the separate app loads correctly.
 
+## Skipping individual problems
+
+Use **Not today** beside any unfinished problem in Today, including reviews and morning-study items. It hides just that problem for the current calendar day without filling its slot with another problem. **Skipped today → Undo** restores it. Skips save to your account and backups; they do not log time, mark completion, remove morning-study marks, or change review dates or FSRS memory.
+
+Skipped reviews return on the next study day with their original due dates and may show as overdue. New problems remain in learning order and become eligible again next study day, subject to reviews and the available time budget; they are not all forced into tomorrow. Later new work can consequently move back. Explicit extra additions apply only to their original day. The weekly goal remains unchanged, so unfinished time is redistributed over the remaining study days. The completion estimate recalculates (or deadline mode adjusts the required future budget). While skips remain, today's automatic time budget is held steady so recalculation does not add replacements. Undoing every skip releases that hold, preserving any explicit time override. Adjust time → Use automatic time also releases it.
+
 ## Morning study, evening recall
 
 “Studied this morning” on a new problem row or inside its practice dialog records a date-only marker. It does not create a rating, change FSRS cards/due dates, increase completed counts, or log minutes. Pending work appears once in “Practice tonight”, persists across reloads/backups, and carries forward until rated or unmarked (hidden during study breaks). The evening attempt records the combined study/practice time once. Rating resolves the marker via history; Undo last attempt restores the pending item. Existing backups without morning markers remain valid.

@@ -113,6 +113,7 @@ export function setDayMinutes(
     throw new Error("Choose between 0 and 1440 minutes.");
   const next = mutablePlan(state);
   const adjustment = (next.planning.days[day] ??= { extras: [] });
+  delete adjustment.skipBudgetMinutes;
   if (minutes === null) delete adjustment.minutes;
   else adjustment.minutes = minutes;
   return next;
@@ -145,6 +146,33 @@ export function removeExtraProblem(
   const next = mutablePlan(state);
   const adjustment = next.planning.days[day];
   if (adjustment) adjustment.extras = adjustment.extras.filter((p) => p !== id);
+  return next;
+}
+
+export function setProblemSkipped(
+  state: StudyState,
+  day: string,
+  id: string,
+  skipped: boolean,
+): StudyState {
+  if (!problems.some((p) => p.id === id)) throw new Error("Unknown problem.");
+  const existing = state.planning?.days[day]?.skipped ?? [];
+  if (existing.includes(id) === skipped) return state;
+  const plan = dailyPlan(state, day);
+  if (
+    skipped &&
+    ![...plan.reviews, ...plan.newProblems].some((p) => p.id === id)
+  )
+    throw new Error("Only unfinished problems in today's list can be skipped.");
+  const next = mutablePlan(state);
+  const adjustment = (next.planning.days[day] ??= { extras: [] });
+  // Keep deadline-mode budget recalculation from replacing skipped work today.
+  if (skipped && adjustment.minutes === undefined)
+    adjustment.skipBudgetMinutes ??= plan.budgetMinutes;
+  adjustment.skipped = skipped
+    ? [...existing, id]
+    : existing.filter((item) => item !== id);
+  if (adjustment.skipped.length === 0) delete adjustment.skipBudgetMinutes;
   return next;
 }
 

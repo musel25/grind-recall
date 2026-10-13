@@ -104,10 +104,18 @@ export function validateState(input: unknown): StudyState {
         (entry.minutes !== undefined &&
           (!numeric(entry.minutes, 0, 1440) ||
             !Number.isInteger(entry.minutes))) ||
+        (entry.skipBudgetMinutes !== undefined &&
+          (!numeric(entry.skipBudgetMinutes, 0, 1440) ||
+            !Number.isInteger(entry.skipBudgetMinutes))) ||
         !Array.isArray(entry.extras) ||
         entry.extras.length > 169 ||
         new Set(entry.extras).size !== entry.extras.length ||
-        entry.extras.some((id) => !ids.has(id))
+        entry.extras.some((id) => !ids.has(id)) ||
+        (entry.skipped !== undefined &&
+          (!Array.isArray(entry.skipped) ||
+            entry.skipped.length > 169 ||
+            new Set(entry.skipped).size !== entry.skipped.length ||
+            entry.skipped.some((id) => !ids.has(id))))
       )
         return fail();
     }
