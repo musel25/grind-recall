@@ -47,7 +47,7 @@ test("daily time and weekly overrides affect assignments without changing review
       dailyPlan(base, day).newProblems.length,
   );
   assert.deepEqual(more.progress, base.progress);
-  assert.equal(dailyPlan(more, "2026-10-05").budgetMinutes, 100);
+  assert.equal(dailyPlan(more, "2026-10-05").budgetMinutes, 86);
   const busier = setWeekHours(base, day, 20);
   assert.equal(studyWeek(busier, day).goalMinutes, 1200);
   assert.ok(
@@ -67,16 +67,17 @@ test("review-heavy or zero-time days keep reviews visible and permit explicit ex
   assert.equal(dailyPlan(s, "2026-10-05").reviews.length, 2);
 });
 test("extra practice reduces the automatic remaining-week budget and new week resets it", () => {
+  const day = "2026-10-05";
   const base = initialState(day);
   let s = setDayMinutes(base, day, 180);
   for (const p of dailyPlan(s, day).newProblems)
     s = recordAttempt(s, p.id, 3, day, p.minutes * 2, "");
   assert.ok(
-    studyWeek(s, "2026-10-05").autoMinutes <
-      studyWeek(base, "2026-10-05").autoMinutes,
+    studyWeek(s, "2026-10-06").autoMinutes <
+      studyWeek(base, "2026-10-06").autoMinutes,
   );
-  assert.equal(studyWeek(s, "2026-10-11").autoMinutes, 86);
-  assert.equal(studyWeek(s, "2026-10-11").doneMinutes, 0);
+  assert.equal(studyWeek(s, "2026-10-12").autoMinutes, 86);
+  assert.equal(studyWeek(s, "2026-10-12").doneMinutes, 0);
 });
 test("finished queue stays finished including extras, and another click adds exactly one", () => {
   let s = addExtraProblem(initialState(day, true), day);

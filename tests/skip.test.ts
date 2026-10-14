@@ -133,7 +133,7 @@ test("undoing all skips restores automatic budgeting but preserves explicit time
   s = skip(s, second.id, false);
   assert.equal(
     dailyPlan(model.setWeekHours(s, day, 20), day).budgetMinutes,
-    172,
+    200,
   );
   let explicit = model.setDayMinutes(base, day, 120);
   explicit = skip(skip(explicit, first.id), first.id, false);

@@ -126,9 +126,10 @@ export function setWeekHours(
   if (hours !== null && (!Number.isFinite(hours) || hours < 0 || hours > 80))
     throw new Error("Choose between 0 and 80 hours.");
   const next = mutablePlan(state);
-  const key = studyWeek(state, day).start;
-  if (hours === null) delete next.planning.weeks[key];
-  else next.planning.weeks[key] = hours;
+  const { start, end } = studyWeek(state, day);
+  for (const key of Object.keys(next.planning.weeks))
+    if (key >= start && key <= end) delete next.planning.weeks[key];
+  if (hours !== null) next.planning.weeks[start] = hours;
   return next;
 }
 export function addExtraProblem(state: StudyState, day: string): StudyState {

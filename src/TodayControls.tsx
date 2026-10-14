@@ -26,13 +26,23 @@ export function TodayControls({
       <div className="time-overview">
         <span>
           <Clock3 size={16} />
-          <strong>{duration(plan.budgetMinutes)}</strong> available today
+          <strong>{duration(plan.budgetMinutes)}</strong> today's budget
         </span>
         <span>
           {duration(plan.week.doneMinutes)} / {duration(plan.week.goalMinutes)}{" "}
           this week
         </span>
       </div>
+      <p>
+        {duration(Math.ceil((state.settings.hours * 60) / 7))}/day on average.
+        Today's budget spreads the remaining weekly goal over remaining study
+        days, accounting for breaks. It includes time already practiced today.
+        {state.planning?.days[day]?.minutes !== undefined
+          ? " You have a custom time budget for today."
+          : state.planning?.days[day]?.skipBudgetMinutes !== undefined
+            ? " Today's budget is held steady after skipping a problem."
+            : ""}
+      </p>
       <details>
         <summary>
           <SlidersHorizontal size={14} /> Adjust time
@@ -101,9 +111,10 @@ export function TodayControls({
             </label>
           </div>
           <p>
-            Week of {dateLabel(plan.week.start)}–{dateLabel(plan.week.end)}.
-            Extra time counts toward this week; tomorrow uses the remaining
-            goal. Due reviews stay visible even if they exceed your time.
+            Monday–Sunday: {dateLabel(plan.week.start)}–
+            {dateLabel(plan.week.end)}. Extra time counts toward this week;
+            tomorrow uses the remaining goal. Due reviews stay visible even if
+            they exceed your time.
           </p>
           <button className="button primary" type="submit">
             Update this plan

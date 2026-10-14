@@ -121,18 +121,28 @@ export function nextReview(
   };
 }
 export function studyWeek(s: StudyState, day: string) {
-  const index = Math.max(0, Math.floor(dayDiff(s.settings.startDate, day) / 7));
-  const start = addDays(s.settings.startDate, index * 7);
+  const weekday = new Date(day + "T12:00:00Z").getUTCDay();
+  const start = addDays(day, -((weekday + 6) % 7));
   const end = addDays(start, 6);
-  const goalMinutes = Math.round(
-    (s.planning?.weeks[start] ?? s.settings.hours) * 60,
-  );
+  const index = Math.max(0, Math.floor(dayDiff(s.settings.startDate, day) / 7));
+  // Older overrides used the plan's weekday. Keep them in the calendar
+  // week containing their key, with an explicit Monday override taking priority.
+  const overrides = s.planning?.weeks ?? {};
+  const legacyKey = Object.keys(overrides)
+    .sort()
+    .find((key) => key >= start && key <= end);
+  const hours =
+    overrides[start] ?? (legacyKey ? overrides[legacyKey] : undefined);
+  const activeStart =
+    s.settings.startDate > start ? s.settings.startDate : start;
+  const fraction = Math.max(0, Math.min(7, dayDiff(activeStart, end) + 1)) / 7;
+  const goalMinutes = Math.round((hours ?? s.settings.hours * fraction) * 60);
   const attempts = s.history.filter((a) => a.day >= start && a.day <= end);
   const doneMinutes = attempts.reduce((n, a) => n + a.minutes, 0);
   const beforeToday = attempts
     .filter((a) => a.day < day)
     .reduce((n, a) => n + a.minutes, 0);
-  const daysLeft = availableDays(day < start ? start : day, end, s);
+  const daysLeft = availableDays(day < activeStart ? activeStart : day, end, s);
   // Today's completed time must not shrink today's assignment while doing it.
   const autoMinutes = Math.min(
     1440,

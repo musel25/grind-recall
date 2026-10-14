@@ -34,7 +34,8 @@ test("Thursday through Sunday is free; four imported reviews resume Monday", () 
     ).length,
     4,
   );
-  assert.equal(studyWeek(s, day).autoMinutes, 150); // 600 / four available days
+  assert.equal(studyWeek(s, day).autoMinutes, 86); // Prorated first Sunday.
+  assert.equal(studyWeek(s, "2026-10-05").autoMinutes, 200); // 600 / Mon–Wed.
   assert.equal(s.settings.weeks, 15);
   assert.equal(dailyPlan(s, day).end, "2027-01-16");
   assert.deepEqual(original.history, s.history);
