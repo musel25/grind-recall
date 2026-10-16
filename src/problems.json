@@ -97,13 +97,26 @@
     "bloomberg": true
   },
   {
+    "id": "best-time-to-buy-and-sell-stock-ii",
+    "title": "Best Time to Buy and Sell Stock II",
+    "url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii",
+    "difficulty": "Medium",
+    "minutes": 30,
+    "week": 0,
+    "order": 9,
+    "stage": "Array and hash-table foundations",
+    "core": false,
+    "bloomberg": true,
+    "estimatedMinutes": true
+  },
+  {
     "title": "Maximum Subarray",
     "url": "https://leetcode.com/problems/maximum-subarray",
     "week": 3,
     "difficulty": "Medium",
     "minutes": 20,
     "id": "maximum-subarray",
-    "order": 9,
+    "order": 10,
     "stage": "Array and hash-table foundations",
     "core": true,
     "bloomberg": false
@@ -115,7 +128,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "group-anagrams",
-    "order": 10,
+    "order": 11,
     "stage": "Array and hash-table foundations",
     "core": false,
     "bloomberg": true
@@ -127,7 +140,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "product-of-array-except-self",
-    "order": 11,
+    "order": 12,
     "stage": "Array and hash-table foundations",
     "core": true,
     "bloomberg": false
@@ -139,7 +152,7 @@
     "difficulty": "Medium",
     "minutes": 35,
     "id": "subarray-sum-equals-k",
-    "order": 12,
+    "order": 13,
     "stage": "Array and hash-table foundations",
     "core": false,
     "bloomberg": false
@@ -151,7 +164,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "contiguous-array",
-    "order": 13,
+    "order": 14,
     "stage": "Array and hash-table foundations",
     "core": false,
     "bloomberg": false
@@ -163,7 +176,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "longest-consecutive-sequence",
-    "order": 14,
+    "order": 15,
     "stage": "Array and hash-table foundations",
     "core": false,
     "bloomberg": true
@@ -175,7 +188,7 @@
     "difficulty": "Easy",
     "minutes": 15,
     "id": "valid-palindrome",
-    "order": 15,
+    "order": 16,
     "stage": "Pointers and sliding windows",
     "core": true,
     "bloomberg": false
@@ -187,7 +200,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "id": "move-zeroes",
-    "order": 16,
+    "order": 17,
     "stage": "Pointers and sliding windows",
     "core": false,
     "bloomberg": false
@@ -199,7 +212,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "id": "squares-of-a-sorted-array",
-    "order": 17,
+    "order": 18,
     "stage": "Pointers and sliding windows",
     "core": false,
     "bloomberg": false
@@ -211,7 +224,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "week": 0,
-    "order": 18,
+    "order": 19,
     "stage": "Pointers and sliding windows",
     "core": false,
     "bloomberg": true,
@@ -224,7 +237,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "week": 0,
-    "order": 19,
+    "order": 20,
     "stage": "Pointers and sliding windows",
     "core": false,
     "bloomberg": true,
@@ -237,7 +250,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "longest-substring-without-repeating-characters",
-    "order": 20,
+    "order": 21,
     "stage": "Pointers and sliding windows",
     "core": true,
     "bloomberg": true
@@ -249,7 +262,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "longest-repeating-character-replacement",
-    "order": 21,
+    "order": 22,
     "stage": "Pointers and sliding windows",
     "core": false,
     "bloomberg": false
@@ -261,7 +274,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "find-all-anagrams-in-a-string",
-    "order": 22,
+    "order": 23,
     "stage": "Pointers and sliding windows",
     "core": true,
     "bloomberg": false
@@ -273,7 +286,7 @@
     "difficulty": "Medium",
     "minutes": 35,
     "id": "container-with-most-water",
-    "order": 23,
+    "order": 24,
     "stage": "Pointers and sliding windows",
     "core": true,
     "bloomberg": true
@@ -285,7 +298,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "3sum",
-    "order": 24,
+    "order": 25,
     "stage": "Pointers and sliding windows",
     "core": true,
     "bloomberg": true
@@ -297,7 +310,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "3sum-closest",
-    "order": 25,
+    "order": 26,
     "stage": "Pointers and sliding windows",
     "core": false,
     "bloomberg": true
@@ -309,7 +322,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "week": 0,
-    "order": 26,
+    "order": 27,
     "stage": "Pointers and sliding windows",
     "core": false,
     "bloomberg": true,
@@ -322,7 +335,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "sort-colors",
-    "order": 27,
+    "order": 28,
     "stage": "Pointers and sliding windows",
     "core": true,
     "bloomberg": false
@@ -334,7 +347,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "id": "reverse-linked-list",
-    "order": 28,
+    "order": 29,
     "stage": "Linked-list and stack foundations",
     "core": true,
     "bloomberg": false
@@ -346,7 +359,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "id": "merge-two-sorted-lists",
-    "order": 29,
+    "order": 30,
     "stage": "Linked-list and stack foundations",
     "core": true,
     "bloomberg": true
@@ -358,7 +371,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "id": "middle-of-the-linked-list",
-    "order": 30,
+    "order": 31,
     "stage": "Linked-list and stack foundations",
     "core": true,
     "bloomberg": false
@@ -370,7 +383,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "id": "linked-list-cycle",
-    "order": 31,
+    "order": 32,
     "stage": "Linked-list and stack foundations",
     "core": true,
     "bloomberg": false
@@ -382,7 +395,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "week": 0,
-    "order": 32,
+    "order": 33,
     "stage": "Linked-list and stack foundations",
     "core": false,
     "bloomberg": true,
@@ -395,7 +408,7 @@
     "difficulty": "Medium",
     "minutes": 20,
     "id": "remove-nth-node-from-end-of-list",
-    "order": 33,
+    "order": 34,
     "stage": "Linked-list and stack foundations",
     "core": false,
     "bloomberg": false
@@ -407,10 +420,47 @@
     "difficulty": "Easy",
     "minutes": 20,
     "id": "palindrome-linked-list",
-    "order": 34,
+    "order": 35,
     "stage": "Linked-list and stack foundations",
     "core": false,
     "bloomberg": false
+  },
+  {
+    "title": "Add Two Numbers",
+    "url": "https://leetcode.com/problems/add-two-numbers",
+    "week": 10,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "add-two-numbers",
+    "order": 36,
+    "stage": "Linked-list and stack foundations",
+    "core": false,
+    "bloomberg": true
+  },
+  {
+    "id": "reverse-linked-list-ii",
+    "title": "Reverse Linked List II",
+    "url": "https://leetcode.com/problems/reverse-linked-list-ii",
+    "difficulty": "Medium",
+    "minutes": 30,
+    "week": 0,
+    "order": 37,
+    "stage": "Linked-list and stack foundations",
+    "core": false,
+    "bloomberg": true,
+    "estimatedMinutes": true
+  },
+  {
+    "title": "Reorder List",
+    "url": "https://leetcode.com/problems/reorder-list",
+    "week": 12,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "reorder-list",
+    "order": 38,
+    "stage": "Linked-list and stack foundations",
+    "core": false,
+    "bloomberg": true
   },
   {
     "title": "Valid Parentheses",
@@ -419,7 +469,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "id": "valid-parentheses",
-    "order": 35,
+    "order": 39,
     "stage": "Linked-list and stack foundations",
     "core": true,
     "bloomberg": false
@@ -431,7 +481,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "id": "implement-queue-using-stacks",
-    "order": 36,
+    "order": 40,
     "stage": "Linked-list and stack foundations",
     "core": true,
     "bloomberg": false
@@ -443,7 +493,7 @@
     "difficulty": "Medium",
     "minutes": 20,
     "id": "min-stack",
-    "order": 37,
+    "order": 41,
     "stage": "Linked-list and stack foundations",
     "core": true,
     "bloomberg": false
@@ -455,7 +505,7 @@
     "difficulty": "Easy",
     "minutes": 15,
     "id": "backspace-string-compare",
-    "order": 38,
+    "order": 42,
     "stage": "Linked-list and stack foundations",
     "core": false,
     "bloomberg": false
@@ -467,7 +517,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "evaluate-reverse-polish-notation",
-    "order": 39,
+    "order": 43,
     "stage": "Linked-list and stack foundations",
     "core": true,
     "bloomberg": false
@@ -479,11 +529,23 @@
     "difficulty": "Medium",
     "minutes": 30,
     "week": 0,
-    "order": 40,
+    "order": 44,
     "stage": "Linked-list and stack foundations",
     "core": false,
     "bloomberg": true,
     "estimatedMinutes": true
+  },
+  {
+    "title": "Decode String",
+    "url": "https://leetcode.com/problems/decode-string",
+    "week": 9,
+    "difficulty": "Medium",
+    "minutes": 30,
+    "id": "decode-string",
+    "order": 45,
+    "stage": "Linked-list and stack foundations",
+    "core": false,
+    "bloomberg": true
   },
   {
     "title": "Binary Search",
@@ -492,7 +554,7 @@
     "difficulty": "Easy",
     "minutes": 15,
     "id": "binary-search",
-    "order": 41,
+    "order": 46,
     "stage": "Binary search and intervals",
     "core": true,
     "bloomberg": false
@@ -504,7 +566,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "id": "first-bad-version",
-    "order": 42,
+    "order": 47,
     "stage": "Binary search and intervals",
     "core": true,
     "bloomberg": false
@@ -516,7 +578,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "search-a-2d-matrix",
-    "order": 43,
+    "order": 48,
     "stage": "Binary search and intervals",
     "core": false,
     "bloomberg": false
@@ -528,7 +590,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "find-minimum-in-rotated-sorted-array",
-    "order": 44,
+    "order": 49,
     "stage": "Binary search and intervals",
     "core": false,
     "bloomberg": false
@@ -540,7 +602,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "search-in-rotated-sorted-array",
-    "order": 45,
+    "order": 50,
     "stage": "Binary search and intervals",
     "core": true,
     "bloomberg": false
@@ -552,7 +614,7 @@
     "difficulty": "Medium",
     "minutes": 35,
     "id": "time-based-key-value-store",
-    "order": 46,
+    "order": 51,
     "stage": "Binary search and intervals",
     "core": true,
     "bloomberg": false
@@ -564,7 +626,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "find-k-closest-elements",
-    "order": 47,
+    "order": 52,
     "stage": "Binary search and intervals",
     "core": false,
     "bloomberg": true
@@ -576,7 +638,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "random-pick-with-weight",
-    "order": 48,
+    "order": 53,
     "stage": "Binary search and intervals",
     "core": false,
     "bloomberg": false
@@ -588,7 +650,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "id": "meeting-rooms",
-    "order": 49,
+    "order": 54,
     "stage": "Binary search and intervals",
     "core": false,
     "bloomberg": false
@@ -600,7 +662,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "merge-intervals",
-    "order": 50,
+    "order": 55,
     "stage": "Binary search and intervals",
     "core": true,
     "bloomberg": true
@@ -612,7 +674,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "insert-interval",
-    "order": 51,
+    "order": 56,
     "stage": "Binary search and intervals",
     "core": true,
     "bloomberg": false
@@ -624,7 +686,7 @@
     "difficulty": "Medium",
     "minutes": 20,
     "id": "non-overlapping-intervals",
-    "order": 52,
+    "order": 57,
     "stage": "Binary search and intervals",
     "core": false,
     "bloomberg": false
@@ -636,7 +698,7 @@
     "difficulty": "Easy",
     "minutes": 15,
     "id": "maximum-depth-of-binary-tree",
-    "order": 53,
+    "order": 58,
     "stage": "Tree traversal and recursive invariants",
     "core": true,
     "bloomberg": true
@@ -648,7 +710,7 @@
     "difficulty": "Easy",
     "minutes": 15,
     "id": "invert-binary-tree",
-    "order": 54,
+    "order": 59,
     "stage": "Tree traversal and recursive invariants",
     "core": true,
     "bloomberg": false
@@ -660,7 +722,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "id": "same-tree",
-    "order": 55,
+    "order": 60,
     "stage": "Tree traversal and recursive invariants",
     "core": false,
     "bloomberg": false
@@ -672,7 +734,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "id": "symmetric-tree",
-    "order": 56,
+    "order": 61,
     "stage": "Tree traversal and recursive invariants",
     "core": false,
     "bloomberg": false
@@ -684,7 +746,7 @@
     "difficulty": "Easy",
     "minutes": 15,
     "id": "balanced-binary-tree",
-    "order": 57,
+    "order": 62,
     "stage": "Tree traversal and recursive invariants",
     "core": true,
     "bloomberg": false
@@ -696,7 +758,7 @@
     "difficulty": "Easy",
     "minutes": 30,
     "id": "diameter-of-binary-tree",
-    "order": 58,
+    "order": 63,
     "stage": "Tree traversal and recursive invariants",
     "core": true,
     "bloomberg": false
@@ -708,7 +770,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "id": "subtree-of-another-tree",
-    "order": 59,
+    "order": 64,
     "stage": "Tree traversal and recursive invariants",
     "core": false,
     "bloomberg": false
@@ -720,7 +782,7 @@
     "difficulty": "Medium",
     "minutes": 20,
     "id": "binary-tree-level-order-traversal",
-    "order": 60,
+    "order": 65,
     "stage": "Tree traversal and recursive invariants",
     "core": true,
     "bloomberg": false
@@ -732,7 +794,7 @@
     "difficulty": "Medium",
     "minutes": 20,
     "id": "binary-tree-right-side-view",
-    "order": 61,
+    "order": 66,
     "stage": "Tree traversal and recursive invariants",
     "core": true,
     "bloomberg": false
@@ -744,7 +806,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "binary-tree-zigzag-level-order-traversal",
-    "order": 62,
+    "order": 67,
     "stage": "Tree traversal and recursive invariants",
     "core": false,
     "bloomberg": false
@@ -756,7 +818,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "week": 0,
-    "order": 63,
+    "order": 68,
     "stage": "Tree traversal and recursive invariants",
     "core": false,
     "bloomberg": true,
@@ -769,7 +831,7 @@
     "difficulty": "Medium",
     "minutes": 20,
     "id": "maximum-width-of-binary-tree",
-    "order": 64,
+    "order": 69,
     "stage": "Tree traversal and recursive invariants",
     "core": false,
     "bloomberg": false
@@ -781,7 +843,7 @@
     "difficulty": "Medium",
     "minutes": 20,
     "id": "validate-binary-search-tree",
-    "order": 65,
+    "order": 70,
     "stage": "Tree traversal and recursive invariants",
     "core": true,
     "bloomberg": false
@@ -793,7 +855,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "kth-smallest-element-in-a-bst",
-    "order": 66,
+    "order": 71,
     "stage": "Tree traversal and recursive invariants",
     "core": true,
     "bloomberg": false
@@ -805,7 +867,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "id": "lowest-common-ancestor-of-a-binary-search-tree",
-    "order": 67,
+    "order": 72,
     "stage": "Tree traversal and recursive invariants",
     "core": true,
     "bloomberg": false
@@ -817,7 +879,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "inorder-successor-in-bst",
-    "order": 68,
+    "order": 73,
     "stage": "Tree traversal and recursive invariants",
     "core": false,
     "bloomberg": false
@@ -829,7 +891,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "id": "convert-sorted-array-to-binary-search-tree",
-    "order": 69,
+    "order": 74,
     "stage": "Tree traversal and recursive invariants",
     "core": false,
     "bloomberg": false
@@ -841,8 +903,32 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "lowest-common-ancestor-of-a-binary-tree",
-    "order": 70,
+    "order": 75,
     "stage": "Tree traversal and recursive invariants",
+    "core": true,
+    "bloomberg": false
+  },
+  {
+    "title": "Construct Binary Tree from Preorder and Inorder Traversal",
+    "url": "https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal",
+    "week": 6,
+    "difficulty": "Medium",
+    "minutes": 25,
+    "id": "construct-binary-tree-from-preorder-and-inorder-traversal",
+    "order": 76,
+    "stage": "Tree traversal and recursive invariants",
+    "core": true,
+    "bloomberg": false
+  },
+  {
+    "title": "Minimum Window Substring",
+    "url": "https://leetcode.com/problems/minimum-window-substring",
+    "week": 13,
+    "difficulty": "Hard",
+    "minutes": 30,
+    "id": "minimum-window-substring",
+    "order": 77,
+    "stage": "Sliding-window checkpoint",
     "core": true,
     "bloomberg": false
   },
@@ -853,7 +939,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "id": "flood-fill",
-    "order": 71,
+    "order": 78,
     "stage": "Graph traversal and breadth-first search",
     "core": true,
     "bloomberg": false
@@ -865,7 +951,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "number-of-islands",
-    "order": 72,
+    "order": 79,
     "stage": "Graph traversal and breadth-first search",
     "core": true,
     "bloomberg": true
@@ -877,7 +963,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "clone-graph",
-    "order": 73,
+    "order": 80,
     "stage": "Graph traversal and breadth-first search",
     "core": true,
     "bloomberg": false
@@ -889,7 +975,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "rotting-oranges",
-    "order": 74,
+    "order": 81,
     "stage": "Graph traversal and breadth-first search",
     "core": true,
     "bloomberg": false
@@ -901,7 +987,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "01-matrix",
-    "order": 75,
+    "order": 82,
     "stage": "Graph traversal and breadth-first search",
     "core": true,
     "bloomberg": false
@@ -913,7 +999,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "shortest-path-to-get-food",
-    "order": 76,
+    "order": 83,
     "stage": "Graph traversal and breadth-first search",
     "core": false,
     "bloomberg": false
@@ -925,7 +1011,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "week": 0,
-    "order": 77,
+    "order": 84,
     "stage": "Dynamic programming foundations",
     "core": false,
     "bloomberg": true,
@@ -938,7 +1024,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "id": "climbing-stairs",
-    "order": 78,
+    "order": 85,
     "stage": "Dynamic programming foundations",
     "core": true,
     "bloomberg": true
@@ -950,7 +1036,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "house-robber",
-    "order": 79,
+    "order": 86,
     "stage": "Dynamic programming foundations",
     "core": false,
     "bloomberg": true
@@ -962,7 +1048,7 @@
     "difficulty": "Medium",
     "minutes": 20,
     "id": "unique-paths",
-    "order": 80,
+    "order": 87,
     "stage": "Dynamic programming foundations",
     "core": true,
     "bloomberg": false
@@ -974,7 +1060,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "coin-change",
-    "order": 81,
+    "order": 88,
     "stage": "Dynamic programming foundations",
     "core": true,
     "bloomberg": false
@@ -986,7 +1072,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "decode-ways",
-    "order": 82,
+    "order": 89,
     "stage": "Dynamic programming foundations",
     "core": false,
     "bloomberg": false
@@ -998,7 +1084,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "subsets",
-    "order": 83,
+    "order": 90,
     "stage": "Backtracking and prefix trees",
     "core": true,
     "bloomberg": true
@@ -1010,7 +1096,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "permutations",
-    "order": 84,
+    "order": 91,
     "stage": "Backtracking and prefix trees",
     "core": true,
     "bloomberg": true
@@ -1022,7 +1108,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "letter-combinations-of-a-phone-number",
-    "order": 85,
+    "order": 92,
     "stage": "Backtracking and prefix trees",
     "core": true,
     "bloomberg": false
@@ -1034,7 +1120,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "combination-sum",
-    "order": 86,
+    "order": 93,
     "stage": "Backtracking and prefix trees",
     "core": true,
     "bloomberg": true
@@ -1046,7 +1132,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "generate-parentheses",
-    "order": 87,
+    "order": 94,
     "stage": "Backtracking and prefix trees",
     "core": false,
     "bloomberg": false
@@ -1058,7 +1144,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "word-search",
-    "order": 88,
+    "order": 95,
     "stage": "Backtracking and prefix trees",
     "core": true,
     "bloomberg": false
@@ -1070,7 +1156,7 @@
     "difficulty": "Medium",
     "minutes": 35,
     "id": "implement-trie-prefix-tree",
-    "order": 89,
+    "order": 96,
     "stage": "Backtracking and prefix trees",
     "core": true,
     "bloomberg": false
@@ -1082,7 +1168,7 @@
     "difficulty": "Medium",
     "minutes": 35,
     "id": "design-add-and-search-words-data-structure",
-    "order": 90,
+    "order": 97,
     "stage": "Backtracking and prefix trees",
     "core": false,
     "bloomberg": false
@@ -1094,7 +1180,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "k-closest-points-to-origin",
-    "order": 91,
+    "order": 98,
     "stage": "Heaps and pointer-based design",
     "core": true,
     "bloomberg": false
@@ -1106,7 +1192,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "top-k-frequent-words",
-    "order": 92,
+    "order": 99,
     "stage": "Heaps and pointer-based design",
     "core": false,
     "bloomberg": false
@@ -1118,9 +1204,33 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "kth-largest-element-in-an-array",
-    "order": 93,
+    "order": 100,
     "stage": "Heaps and pointer-based design",
     "core": false,
+    "bloomberg": false
+  },
+  {
+    "title": "Merge k Sorted Lists",
+    "url": "https://leetcode.com/problems/merge-k-sorted-lists",
+    "week": 14,
+    "difficulty": "Hard",
+    "minutes": 30,
+    "id": "merge-k-sorted-lists",
+    "order": 101,
+    "stage": "Heap applications: merging and streaming",
+    "core": true,
+    "bloomberg": false
+  },
+  {
+    "title": "Find Median from Data Stream",
+    "url": "https://leetcode.com/problems/find-median-from-data-stream",
+    "week": 13,
+    "difficulty": "Hard",
+    "minutes": 30,
+    "id": "find-median-from-data-stream",
+    "order": 102,
+    "stage": "Heap applications: merging and streaming",
+    "core": true,
     "bloomberg": false
   },
   {
@@ -1130,47 +1240,10 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "meeting-rooms-ii",
-    "order": 94,
+    "order": 103,
     "stage": "Heaps and pointer-based design",
     "core": false,
     "bloomberg": false
-  },
-  {
-    "title": "Add Two Numbers",
-    "url": "https://leetcode.com/problems/add-two-numbers",
-    "week": 10,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "add-two-numbers",
-    "order": 95,
-    "stage": "Heaps and pointer-based design",
-    "core": false,
-    "bloomberg": true
-  },
-  {
-    "id": "reverse-linked-list-ii",
-    "title": "Reverse Linked List II",
-    "url": "https://leetcode.com/problems/reverse-linked-list-ii",
-    "difficulty": "Medium",
-    "minutes": 30,
-    "week": 0,
-    "order": 96,
-    "stage": "Heaps and pointer-based design",
-    "core": false,
-    "bloomberg": true,
-    "estimatedMinutes": true
-  },
-  {
-    "title": "Reorder List",
-    "url": "https://leetcode.com/problems/reorder-list",
-    "week": 12,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "reorder-list",
-    "order": 97,
-    "stage": "Heaps and pointer-based design",
-    "core": false,
-    "bloomberg": true
   },
   {
     "title": "Swap Nodes in Pairs",
@@ -1179,7 +1252,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "swap-nodes-in-pairs",
-    "order": 98,
+    "order": 104,
     "stage": "Heaps and pointer-based design",
     "core": false,
     "bloomberg": false
@@ -1191,7 +1264,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "odd-even-linked-list",
-    "order": 99,
+    "order": 105,
     "stage": "Heaps and pointer-based design",
     "core": false,
     "bloomberg": false
@@ -1203,7 +1276,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "rotate-list",
-    "order": 100,
+    "order": 106,
     "stage": "Heaps and pointer-based design",
     "core": false,
     "bloomberg": false
@@ -1215,7 +1288,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "sort-list",
-    "order": 101,
+    "order": 107,
     "stage": "Heaps and pointer-based design",
     "core": false,
     "bloomberg": false
@@ -1227,7 +1300,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "lru-cache",
-    "order": 102,
+    "order": 108,
     "stage": "Heaps and pointer-based design",
     "core": true,
     "bloomberg": true
@@ -1239,7 +1312,7 @@
     "difficulty": "Medium",
     "minutes": 20,
     "id": "insert-delete-getrandom-o1",
-    "order": 103,
+    "order": 109,
     "stage": "Heaps and pointer-based design",
     "core": false,
     "bloomberg": true
@@ -1251,7 +1324,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "design-hit-counter",
-    "order": 104,
+    "order": 110,
     "stage": "Heaps and pointer-based design",
     "core": false,
     "bloomberg": false
@@ -1263,7 +1336,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "week": 0,
-    "order": 105,
+    "order": 111,
     "stage": "Connectivity and graph dependencies",
     "core": false,
     "bloomberg": true,
@@ -1276,7 +1349,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "graph-valid-tree",
-    "order": 106,
+    "order": 112,
     "stage": "Connectivity and graph dependencies",
     "core": false,
     "bloomberg": false
@@ -1288,7 +1361,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "number-of-connected-components-in-an-undirected-graph",
-    "order": 107,
+    "order": 113,
     "stage": "Connectivity and graph dependencies",
     "core": false,
     "bloomberg": false
@@ -1300,7 +1373,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "accounts-merge",
-    "order": 108,
+    "order": 114,
     "stage": "Connectivity and graph dependencies",
     "core": true,
     "bloomberg": false
@@ -1312,7 +1385,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "week": 0,
-    "order": 109,
+    "order": 115,
     "stage": "Connectivity and graph dependencies",
     "core": false,
     "bloomberg": true,
@@ -1325,7 +1398,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "course-schedule",
-    "order": 110,
+    "order": 116,
     "stage": "Connectivity and graph dependencies",
     "core": true,
     "bloomberg": false
@@ -1337,7 +1410,7 @@
     "difficulty": "Medium",
     "minutes": 35,
     "id": "course-schedule-ii",
-    "order": 111,
+    "order": 117,
     "stage": "Connectivity and graph dependencies",
     "core": false,
     "bloomberg": false
@@ -1349,7 +1422,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "minimum-height-trees",
-    "order": 112,
+    "order": 118,
     "stage": "Connectivity and graph dependencies",
     "core": true,
     "bloomberg": false
@@ -1361,7 +1434,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "pacific-atlantic-water-flow",
-    "order": 113,
+    "order": 119,
     "stage": "Connectivity and graph dependencies",
     "core": false,
     "bloomberg": false
@@ -1373,9 +1446,33 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "all-nodes-distance-k-in-binary-tree",
-    "order": 114,
+    "order": 120,
     "stage": "Connectivity and graph dependencies",
     "core": false,
+    "bloomberg": false
+  },
+  {
+    "title": "Word Ladder",
+    "url": "https://leetcode.com/problems/word-ladder",
+    "week": 13,
+    "difficulty": "Hard",
+    "minutes": 45,
+    "id": "word-ladder",
+    "order": 121,
+    "stage": "Graph search checkpoint",
+    "core": true,
+    "bloomberg": false
+  },
+  {
+    "title": "Serialize and Deserialize Binary Tree",
+    "url": "https://leetcode.com/problems/serialize-and-deserialize-binary-tree",
+    "week": 13,
+    "difficulty": "Hard",
+    "minutes": 40,
+    "id": "serialize-and-deserialize-binary-tree",
+    "order": 122,
+    "stage": "Tree reconstruction and encoding checkpoint",
+    "core": true,
     "bloomberg": false
   },
   {
@@ -1385,7 +1482,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "spiral-matrix",
-    "order": 115,
+    "order": 123,
     "stage": "Simulation and string implementation",
     "core": true,
     "bloomberg": true
@@ -1397,7 +1494,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "rotate-image",
-    "order": 116,
+    "order": 124,
     "stage": "Simulation and string implementation",
     "core": false,
     "bloomberg": true
@@ -1409,7 +1506,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "set-matrix-zeroes",
-    "order": 117,
+    "order": 125,
     "stage": "Simulation and string implementation",
     "core": false,
     "bloomberg": false
@@ -1421,7 +1518,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "rotate-array",
-    "order": 118,
+    "order": 126,
     "stage": "Simulation and string implementation",
     "core": false,
     "bloomberg": true
@@ -1433,7 +1530,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "id": "longest-common-prefix",
-    "order": 119,
+    "order": 127,
     "stage": "Simulation and string implementation",
     "core": false,
     "bloomberg": false
@@ -1445,7 +1542,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "week": 0,
-    "order": 120,
+    "order": 128,
     "stage": "Simulation and string implementation",
     "core": false,
     "bloomberg": true,
@@ -1458,7 +1555,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "week": 0,
-    "order": 121,
+    "order": 129,
     "stage": "Simulation and string implementation",
     "core": false,
     "bloomberg": true,
@@ -1471,7 +1568,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "id": "roman-to-integer",
-    "order": 122,
+    "order": 130,
     "stage": "Simulation and string implementation",
     "core": false,
     "bloomberg": false
@@ -1483,7 +1580,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "string-to-integer-atoi",
-    "order": 123,
+    "order": 131,
     "stage": "Simulation and string implementation",
     "core": true,
     "bloomberg": false
@@ -1495,7 +1592,7 @@
     "difficulty": "Easy",
     "minutes": 15,
     "id": "add-binary",
-    "order": 124,
+    "order": 132,
     "stage": "Simulation and string implementation",
     "core": true,
     "bloomberg": false
@@ -1507,7 +1604,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "week": 0,
-    "order": 125,
+    "order": 133,
     "stage": "Simulation and string implementation",
     "core": false,
     "bloomberg": true,
@@ -1520,7 +1617,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "week": 0,
-    "order": 126,
+    "order": 134,
     "stage": "Simulation and string implementation",
     "core": false,
     "bloomberg": true,
@@ -1533,7 +1630,7 @@
     "difficulty": "Easy",
     "minutes": 20,
     "week": 0,
-    "order": 127,
+    "order": 135,
     "stage": "Simulation and string implementation",
     "core": false,
     "bloomberg": true,
@@ -1546,7 +1643,7 @@
     "difficulty": "Easy",
     "minutes": 15,
     "id": "palindrome-number",
-    "order": 128,
+    "order": 136,
     "stage": "Simulation and string implementation",
     "core": false,
     "bloomberg": false
@@ -1558,7 +1655,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "reverse-integer",
-    "order": 129,
+    "order": 137,
     "stage": "Simulation and string implementation",
     "core": false,
     "bloomberg": false
@@ -1570,7 +1667,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "encode-and-decode-strings",
-    "order": 130,
+    "order": 138,
     "stage": "Simulation and string implementation",
     "core": false,
     "bloomberg": false
@@ -1582,7 +1679,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "word-break",
-    "order": 131,
+    "order": 139,
     "stage": "Dynamic programming state design",
     "core": true,
     "bloomberg": false
@@ -1594,7 +1691,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "partition-equal-subset-sum",
-    "order": 132,
+    "order": 140,
     "stage": "Dynamic programming state design",
     "core": true,
     "bloomberg": false
@@ -1606,7 +1703,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "maximum-product-subarray",
-    "order": 133,
+    "order": 141,
     "stage": "Dynamic programming state design",
     "core": false,
     "bloomberg": false
@@ -1618,7 +1715,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "longest-increasing-subsequence",
-    "order": 134,
+    "order": 142,
     "stage": "Dynamic programming state design",
     "core": false,
     "bloomberg": false
@@ -1630,7 +1727,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "longest-palindromic-substring",
-    "order": 135,
+    "order": 143,
     "stage": "Dynamic programming state design",
     "core": true,
     "bloomberg": true
@@ -1642,7 +1739,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "maximal-square",
-    "order": 136,
+    "order": 144,
     "stage": "Dynamic programming state design",
     "core": false,
     "bloomberg": false
@@ -1654,7 +1751,7 @@
     "difficulty": "Medium",
     "minutes": 35,
     "id": "combination-sum-iv",
-    "order": 137,
+    "order": 145,
     "stage": "Dynamic programming state design",
     "core": false,
     "bloomberg": false
@@ -1666,36 +1763,10 @@
     "difficulty": "Hard",
     "minutes": 45,
     "id": "maximum-profit-in-job-scheduling",
-    "order": 138,
+    "order": 146,
     "stage": "Dynamic programming state design",
     "core": true,
     "bloomberg": false
-  },
-  {
-    "id": "stone-game-iv",
-    "title": "Stone Game IV",
-    "url": "https://leetcode.com/problems/stone-game-iv",
-    "difficulty": "Hard",
-    "minutes": 45,
-    "week": 0,
-    "order": 139,
-    "stage": "Dynamic programming state design",
-    "core": false,
-    "bloomberg": true,
-    "estimatedMinutes": true
-  },
-  {
-    "id": "best-time-to-buy-and-sell-stock-ii",
-    "title": "Best Time to Buy and Sell Stock II",
-    "url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii",
-    "difficulty": "Medium",
-    "minutes": 30,
-    "week": 0,
-    "order": 140,
-    "stage": "Greedy decisions and stack applications",
-    "core": false,
-    "bloomberg": true,
-    "estimatedMinutes": true
   },
   {
     "title": "Jump Game",
@@ -1704,7 +1775,7 @@
     "difficulty": "Medium",
     "minutes": 20,
     "id": "jump-game",
-    "order": 141,
+    "order": 147,
     "stage": "Greedy decisions and stack applications",
     "core": false,
     "bloomberg": false
@@ -1716,7 +1787,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "week": 0,
-    "order": 142,
+    "order": 148,
     "stage": "Greedy decisions and stack applications",
     "core": false,
     "bloomberg": true,
@@ -1729,7 +1800,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "gas-station",
-    "order": 143,
+    "order": 149,
     "stage": "Greedy decisions and stack applications",
     "core": false,
     "bloomberg": true
@@ -1741,22 +1812,10 @@
     "difficulty": "Medium",
     "minutes": 35,
     "id": "task-scheduler",
-    "order": 144,
+    "order": 150,
     "stage": "Greedy decisions and stack applications",
     "core": true,
     "bloomberg": false
-  },
-  {
-    "title": "Decode String",
-    "url": "https://leetcode.com/problems/decode-string",
-    "week": 9,
-    "difficulty": "Medium",
-    "minutes": 30,
-    "id": "decode-string",
-    "order": 145,
-    "stage": "Greedy decisions and stack applications",
-    "core": false,
-    "bloomberg": true
   },
   {
     "title": "Asteroid Collision",
@@ -1765,7 +1824,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "asteroid-collision",
-    "order": 146,
+    "order": 151,
     "stage": "Greedy decisions and stack applications",
     "core": false,
     "bloomberg": false
@@ -1777,7 +1836,7 @@
     "difficulty": "Hard",
     "minutes": 40,
     "id": "maximum-frequency-stack",
-    "order": 147,
+    "order": 152,
     "stage": "Greedy decisions and stack applications",
     "core": false,
     "bloomberg": false
@@ -1789,7 +1848,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "daily-temperatures",
-    "order": 148,
+    "order": 153,
     "stage": "Greedy decisions and stack applications",
     "core": false,
     "bloomberg": false
@@ -1801,23 +1860,11 @@
     "difficulty": "Medium",
     "minutes": 30,
     "week": 0,
-    "order": 149,
+    "order": 154,
     "stage": "Greedy decisions and stack applications",
     "core": false,
     "bloomberg": true,
     "estimatedMinutes": true
-  },
-  {
-    "title": "Minimum Window Substring",
-    "url": "https://leetcode.com/problems/minimum-window-substring",
-    "week": 13,
-    "difficulty": "Hard",
-    "minutes": 30,
-    "id": "minimum-window-substring",
-    "order": 150,
-    "stage": "Greedy decisions and stack applications",
-    "core": true,
-    "bloomberg": false
   },
   {
     "title": "Trapping Rain Water",
@@ -1826,7 +1873,7 @@
     "difficulty": "Hard",
     "minutes": 35,
     "id": "trapping-rain-water",
-    "order": 151,
+    "order": 155,
     "stage": "Greedy decisions and stack applications",
     "core": true,
     "bloomberg": true
@@ -1838,7 +1885,7 @@
     "difficulty": "Hard",
     "minutes": 35,
     "id": "largest-rectangle-in-histogram",
-    "order": 152,
+    "order": 156,
     "stage": "Greedy decisions and stack applications",
     "core": true,
     "bloomberg": false
@@ -1850,7 +1897,7 @@
     "difficulty": "Hard",
     "minutes": 35,
     "id": "sliding-window-maximum",
-    "order": 153,
+    "order": 157,
     "stage": "Greedy decisions and stack applications",
     "core": false,
     "bloomberg": false
@@ -1862,7 +1909,7 @@
     "difficulty": "Medium",
     "minutes": 30,
     "id": "basic-calculator-ii",
-    "order": 154,
+    "order": 158,
     "stage": "Greedy decisions and stack applications",
     "core": false,
     "bloomberg": false
@@ -1874,7 +1921,7 @@
     "difficulty": "Hard",
     "minutes": 40,
     "id": "basic-calculator",
-    "order": 155,
+    "order": 159,
     "stage": "Greedy decisions and stack applications",
     "core": true,
     "bloomberg": false
@@ -1886,7 +1933,7 @@
     "difficulty": "Hard",
     "minutes": 35,
     "id": "longest-valid-parentheses",
-    "order": 156,
+    "order": 160,
     "stage": "Greedy decisions and stack applications",
     "core": false,
     "bloomberg": false
@@ -1898,7 +1945,7 @@
     "difficulty": "Medium",
     "minutes": 25,
     "id": "path-sum-ii",
-    "order": 157,
+    "order": 161,
     "stage": "Advanced tree, graph, and heap combinations",
     "core": false,
     "bloomberg": false
@@ -1910,33 +1957,9 @@
     "difficulty": "Medium",
     "minutes": 35,
     "id": "path-sum-iii",
-    "order": 158,
+    "order": 162,
     "stage": "Advanced tree, graph, and heap combinations",
     "core": false,
-    "bloomberg": false
-  },
-  {
-    "title": "Construct Binary Tree from Preorder and Inorder Traversal",
-    "url": "https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal",
-    "week": 6,
-    "difficulty": "Medium",
-    "minutes": 25,
-    "id": "construct-binary-tree-from-preorder-and-inorder-traversal",
-    "order": 159,
-    "stage": "Advanced tree, graph, and heap combinations",
-    "core": true,
-    "bloomberg": false
-  },
-  {
-    "title": "Serialize and Deserialize Binary Tree",
-    "url": "https://leetcode.com/problems/serialize-and-deserialize-binary-tree",
-    "week": 13,
-    "difficulty": "Hard",
-    "minutes": 40,
-    "id": "serialize-and-deserialize-binary-tree",
-    "order": 160,
-    "stage": "Advanced tree, graph, and heap combinations",
-    "core": true,
     "bloomberg": false
   },
   {
@@ -1946,33 +1969,9 @@
     "difficulty": "Hard",
     "minutes": 35,
     "id": "binary-tree-maximum-path-sum",
-    "order": 161,
-    "stage": "Advanced tree, graph, and heap combinations",
-    "core": false,
-    "bloomberg": false
-  },
-  {
-    "title": "Merge k Sorted Lists",
-    "url": "https://leetcode.com/problems/merge-k-sorted-lists",
-    "week": 14,
-    "difficulty": "Hard",
-    "minutes": 30,
-    "id": "merge-k-sorted-lists",
-    "order": 162,
-    "stage": "Advanced tree, graph, and heap combinations",
-    "core": true,
-    "bloomberg": false
-  },
-  {
-    "title": "Find Median from Data Stream",
-    "url": "https://leetcode.com/problems/find-median-from-data-stream",
-    "week": 13,
-    "difficulty": "Hard",
-    "minutes": 30,
-    "id": "find-median-from-data-stream",
     "order": 163,
     "stage": "Advanced tree, graph, and heap combinations",
-    "core": true,
+    "core": false,
     "bloomberg": false
   },
   {
@@ -2000,25 +1999,13 @@
     "bloomberg": false
   },
   {
-    "title": "Word Ladder",
-    "url": "https://leetcode.com/problems/word-ladder",
-    "week": 13,
-    "difficulty": "Hard",
-    "minutes": 45,
-    "id": "word-ladder",
-    "order": 166,
-    "stage": "Advanced tree, graph, and heap combinations",
-    "core": true,
-    "bloomberg": false
-  },
-  {
     "title": "Minimum Knight Moves",
     "url": "https://leetcode.com/problems/minimum-knight-moves",
     "week": 10,
     "difficulty": "Medium",
     "minutes": 35,
     "id": "minimum-knight-moves",
-    "order": 167,
+    "order": 166,
     "stage": "Advanced tree, graph, and heap combinations",
     "core": false,
     "bloomberg": false
@@ -2030,7 +2017,7 @@
     "difficulty": "Hard",
     "minutes": 45,
     "id": "bus-routes",
-    "order": 168,
+    "order": 167,
     "stage": "Advanced tree, graph, and heap combinations",
     "core": false,
     "bloomberg": false
@@ -2042,7 +2029,7 @@
     "difficulty": "Hard",
     "minutes": 45,
     "id": "alien-dictionary",
-    "order": 169,
+    "order": 168,
     "stage": "Advanced tree, graph, and heap combinations",
     "core": false,
     "bloomberg": false
@@ -2054,7 +2041,7 @@
     "difficulty": "Medium",
     "minutes": 45,
     "id": "cheapest-flights-within-k-stops",
-    "order": 170,
+    "order": 169,
     "stage": "Advanced tree, graph, and heap combinations",
     "core": false,
     "bloomberg": false
@@ -2066,7 +2053,7 @@
     "difficulty": "Hard",
     "minutes": 40,
     "id": "longest-increasing-path-in-a-matrix",
-    "order": 171,
+    "order": 170,
     "stage": "Advanced tree, graph, and heap combinations",
     "core": false,
     "bloomberg": false
@@ -2078,7 +2065,7 @@
     "difficulty": "Hard",
     "minutes": 40,
     "id": "word-search-ii",
-    "order": 172,
+    "order": 171,
     "stage": "Advanced tree, graph, and heap combinations",
     "core": false,
     "bloomberg": false
@@ -2090,7 +2077,7 @@
     "difficulty": "Hard",
     "minutes": 40,
     "id": "n-queens",
-    "order": 173,
+    "order": 172,
     "stage": "Advanced tree, graph, and heap combinations",
     "core": false,
     "bloomberg": false
@@ -2102,7 +2089,7 @@
     "difficulty": "Medium",
     "minutes": 35,
     "id": "valid-sudoku",
-    "order": 174,
+    "order": 173,
     "stage": "Advanced tree, graph, and heap combinations",
     "core": false,
     "bloomberg": false
@@ -2114,7 +2101,7 @@
     "difficulty": "Hard",
     "minutes": 40,
     "id": "sudoku-solver",
-    "order": 175,
+    "order": 174,
     "stage": "Advanced tree, graph, and heap combinations",
     "core": false,
     "bloomberg": false
@@ -2126,7 +2113,7 @@
     "difficulty": "Hard",
     "minutes": 40,
     "id": "design-in-memory-file-system",
-    "order": 176,
+    "order": 175,
     "stage": "Advanced tree, graph, and heap combinations",
     "core": false,
     "bloomberg": false
@@ -2138,7 +2125,7 @@
     "difficulty": "Hard",
     "minutes": 35,
     "id": "reverse-nodes-in-k-group",
-    "order": 177,
+    "order": 176,
     "stage": "Advanced tree, graph, and heap combinations",
     "core": false,
     "bloomberg": false
@@ -2150,7 +2137,7 @@
     "difficulty": "Easy",
     "minutes": 15,
     "id": "single-number",
-    "order": 178,
+    "order": 177,
     "stage": "Arithmetic and advanced array invariants",
     "core": false,
     "bloomberg": true
@@ -2162,7 +2149,7 @@
     "difficulty": "Easy",
     "minutes": 15,
     "id": "missing-number",
-    "order": 179,
+    "order": 178,
     "stage": "Arithmetic and advanced array invariants",
     "core": false,
     "bloomberg": false
@@ -2174,7 +2161,7 @@
     "difficulty": "Easy",
     "minutes": 15,
     "id": "number-of-1-bits",
-    "order": 180,
+    "order": 179,
     "stage": "Arithmetic and advanced array invariants",
     "core": false,
     "bloomberg": false
@@ -2186,7 +2173,7 @@
     "difficulty": "Easy",
     "minutes": 15,
     "id": "counting-bits",
-    "order": 181,
+    "order": 180,
     "stage": "Arithmetic and advanced array invariants",
     "core": false,
     "bloomberg": false
@@ -2198,7 +2185,7 @@
     "difficulty": "Easy",
     "minutes": 15,
     "id": "reverse-bits",
-    "order": 182,
+    "order": 181,
     "stage": "Arithmetic and advanced array invariants",
     "core": false,
     "bloomberg": false
@@ -2210,7 +2197,7 @@
     "difficulty": "Medium",
     "minutes": 20,
     "id": "powx-n",
-    "order": 183,
+    "order": 182,
     "stage": "Arithmetic and advanced array invariants",
     "core": false,
     "bloomberg": false
@@ -2222,8 +2209,21 @@
     "difficulty": "Medium",
     "minutes": 30,
     "week": 0,
-    "order": 184,
+    "order": 183,
     "stage": "Arithmetic and advanced array invariants",
+    "core": false,
+    "bloomberg": true,
+    "estimatedMinutes": true
+  },
+  {
+    "id": "stone-game-iv",
+    "title": "Stone Game IV",
+    "url": "https://leetcode.com/problems/stone-game-iv",
+    "difficulty": "Hard",
+    "minutes": 45,
+    "week": 0,
+    "order": 184,
+    "stage": "Dynamic programming game-state extension",
     "core": false,
     "bloomberg": true,
     "estimatedMinutes": true

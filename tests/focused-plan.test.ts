@@ -150,3 +150,17 @@ test("focused applications follow their prerequisites even when optional extras 
     assert.ok(ai >= 0 && bi > ai, `${a} before ${b}`);
   }
 });
+
+test("follow-ups stay near foundations and representative hard problems precede late specialisms", () => {
+  const ids = activeProblems().map((p) => p.id);
+  for (const [a, b] of [
+    ["best-time-to-buy-and-sell-stock-ii", "maximum-subarray"],
+    ["add-two-numbers", "binary-tree-level-order-traversal"],
+    ["decode-string", "binary-tree-level-order-traversal"],
+    ["minimum-window-substring", "coin-change"],
+    ["merge-k-sorted-lists", "word-break"],
+    ["find-median-from-data-stream", "stone-game-iv"],
+    ["word-ladder", "stone-game-iv"],
+  ])
+    assert.ok(ids.indexOf(a) < ids.indexOf(b), `${a} before ${b}`);
+});

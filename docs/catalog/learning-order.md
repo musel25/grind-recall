@@ -20,6 +20,12 @@ This is a pedagogical sequence, not a mathematically proven optimal ordering. Fr
 
 Optional practiced extras occupy related positions in the full catalog rather than an appended miscellaneous block. The 115 base problems do not rely on completing archived exercises: optional exercises reinforce a topic but are not required. Numbering is contiguous for each account's active list, so adding a retained extra shifts later displayed numbers without altering any progress keys. Imported first-ten onboarding uses explicit historical IDs, independent of curriculum positions.
 
+## Second-pass refinement (2026-10-15)
+
+The first version respected prerequisites but delayed some closely related follow-ups and clustered the first hard problems near the end. This revision brings Stock II next to Stock I, linked-list additions/reversal/reordering next to the pointer foundations, and Decode String next to stack parsing. Tree reconstruction follows traversal/LCA rather than being postponed until the final hard block.
+
+Hard checkpoints are distributed after the necessary groundwork: Minimum Window revisits sliding windows after the tree stage; multiway merge and streaming median follow heap foundations; Word Ladder follows graph traversal/connectivity; tree serialization follows reconstruction with intervening practice. Stone Game IV stays late as a specialized game-state extension. This balances short topic runs with return visits; it does not claim there is one universally optimal sequence. Existing progress is skipped automatically and never reset.
+
 ## Preservation and archive
 
 [original-problems.json](original-problems.json) remains the immutable original 169-problem snapshot. All 169 IDs still exist in the complete 194-entry catalog (169 original + 25 new Bloomberg entries). Backups and history validate against the full catalog; the queue, roadmap and forecast use the active subset. No account progress, ratings, notes, dates or history are rewritten by this catalog change. Existing accounts need only reload. Practiced extras remain active per account, including failed attempts, and retain due reviews. Untouched archived entries never auto-enter new work, including stale daily-extra selections from an older plan.
@@ -38,107 +44,107 @@ Account-specific extras are inserted into their related stages. The live app is 
 | 6 | [Longest Palindrome](https://leetcode.com/problems/longest-palindrome) | Grind 75 | Array and hash-table foundations |
 | 7 | [Majority Element](https://leetcode.com/problems/majority-element) | Grind 75 | Array and hash-table foundations |
 | 8 | [Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock) | Grind 75 + Bloomberg | Array and hash-table foundations |
-| 9 | [Maximum Subarray](https://leetcode.com/problems/maximum-subarray) | Grind 75 | Array and hash-table foundations |
-| 10 | [Group Anagrams](https://leetcode.com/problems/group-anagrams) | Bloomberg | Array and hash-table foundations |
-| 11 | [Product of Array Except Self](https://leetcode.com/problems/product-of-array-except-self) | Grind 75 | Array and hash-table foundations |
-| 12 | [Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence) | Bloomberg | Array and hash-table foundations |
-| 13 | [Valid Palindrome](https://leetcode.com/problems/valid-palindrome) | Grind 75 | Pointers and sliding windows |
-| 14 | [Maximum Average Subarray I](https://leetcode.com/problems/maximum-average-subarray-i) | Bloomberg | Pointers and sliding windows |
-| 15 | [Contains Duplicate II](https://leetcode.com/problems/contains-duplicate-ii) | Bloomberg | Pointers and sliding windows |
-| 16 | [Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters) | Grind 75 + Bloomberg | Pointers and sliding windows |
-| 17 | [Find All Anagrams in a String](https://leetcode.com/problems/find-all-anagrams-in-a-string) | Grind 75 | Pointers and sliding windows |
-| 18 | [Container With Most Water](https://leetcode.com/problems/container-with-most-water) | Grind 75 + Bloomberg | Pointers and sliding windows |
-| 19 | [3Sum](https://leetcode.com/problems/3sum) | Grind 75 + Bloomberg | Pointers and sliding windows |
-| 20 | [3Sum Closest](https://leetcode.com/problems/3sum-closest) | Bloomberg | Pointers and sliding windows |
-| 21 | [Valid Triangle Number](https://leetcode.com/problems/valid-triangle-number) | Bloomberg | Pointers and sliding windows |
-| 22 | [Sort Colors](https://leetcode.com/problems/sort-colors) | Grind 75 | Pointers and sliding windows |
-| 23 | [Reverse Linked List](https://leetcode.com/problems/reverse-linked-list) | Grind 75 | Linked-list and stack foundations |
-| 24 | [Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists) | Grind 75 + Bloomberg | Linked-list and stack foundations |
-| 25 | [Middle of the Linked List](https://leetcode.com/problems/middle-of-the-linked-list) | Grind 75 | Linked-list and stack foundations |
-| 26 | [Linked List Cycle](https://leetcode.com/problems/linked-list-cycle) | Grind 75 | Linked-list and stack foundations |
-| 27 | [Happy Number](https://leetcode.com/problems/happy-number) | Bloomberg | Linked-list and stack foundations |
-| 28 | [Valid Parentheses](https://leetcode.com/problems/valid-parentheses) | Grind 75 | Linked-list and stack foundations |
-| 29 | [Implement Queue using Stacks](https://leetcode.com/problems/implement-queue-using-stacks) | Grind 75 | Linked-list and stack foundations |
-| 30 | [Min Stack](https://leetcode.com/problems/min-stack) | Grind 75 | Linked-list and stack foundations |
-| 31 | [Evaluate Reverse Polish Notation](https://leetcode.com/problems/evaluate-reverse-polish-notation) | Grind 75 | Linked-list and stack foundations |
-| 32 | [Simplify Path](https://leetcode.com/problems/simplify-path) | Bloomberg | Linked-list and stack foundations |
-| 33 | [Binary Search](https://leetcode.com/problems/binary-search) | Grind 75 | Binary search and intervals |
-| 34 | [First Bad Version](https://leetcode.com/problems/first-bad-version) | Grind 75 | Binary search and intervals |
-| 35 | [Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array) | Grind 75 | Binary search and intervals |
-| 36 | [Time Based Key-Value Store](https://leetcode.com/problems/time-based-key-value-store) | Grind 75 | Binary search and intervals |
-| 37 | [Find K Closest Elements](https://leetcode.com/problems/find-k-closest-elements) | Bloomberg | Binary search and intervals |
-| 38 | [Merge Intervals](https://leetcode.com/problems/merge-intervals) | Grind 75 + Bloomberg | Binary search and intervals |
-| 39 | [Insert Interval](https://leetcode.com/problems/insert-interval) | Grind 75 | Binary search and intervals |
-| 40 | [Maximum Depth of Binary Tree](https://leetcode.com/problems/maximum-depth-of-binary-tree) | Grind 75 + Bloomberg | Tree traversal and recursive invariants |
-| 41 | [Invert Binary Tree](https://leetcode.com/problems/invert-binary-tree) | Grind 75 | Tree traversal and recursive invariants |
-| 42 | [Balanced Binary Tree](https://leetcode.com/problems/balanced-binary-tree) | Grind 75 | Tree traversal and recursive invariants |
-| 43 | [Diameter of Binary Tree](https://leetcode.com/problems/diameter-of-binary-tree) | Grind 75 | Tree traversal and recursive invariants |
-| 44 | [Binary Tree Level Order Traversal](https://leetcode.com/problems/binary-tree-level-order-traversal) | Grind 75 | Tree traversal and recursive invariants |
-| 45 | [Binary Tree Right Side View](https://leetcode.com/problems/binary-tree-right-side-view) | Grind 75 | Tree traversal and recursive invariants |
-| 46 | [Binary Tree Vertical Order Traversal](https://leetcode.com/problems/binary-tree-vertical-order-traversal) | Bloomberg | Tree traversal and recursive invariants |
-| 47 | [Validate Binary Search Tree](https://leetcode.com/problems/validate-binary-search-tree) | Grind 75 | Tree traversal and recursive invariants |
-| 48 | [Kth Smallest Element in a BST](https://leetcode.com/problems/kth-smallest-element-in-a-bst) | Grind 75 | Tree traversal and recursive invariants |
-| 49 | [Lowest Common Ancestor of a Binary Search Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree) | Grind 75 | Tree traversal and recursive invariants |
-| 50 | [Lowest Common Ancestor of a Binary Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree) | Grind 75 | Tree traversal and recursive invariants |
-| 51 | [Flood Fill](https://leetcode.com/problems/flood-fill) | Grind 75 | Graph traversal and breadth-first search |
-| 52 | [Number of Islands](https://leetcode.com/problems/number-of-islands) | Grind 75 + Bloomberg | Graph traversal and breadth-first search |
-| 53 | [Clone Graph](https://leetcode.com/problems/clone-graph) | Grind 75 | Graph traversal and breadth-first search |
-| 54 | [Rotting Oranges](https://leetcode.com/problems/rotting-oranges) | Grind 75 | Graph traversal and breadth-first search |
-| 55 | [01 Matrix](https://leetcode.com/problems/01-matrix) | Grind 75 | Graph traversal and breadth-first search |
-| 56 | [Fibonacci Number](https://leetcode.com/problems/fibonacci-number) | Bloomberg | Dynamic programming foundations |
-| 57 | [Climbing Stairs](https://leetcode.com/problems/climbing-stairs) | Grind 75 + Bloomberg | Dynamic programming foundations |
-| 58 | [House Robber](https://leetcode.com/problems/house-robber) | Bloomberg | Dynamic programming foundations |
-| 59 | [Unique Paths](https://leetcode.com/problems/unique-paths) | Grind 75 | Dynamic programming foundations |
-| 60 | [Coin Change](https://leetcode.com/problems/coin-change) | Grind 75 | Dynamic programming foundations |
-| 61 | [Subsets](https://leetcode.com/problems/subsets) | Grind 75 + Bloomberg | Backtracking and prefix trees |
-| 62 | [Permutations](https://leetcode.com/problems/permutations) | Grind 75 + Bloomberg | Backtracking and prefix trees |
-| 63 | [Letter Combinations of a Phone Number](https://leetcode.com/problems/letter-combinations-of-a-phone-number) | Grind 75 | Backtracking and prefix trees |
-| 64 | [Combination Sum](https://leetcode.com/problems/combination-sum) | Grind 75 + Bloomberg | Backtracking and prefix trees |
-| 65 | [Word Search](https://leetcode.com/problems/word-search) | Grind 75 | Backtracking and prefix trees |
-| 66 | [Implement Trie (Prefix Tree)](https://leetcode.com/problems/implement-trie-prefix-tree) | Grind 75 | Backtracking and prefix trees |
-| 67 | [K Closest Points to Origin](https://leetcode.com/problems/k-closest-points-to-origin) | Grind 75 | Heaps and pointer-based design |
-| 68 | [Add Two Numbers](https://leetcode.com/problems/add-two-numbers) | Bloomberg | Heaps and pointer-based design |
-| 69 | [Reverse Linked List II](https://leetcode.com/problems/reverse-linked-list-ii) | Bloomberg | Heaps and pointer-based design |
-| 70 | [Reorder List](https://leetcode.com/problems/reorder-list) | Bloomberg | Heaps and pointer-based design |
-| 71 | [LRU Cache](https://leetcode.com/problems/lru-cache) | Grind 75 + Bloomberg | Heaps and pointer-based design |
-| 72 | [Insert Delete GetRandom O(1)](https://leetcode.com/problems/insert-delete-getrandom-o1) | Bloomberg | Heaps and pointer-based design |
-| 73 | [Number of Provinces](https://leetcode.com/problems/number-of-provinces) | Bloomberg | Connectivity and graph dependencies |
-| 74 | [Accounts Merge](https://leetcode.com/problems/accounts-merge) | Grind 75 | Connectivity and graph dependencies |
-| 75 | [Evaluate Division](https://leetcode.com/problems/evaluate-division) | Bloomberg | Connectivity and graph dependencies |
-| 76 | [Course Schedule](https://leetcode.com/problems/course-schedule) | Grind 75 | Connectivity and graph dependencies |
-| 77 | [Minimum Height Trees](https://leetcode.com/problems/minimum-height-trees) | Grind 75 | Connectivity and graph dependencies |
-| 78 | [Spiral Matrix](https://leetcode.com/problems/spiral-matrix) | Grind 75 + Bloomberg | Simulation and string implementation |
-| 79 | [Rotate Image](https://leetcode.com/problems/rotate-image) | Bloomberg | Simulation and string implementation |
-| 80 | [Rotate Array](https://leetcode.com/problems/rotate-array) | Bloomberg | Simulation and string implementation |
-| 81 | [Find the Index of the First Occurrence in a String](https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string) | Bloomberg | Simulation and string implementation |
-| 82 | [Zigzag Conversion](https://leetcode.com/problems/zigzag-conversion) | Bloomberg | Simulation and string implementation |
-| 83 | [String to Integer (atoi)](https://leetcode.com/problems/string-to-integer-atoi) | Grind 75 | Simulation and string implementation |
-| 84 | [Add Binary](https://leetcode.com/problems/add-binary) | Grind 75 | Simulation and string implementation |
-| 85 | [Multiply Strings](https://leetcode.com/problems/multiply-strings) | Bloomberg | Simulation and string implementation |
-| 86 | [Smallest Divisible Digit Product I](https://leetcode.com/problems/smallest-divisible-digit-product-i) | Bloomberg | Simulation and string implementation |
-| 87 | [Smallest Missing Integer Greater Than Sequential Prefix Sum](https://leetcode.com/problems/smallest-missing-integer-greater-than-sequential-prefix-sum) | Bloomberg | Simulation and string implementation |
-| 88 | [Word Break](https://leetcode.com/problems/word-break) | Grind 75 | Dynamic programming state design |
-| 89 | [Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum) | Grind 75 | Dynamic programming state design |
-| 90 | [Longest Palindromic Substring](https://leetcode.com/problems/longest-palindromic-substring) | Grind 75 + Bloomberg | Dynamic programming state design |
-| 91 | [Maximum Profit in Job Scheduling](https://leetcode.com/problems/maximum-profit-in-job-scheduling) | Grind 75 | Dynamic programming state design |
-| 92 | [Stone Game IV](https://leetcode.com/problems/stone-game-iv) | Bloomberg | Dynamic programming state design |
-| 93 | [Best Time to Buy and Sell Stock II](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii) | Bloomberg | Greedy decisions and stack applications |
-| 94 | [Two City Scheduling](https://leetcode.com/problems/two-city-scheduling) | Bloomberg | Greedy decisions and stack applications |
-| 95 | [Gas Station](https://leetcode.com/problems/gas-station) | Bloomberg | Greedy decisions and stack applications |
-| 96 | [Task Scheduler](https://leetcode.com/problems/task-scheduler) | Grind 75 | Greedy decisions and stack applications |
-| 97 | [Decode String](https://leetcode.com/problems/decode-string) | Bloomberg | Greedy decisions and stack applications |
-| 98 | [Using a Robot to Print the Lexicographically Smallest String](https://leetcode.com/problems/using-a-robot-to-print-the-lexicographically-smallest-string) | Bloomberg | Greedy decisions and stack applications |
-| 99 | [Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring) | Grind 75 | Greedy decisions and stack applications |
-| 100 | [Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water) | Grind 75 + Bloomberg | Greedy decisions and stack applications |
-| 101 | [Largest Rectangle in Histogram](https://leetcode.com/problems/largest-rectangle-in-histogram) | Grind 75 | Greedy decisions and stack applications |
-| 102 | [Basic Calculator](https://leetcode.com/problems/basic-calculator) | Grind 75 | Greedy decisions and stack applications |
-| 103 | [Construct Binary Tree from Preorder and Inorder Traversal](https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal) | Grind 75 | Advanced tree, graph, and heap combinations |
-| 104 | [Serialize and Deserialize Binary Tree](https://leetcode.com/problems/serialize-and-deserialize-binary-tree) | Grind 75 | Advanced tree, graph, and heap combinations |
-| 105 | [Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists) | Grind 75 | Advanced tree, graph, and heap combinations |
-| 106 | [Find Median from Data Stream](https://leetcode.com/problems/find-median-from-data-stream) | Grind 75 | Advanced tree, graph, and heap combinations |
-| 107 | [Word Ladder](https://leetcode.com/problems/word-ladder) | Grind 75 | Advanced tree, graph, and heap combinations |
-| 108 | [Single Number](https://leetcode.com/problems/single-number) | Bloomberg | Arithmetic and advanced array invariants |
-| 109 | [Divide Two Integers](https://leetcode.com/problems/divide-two-integers) | Bloomberg | Arithmetic and advanced array invariants |
+| 9 | [Best Time to Buy and Sell Stock II](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii) | Bloomberg | Array and hash-table foundations |
+| 10 | [Maximum Subarray](https://leetcode.com/problems/maximum-subarray) | Grind 75 | Array and hash-table foundations |
+| 11 | [Group Anagrams](https://leetcode.com/problems/group-anagrams) | Bloomberg | Array and hash-table foundations |
+| 12 | [Product of Array Except Self](https://leetcode.com/problems/product-of-array-except-self) | Grind 75 | Array and hash-table foundations |
+| 13 | [Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence) | Bloomberg | Array and hash-table foundations |
+| 14 | [Valid Palindrome](https://leetcode.com/problems/valid-palindrome) | Grind 75 | Pointers and sliding windows |
+| 15 | [Maximum Average Subarray I](https://leetcode.com/problems/maximum-average-subarray-i) | Bloomberg | Pointers and sliding windows |
+| 16 | [Contains Duplicate II](https://leetcode.com/problems/contains-duplicate-ii) | Bloomberg | Pointers and sliding windows |
+| 17 | [Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters) | Grind 75 + Bloomberg | Pointers and sliding windows |
+| 18 | [Find All Anagrams in a String](https://leetcode.com/problems/find-all-anagrams-in-a-string) | Grind 75 | Pointers and sliding windows |
+| 19 | [Container With Most Water](https://leetcode.com/problems/container-with-most-water) | Grind 75 + Bloomberg | Pointers and sliding windows |
+| 20 | [3Sum](https://leetcode.com/problems/3sum) | Grind 75 + Bloomberg | Pointers and sliding windows |
+| 21 | [3Sum Closest](https://leetcode.com/problems/3sum-closest) | Bloomberg | Pointers and sliding windows |
+| 22 | [Valid Triangle Number](https://leetcode.com/problems/valid-triangle-number) | Bloomberg | Pointers and sliding windows |
+| 23 | [Sort Colors](https://leetcode.com/problems/sort-colors) | Grind 75 | Pointers and sliding windows |
+| 24 | [Reverse Linked List](https://leetcode.com/problems/reverse-linked-list) | Grind 75 | Linked-list and stack foundations |
+| 25 | [Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists) | Grind 75 + Bloomberg | Linked-list and stack foundations |
+| 26 | [Middle of the Linked List](https://leetcode.com/problems/middle-of-the-linked-list) | Grind 75 | Linked-list and stack foundations |
+| 27 | [Linked List Cycle](https://leetcode.com/problems/linked-list-cycle) | Grind 75 | Linked-list and stack foundations |
+| 28 | [Happy Number](https://leetcode.com/problems/happy-number) | Bloomberg | Linked-list and stack foundations |
+| 29 | [Add Two Numbers](https://leetcode.com/problems/add-two-numbers) | Bloomberg | Linked-list and stack foundations |
+| 30 | [Reverse Linked List II](https://leetcode.com/problems/reverse-linked-list-ii) | Bloomberg | Linked-list and stack foundations |
+| 31 | [Reorder List](https://leetcode.com/problems/reorder-list) | Bloomberg | Linked-list and stack foundations |
+| 32 | [Valid Parentheses](https://leetcode.com/problems/valid-parentheses) | Grind 75 | Linked-list and stack foundations |
+| 33 | [Implement Queue using Stacks](https://leetcode.com/problems/implement-queue-using-stacks) | Grind 75 | Linked-list and stack foundations |
+| 34 | [Min Stack](https://leetcode.com/problems/min-stack) | Grind 75 | Linked-list and stack foundations |
+| 35 | [Evaluate Reverse Polish Notation](https://leetcode.com/problems/evaluate-reverse-polish-notation) | Grind 75 | Linked-list and stack foundations |
+| 36 | [Simplify Path](https://leetcode.com/problems/simplify-path) | Bloomberg | Linked-list and stack foundations |
+| 37 | [Decode String](https://leetcode.com/problems/decode-string) | Bloomberg | Linked-list and stack foundations |
+| 38 | [Binary Search](https://leetcode.com/problems/binary-search) | Grind 75 | Binary search and intervals |
+| 39 | [First Bad Version](https://leetcode.com/problems/first-bad-version) | Grind 75 | Binary search and intervals |
+| 40 | [Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array) | Grind 75 | Binary search and intervals |
+| 41 | [Time Based Key-Value Store](https://leetcode.com/problems/time-based-key-value-store) | Grind 75 | Binary search and intervals |
+| 42 | [Find K Closest Elements](https://leetcode.com/problems/find-k-closest-elements) | Bloomberg | Binary search and intervals |
+| 43 | [Merge Intervals](https://leetcode.com/problems/merge-intervals) | Grind 75 + Bloomberg | Binary search and intervals |
+| 44 | [Insert Interval](https://leetcode.com/problems/insert-interval) | Grind 75 | Binary search and intervals |
+| 45 | [Maximum Depth of Binary Tree](https://leetcode.com/problems/maximum-depth-of-binary-tree) | Grind 75 + Bloomberg | Tree traversal and recursive invariants |
+| 46 | [Invert Binary Tree](https://leetcode.com/problems/invert-binary-tree) | Grind 75 | Tree traversal and recursive invariants |
+| 47 | [Balanced Binary Tree](https://leetcode.com/problems/balanced-binary-tree) | Grind 75 | Tree traversal and recursive invariants |
+| 48 | [Diameter of Binary Tree](https://leetcode.com/problems/diameter-of-binary-tree) | Grind 75 | Tree traversal and recursive invariants |
+| 49 | [Binary Tree Level Order Traversal](https://leetcode.com/problems/binary-tree-level-order-traversal) | Grind 75 | Tree traversal and recursive invariants |
+| 50 | [Binary Tree Right Side View](https://leetcode.com/problems/binary-tree-right-side-view) | Grind 75 | Tree traversal and recursive invariants |
+| 51 | [Binary Tree Vertical Order Traversal](https://leetcode.com/problems/binary-tree-vertical-order-traversal) | Bloomberg | Tree traversal and recursive invariants |
+| 52 | [Validate Binary Search Tree](https://leetcode.com/problems/validate-binary-search-tree) | Grind 75 | Tree traversal and recursive invariants |
+| 53 | [Kth Smallest Element in a BST](https://leetcode.com/problems/kth-smallest-element-in-a-bst) | Grind 75 | Tree traversal and recursive invariants |
+| 54 | [Lowest Common Ancestor of a Binary Search Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree) | Grind 75 | Tree traversal and recursive invariants |
+| 55 | [Lowest Common Ancestor of a Binary Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree) | Grind 75 | Tree traversal and recursive invariants |
+| 56 | [Construct Binary Tree from Preorder and Inorder Traversal](https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal) | Grind 75 | Tree traversal and recursive invariants |
+| 57 | [Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring) | Grind 75 | Sliding-window checkpoint |
+| 58 | [Flood Fill](https://leetcode.com/problems/flood-fill) | Grind 75 | Graph traversal and breadth-first search |
+| 59 | [Number of Islands](https://leetcode.com/problems/number-of-islands) | Grind 75 + Bloomberg | Graph traversal and breadth-first search |
+| 60 | [Clone Graph](https://leetcode.com/problems/clone-graph) | Grind 75 | Graph traversal and breadth-first search |
+| 61 | [Rotting Oranges](https://leetcode.com/problems/rotting-oranges) | Grind 75 | Graph traversal and breadth-first search |
+| 62 | [01 Matrix](https://leetcode.com/problems/01-matrix) | Grind 75 | Graph traversal and breadth-first search |
+| 63 | [Fibonacci Number](https://leetcode.com/problems/fibonacci-number) | Bloomberg | Dynamic programming foundations |
+| 64 | [Climbing Stairs](https://leetcode.com/problems/climbing-stairs) | Grind 75 + Bloomberg | Dynamic programming foundations |
+| 65 | [House Robber](https://leetcode.com/problems/house-robber) | Bloomberg | Dynamic programming foundations |
+| 66 | [Unique Paths](https://leetcode.com/problems/unique-paths) | Grind 75 | Dynamic programming foundations |
+| 67 | [Coin Change](https://leetcode.com/problems/coin-change) | Grind 75 | Dynamic programming foundations |
+| 68 | [Subsets](https://leetcode.com/problems/subsets) | Grind 75 + Bloomberg | Backtracking and prefix trees |
+| 69 | [Permutations](https://leetcode.com/problems/permutations) | Grind 75 + Bloomberg | Backtracking and prefix trees |
+| 70 | [Letter Combinations of a Phone Number](https://leetcode.com/problems/letter-combinations-of-a-phone-number) | Grind 75 | Backtracking and prefix trees |
+| 71 | [Combination Sum](https://leetcode.com/problems/combination-sum) | Grind 75 + Bloomberg | Backtracking and prefix trees |
+| 72 | [Word Search](https://leetcode.com/problems/word-search) | Grind 75 | Backtracking and prefix trees |
+| 73 | [Implement Trie (Prefix Tree)](https://leetcode.com/problems/implement-trie-prefix-tree) | Grind 75 | Backtracking and prefix trees |
+| 74 | [K Closest Points to Origin](https://leetcode.com/problems/k-closest-points-to-origin) | Grind 75 | Heaps and pointer-based design |
+| 75 | [Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists) | Grind 75 | Heap applications: merging and streaming |
+| 76 | [Find Median from Data Stream](https://leetcode.com/problems/find-median-from-data-stream) | Grind 75 | Heap applications: merging and streaming |
+| 77 | [LRU Cache](https://leetcode.com/problems/lru-cache) | Grind 75 + Bloomberg | Heaps and pointer-based design |
+| 78 | [Insert Delete GetRandom O(1)](https://leetcode.com/problems/insert-delete-getrandom-o1) | Bloomberg | Heaps and pointer-based design |
+| 79 | [Number of Provinces](https://leetcode.com/problems/number-of-provinces) | Bloomberg | Connectivity and graph dependencies |
+| 80 | [Accounts Merge](https://leetcode.com/problems/accounts-merge) | Grind 75 | Connectivity and graph dependencies |
+| 81 | [Evaluate Division](https://leetcode.com/problems/evaluate-division) | Bloomberg | Connectivity and graph dependencies |
+| 82 | [Course Schedule](https://leetcode.com/problems/course-schedule) | Grind 75 | Connectivity and graph dependencies |
+| 83 | [Minimum Height Trees](https://leetcode.com/problems/minimum-height-trees) | Grind 75 | Connectivity and graph dependencies |
+| 84 | [Word Ladder](https://leetcode.com/problems/word-ladder) | Grind 75 | Graph search checkpoint |
+| 85 | [Serialize and Deserialize Binary Tree](https://leetcode.com/problems/serialize-and-deserialize-binary-tree) | Grind 75 | Tree reconstruction and encoding checkpoint |
+| 86 | [Spiral Matrix](https://leetcode.com/problems/spiral-matrix) | Grind 75 + Bloomberg | Simulation and string implementation |
+| 87 | [Rotate Image](https://leetcode.com/problems/rotate-image) | Bloomberg | Simulation and string implementation |
+| 88 | [Rotate Array](https://leetcode.com/problems/rotate-array) | Bloomberg | Simulation and string implementation |
+| 89 | [Find the Index of the First Occurrence in a String](https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string) | Bloomberg | Simulation and string implementation |
+| 90 | [Zigzag Conversion](https://leetcode.com/problems/zigzag-conversion) | Bloomberg | Simulation and string implementation |
+| 91 | [String to Integer (atoi)](https://leetcode.com/problems/string-to-integer-atoi) | Grind 75 | Simulation and string implementation |
+| 92 | [Add Binary](https://leetcode.com/problems/add-binary) | Grind 75 | Simulation and string implementation |
+| 93 | [Multiply Strings](https://leetcode.com/problems/multiply-strings) | Bloomberg | Simulation and string implementation |
+| 94 | [Smallest Divisible Digit Product I](https://leetcode.com/problems/smallest-divisible-digit-product-i) | Bloomberg | Simulation and string implementation |
+| 95 | [Smallest Missing Integer Greater Than Sequential Prefix Sum](https://leetcode.com/problems/smallest-missing-integer-greater-than-sequential-prefix-sum) | Bloomberg | Simulation and string implementation |
+| 96 | [Word Break](https://leetcode.com/problems/word-break) | Grind 75 | Dynamic programming state design |
+| 97 | [Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum) | Grind 75 | Dynamic programming state design |
+| 98 | [Longest Palindromic Substring](https://leetcode.com/problems/longest-palindromic-substring) | Grind 75 + Bloomberg | Dynamic programming state design |
+| 99 | [Maximum Profit in Job Scheduling](https://leetcode.com/problems/maximum-profit-in-job-scheduling) | Grind 75 | Dynamic programming state design |
+| 100 | [Two City Scheduling](https://leetcode.com/problems/two-city-scheduling) | Bloomberg | Greedy decisions and stack applications |
+| 101 | [Gas Station](https://leetcode.com/problems/gas-station) | Bloomberg | Greedy decisions and stack applications |
+| 102 | [Task Scheduler](https://leetcode.com/problems/task-scheduler) | Grind 75 | Greedy decisions and stack applications |
+| 103 | [Using a Robot to Print the Lexicographically Smallest String](https://leetcode.com/problems/using-a-robot-to-print-the-lexicographically-smallest-string) | Bloomberg | Greedy decisions and stack applications |
+| 104 | [Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water) | Grind 75 + Bloomberg | Greedy decisions and stack applications |
+| 105 | [Largest Rectangle in Histogram](https://leetcode.com/problems/largest-rectangle-in-histogram) | Grind 75 | Greedy decisions and stack applications |
+| 106 | [Basic Calculator](https://leetcode.com/problems/basic-calculator) | Grind 75 | Greedy decisions and stack applications |
+| 107 | [Single Number](https://leetcode.com/problems/single-number) | Bloomberg | Arithmetic and advanced array invariants |
+| 108 | [Divide Two Integers](https://leetcode.com/problems/divide-two-integers) | Bloomberg | Arithmetic and advanced array invariants |
+| 109 | [Stone Game IV](https://leetcode.com/problems/stone-game-iv) | Bloomberg | Dynamic programming game-state extension |
 | 110 | [Next Permutation](https://leetcode.com/problems/next-permutation) | Bloomberg | Arithmetic and advanced array invariants |
 | 111 | [Split Array Largest Sum](https://leetcode.com/problems/split-array-largest-sum) | Bloomberg | Arithmetic and advanced array invariants |
 | 112 | [Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays) | Bloomberg | Arithmetic and advanced array invariants |
