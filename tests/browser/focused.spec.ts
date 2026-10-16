@@ -38,40 +38,49 @@ for (const width of [1280, 390]) {
       },
       history: [],
       progress: Object.fromEntries(
-        original
-          .slice(0, 26)
-          .map((p) => [
-            p.id,
-            {
-              due: "2099-01-01",
-              card: null,
-              imported: true,
-              note: `Saved note: ${p.id}`,
-              independent: false,
-            },
-          ]),
+        original.slice(0, 26).map((p) => [
+          p.id,
+          {
+            due: "2099-01-01",
+            card: null,
+            imported: true,
+            note: `Saved note: ${p.id}`,
+            independent: false,
+          },
+        ]),
       ),
     };
+    for (const id of [
+      "min-stack",
+      "house-robber",
+      "maximum-subarray",
+      "subarray-sum-equals-k",
+    ])
+      state.progress[id] = {
+        due: "2099-01-01",
+        card: null,
+        imported: true,
+        note: `Saved note: ${id}`,
+        independent: false,
+      };
     page.on("dialog", (d) => d.accept());
-    await page
-      .getByLabel("Import backup file")
-      .setInputFiles({
-        name: "legacy.json",
-        mimeType: "application/json",
-        buffer: Buffer.from(JSON.stringify(state)),
-      });
+    await page.getByLabel("Import backup file").setInputFiles({
+      name: "legacy.json",
+      mimeType: "application/json",
+      buffer: Buffer.from(JSON.stringify(state)),
+    });
     await expect(page.locator(".sidebar-plan")).toContainText(
-      "26 of 117 practiced",
+      "30 of 100 practiced",
     );
     await page
       .getByRole("button", { name: "All problems", exact: true })
       .click();
-    await expect(page.locator(".week-group .problem-row")).toHaveCount(117);
+    await expect(page.locator(".week-group .problem-row")).toHaveCount(100);
     const orders = await page
       .locator(".week-group .problem-row .meta")
       .allTextContents();
     expect(orders.map((t) => Number(t.match(/#(\d+)/)![1]))).toEqual(
-      Array.from({ length: 117 }, (_, i) => i + 1),
+      Array.from({ length: 100 }, (_, i) => i + 1),
     );
     await page.getByLabel("Search problems").fill("Meeting Rooms");
     await expect(page.locator(".week-group .problem-row")).toHaveCount(1);
@@ -83,9 +92,12 @@ for (const width of [1280, 390]) {
     await page.getByRole("button", { name: "Close practice" }).click();
     await page.getByLabel("Search problems").fill("");
     await page.getByLabel("Problem collection").selectOption("Archive");
-    await expect(page.locator("a.problem-row")).toHaveCount(77);
+    await expect(page.locator("a.problem-row")).toHaveCount(94);
     await expect(
       page.getByRole("link", { name: /Sudoku Solver/ }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: /Stone Game IV/ }),
     ).toBeVisible();
     await page.getByLabel("Search problems").fill("Meeting Rooms");
     await expect(
@@ -107,7 +119,7 @@ for (const width of [1280, 390]) {
     );
     await page.reload();
     await expect(page.locator(".sidebar-plan")).toContainText(
-      "27 of 117 practiced",
+      "31 of 100 practiced",
     );
     const remote = await (await page.request.get("/api/grind/state")).json();
     expect(
@@ -115,8 +127,8 @@ for (const width of [1280, 390]) {
         "using-a-robot-to-print-the-lexicographically-smallest-string"
       ].note,
     ).toBe("Track the minimum remaining character");
-    for (const p of original.slice(0, 26))
-      expect(remote.state.progress[p.id]).toEqual(state.progress[p.id]);
+    for (const [id, progress] of Object.entries(state.progress))
+      expect(remote.state.progress[id]).toEqual(progress);
     await page
       .getByRole("button", { name: "All problems", exact: true })
       .click();

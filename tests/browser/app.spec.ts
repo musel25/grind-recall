@@ -25,7 +25,7 @@ test("complete daily work, preserve it on reload, undo and backup round trip", a
   await expect(
     page.getByRole("heading", { name: "Your practice, today." }),
   ).toBeVisible();
-  await expect(page.locator(".sidebar-plan")).toContainText("10 of 115");
+  await expect(page.locator(".sidebar-plan")).toContainText("10 of 97");
   const count = await page.locator(".problem-row").count();
   expect(count).toBeGreaterThan(0);
   for (let i = 0; i < count; i++) {
@@ -228,6 +228,11 @@ test("plan by time or deadline; preserve pause and ratings survive reload", asyn
   await page.getByLabel("Plan by").selectOption("deadline");
   await page.getByLabel("Plan length (weeks)").fill("20");
   await expect(page.getByLabel("Plan estimate")).toContainText("20 weeks");
+  const requiredHours = Number(
+    (await page.getByLabel("Plan estimate").innerText()).match(
+      /([\d.]+) hours\/week/,
+    )![1],
+  );
   await page
     .getByRole("button", { name: "Save settings", exact: true })
     .click();
@@ -243,7 +248,7 @@ test("plan by time or deadline; preserve pause and ratings survive reload", asyn
   );
   expect(saved.settings.planMode).toBe("deadline");
   expect(saved.settings.weeks).toBe(20);
-  expect(saved.settings.hours).toBeGreaterThan(10);
+  expect(saved.settings.hours).toBe(requiredHours);
   expect(saved.planning.breaks).toHaveLength(5);
   await page.getByRole("button", { name: "Today", exact: true }).click();
   await page

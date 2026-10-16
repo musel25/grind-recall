@@ -23,7 +23,12 @@ test("old backups keep practiced extras but never schedule untouched archive ent
   const before = JSON.stringify(s);
   const plan = dailyPlan(validateState(s), day);
   assert.ok(!plan.newProblems.some((p) => p.id === "sudoku-solver"));
-  assert.ok(plan.newProblems.some((p) => p.id === "concatenation-of-array"));
+  assert.ok(
+    plan.newProblems.some(
+      (p) =>
+        p.id === "using-a-robot-to-print-the-lexicographically-smallest-string",
+    ),
+  );
   assert.equal(JSON.stringify(s), before);
 });
 test("a practiced archived extra stays reviewable and survives a backup round trip", () => {
@@ -47,22 +52,27 @@ test("a practiced archived extra stays reviewable and survives a backup round tr
 import { activeProblems, archivedProblems, initialTen } from "../src/catalog";
 import sources from "../docs/catalog/focused-sources.json";
 import { problems } from "../src/model";
-test("requested lists are complete, deduplicated and account-specific extras fill ordered slots", () => {
+test("selected lists are complete, deduplicated and account-specific extras fill ordered slots", () => {
   const s = initialState(day);
   const active = activeProblems(s);
   assert.equal(sources.core.length, 75);
   assert.equal(sources.bloomberg.length, 57);
-  assert.equal(active.length, 115);
+  assert.equal(active.length, 97);
   assert.equal(active.filter((p) => p.core && p.bloomberg).length, 17);
   assert.deepEqual(
     new Set(active.map((p) => p.id)),
-    new Set([...sources.core, ...sources.bloomberg.map((p) => p.id)]),
+    new Set([
+      ...sources.core,
+      ...sources.bloomberg
+        .filter((p) => !approvedCuts.includes(p.id))
+        .map((p) => p.id),
+    ]),
   );
-  assert.equal(archivedProblems(s).length, 79);
+  assert.equal(archivedProblems(s).length, 97);
   s.progress["meeting-rooms"] = { ...saved };
   s.progress["roman-to-integer"] = { ...saved };
   const retained = activeProblems(s);
-  assert.equal(retained.length, 117);
+  assert.equal(retained.length, 99);
   assert.ok(!archivedProblems(s).some((p) => p.id === "meeting-rooms"));
   assert.ok(
     retained.findIndex((p) => p.id === "meeting-rooms") <
@@ -70,9 +80,9 @@ test("requested lists are complete, deduplicated and account-specific extras fil
   );
   assert.deepEqual(
     retained.map((p) => p.order),
-    Array.from({ length: 117 }, (_, i) => i + 1),
+    Array.from({ length: 99 }, (_, i) => i + 1),
   );
-  assert.equal(activeProblems(initialState(day)).length, 115);
+  assert.equal(activeProblems(initialState(day)).length, 97);
 });
 test("onboarding imports the historical first ten even after reordering", () => {
   assert.deepEqual(
@@ -90,8 +100,8 @@ test("forecast finishes the focused list without scheduling the archive or mutat
   assert.equal(dailyPlan(s, day).nextExtra, undefined);
   assert.equal(dailyPlan(s, day).newProblems.length, 0);
   assert.equal(JSON.stringify(s), before);
-  delete s.progress["concatenation-of-array"];
-  assert.equal(dailyPlan(s, day).newProblems[0].id, "concatenation-of-array");
+  delete s.progress["contains-duplicate"];
+  assert.equal(dailyPlan(s, day).newProblems[0].id, "contains-duplicate");
   assert.equal(estimatePlan(s, day).finish, day);
 });
 test("new and legacy backup entries including Bloomberg additions survive validation unchanged", () => {
@@ -144,7 +154,9 @@ test("focused applications follow their prerequisites even when optional extras 
     ["recyclable-and-low-fat-products", "article-views-i"],
     ["article-views-i", "game-play-analysis-iv"],
   ];
-  for (const [a, b] of pairs) {
+  for (const [a, b] of pairs.filter((pair) =>
+    pair.every((id) => !approvedCuts.includes(id)),
+  )) {
     const ai = active.findIndex((p) => p.id === a),
       bi = active.findIndex((p) => p.id === b);
     assert.ok(ai >= 0 && bi > ai, `${a} before ${b}`);
@@ -159,8 +171,55 @@ test("follow-ups stay near foundations and representative hard problems precede 
     ["decode-string", "binary-tree-level-order-traversal"],
     ["minimum-window-substring", "coin-change"],
     ["merge-k-sorted-lists", "word-break"],
-    ["find-median-from-data-stream", "stone-game-iv"],
-    ["word-ladder", "stone-game-iv"],
+    ["find-median-from-data-stream", "split-array-largest-sum"],
+    ["word-ladder", "split-array-largest-sum"],
   ])
     assert.ok(ids.indexOf(a) < ids.indexOf(b), `${a} before ${b}`);
+});
+
+const approvedCuts =
+  `recyclable-and-low-fat-products article-views-i game-play-analysis-iv concatenation-of-array fibonacci-number smallest-divisible-digit-product-i smallest-missing-integer-greater-than-sequential-prefix-sum stone-game-iv median-of-two-sorted-arrays divide-two-integers zigzag-conversion multiply-strings find-the-index-of-the-first-occurrence-in-a-string happy-number contains-duplicate-ii valid-triangle-number rotate-array next-permutation`.split(
+    " ",
+  );
+test("approved cuts yield 100 with the three practiced extras, without deleting any work", () => {
+  const s = initialState(day);
+  for (const p of original.slice(0, 26)) s.progress[p.id] = { ...saved };
+  for (const id of [
+    "min-stack",
+    "house-robber",
+    "maximum-subarray",
+    "subarray-sum-equals-k",
+  ])
+    s.progress[id] = { ...saved };
+  const before = JSON.stringify(s);
+  const active = activeProblems(s);
+  assert.equal(active.length, 100);
+  assert.equal(active.filter((p) => !s.progress[p.id]).length, 70);
+  assert.equal(active.filter((p) => p.core).length, 75);
+  for (const id of approvedCuts) {
+    assert.ok(!active.some((p) => p.id === id), id);
+    assert.ok(
+      archivedProblems(s).some((p) => p.id === id),
+      id,
+    );
+  }
+  assert.equal(JSON.stringify(s), before);
+});
+test("cut Bloomberg problems remain valid and reviewable if another account already practiced them", () => {
+  const s = recordAttempt(
+    initialState(day),
+    "stone-game-iv",
+    3,
+    day,
+    45,
+    "Preserve this",
+  );
+  assert.deepEqual(validateState(s), s);
+  assert.ok(activeProblems(s).some((p) => p.id === "stone-game-iv"));
+  assert.ok(!archivedProblems(s).some((p) => p.id === "stone-game-iv"));
+  assert.ok(
+    dailyPlan(s, s.progress["stone-game-iv"].due).reviews.some(
+      (p) => p.id === "stone-game-iv",
+    ),
+  );
 });

@@ -10,7 +10,8 @@
     "stage": "Array and hash-table foundations",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "title": "Contains Duplicate",
@@ -241,7 +242,8 @@
     "stage": "Pointers and sliding windows",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "title": "Longest Substring Without Repeating Characters",
@@ -326,7 +328,8 @@
     "stage": "Pointers and sliding windows",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "title": "Sort Colors",
@@ -399,7 +402,8 @@
     "stage": "Linked-list and stack foundations",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "title": "Remove Nth Node From End of List",
@@ -1015,7 +1019,8 @@
     "stage": "Dynamic programming foundations",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "title": "Climbing Stairs",
@@ -1521,7 +1526,8 @@
     "order": 126,
     "stage": "Simulation and string implementation",
     "core": false,
-    "bloomberg": true
+    "bloomberg": true,
+    "deferred": true
   },
   {
     "title": "Longest Common Prefix",
@@ -1546,7 +1552,8 @@
     "stage": "Simulation and string implementation",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "id": "zigzag-conversion",
@@ -1559,7 +1566,8 @@
     "stage": "Simulation and string implementation",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "title": "Roman to Integer",
@@ -1608,7 +1616,8 @@
     "stage": "Simulation and string implementation",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "id": "smallest-divisible-digit-product-i",
@@ -1621,7 +1630,8 @@
     "stage": "Simulation and string implementation",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "id": "smallest-missing-integer-greater-than-sequential-prefix-sum",
@@ -1634,7 +1644,8 @@
     "stage": "Simulation and string implementation",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "title": "Palindrome Number",
@@ -2213,7 +2224,8 @@
     "stage": "Arithmetic and advanced array invariants",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "id": "stone-game-iv",
@@ -2226,7 +2238,8 @@
     "stage": "Dynamic programming game-state extension",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "title": "Find the Duplicate Number",
@@ -2250,7 +2263,8 @@
     "order": 186,
     "stage": "Arithmetic and advanced array invariants",
     "core": false,
-    "bloomberg": true
+    "bloomberg": true,
+    "deferred": true
   },
   {
     "title": "First Missing Positive",
@@ -2311,7 +2325,8 @@
     "order": 191,
     "stage": "Arithmetic and advanced array invariants",
     "core": false,
-    "bloomberg": true
+    "bloomberg": true,
+    "deferred": true
   },
   {
     "id": "recyclable-and-low-fat-products",
@@ -2324,7 +2339,8 @@
     "stage": "SQL: filtering, distinct rows, then grouped retention",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "id": "article-views-i",
@@ -2337,7 +2353,8 @@
     "stage": "SQL: filtering, distinct rows, then grouped retention",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "id": "game-play-analysis-iv",
@@ -2350,6 +2367,7 @@
     "stage": "SQL: filtering, distinct rows, then grouped retention",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   }
 ]

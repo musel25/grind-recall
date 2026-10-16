@@ -96,7 +96,7 @@ test("refresh and Sync now expose all eight attempts from an old tab and recover
     .getByRole("button", { name: "Restore browser progress to my account" })
     .click();
   await expect(
-    page.getByText("26 of 117 practiced", { exact: true }),
+    page.getByText("26 of 99 practiced", { exact: true }),
   ).toBeVisible();
   await expect(page.locator('.account-bar [role="status"]')).toContainText(
     "Saved to your account",
@@ -105,7 +105,7 @@ test("refresh and Sync now expose all eight attempts from an old tab and recover
   expect(remote.state.history).toHaveLength(16);
   await page.reload();
   await expect(
-    page.getByText("26 of 117 practiced", { exact: true }),
+    page.getByText("26 of 99 practiced", { exact: true }),
   ).toBeVisible();
   await expect(page.getByRole("alert")).toHaveCount(0);
   expect(

@@ -21,7 +21,7 @@ npx playwright test # requires local Vite, a disposable Timer API/DB, and Google
 
 ## Scheduling and the math
 
-The focused plan contains 115 unique problems: the supplied Grind 75 plus 57 Bloomberg problems with 17 shared entries. Practiced extras from the original 169 stay active per account; untouched extras are archived. Original time estimates are retained; the 25 newly added problems use estimated solve times of 20/30/45 minutes for Easy/Medium/Hard, doubled for first-pass solve + study.
+The focused base contains 97 unique problems: all 75 Grind problems plus 22 selected Bloomberg-only additions. With the user’s three practiced extras this is 100 active problems. Eighteen approved Bloomberg-only cuts are archived; original source membership remains recorded. Practiced extras from the original 169 stay active per account; untouched extras are archived. Original time estimates are retained; the 25 newly added problems use estimated solve times of 20/30/45 minutes for Easy/Medium/Hard, doubled for first-pass solve + study.
 
 FSRS via `ts-fsrs` uses default parameters and 90% desired retention, deterministic intervals, and no intraday steps. Again returns the next study day, retaining FSRS memory state. Hard, Good, and Easy use FSRS intervals from the first attempt onward. The rate button leads to all four choices, each showing its next due date. This is a coding-practice adaptation, not a guarantee of 90% interview performance. Dates are calendar days in the selected timezone. The four ratings distinguish needing help from independently solving with difficulty.
 

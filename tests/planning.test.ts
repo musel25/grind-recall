@@ -34,8 +34,9 @@ test("deadline mode solves budget against the same actual daily queue", () => {
   const s = base();
   s.settings.planMode = "deadline";
   s.settings.weeks = 20;
+  s.settings.hours = 1; // Deliberately insufficient starting budget.
   const a = estimatePlan(s, day);
-  assert.ok(a.hours > 10);
+  assert.ok(a.hours > s.settings.hours);
   assert.equal(a.weeks, 20);
   assert.ok(a.finish! <= addDays(day, 139));
   assert.equal(simulatePace(s, day, a.hours).finish, a.finish);

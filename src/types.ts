@@ -9,6 +9,7 @@ export type Problem = {
   order: number;
   core?: boolean;
   bloomberg?: boolean;
+  deferred?: boolean;
   stage?: string;
   estimatedMinutes?: boolean;
 };

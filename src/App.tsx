@@ -204,7 +204,8 @@ export default function App({
             </>
           )}
           <small>
-            Your pace · 115 focused problems · Synced to your account
+            Your pace · {activeProblems().length} focused problems + practiced
+            extras · Synced to your account
           </small>
         </div>
         <a
@@ -1065,8 +1066,8 @@ function ProblemList({
           {activeProblems(state).length} active problems in prerequisite-based
           learning order, grouped across your {groups.length}-week plan by
           estimated effort. This is your roadmap; Today accounts for reviews and
-          study breaks. Includes all 75 Grind problems, 57 Bloomberg problems
-          (17 shared), and your practiced extras.
+          study breaks. Includes all 75 Grind problems, 22 additional Bloomberg
+          problems, and your practiced extras.
         </p>
       </div>
       <div className="list-tools">

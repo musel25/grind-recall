@@ -81,7 +81,7 @@ test("an existing first-26 backup starts at the earliest unpracticed focused pro
   const restored = validateState(JSON.parse(backup));
   assert.equal(
     dailyPlan(restored, "2026-10-05").newProblems[0].id,
-    "concatenation-of-array",
+    "best-time-to-buy-and-sell-stock-ii",
   );
   assert.equal(JSON.stringify(restored), backup);
 });

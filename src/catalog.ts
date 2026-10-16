@@ -18,7 +18,7 @@ export function activeProblems(state?: StudyState | null): Problem[] {
     .filter(
       (p) =>
         p.core ||
-        p.bloomberg ||
+        (p.bloomberg && !p.deferred) ||
         !!state?.progress[p.id] ||
         !!state?.morningStudy?.[p.id],
     )

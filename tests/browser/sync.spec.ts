@@ -60,7 +60,7 @@ test("migrates the original plan unchanged, syncs to a phone, and isolates a sec
         ]),
     ),
     history: [],
-    morningStudy: { "concatenation-of-array": day },
+    morningStudy: { "contains-duplicate": day },
     planning: { breaks: ["2026-10-08", "2026-10-09"], days: {}, weeks: {} },
   };
   await page.addInitScript((s) => {
@@ -90,7 +90,7 @@ test("migrates the original plan unchanged, syncs to a phone, and isolates a sec
   await signedIn(mobile, email);
   await expect(
     mobile.getByRole("region", { name: "Practice tonight" }),
-  ).toContainText("Concatenation of Array");
+  ).toContainText("Contains Duplicate");
   expect((await serverState(mobile)).state).toEqual(legacy);
   await page
     .getByRole("button", { name: "Start practice", exact: true })
@@ -172,7 +172,7 @@ test("offline work retries and concurrent device edits require explicit recovery
   await page.context().setOffline(true);
   await page
     .getByRole("button", {
-      name: "Studied Concatenation of Array this morning",
+      name: "Studied Contains Duplicate this morning",
       exact: true,
     })
     .click();
@@ -203,7 +203,7 @@ test("offline work retries and concurrent device edits require explicit recovery
   await page.context().setOffline(true);
   await page
     .getByRole("button", {
-      name: "Studied Concatenation of Array this morning",
+      name: "Studied Contains Duplicate this morning",
       exact: true,
     })
     .click();
@@ -211,12 +211,12 @@ test("offline work retries and concurrent device edits require explicit recovery
   await expect
     .poll(
       async () =>
-        (await serverState(page)).state.morningStudy?.["concatenation-of-array"],
+        (await serverState(page)).state.morningStudy?.["contains-duplicate"],
     )
     .toBeTruthy();
   await mobile.getByRole("button", { name: "Sync now", exact: true }).click();
   await expect(
     mobile.getByRole("region", { name: "Practice tonight" }),
-  ).toContainText("Concatenation of Array");
+  ).toContainText("Contains Duplicate");
   await phone.close();
 });
