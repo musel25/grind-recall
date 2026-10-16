@@ -1,4 +1,5 @@
-import data from "./problems.json";
+import { problems, initialTen } from "./catalog";
+export { problems } from "./catalog";
 import {
   addDays,
   nextReview,
@@ -9,8 +10,8 @@ import {
   reviewSlot,
   moveReview,
 } from "./scheduler";
-import type { Problem, StudyState } from "./types";
-export const problems: Problem[] = data;
+import type { StudyState } from "./types";
+
 export function initialState(day: string, importTen = false): StudyState {
   const state: StudyState = {
     version: 1,
@@ -26,9 +27,9 @@ export function initialState(day: string, importTen = false): StudyState {
     history: [],
   };
   if (importTen)
-    for (const p of problems.slice(0, 10))
-      state.progress[p.id] = {
-        due: addDays(day, 1 + Math.floor((p.order - 1) / 2)),
+    for (const [i, id] of initialTen.entries())
+      state.progress[id] = {
+        due: addDays(day, 1 + Math.floor(i / 2)),
         card: null,
         imported: true,
         note: "",

@@ -60,7 +60,7 @@ test("migrates the original plan unchanged, syncs to a phone, and isolates a sec
         ]),
     ),
     history: [],
-    morningStudy: { "balanced-binary-tree": day },
+    morningStudy: { "concatenation-of-array": day },
     planning: { breaks: ["2026-10-08", "2026-10-09"], days: {}, weeks: {} },
   };
   await page.addInitScript((s) => {
@@ -90,7 +90,7 @@ test("migrates the original plan unchanged, syncs to a phone, and isolates a sec
   await signedIn(mobile, email);
   await expect(
     mobile.getByRole("region", { name: "Practice tonight" }),
-  ).toContainText("Balanced Binary Tree");
+  ).toContainText("Concatenation of Array");
   expect((await serverState(mobile)).state).toEqual(legacy);
   await page
     .getByRole("button", { name: "Start practice", exact: true })
@@ -172,7 +172,7 @@ test("offline work retries and concurrent device edits require explicit recovery
   await page.context().setOffline(true);
   await page
     .getByRole("button", {
-      name: "Studied Balanced Binary Tree this morning",
+      name: "Studied Concatenation of Array this morning",
       exact: true,
     })
     .click();
@@ -203,7 +203,7 @@ test("offline work retries and concurrent device edits require explicit recovery
   await page.context().setOffline(true);
   await page
     .getByRole("button", {
-      name: "Studied Balanced Binary Tree this morning",
+      name: "Studied Concatenation of Array this morning",
       exact: true,
     })
     .click();
@@ -211,12 +211,12 @@ test("offline work retries and concurrent device edits require explicit recovery
   await expect
     .poll(
       async () =>
-        (await serverState(page)).state.morningStudy?.["balanced-binary-tree"],
+        (await serverState(page)).state.morningStudy?.["concatenation-of-array"],
     )
     .toBeTruthy();
   await mobile.getByRole("button", { name: "Sync now", exact: true }).click();
   await expect(
     mobile.getByRole("region", { name: "Practice tonight" }),
-  ).toContainText("Balanced Binary Tree");
+  ).toContainText("Concatenation of Array");
   await phone.close();
 });

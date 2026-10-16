@@ -2,6 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   initialState,
+  problems,
   recordAttempt,
   undoAttempt,
   addExtraProblem,
@@ -111,20 +112,11 @@ test("legacy backup and flexible plan round-trip; invalid overrides rejected", (
 
 test("adding a long next problem does not silently add a shorter following problem too", () => {
   let s = initialState(day, true);
-  // Leave Diameter of Binary Tree (60m solve+study) followed by Middle (40m).
-  for (const id of [
-    "balanced-binary-tree",
-    "linked-list-cycle",
-    "implement-queue-using-stacks",
-    "first-bad-version",
-    "ransom-note",
-    "climbing-stairs",
-    "longest-palindrome",
-    "reverse-linked-list",
-    "majority-element",
-    "add-binary",
-  ])
-    s.progress[id] = {
+  // Leave Group Anagrams (60m solve+study) before Single Number (30m).
+  for (const p of problems.filter(
+    (p) => !["group-anagrams", "single-number"].includes(p.id),
+  ))
+    s.progress[p.id] = {
       due: "2026-11-01",
       card: null,
       imported: true,
@@ -136,8 +128,8 @@ test("adding a long next problem does not silently add a shorter following probl
   s = addExtraProblem(s, day);
   assert.deepEqual(
     dailyPlan(s, day).newProblems.map((p) => p.id),
-    ["diameter-of-binary-tree"],
+    ["group-anagrams"],
   );
-  s = recordAttempt(s, "diameter-of-binary-tree", 3, day, 30, "");
+  s = recordAttempt(s, "group-anagrams", 3, day, 30, "");
   assert.equal(dailyPlan(s, day).newProblems.length, 0);
 });

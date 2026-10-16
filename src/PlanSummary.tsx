@@ -12,7 +12,7 @@ export function PlanSummary({ plan }: { plan: PlanEstimate }) {
   if (plan.completed)
     return (
       <div className="plan-estimate" aria-label="Plan estimate">
-        <strong>All 169 problems practiced</strong>
+        <strong>All active problems practiced</strong>
         <p>
           Your reviews continue at your usual {plan.hours.toFixed(1)}{" "}
           hours/week. Use daily time mode to adjust your review routine.
@@ -45,7 +45,7 @@ export function PlanSummary({ plan }: { plan: PlanEstimate }) {
         Includes new problems and spaced reviews, with future attempts rated
         Good. Actual ratings and time may change the estimate. Daily time is an
         average; breaks and weekly progress redistribute it. Completion means
-        all 169 practiced at least once; reviews continue.
+        all active problems practiced at least once; reviews continue.
       </small>
     </div>
   );

@@ -39,7 +39,7 @@ test("Thursday through Sunday is free; four imported reviews resume Monday", () 
   assert.equal(s.settings.weeks, 15);
   assert.equal(dailyPlan(s, day).end, "2027-01-16");
   assert.deepEqual(original.history, s.history);
-  assert.equal(original.progress[problems[9].id].due, "2026-10-09");
+  assert.equal(original.progress["lowest-common-ancestor-of-a-binary-search-tree"].due, "2026-10-09");
 });
 test("rating preview and saved first exposure use the same post-break date", () => {
   const s = setStudyBreak(initialState(day), "2026-10-08", "2026-10-11");

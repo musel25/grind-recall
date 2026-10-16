@@ -7,6 +7,10 @@ export type Problem = {
   minutes: number;
   week: number;
   order: number;
+  core?: boolean;
+  bloomberg?: boolean;
+  stage?: string;
+  estimatedMinutes?: boolean;
 };
 export type StoredCard = Omit<Card, "due" | "last_review"> & {
   due: string;

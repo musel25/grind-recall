@@ -104,7 +104,7 @@ test("backup validation rejects malformed skip lists and accepts old backups", (
 
 test("forecasts respect skipping today and deadline recalculation cannot refill today's queue", () => {
   let s = model.initialState(day);
-  for (const p of model.problems.slice(1))
+  for (const p of model.problems.filter(p => p.id !== "two-sum"))
     s.progress[p.id] = {
       due: "2027-01-01",
       card: null,

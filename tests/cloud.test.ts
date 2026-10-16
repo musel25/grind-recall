@@ -139,7 +139,8 @@ test("remote updates wait while a practice or settings draft is open", async () 
 
 // An old, still-open app writes the original key after account migration.
 // Reload must reveal that work even though the account already has a snapshot.
-import { recordAttempt, problems, undoAttempt } from "../src/model";
+import { recordAttempt, undoAttempt } from "../src/model";
+import problems from "../docs/catalog/original-problems.json";
 import { STORAGE_KEY } from "../src/storage";
 function practiced(count: number) {
   let s = initialState("2026-10-05", true);

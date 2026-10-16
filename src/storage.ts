@@ -108,12 +108,12 @@ export function validateState(input: unknown): StudyState {
           (!numeric(entry.skipBudgetMinutes, 0, 1440) ||
             !Number.isInteger(entry.skipBudgetMinutes))) ||
         !Array.isArray(entry.extras) ||
-        entry.extras.length > 169 ||
+        entry.extras.length > ids.size ||
         new Set(entry.extras).size !== entry.extras.length ||
         entry.extras.some((id) => !ids.has(id)) ||
         (entry.skipped !== undefined &&
           (!Array.isArray(entry.skipped) ||
-            entry.skipped.length > 169 ||
+            entry.skipped.length > ids.size ||
             new Set(entry.skipped).size !== entry.skipped.length ||
             entry.skipped.some((id) => !ids.has(id))))
       )

@@ -13,8 +13,10 @@ import {
   nextReview,
   dailyPlan,
 } from "../src/scheduler.ts";
+import original from "../docs/catalog/original-problems.json";
 const day = "2026-10-04";
-test("dataset matches supplied 169 problem list and time budget", () => {
+test("historical dataset retains supplied 169 problem metadata and time budget", () => {
+  const problems = original;
   assert.equal(problems.length, 169);
   assert.equal(new Set(problems.map((p) => p.id)).size, 169);
   assert.equal(

@@ -1,196 +1,147 @@
-# Learning order for all 169 problems
+# Grind 75 + Bloomberg learning order
 
-Reordered on 2026-10-05. This is a prerequisite-aware learning sequence tailored to a learner with the original first 26 already recorded, not a universal ranking or a claim about interview frequency. All 169 original problems remain; IDs, URLs, time estimates, supplied difficulty labels, and legacy week metadata are unchanged. The first 26 remain in place to preserve the existing foundation and first-ten onboarding import. New practice begins with House Robber, Maximum Subarray, Subarray Sum Equals K, Min Stack, and Daily Temperatures.
+The active plan contains the user's exact 75 Grind problems and exact 57 Bloomberg Thirty Days entries: 17 overlap, leaving **115 unique problems**. Every account also retains its previously practiced extras. Unrated morning-study items remain active so in-flight study is not lost. The other original problems are archived, searchable and linked from the Archive view; they are excluded from new assignments and forecasts.
 
-## Original order and restoration
+The [source manifest](focused-sources.json) preserves membership and the pasted Bloomberg frequencies. This is the user's historical snapshot, not a claim about current Bloomberg interview frequency. It includes all three SQL entries. New problems absent from the original catalog use clearly estimated solve times: Easy 20, Medium 30, Hard 45 minutes; first-pass study remains twice solve time. Existing estimates and stable IDs are unchanged.
 
-[original-problems.json](original-problems.json) is an exact copy of the pre-change catalog, including the original order and 15-week grouping. It is a historical snapshot, not the active curriculum. To restore the original sequence, copy it over src/problems.json, review the curriculum-specific tests and documentation, then test, commit, push, and deploy normally. Do not replace any account progress to restore an order: progress is keyed by stable problem IDs.
+## Learning rationale
 
-## Reasoning and double-check
+This is a pedagogical sequence, not a mathematically proven optimal ordering. Frequency is not used to move a problem ahead of its prerequisites. Short topic runs establish a technique; later stages return to it in more complex combinations. Due reviews remain first and provide spaced interleaving. New assignments follow the numbered sequence and do not skip ahead just to fill unused minutes.
 
-- Cover missing graph, DP, backtracking and heap foundations early, rather than finishing all Easies first.
-- Use short related runs to learn a technique, then return to it through later variations. Existing completed items are skipped for new assignments; due reviews still take priority.
-- DP starts with House Robber and Maximum Subarray. Unique Paths and Decode Ways precede segmentation and subset knapsack; binary-search practice breaks up the longer DP block.
-- Learn basic BFS before implicit graphs, directed cycle detection before topological ordering, and connectivity before Accounts Merge. Use union-find for the latter to broaden coverage.
-- Learn K Closest Points and Top K Frequent Words using heaps. Kth Largest adds selection practice; Merge k Sorted Lists precedes the two-heap invariant of streaming median.
-- Practice Subsets and Permutations before more elaborate search. Word Search and wildcard trie search precede Word Search II; N-Queens precedes Sudoku Solver.
-- Tree level order, validation and LCA precede reconstruction and serialization. Path Sum II and the existing Diameter exercise prepare tree path reasoning before Maximum Path Sum.
-- Stack evaluation precedes nested parsing and calculators; Daily Temperatures precedes monotonic deque/histogram applications.
-- Interleave advanced challenges with easier reinforcement instead of a final uninterrupted block of 26 Hards. The hardest specialized combinations remain late.
-- An independent review examined all 169 positions. Revisions addressed late introductory exercises, heap/DP progression, and long runs of Hards. Automated checks cover identity/metadata preservation, key learning dependencies, and existing-state compatibility.
+- Arrays and hash maps establish scans, lookup invariants and counting; pointers and windows build on those before harder coverage windows.
+- Reverse, merge, midpoint and cycle detection precede sublist reversal, reorder and cache design. Stack interfaces precede nested parsing, greedy stack choices and calculators.
+- Binary search and intervals precede rotated searches, time-based lookup, weighted scheduling, answer-space search and partitioning two sorted arrays.
+- Tree recursion precedes level-order, vertical traversal, BST invariants, reconstruction and serialization. Grid traversal precedes multi-source BFS and implicit word graphs.
+- Fibonacci, stairs and house robbery teach recurrence/state before coin change, word segmentation, subset knapsack, weighted scheduling and game states.
+- Subsets and permutations precede combination search; basic grid backtracking and trie insertion precede optional combined trie search.
+- Connectivity precedes account merging and ratio graphs; directed cycles precede optional topological sorting and leaf-pruning applications.
+- A heap-selection problem precedes multiway merge and streaming median. Greedy and stack work precedes rain-water/histogram invariants; binary-search foundations precede the final harder search problems.
+- SQL has its own final sequence: filtering, distinct rows, then grouped retention. These entries are retained exactly because the user supplied them; no inference is made about their relevance to a particular SWE interview.
 
-Order cannot alone test unfamiliar problem-solving: periodically attempt a mixed problem without looking at its pattern or solution. These entries carry no new solution hints in the practice UI.
+Optional practiced extras occupy related positions in the full catalog rather than an appended miscellaneous block. The 115 base problems do not rely on completing archived exercises: optional exercises reinforce a topic but are not required. Numbering is contiguous for each account's active list, so adding a retained extra shifts later displayed numbers without altering any progress keys. Imported first-ten onboarding uses explicit historical IDs, independent of curriculum positions.
 
-## Complete sequence
+## Preservation and archive
 
-| New position | Problem                                                   | Original position |
-| -----------: | --------------------------------------------------------- | ----------------: |
-|            1 | Two Sum                                                   |                 1 |
-|            2 | Valid Parentheses                                         |                 2 |
-|            3 | Merge Two Sorted Lists                                    |                 3 |
-|            4 | Best Time to Buy and Sell Stock                           |                 4 |
-|            5 | Valid Palindrome                                          |                 5 |
-|            6 | Invert Binary Tree                                        |                 6 |
-|            7 | Valid Anagram                                             |                 7 |
-|            8 | Binary Search                                             |                 8 |
-|            9 | Flood Fill                                                |                 9 |
-|           10 | Lowest Common Ancestor of a Binary Search Tree            |                10 |
-|           11 | Balanced Binary Tree                                      |                11 |
-|           12 | Linked List Cycle                                         |                12 |
-|           13 | Implement Queue using Stacks                              |                13 |
-|           14 | First Bad Version                                         |                14 |
-|           15 | Ransom Note                                               |                15 |
-|           16 | Climbing Stairs                                           |                16 |
-|           17 | Longest Palindrome                                        |                17 |
-|           18 | Reverse Linked List                                       |                18 |
-|           19 | Majority Element                                          |                19 |
-|           20 | Add Binary                                                |                20 |
-|           21 | Diameter of Binary Tree                                   |                21 |
-|           22 | Middle of the Linked List                                 |                22 |
-|           23 | Maximum Depth of Binary Tree                              |                23 |
-|           24 | Contains Duplicate                                        |                24 |
-|           25 | Meeting Rooms                                             |                25 |
-|           26 | Roman to Integer                                          |                26 |
-|           27 | House Robber                                              |                85 |
-|           28 | Maximum Subarray                                          |                42 |
-|           29 | Subarray Sum Equals K                                     |               117 |
-|           30 | Min Stack                                                 |                55 |
-|           31 | Daily Temperatures                                        |                84 |
-|           32 | Binary Tree Level Order Traversal                         |                48 |
-|           33 | Validate Binary Search Tree                               |                56 |
-|           34 | Number of Islands                                         |                57 |
-|           35 | Clone Graph                                               |                49 |
-|           36 | Rotting Oranges                                           |                58 |
-|           37 | 01 Matrix                                                 |                44 |
-|           38 | Letter Combinations of a Phone Number                     |                77 |
-|           39 | Subsets                                                   |                71 |
-|           40 | Permutations                                              |                61 |
-|           41 | Combination Sum                                           |                60 |
-|           42 | Coin Change                                               |                53 |
-|           43 | Jump Game                                                 |               111 |
-|           44 | K Closest Points to Origin                                |                45 |
-|           45 | Top K Frequent Words                                      |                96 |
-|           46 | Course Schedule                                           |                51 |
-|           47 | Course Schedule II                                        |                99 |
-|           48 | Non-overlapping Intervals                                 |               143 |
-|           49 | Implement Trie (Prefix Tree)                              |                52 |
-|           50 | Group Anagrams                                            |                89 |
-|           51 | Product of Array Except Self                              |                54 |
-|           52 | Longest Consecutive Sequence                              |               102 |
-|           53 | Longest Substring Without Repeating Characters            |                46 |
-|           54 | Longest Repeating Character Replacement                   |               109 |
-|           55 | Find All Anagrams in a String                             |                79 |
-|           56 | 3Sum                                                      |                47 |
-|           57 | Container With Most Water                                 |                76 |
-|           58 | Merge Intervals                                           |                62 |
-|           59 | Insert Interval                                           |                43 |
-|           60 | Same Tree                                                 |                29 |
-|           61 | Subtree of Another Tree                                   |                40 |
-|           62 | Kth Smallest Element in a BST                             |                83 |
-|           63 | Lowest Common Ancestor of a Binary Tree                   |                63 |
-|           64 | Remove Nth Node From End of List                          |                93 |
-|           65 | Add Two Numbers                                           |               112 |
-|           66 | Reorder List                                              |               133 |
-|           67 | Graph Valid Tree                                          |                98 |
-|           68 | Number of Connected Components in an Undirected Graph     |               115 |
-|           69 | Accounts Merge                                            |                65 |
-|           70 | Generate Parentheses                                      |               113 |
-|           71 | Word Search                                               |                78 |
-|           72 | Unique Paths                                              |                74 |
-|           73 | Decode Ways                                               |               129 |
-|           74 | Word Break                                                |                67 |
-|           75 | Time Based Key-Value Store                                |                64 |
-|           76 | Search a 2D Matrix                                        |               127 |
-|           77 | Partition Equal Subset Sum                                |                68 |
-|           78 | Maximum Product Subarray                                  |                90 |
-|           79 | Longest Increasing Subsequence                            |                97 |
-|           80 | Find Minimum in Rotated Sorted Array                      |               139 |
-|           81 | Search in Rotated Sorted Array                            |                59 |
-|           82 | Meeting Rooms II                                          |               130 |
-|           83 | Pacific Atlantic Water Flow                               |                92 |
-|           84 | Kth Largest Element in an Array                           |               120 |
-|           85 | LRU Cache                                                 |                82 |
-|           86 | Encode and Decode Strings                                 |               134 |
-|           87 | Evaluate Reverse Polish Notation                          |                50 |
-|           88 | Decode String                                             |               105 |
-|           89 | Spiral Matrix                                             |                70 |
-|           90 | Set Matrix Zeroes                                         |               132 |
-|           91 | Sort Colors                                               |                66 |
-|           92 | Minimum Window Substring                                  |               144 |
-|           93 | Construct Binary Tree from Preorder and Inorder Traversal |                75 |
-|           94 | Single Number                                             |                32 |
-|           95 | Serialize and Deserialize Binary Tree                     |               145 |
-|           96 | Random Pick with Weight                                   |               119 |
-|           97 | Maximum Frequency Stack                                   |               154 |
-|           98 | Longest Palindromic Substring                             |                73 |
-|           99 | Path Sum II                                               |               101 |
-|          100 | Binary Tree Maximum Path Sum                              |               153 |
-|          101 | Number of 1 Bits                                          |                30 |
-|          102 | Design Add and Search Words Data Structure                |                91 |
-|          103 | N-Queens                                                  |               168 |
-|          104 | Move Zeroes                                               |                34 |
-|          105 | Merge k Sorted Lists                                      |               151 |
-|          106 | Insert Delete GetRandom O(1)                              |               142 |
-|          107 | Employee Free Time                                        |               159 |
-|          108 | Counting Bits                                             |                28 |
-|          109 | Find Median from Data Stream                              |               147 |
-|          110 | Squares of a Sorted Array                                 |                41 |
-|          111 | Binary Tree Right Side View                               |                72 |
-|          112 | Path Sum III                                              |               125 |
-|          113 | Backspace String Compare                                  |                27 |
-|          114 | Palindrome Linked List                                    |                33 |
-|          115 | Symmetric Tree                                            |                35 |
-|          116 | Convert Sorted Array to Binary Search Tree                |                38 |
-|          117 | Contiguous Array                                          |               106 |
-|          118 | Asteroid Collision                                        |               118 |
-|          119 | Task Scheduler                                            |                81 |
-|          120 | Gas Station                                               |                86 |
-|          121 | Missing Number                                            |                36 |
-|          122 | Find the Duplicate Number                                 |                95 |
-|          123 | Sort List                                                 |               114 |
-|          124 | Maximal Square                                            |               121 |
-|          125 | Combination Sum IV                                        |               141 |
-|          126 | Cheapest Flights Within K Stops                           |               135 |
-|          127 | Shortest Path to Get Food                                 |                94 |
-|          128 | Word Ladder                                               |               148 |
-|          129 | All Nodes Distance K in Binary Tree                       |               136 |
-|          130 | Alien Dictionary                                          |               161 |
-|          131 | Find K Closest Elements                                   |               108 |
-|          132 | Sliding Window Maximum                                    |               163 |
-|          133 | Rotate Image                                              |               122 |
-|          134 | Trapping Rain Water                                       |               146 |
-|          135 | Maximum Width of Binary Tree                              |               107 |
-|          136 | Largest Rectangle in Histogram                            |               152 |
-|          137 | Binary Tree Zigzag Level Order Traversal                  |               123 |
-|          138 | Longest Increasing Path in a Matrix                       |               156 |
-|          139 | Inorder Successor in BST                                  |               110 |
-|          140 | Word Search II                                            |               160 |
-|          141 | Longest Common Prefix                                     |                31 |
-|          142 | Maximum Profit in Job Scheduling                          |               150 |
-|          143 | Palindrome Number                                         |                37 |
-|          144 | Smallest Range Covering Elements from K Lists             |               169 |
-|          145 | Design Hit Counter                                        |               124 |
-|          146 | Design In-Memory File System                              |               158 |
-|          147 | Reverse Bits                                              |                39 |
-|          148 | Valid Sudoku                                              |                88 |
-|          149 | Sudoku Solver                                             |               166 |
-|          150 | Rotate Array                                              |               103 |
-|          151 | Minimum Knight Moves                                      |               116 |
-|          152 | Swap Nodes in Pairs                                       |               100 |
-|          153 | Reverse Nodes in k-Group                                  |               165 |
-|          154 | Odd Even Linked List                                      |               104 |
-|          155 | Rotate List                                               |               138 |
-|          156 | 3Sum Closest                                              |               137 |
-|          157 | String to Integer (atoi)                                  |                69 |
-|          158 | Basic Calculator II                                       |               140 |
-|          159 | Longest Valid Parentheses                                 |               157 |
-|          160 | Basic Calculator                                          |               149 |
-|          161 | Pow(x, n)                                                 |               126 |
-|          162 | Next Permutation                                          |                87 |
-|          163 | First Missing Positive                                    |               167 |
-|          164 | Minimum Height Trees                                      |                80 |
-|          165 | Bus Routes                                                |               162 |
-|          166 | Largest Number                                            |               128 |
-|          167 | Median of Two Sorted Arrays                               |               155 |
-|          168 | Reverse Integer                                           |               131 |
-|          169 | Palindrome Pairs                                          |               164 |
+[original-problems.json](original-problems.json) remains the immutable original 169-problem snapshot. All 169 IDs still exist in the complete 194-entry catalog (169 original + 25 new Bloomberg entries). Backups and history validate against the full catalog; the queue, roadmap and forecast use the active subset. No account progress, ratings, notes, dates or history are rewritten by this catalog change. Existing accounts need only reload. Practiced extras remain active per account, including failed attempts, and retain due reviews. Untouched archived entries never auto-enter new work, including stale daily-extra selections from an older plan.
+
+## Base sequence (115 problems)
+
+Account-specific extras are inserted into their related stages. The live app is authoritative for an account's final numbering.
+
+| Position | Problem | Source | Learning stage |
+| ---: | --- | --- | --- |
+| 1 | [Concatenation of Array](https://leetcode.com/problems/concatenation-of-array) | Bloomberg | Array and hash-table foundations |
+| 2 | [Contains Duplicate](https://leetcode.com/problems/contains-duplicate) | Grind 75 | Array and hash-table foundations |
+| 3 | [Two Sum](https://leetcode.com/problems/two-sum) | Grind 75 + Bloomberg | Array and hash-table foundations |
+| 4 | [Valid Anagram](https://leetcode.com/problems/valid-anagram) | Grind 75 | Array and hash-table foundations |
+| 5 | [Ransom Note](https://leetcode.com/problems/ransom-note) | Grind 75 | Array and hash-table foundations |
+| 6 | [Longest Palindrome](https://leetcode.com/problems/longest-palindrome) | Grind 75 | Array and hash-table foundations |
+| 7 | [Majority Element](https://leetcode.com/problems/majority-element) | Grind 75 | Array and hash-table foundations |
+| 8 | [Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock) | Grind 75 + Bloomberg | Array and hash-table foundations |
+| 9 | [Maximum Subarray](https://leetcode.com/problems/maximum-subarray) | Grind 75 | Array and hash-table foundations |
+| 10 | [Group Anagrams](https://leetcode.com/problems/group-anagrams) | Bloomberg | Array and hash-table foundations |
+| 11 | [Product of Array Except Self](https://leetcode.com/problems/product-of-array-except-self) | Grind 75 | Array and hash-table foundations |
+| 12 | [Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence) | Bloomberg | Array and hash-table foundations |
+| 13 | [Valid Palindrome](https://leetcode.com/problems/valid-palindrome) | Grind 75 | Pointers and sliding windows |
+| 14 | [Maximum Average Subarray I](https://leetcode.com/problems/maximum-average-subarray-i) | Bloomberg | Pointers and sliding windows |
+| 15 | [Contains Duplicate II](https://leetcode.com/problems/contains-duplicate-ii) | Bloomberg | Pointers and sliding windows |
+| 16 | [Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters) | Grind 75 + Bloomberg | Pointers and sliding windows |
+| 17 | [Find All Anagrams in a String](https://leetcode.com/problems/find-all-anagrams-in-a-string) | Grind 75 | Pointers and sliding windows |
+| 18 | [Container With Most Water](https://leetcode.com/problems/container-with-most-water) | Grind 75 + Bloomberg | Pointers and sliding windows |
+| 19 | [3Sum](https://leetcode.com/problems/3sum) | Grind 75 + Bloomberg | Pointers and sliding windows |
+| 20 | [3Sum Closest](https://leetcode.com/problems/3sum-closest) | Bloomberg | Pointers and sliding windows |
+| 21 | [Valid Triangle Number](https://leetcode.com/problems/valid-triangle-number) | Bloomberg | Pointers and sliding windows |
+| 22 | [Sort Colors](https://leetcode.com/problems/sort-colors) | Grind 75 | Pointers and sliding windows |
+| 23 | [Reverse Linked List](https://leetcode.com/problems/reverse-linked-list) | Grind 75 | Linked-list and stack foundations |
+| 24 | [Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists) | Grind 75 + Bloomberg | Linked-list and stack foundations |
+| 25 | [Middle of the Linked List](https://leetcode.com/problems/middle-of-the-linked-list) | Grind 75 | Linked-list and stack foundations |
+| 26 | [Linked List Cycle](https://leetcode.com/problems/linked-list-cycle) | Grind 75 | Linked-list and stack foundations |
+| 27 | [Happy Number](https://leetcode.com/problems/happy-number) | Bloomberg | Linked-list and stack foundations |
+| 28 | [Valid Parentheses](https://leetcode.com/problems/valid-parentheses) | Grind 75 | Linked-list and stack foundations |
+| 29 | [Implement Queue using Stacks](https://leetcode.com/problems/implement-queue-using-stacks) | Grind 75 | Linked-list and stack foundations |
+| 30 | [Min Stack](https://leetcode.com/problems/min-stack) | Grind 75 | Linked-list and stack foundations |
+| 31 | [Evaluate Reverse Polish Notation](https://leetcode.com/problems/evaluate-reverse-polish-notation) | Grind 75 | Linked-list and stack foundations |
+| 32 | [Simplify Path](https://leetcode.com/problems/simplify-path) | Bloomberg | Linked-list and stack foundations |
+| 33 | [Binary Search](https://leetcode.com/problems/binary-search) | Grind 75 | Binary search and intervals |
+| 34 | [First Bad Version](https://leetcode.com/problems/first-bad-version) | Grind 75 | Binary search and intervals |
+| 35 | [Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array) | Grind 75 | Binary search and intervals |
+| 36 | [Time Based Key-Value Store](https://leetcode.com/problems/time-based-key-value-store) | Grind 75 | Binary search and intervals |
+| 37 | [Find K Closest Elements](https://leetcode.com/problems/find-k-closest-elements) | Bloomberg | Binary search and intervals |
+| 38 | [Merge Intervals](https://leetcode.com/problems/merge-intervals) | Grind 75 + Bloomberg | Binary search and intervals |
+| 39 | [Insert Interval](https://leetcode.com/problems/insert-interval) | Grind 75 | Binary search and intervals |
+| 40 | [Maximum Depth of Binary Tree](https://leetcode.com/problems/maximum-depth-of-binary-tree) | Grind 75 + Bloomberg | Tree traversal and recursive invariants |
+| 41 | [Invert Binary Tree](https://leetcode.com/problems/invert-binary-tree) | Grind 75 | Tree traversal and recursive invariants |
+| 42 | [Balanced Binary Tree](https://leetcode.com/problems/balanced-binary-tree) | Grind 75 | Tree traversal and recursive invariants |
+| 43 | [Diameter of Binary Tree](https://leetcode.com/problems/diameter-of-binary-tree) | Grind 75 | Tree traversal and recursive invariants |
+| 44 | [Binary Tree Level Order Traversal](https://leetcode.com/problems/binary-tree-level-order-traversal) | Grind 75 | Tree traversal and recursive invariants |
+| 45 | [Binary Tree Right Side View](https://leetcode.com/problems/binary-tree-right-side-view) | Grind 75 | Tree traversal and recursive invariants |
+| 46 | [Binary Tree Vertical Order Traversal](https://leetcode.com/problems/binary-tree-vertical-order-traversal) | Bloomberg | Tree traversal and recursive invariants |
+| 47 | [Validate Binary Search Tree](https://leetcode.com/problems/validate-binary-search-tree) | Grind 75 | Tree traversal and recursive invariants |
+| 48 | [Kth Smallest Element in a BST](https://leetcode.com/problems/kth-smallest-element-in-a-bst) | Grind 75 | Tree traversal and recursive invariants |
+| 49 | [Lowest Common Ancestor of a Binary Search Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree) | Grind 75 | Tree traversal and recursive invariants |
+| 50 | [Lowest Common Ancestor of a Binary Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree) | Grind 75 | Tree traversal and recursive invariants |
+| 51 | [Flood Fill](https://leetcode.com/problems/flood-fill) | Grind 75 | Graph traversal and breadth-first search |
+| 52 | [Number of Islands](https://leetcode.com/problems/number-of-islands) | Grind 75 + Bloomberg | Graph traversal and breadth-first search |
+| 53 | [Clone Graph](https://leetcode.com/problems/clone-graph) | Grind 75 | Graph traversal and breadth-first search |
+| 54 | [Rotting Oranges](https://leetcode.com/problems/rotting-oranges) | Grind 75 | Graph traversal and breadth-first search |
+| 55 | [01 Matrix](https://leetcode.com/problems/01-matrix) | Grind 75 | Graph traversal and breadth-first search |
+| 56 | [Fibonacci Number](https://leetcode.com/problems/fibonacci-number) | Bloomberg | Dynamic programming foundations |
+| 57 | [Climbing Stairs](https://leetcode.com/problems/climbing-stairs) | Grind 75 + Bloomberg | Dynamic programming foundations |
+| 58 | [House Robber](https://leetcode.com/problems/house-robber) | Bloomberg | Dynamic programming foundations |
+| 59 | [Unique Paths](https://leetcode.com/problems/unique-paths) | Grind 75 | Dynamic programming foundations |
+| 60 | [Coin Change](https://leetcode.com/problems/coin-change) | Grind 75 | Dynamic programming foundations |
+| 61 | [Subsets](https://leetcode.com/problems/subsets) | Grind 75 + Bloomberg | Backtracking and prefix trees |
+| 62 | [Permutations](https://leetcode.com/problems/permutations) | Grind 75 + Bloomberg | Backtracking and prefix trees |
+| 63 | [Letter Combinations of a Phone Number](https://leetcode.com/problems/letter-combinations-of-a-phone-number) | Grind 75 | Backtracking and prefix trees |
+| 64 | [Combination Sum](https://leetcode.com/problems/combination-sum) | Grind 75 + Bloomberg | Backtracking and prefix trees |
+| 65 | [Word Search](https://leetcode.com/problems/word-search) | Grind 75 | Backtracking and prefix trees |
+| 66 | [Implement Trie (Prefix Tree)](https://leetcode.com/problems/implement-trie-prefix-tree) | Grind 75 | Backtracking and prefix trees |
+| 67 | [K Closest Points to Origin](https://leetcode.com/problems/k-closest-points-to-origin) | Grind 75 | Heaps and pointer-based design |
+| 68 | [Add Two Numbers](https://leetcode.com/problems/add-two-numbers) | Bloomberg | Heaps and pointer-based design |
+| 69 | [Reverse Linked List II](https://leetcode.com/problems/reverse-linked-list-ii) | Bloomberg | Heaps and pointer-based design |
+| 70 | [Reorder List](https://leetcode.com/problems/reorder-list) | Bloomberg | Heaps and pointer-based design |
+| 71 | [LRU Cache](https://leetcode.com/problems/lru-cache) | Grind 75 + Bloomberg | Heaps and pointer-based design |
+| 72 | [Insert Delete GetRandom O(1)](https://leetcode.com/problems/insert-delete-getrandom-o1) | Bloomberg | Heaps and pointer-based design |
+| 73 | [Number of Provinces](https://leetcode.com/problems/number-of-provinces) | Bloomberg | Connectivity and graph dependencies |
+| 74 | [Accounts Merge](https://leetcode.com/problems/accounts-merge) | Grind 75 | Connectivity and graph dependencies |
+| 75 | [Evaluate Division](https://leetcode.com/problems/evaluate-division) | Bloomberg | Connectivity and graph dependencies |
+| 76 | [Course Schedule](https://leetcode.com/problems/course-schedule) | Grind 75 | Connectivity and graph dependencies |
+| 77 | [Minimum Height Trees](https://leetcode.com/problems/minimum-height-trees) | Grind 75 | Connectivity and graph dependencies |
+| 78 | [Spiral Matrix](https://leetcode.com/problems/spiral-matrix) | Grind 75 + Bloomberg | Simulation and string implementation |
+| 79 | [Rotate Image](https://leetcode.com/problems/rotate-image) | Bloomberg | Simulation and string implementation |
+| 80 | [Rotate Array](https://leetcode.com/problems/rotate-array) | Bloomberg | Simulation and string implementation |
+| 81 | [Find the Index of the First Occurrence in a String](https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string) | Bloomberg | Simulation and string implementation |
+| 82 | [Zigzag Conversion](https://leetcode.com/problems/zigzag-conversion) | Bloomberg | Simulation and string implementation |
+| 83 | [String to Integer (atoi)](https://leetcode.com/problems/string-to-integer-atoi) | Grind 75 | Simulation and string implementation |
+| 84 | [Add Binary](https://leetcode.com/problems/add-binary) | Grind 75 | Simulation and string implementation |
+| 85 | [Multiply Strings](https://leetcode.com/problems/multiply-strings) | Bloomberg | Simulation and string implementation |
+| 86 | [Smallest Divisible Digit Product I](https://leetcode.com/problems/smallest-divisible-digit-product-i) | Bloomberg | Simulation and string implementation |
+| 87 | [Smallest Missing Integer Greater Than Sequential Prefix Sum](https://leetcode.com/problems/smallest-missing-integer-greater-than-sequential-prefix-sum) | Bloomberg | Simulation and string implementation |
+| 88 | [Word Break](https://leetcode.com/problems/word-break) | Grind 75 | Dynamic programming state design |
+| 89 | [Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum) | Grind 75 | Dynamic programming state design |
+| 90 | [Longest Palindromic Substring](https://leetcode.com/problems/longest-palindromic-substring) | Grind 75 + Bloomberg | Dynamic programming state design |
+| 91 | [Maximum Profit in Job Scheduling](https://leetcode.com/problems/maximum-profit-in-job-scheduling) | Grind 75 | Dynamic programming state design |
+| 92 | [Stone Game IV](https://leetcode.com/problems/stone-game-iv) | Bloomberg | Dynamic programming state design |
+| 93 | [Best Time to Buy and Sell Stock II](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii) | Bloomberg | Greedy decisions and stack applications |
+| 94 | [Two City Scheduling](https://leetcode.com/problems/two-city-scheduling) | Bloomberg | Greedy decisions and stack applications |
+| 95 | [Gas Station](https://leetcode.com/problems/gas-station) | Bloomberg | Greedy decisions and stack applications |
+| 96 | [Task Scheduler](https://leetcode.com/problems/task-scheduler) | Grind 75 | Greedy decisions and stack applications |
+| 97 | [Decode String](https://leetcode.com/problems/decode-string) | Bloomberg | Greedy decisions and stack applications |
+| 98 | [Using a Robot to Print the Lexicographically Smallest String](https://leetcode.com/problems/using-a-robot-to-print-the-lexicographically-smallest-string) | Bloomberg | Greedy decisions and stack applications |
+| 99 | [Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring) | Grind 75 | Greedy decisions and stack applications |
+| 100 | [Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water) | Grind 75 + Bloomberg | Greedy decisions and stack applications |
+| 101 | [Largest Rectangle in Histogram](https://leetcode.com/problems/largest-rectangle-in-histogram) | Grind 75 | Greedy decisions and stack applications |
+| 102 | [Basic Calculator](https://leetcode.com/problems/basic-calculator) | Grind 75 | Greedy decisions and stack applications |
+| 103 | [Construct Binary Tree from Preorder and Inorder Traversal](https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal) | Grind 75 | Advanced tree, graph, and heap combinations |
+| 104 | [Serialize and Deserialize Binary Tree](https://leetcode.com/problems/serialize-and-deserialize-binary-tree) | Grind 75 | Advanced tree, graph, and heap combinations |
+| 105 | [Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists) | Grind 75 | Advanced tree, graph, and heap combinations |
+| 106 | [Find Median from Data Stream](https://leetcode.com/problems/find-median-from-data-stream) | Grind 75 | Advanced tree, graph, and heap combinations |
+| 107 | [Word Ladder](https://leetcode.com/problems/word-ladder) | Grind 75 | Advanced tree, graph, and heap combinations |
+| 108 | [Single Number](https://leetcode.com/problems/single-number) | Bloomberg | Arithmetic and advanced array invariants |
+| 109 | [Divide Two Integers](https://leetcode.com/problems/divide-two-integers) | Bloomberg | Arithmetic and advanced array invariants |
+| 110 | [Next Permutation](https://leetcode.com/problems/next-permutation) | Bloomberg | Arithmetic and advanced array invariants |
+| 111 | [Split Array Largest Sum](https://leetcode.com/problems/split-array-largest-sum) | Bloomberg | Arithmetic and advanced array invariants |
+| 112 | [Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays) | Bloomberg | Arithmetic and advanced array invariants |
+| 113 | [Recyclable and Low Fat Products](https://leetcode.com/problems/recyclable-and-low-fat-products) | Bloomberg | SQL: filtering, distinct rows, then grouped retention |
+| 114 | [Article Views I](https://leetcode.com/problems/article-views-i) | Bloomberg | SQL: filtering, distinct rows, then grouped retention |
+| 115 | [Game Play Analysis IV](https://leetcode.com/problems/game-play-analysis-iv) | Bloomberg | SQL: filtering, distinct rows, then grouped retention |

@@ -40,6 +40,7 @@ import { PlanSummary, fullDate } from "./PlanSummary";
 import { Settings } from "./Settings";
 import type { Problem, StudyState } from "./types";
 import { bankWeeks, type BankWeek } from "./bank";
+import { activeProblems, archivedProblems, problemSource } from "./catalog";
 type AppStore = {
   load: () => StudyState | null;
   save: (next: StudyState, expected: number | null) => void;
@@ -98,9 +99,11 @@ export default function App({
     () => (savedState ? estimatePlan(savedState, day) : null),
     [savedState, day],
   );
+  const active = useMemo(() => activeProblems(savedState), [savedState]);
+  const total = active.length;
   const roadmap = useMemo(
-    () => bankWeeks(problems, projection?.weeks ?? 15),
-    [projection?.weeks],
+    () => bankWeeks(active, projection?.weeks ?? 15),
+    [active, projection?.weeks],
   );
   const state = useMemo(
     () =>
@@ -141,7 +144,7 @@ export default function App({
             Remember tomorrow.
           </h1>
           <p>
-            Your 169-problem plan, with spaced reviews.
+            Grind 75 + Bloomberg, in learning order with spaced reviews.
             <br />
             One clear list of what to work on each day.
           </p>
@@ -200,7 +203,9 @@ export default function App({
               </button>
             </>
           )}
-          <small>Your pace · All 169 problems · Synced to your account</small>
+          <small>
+            Your pace · 115 focused problems · Synced to your account
+          </small>
         </div>
         <a
           className="welcome-credit"
@@ -219,7 +224,7 @@ export default function App({
         !state.morningStudy?.[id] &&
         !state.planning?.days[day]?.skipped?.includes(id),
     );
-  const lastExtra = problems.find((p) => p.id === lastExtraId);
+  const lastExtra = active.find((p) => p.id === lastExtraId);
   const finishDate =
     projection!.mode === "time" ? projection!.finish : projection!.target;
   const daysRemaining = finishDate
@@ -277,7 +282,7 @@ export default function App({
     .filter((date) => date >= day)
     .sort();
   const upcomingProblems = upcomingDay
-    ? problems.filter(
+    ? active.filter(
         (p) =>
           state.progress[p.id] &&
           reviewDay(state.progress[p.id].due, state) === upcomingDay,
@@ -332,13 +337,13 @@ export default function App({
             {projection?.feasible
               ? `Your ${displayWeeks}-week journey`
               : "Your study journey"}{" "}
-            <span>{Math.round((practiced / 169) * 100)}%</span>
+            <span>{Math.round((practiced / total) * 100)}%</span>
           </div>
           <div className="progress-track">
-            <div style={{ width: `${(practiced / 169) * 100}%` }} />
+            <div style={{ width: `${(practiced / total) * 100}%` }} />
           </div>
           <p>
-            <strong>{practiced}</strong> of 169 practiced
+            <strong>{practiced}</strong> of {total} practiced
           </p>
           <span className="sidebar-caption">
             {independent} solved independently
@@ -478,7 +483,10 @@ export default function App({
               <div>
                 <span className="small-heading">The bigger picture</span>
                 <p>
-                  <strong>{practiced} / 169</strong> problems practiced{" "}
+                  <strong>
+                    {practiced} / {total}
+                  </strong>{" "}
+                  problems practiced{" "}
                   <span>
                     {projection?.completed
                       ? "All problems practiced · keep reviewing"
@@ -701,7 +709,7 @@ export default function App({
                   <button
                     key={a.id}
                     onClick={() =>
-                      setSelected(problems.find((p) => p.id === a.problemId)!)
+                      setSelected(active.find((p) => p.id === a.problemId)!)
                     }
                   >
                     <Check size={15} />
@@ -832,7 +840,7 @@ export default function App({
         )}
         <footer>
           <span>Consistency over cramming.</span>
-          <span>Grind 169 + spaced repetition</span>
+          <span>Grind 75 + Bloomberg + spaced repetition</span>
         </footer>
       </main>
       {selected && (
@@ -840,8 +848,8 @@ export default function App({
           key={selected.id}
           problem={selected}
           planWeek={
-            roadmap.find((g) => g.problems.some((p) => p.id === selected.id))!
-              .week
+            roadmap.find((g) => g.problems.some((p) => p.id === selected.id))
+              ?.week ?? 1
           }
           state={state}
           day={day}
@@ -906,6 +914,9 @@ function ProblemRow({
       <span className="problem-info">
         <strong>{p.title}</strong>
         <span className="meta">
+          <span>
+            #{p.order} · {problemSource(p)}
+          </span>
           <span className={"difficulty " + p.difficulty.toLowerCase()}>
             {p.difficulty}
           </span>
@@ -1029,7 +1040,10 @@ function ProblemList({
   const [search, setSearch] = useState("");
   const [difficulty, setDifficulty] = useState("All difficulties");
   const [status, setStatus] = useState("All problems");
-  const filtered = problems.filter(
+  const [collection, setCollection] = useState("Active plan");
+  const archived = archivedProblems(state);
+  const bank = collection === "Archive" ? archived : activeProblems(state);
+  const filtered = bank.filter(
     (p) =>
       (!search || p.title.toLowerCase().includes(search.toLowerCase())) &&
       (difficulty === "All difficulties" || p.difficulty === difficulty) &&
@@ -1042,17 +1056,28 @@ function ProblemList({
               reviewDay(state.progress[p.id].due, state) <= day &&
               !state.planning?.breaks?.includes(day))),
   );
+  const filteredIds = new Set(filtered.map((p) => p.id));
   return (
     <>
       <div className="page-heading">
         <h1>A little progress, every week.</h1>
         <p>
-          All 169 problems in learning order, grouped across your{" "}
-          {groups.length}-week plan by estimated effort. This is your roadmap;
-          Today accounts for reviews and study breaks.
+          {activeProblems(state).length} active problems in prerequisite-based
+          learning order, grouped across your {groups.length}-week plan by
+          estimated effort. This is your roadmap; Today accounts for reviews and
+          study breaks. Includes all 75 Grind problems, 57 Bloomberg problems
+          (17 shared), and your practiced extras.
         </p>
       </div>
       <div className="list-tools">
+        <select
+          aria-label="Problem collection"
+          value={collection}
+          onChange={(e) => setCollection(e.target.value)}
+        >
+          <option>Active plan</option>
+          <option>Archive</option>
+        </select>
         <label className="search">
           <Search size={18} />
           <input
@@ -1091,56 +1116,86 @@ function ProblemList({
           <p>Try a different search or filter.</p>
         </div>
       )}
-      {groups.map(({ week: w, problems: all }) => {
-        const list = all.filter((p) => filtered.includes(p));
-        const count = all.filter((p) => state.progress[p.id]).length;
-        return list.length ||
-          (!search &&
-            difficulty === "All difficulties" &&
-            status === "All problems") ? (
-          <details
-            className="week-group"
-            key={`${groups.length}-${w}-${search}-${difficulty}-${status}`}
-            open={
-              search ||
-              difficulty !== "All difficulties" ||
-              status !== "All problems"
-                ? true
-                : w === 1
-            }
+      {collection === "Archive" && (
+        <p className="results-count">
+          Archived problems are excluded from daily assignments and forecasts.
+          Your practiced extras remain in the active plan.
+        </p>
+      )}
+      {collection === "Archive" &&
+        filtered.map((p) => (
+          <a
+            className="problem-row"
+            key={p.id}
+            href={p.url}
+            target="_blank"
+            rel="noreferrer"
           >
-            <summary>
-              <span>
-                <ChevronRight size={18} />
-                Week {w}
+            <span className="problem-info">
+              <strong>{p.title}</strong>
+              <span className="meta">
+                {p.difficulty} · Archived · Open on LeetCode
               </span>
-              <span className="week-summary">
-                {count}/{all.length}
-                <span className="mini-progress">
-                  <span
-                    style={{
-                      width: `${all.length ? (count / all.length) * 100 : 0}%`,
-                    }}
-                  />
+            </span>
+            <ArrowUpRight size={17} />
+          </a>
+        ))}
+      {collection === "Active plan" &&
+        groups.map(({ week: w, problems: all }) => {
+          const list = all.filter((p) => filteredIds.has(p.id));
+          const count = all.filter((p) => state.progress[p.id]).length;
+          return list.length ||
+            (!search &&
+              difficulty === "All difficulties" &&
+              status === "All problems") ? (
+            <details
+              className="week-group"
+              key={`${groups.length}-${w}-${search}-${difficulty}-${status}`}
+              open={
+                search ||
+                difficulty !== "All difficulties" ||
+                status !== "All problems"
+                  ? true
+                  : w === 1
+              }
+            >
+              <summary>
+                <span>
+                  <ChevronRight size={18} />
+                  Week {w}
                 </span>
-              </span>
-            </summary>
-            {all.length === 0 && (
-              <p className="results-count">Review and catch up.</p>
-            )}
-            {list.map((p) => (
-              <ProblemRow
-                key={p.id}
-                p={p}
-                state={state}
-                day={day}
-                onSelect={onSelect}
-                review={!!state.progress[p.id]}
-              />
-            ))}
-          </details>
-        ) : null;
-      })}
+                <span className="week-summary">
+                  {count}/{all.length}
+                  <span className="mini-progress">
+                    <span
+                      style={{
+                        width: `${all.length ? (count / all.length) * 100 : 0}%`,
+                      }}
+                    />
+                  </span>
+                </span>
+              </summary>
+              {all.length === 0 && (
+                <p className="results-count">Review and catch up.</p>
+              )}
+              {list.map((p, i) => (
+                <div key={p.id}>
+                  {(i === 0 || list[i - 1].stage !== p.stage) && (
+                    <h3 className="curriculum-stage">{p.stage}</h3>
+                  )}
+                  <ProblemRow
+                    key={p.id}
+                    p={p}
+                    state={state}
+                    day={day}
+                    onSelect={onSelect}
+                    review={!!state.progress[p.id]}
+                  />
+                </div>
+              ))}
+            </details>
+          ) : null;
+        })}
     </>
   );
 }

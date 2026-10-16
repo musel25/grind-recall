@@ -1,7 +1,6 @@
 import { createEmptyCard, fsrs, type Grade } from "ts-fsrs";
-import data from "./problems.json";
+import { activeProblems } from "./catalog";
 import type { StoredCard, StudyState, Problem } from "./types";
-const problems: Problem[] = data;
 const engine = fsrs({
   request_retention: 0.9,
   enable_fuzz: false,
@@ -170,6 +169,7 @@ export function awaitingEvening(s: StudyState, id: string, day: string) {
   );
 }
 export function dailyPlan(s: StudyState, day: string) {
+  const problems = activeProblems(s);
   const end = addDays(s.settings.startDate, s.settings.weeks * 7 - 1);
   const daysLeft = Math.max(0, dayDiff(day, end) + 1);
   const beforeStart = day < s.settings.startDate;

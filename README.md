@@ -1,6 +1,6 @@
 # Grind Recall
 
-A daily Grind 169 planner with spaced repetition. Choose a completion deadline or a daily time budget; the other is estimated including spaced reviews.
+A daily Grind 75 + Bloomberg planner with spaced repetition. Choose a completion deadline or a daily time budget; the other is estimated including spaced reviews.
 
 Built with React, TypeScript, Vite, and FSRS. Hosted on a personal VPS. Progress syncs to a separate account on the VPS through the Planner API. JSON backups remain available.
 
@@ -21,7 +21,7 @@ npx playwright test # requires local Vite, a disposable Timer API/DB, and Google
 
 ## Scheduling and the math
 
-The supplied list has 41 Easy, 102 Medium, and 26 Hard problems. Listed solving time sums to 4,575 minutes (76.25 hours). Solve + study is estimated at twice that: 152.5 hours. The first 10 completed remove 350 minutes, leaving **146.7 hours of first-pass work**.
+The focused plan contains 115 unique problems: the supplied Grind 75 plus 57 Bloomberg problems with 17 shared entries. Practiced extras from the original 169 stay active per account; untouched extras are archived. Original time estimates are retained; the 25 newly added problems use estimated solve times of 20/30/45 minutes for Easy/Medium/Hard, doubled for first-pass solve + study.
 
 FSRS via `ts-fsrs` uses default parameters and 90% desired retention, deterministic intervals, and no intraday steps. Again returns the next study day, retaining FSRS memory state. Hard, Good, and Easy use FSRS intervals from the first attempt onward. The rate button leads to all four choices, each showing its next due date. This is a coding-practice adaptation, not a guarantee of 90% interview performance. Dates are calendar days in the selected timezone. The four ratings distinguish needing help from independently solving with difficulty.
 
@@ -29,7 +29,7 @@ Daily practice prioritizes due reviews, then adds whole new problems in prerequi
 
 The forecast runs the same daily queue and FSRS scheduler as the app, preserving existing cards, history, breaks, and one-day/week overrides. It assumes Good ratings on future attempts and the configured solve/review durations. In **time mode**, daily hours are converted to a usual weekly goal and simulated until all problems have a first attempt (up to a two-year horizon). The displayed date and total weeks follow this result; old backups default to this mode without changing their time budget. In **deadline mode**, a bounded search finds a sufficient weekly budget to the nearest half-hour and verifies completion by the chosen deadline using the same simulation. The UI labels daily time as an average because breaks and weekly progress redistribute it. Due reviews remain visible even above that day's budget.
 
-Predictions are recomputed after recorded practice or settings changes. They use actual saved cards and elapsed time but assume future Good ratings, so they are estimates rather than guarantees. No feasible simulation means an explicit adjustment message, not an invented finish date. Finishing means all 169 practiced once, not mastered or retired; reviews continue. Ratings already stored and upcoming dates are not rewritten by this update.
+Predictions are recomputed after recorded practice or settings changes. They use actual saved cards and elapsed time but assume future Good ratings, so they are estimates rather than guarantees. No feasible simulation means an explicit adjustment message, not an invented finish date. Finishing means all active problems practiced once, not mastered or retired; reviews continue. Ratings already stored and upcoming dates are not rewritten by this update.
 
 First-ten import records no fictional solve date or rating: baseline reviews are distributed two per day over the next five days. Sign in with a Planner account or create a separate account. Each account has private progress. Backups are validated before replacing state; revisions detect stale tab writes. Undo reverts the latest attempt.
 
@@ -43,7 +43,7 @@ Releases: `/var/www/grind-recall/releases/<git-sha>`, active symlink: `/var/www/
 
 ## Attribution
 
-Problem list, supplied difficulty classifications and time estimates: [Grind 75 by Tech Interview Handbook](https://www.techinterviewhandbook.org/grind75/?weeks=15&hours=10). Individual problem statements remain on LeetCode. Scheduling library: [ts-fsrs](https://github.com/open-spaced-repetition/ts-fsrs).
+Problem list, supplied difficulty classifications and time estimates: [Grind 75 by Tech Interview Handbook](https://www.techinterviewhandbook.org/grind75/?weeks=15&hours=10). Bloomberg membership: the user-supplied snapshot of liquidslr/leetcode-company-wise-problems, Bloomberg/1. Thirty Days.csv; recorded frequencies are historical and do not determine learning order. Individual problem statements remain on LeetCode. Scheduling library: [ts-fsrs](https://github.com/open-spaced-repetition/ts-fsrs).
 
 ### Shared-origin compatibility
 
@@ -75,11 +75,11 @@ An open page retains edits locally if its connection fails and retries on reconn
 
 Older tabs opened before account sync was deployed can still write to the original browser save. On startup, sync, and storage changes, Grind checks that save for problems, attempts, or morning marks missing from the account, even when the account already has progress. A prominent recovery notice replaces the all-saved status. **Restore browser progress to my account** restores the original progress while keeping current account settings and planning, only when it preserves all account attempts, cards, notes and morning marks; it first backs up the account copy and then syncs normally. Conflicting copies stay intact with export actions for reconciliation. Account ownership is explicit: someone else’s original browser progress can be excluded. Once incorporated, the original snapshot is remembered so intentional Undo does not resurrect old attempts. Close pre-account tabs after recovery.
 
-The full 169-problem bank remains in use; selectable smaller lists are a separate follow-up. For local dev, run Timer on port 8080, or set `GRIND_API_URL=http://127.0.0.1:18080` before starting Vite. Browser tests register disposable accounts, so use a throwaway Timer database. Registration is limited to 20 accounts per 15 minutes per process and login/registration to 30 attempts per IP per window; restart the disposable test API between repeated full browser runs.
+For local dev, run Timer on port 8080, or set `GRIND_API_URL=http://127.0.0.1:18080` before starting Vite. Browser tests register disposable accounts, so use a throwaway Timer database. Registration is limited to 20 accounts per 15 minutes per process and login/registration to 30 attempts per IP per window; restart the disposable test API between repeated full browser runs.
 
 ## Learning order
 
-All 169 problems use a reviewed prerequisite-aware sequence, preserving the original first 26 already practiced and then introducing missing core patterns before advanced combinations. The full sequence, rationale, and restoration instructions are in [the curriculum review](docs/catalog/learning-order.md). The exact pre-change catalog is saved in [original-problems.json](docs/catalog/original-problems.json). Stable IDs preserve account progress, reviews, notes, morning marks and backups.
+The combined Grind 75 + Bloomberg curriculum follows prerequisite-based learning stages. The full sequence and rationale are in [the curriculum review](docs/catalog/learning-order.md); exact supplied membership is in [focused-sources.json](docs/catalog/focused-sources.json). The original 169-problem snapshot remains in [original-problems.json](docs/catalog/original-problems.json). Stable IDs preserve account progress, reviews, notes, morning marks and backups. Active totals, roadmap weeks, new assignments and forecasts all use the account’s focused list plus practiced extras. Choose Archive in the problem bank to browse the excluded problems.
 
 ## Problem-bank weeks
 
@@ -87,4 +87,4 @@ The bank uses the same plan length as the sidebar: the selected weeks in deadlin
 
 ## Offline interview notebooks
 
-[Flight study pack](flight-study/README.md): the five problems after House Robber, with runnable Python notebooks, matching Markdown guides, explained solution alternatives, debugging traces, and test cases.
+[Flight study pack](flight-study/README.md): five problems from the earlier curriculum, with runnable Python notebooks, matching Markdown guides, explained solution alternatives, debugging traces, and test cases.

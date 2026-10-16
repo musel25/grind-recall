@@ -5,15 +5,20 @@ import { problems, initialState } from "../src/model.ts";
 import { dailyPlan } from "../src/scheduler.ts";
 import { validateState } from "../src/storage.ts";
 
-test("reordering preserves every original problem and its metadata exactly", () => {
-  assert.equal(problems.length, 169);
-  assert.equal(new Set(problems.map((p) => p.id)).size, 169);
-  for (const [i, p] of problems.entries()) {
-    const old = original.find((o) => o.id === p.id)!;
-    assert.deepEqual({ ...p, order: old.order }, old);
-    assert.equal(p.order, i + 1);
+test("all legacy IDs and scheduling metadata remain available for old backups", () => {
+  assert.equal(new Set(problems.map((p) => p.id)).size, problems.length);
+  for (const old of original) {
+    const p = problems.find((p) => p.id === old.id)!;
+    for (const key of [
+      "id",
+      "title",
+      "url",
+      "minutes",
+      "difficulty",
+      "week",
+    ] as const)
+      assert.equal(p[key], old[key]);
   }
-  assert.deepEqual(problems.slice(0, 26), original.slice(0, 26));
 });
 
 test("foundations precede their combined or advanced applications", () => {
@@ -61,7 +66,7 @@ test("foundations precede their combined or advanced applications", () => {
   }
 });
 
-test("an existing first-26 backup starts new practice at House Robber without changing saved work", () => {
+test("an existing first-26 backup starts at the earliest unpracticed focused problem without changing saved work", () => {
   const s = initialState("2026-10-04", true);
   for (const p of original.slice(0, 26)) {
     s.progress[p.id] = {
@@ -76,7 +81,7 @@ test("an existing first-26 backup starts new practice at House Robber without ch
   const restored = validateState(JSON.parse(backup));
   assert.equal(
     dailyPlan(restored, "2026-10-05").newProblems[0].id,
-    "house-robber",
+    "concatenation-of-array",
   );
   assert.equal(JSON.stringify(restored), backup);
 });

@@ -1,4 +1,4 @@
-import data from "./problems.json";
+import { activeProblems } from "./catalog";
 import { addDays, dailyPlan, dayDiff, nextReview } from "./scheduler";
 import type { StudyState } from "./types";
 
@@ -14,7 +14,7 @@ export function simulatePace(
   s.settings.hours = hours;
   const start = day < s.settings.startDate ? s.settings.startDate : day;
   let minutes = 0;
-  if (Object.keys(s.progress).length === data.length)
+  if (activeProblems(s).every((p) => !!s.progress[p.id]))
     return { finish: day, minutes };
   for (let n = 0; n < limit; n++) {
     const date = addDays(start, n);
@@ -41,7 +41,7 @@ export function simulatePace(
       });
       minutes += spent;
     }
-    if (Object.keys(s.progress).length === data.length)
+    if (activeProblems(s).every((p) => !!s.progress[p.id]))
       return { finish: date, minutes };
   }
   return { finish: null, minutes };
@@ -62,7 +62,7 @@ export function estimatePlan(state: StudyState, day: string): PlanEstimate {
     state.settings.startDate,
     state.settings.weeks * 7 - 1,
   );
-  if (Object.keys(state.progress).length === data.length) {
+  if (activeProblems(state).every((p) => !!state.progress[p.id])) {
     const finish =
       state.history
         .filter((a) => a.wasNew)

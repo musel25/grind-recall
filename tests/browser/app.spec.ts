@@ -25,7 +25,7 @@ test("complete daily work, preserve it on reload, undo and backup round trip", a
   await expect(
     page.getByRole("heading", { name: "Your practice, today." }),
   ).toBeVisible();
-  await expect(page.locator(".sidebar-plan")).toContainText("10 of 169");
+  await expect(page.locator(".sidebar-plan")).toContainText("10 of 115");
   const count = await page.locator(".problem-row").count();
   expect(count).toBeGreaterThan(0);
   for (let i = 0; i < count; i++) {
@@ -178,11 +178,20 @@ test("one-click extras, day/week controls and visible breaks persist", async ({
   expect(saved.settings.hours).toBe(10);
   expect(Object.values(saved.planning.weeks)).toContain(20);
   await page.getByRole("button", { name: "Settings", exact: true }).click();
-  await page.getByLabel("Break starts").fill("2026-10-08");
-  await page.getByLabel("Break ends").fill("2026-10-11");
+  const futureDay = (offset: number) =>
+    new Date(Date.now() + offset * 86400000).toISOString().slice(0, 10);
+  const breakStart = futureDay(3);
+  await page.getByLabel("Break starts").fill(breakStart);
+  await page.getByLabel("Break ends").fill(futureDay(6));
   await page.getByRole("button", { name: "Save study break" }).click();
   await page.getByRole("button", { name: "Today", exact: true }).click();
-  await expect(page.locator(".break-banner")).toContainText("Oct 8");
+  await expect(page.locator(".break-banner")).toContainText(
+    new Date(breakStart + "T12:00:00Z").toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      timeZone: "UTC",
+    }),
+  );
   await page.setViewportSize({ width: 390, height: 844 });
   expect(
     await page.evaluate(
@@ -325,7 +334,7 @@ test("completed lists preserve review budget and allow saving settings after dea
   );
   await page.reload();
   await expect(page.getByLabel("Plan estimate")).toContainText(
-    "All 169 problems practiced",
+    "All active problems practiced",
   );
   await page.getByRole("button", { name: "Settings", exact: true }).click();
   await page.getByLabel("Estimated review duration").selectOption("0.5");
@@ -363,15 +372,22 @@ test("morning study survives reload, stays unrated, and evening rating completes
         )!,
       ).state,
   );
+  const morningLabel = await page
+    .getByRole("button", { name: /^Studied .* this morning$/ })
+    .first()
+    .getAttribute("aria-label");
+  const title = morningLabel!
+    .replace(/^Studied /, "")
+    .replace(/ this morning$/, "");
   await page
     .getByRole("button", {
-      name: "Studied Balanced Binary Tree this morning",
+      name: morningLabel!,
       exact: true,
     })
     .click();
   await expect(
     page.getByRole("region", { name: "Practice tonight" }),
-  ).toContainText("Balanced Binary Tree");
+  ).toContainText(title);
   await page.reload();
   const marked = await page.evaluate(
     () =>
@@ -387,7 +403,7 @@ test("morning study survives reload, stays unrated, and evening rating completes
   expect(marked.history).toEqual(before.history);
   // Reload first checks the account asynchronously; wait for the restored UI.
   await expect(
-    page.locator(".problem-row").filter({ hasText: "Balanced Binary Tree" }),
+    page.locator(".problem-row").filter({ hasText: title }),
   ).toHaveCount(1);
   await page
     .getByRole("region", { name: "Practice tonight" })
@@ -420,7 +436,7 @@ test("morning study survives reload, stays unrated, and evening rating completes
     ),
   ).toBe(true);
   await page
-    .getByRole("button", { name: "Undo morning mark for Balanced Binary Tree" })
+    .getByRole("button", { name: `Undo morning mark for ${title}` })
     .click();
   await expect(
     page.getByRole("region", { name: "Practice tonight" }),

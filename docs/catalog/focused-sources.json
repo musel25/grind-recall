@@ -1,0 +1,424 @@
+{
+  "description": "Exact user-supplied Grind 75 and Bloomberg Thirty Days snapshot. Frequencies are historical source metadata, not ordering weights. Acceptance rates omitted because supplied values appear malformed.",
+  "core": [
+    "two-sum",
+    "valid-parentheses",
+    "merge-two-sorted-lists",
+    "best-time-to-buy-and-sell-stock",
+    "valid-palindrome",
+    "invert-binary-tree",
+    "valid-anagram",
+    "binary-search",
+    "flood-fill",
+    "lowest-common-ancestor-of-a-binary-search-tree",
+    "balanced-binary-tree",
+    "linked-list-cycle",
+    "implement-queue-using-stacks",
+    "first-bad-version",
+    "ransom-note",
+    "climbing-stairs",
+    "longest-palindrome",
+    "reverse-linked-list",
+    "majority-element",
+    "add-binary",
+    "diameter-of-binary-tree",
+    "middle-of-the-linked-list",
+    "maximum-depth-of-binary-tree",
+    "contains-duplicate",
+    "maximum-subarray",
+    "insert-interval",
+    "01-matrix",
+    "k-closest-points-to-origin",
+    "longest-substring-without-repeating-characters",
+    "3sum",
+    "binary-tree-level-order-traversal",
+    "clone-graph",
+    "evaluate-reverse-polish-notation",
+    "course-schedule",
+    "implement-trie-prefix-tree",
+    "coin-change",
+    "product-of-array-except-self",
+    "min-stack",
+    "validate-binary-search-tree",
+    "number-of-islands",
+    "rotting-oranges",
+    "search-in-rotated-sorted-array",
+    "combination-sum",
+    "permutations",
+    "merge-intervals",
+    "lowest-common-ancestor-of-a-binary-tree",
+    "time-based-key-value-store",
+    "accounts-merge",
+    "sort-colors",
+    "word-break",
+    "partition-equal-subset-sum",
+    "string-to-integer-atoi",
+    "spiral-matrix",
+    "subsets",
+    "binary-tree-right-side-view",
+    "longest-palindromic-substring",
+    "unique-paths",
+    "construct-binary-tree-from-preorder-and-inorder-traversal",
+    "container-with-most-water",
+    "letter-combinations-of-a-phone-number",
+    "word-search",
+    "find-all-anagrams-in-a-string",
+    "minimum-height-trees",
+    "task-scheduler",
+    "lru-cache",
+    "kth-smallest-element-in-a-bst",
+    "minimum-window-substring",
+    "serialize-and-deserialize-binary-tree",
+    "trapping-rain-water",
+    "find-median-from-data-stream",
+    "word-ladder",
+    "basic-calculator",
+    "maximum-profit-in-job-scheduling",
+    "merge-k-sorted-lists",
+    "largest-rectangle-in-histogram"
+  ],
+  "bloomberg": [
+    {
+      "id": "using-a-robot-to-print-the-lexicographically-smallest-string",
+      "title": "Using a Robot to Print the Lexicographically Smallest String",
+      "difficulty": "Medium",
+      "frequency": 100
+    },
+    {
+      "id": "decode-string",
+      "title": "Decode String",
+      "difficulty": "Medium",
+      "frequency": 92.6
+    },
+    {
+      "id": "concatenation-of-array",
+      "title": "Concatenation of Array",
+      "difficulty": "Easy",
+      "frequency": 92.6
+    },
+    {
+      "id": "best-time-to-buy-and-sell-stock-ii",
+      "title": "Best Time to Buy and Sell Stock II",
+      "difficulty": "Medium",
+      "frequency": 92.6
+    },
+    {
+      "id": "best-time-to-buy-and-sell-stock",
+      "title": "Best Time to Buy and Sell Stock",
+      "difficulty": "Easy",
+      "frequency": 83.1
+    },
+    {
+      "id": "container-with-most-water",
+      "title": "Container With Most Water",
+      "difficulty": "Medium",
+      "frequency": 83.1
+    },
+    {
+      "id": "number-of-provinces",
+      "title": "Number of Provinces",
+      "difficulty": "Medium",
+      "frequency": 83.1
+    },
+    {
+      "id": "add-two-numbers",
+      "title": "Add Two Numbers",
+      "difficulty": "Medium",
+      "frequency": 83.1
+    },
+    {
+      "id": "rotate-image",
+      "title": "Rotate Image",
+      "difficulty": "Medium",
+      "frequency": 83.1
+    },
+    {
+      "id": "3sum-closest",
+      "title": "3Sum Closest",
+      "difficulty": "Medium",
+      "frequency": 83.1
+    },
+    {
+      "id": "maximum-average-subarray-i",
+      "title": "Maximum Average Subarray I",
+      "difficulty": "Easy",
+      "frequency": 83.1
+    },
+    {
+      "id": "house-robber",
+      "title": "House Robber",
+      "difficulty": "Medium",
+      "frequency": 83.1
+    },
+    {
+      "id": "maximum-depth-of-binary-tree",
+      "title": "Maximum Depth of Binary Tree",
+      "difficulty": "Easy",
+      "frequency": 83.1
+    },
+    {
+      "id": "merge-intervals",
+      "title": "Merge Intervals",
+      "difficulty": "Medium",
+      "frequency": 83.1
+    },
+    {
+      "id": "reverse-linked-list-ii",
+      "title": "Reverse Linked List II",
+      "difficulty": "Medium",
+      "frequency": 83.1
+    },
+    {
+      "id": "stone-game-iv",
+      "title": "Stone Game IV",
+      "difficulty": "Hard",
+      "frequency": 83.1
+    },
+    {
+      "id": "two-sum",
+      "title": "Two Sum",
+      "difficulty": "Easy",
+      "frequency": 69.8
+    },
+    {
+      "id": "median-of-two-sorted-arrays",
+      "title": "Median of Two Sorted Arrays",
+      "difficulty": "Hard",
+      "frequency": 69.8
+    },
+    {
+      "id": "group-anagrams",
+      "title": "Group Anagrams",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "longest-substring-without-repeating-characters",
+      "title": "Longest Substring Without Repeating Characters",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "3sum",
+      "title": "3Sum",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "binary-tree-vertical-order-traversal",
+      "title": "Binary Tree Vertical Order Traversal",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "fibonacci-number",
+      "title": "Fibonacci Number",
+      "difficulty": "Easy",
+      "frequency": 69.8
+    },
+    {
+      "id": "lru-cache",
+      "title": "LRU Cache",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "merge-two-sorted-lists",
+      "title": "Merge Two Sorted Lists",
+      "difficulty": "Easy",
+      "frequency": 69.8
+    },
+    {
+      "id": "find-k-closest-elements",
+      "title": "Find K Closest Elements",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "simplify-path",
+      "title": "Simplify Path",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "insert-delete-getrandom-o1",
+      "title": "Insert Delete GetRandom O(1)",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "game-play-analysis-iv",
+      "title": "Game Play Analysis IV",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "climbing-stairs",
+      "title": "Climbing Stairs",
+      "difficulty": "Easy",
+      "frequency": 69.8
+    },
+    {
+      "id": "permutations",
+      "title": "Permutations",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "smallest-divisible-digit-product-i",
+      "title": "Smallest Divisible Digit Product I",
+      "difficulty": "Easy",
+      "frequency": 69.8
+    },
+    {
+      "id": "two-city-scheduling",
+      "title": "Two City Scheduling",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "recyclable-and-low-fat-products",
+      "title": "Recyclable and Low Fat Products",
+      "difficulty": "Easy",
+      "frequency": 69.8
+    },
+    {
+      "id": "valid-triangle-number",
+      "title": "Valid Triangle Number",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "gas-station",
+      "title": "Gas Station",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "combination-sum",
+      "title": "Combination Sum",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "happy-number",
+      "title": "Happy Number",
+      "difficulty": "Easy",
+      "frequency": 69.8
+    },
+    {
+      "id": "next-permutation",
+      "title": "Next Permutation",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "split-array-largest-sum",
+      "title": "Split Array Largest Sum",
+      "difficulty": "Hard",
+      "frequency": 69.8
+    },
+    {
+      "id": "contains-duplicate-ii",
+      "title": "Contains Duplicate II",
+      "difficulty": "Easy",
+      "frequency": 69.8
+    },
+    {
+      "id": "divide-two-integers",
+      "title": "Divide Two Integers",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "subsets",
+      "title": "Subsets",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "zigzag-conversion",
+      "title": "Zigzag Conversion",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "longest-consecutive-sequence",
+      "title": "Longest Consecutive Sequence",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "smallest-missing-integer-greater-than-sequential-prefix-sum",
+      "title": "Smallest Missing Integer Greater Than Sequential Prefix Sum",
+      "difficulty": "Easy",
+      "frequency": 69.8
+    },
+    {
+      "id": "single-number",
+      "title": "Single Number",
+      "difficulty": "Easy",
+      "frequency": 69.8
+    },
+    {
+      "id": "spiral-matrix",
+      "title": "Spiral Matrix",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "number-of-islands",
+      "title": "Number of Islands",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "article-views-i",
+      "title": "Article Views I",
+      "difficulty": "Easy",
+      "frequency": 69.8
+    },
+    {
+      "id": "reorder-list",
+      "title": "Reorder List",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "find-the-index-of-the-first-occurrence-in-a-string",
+      "title": "Find the Index of the First Occurrence in a String",
+      "difficulty": "Easy",
+      "frequency": 69.8
+    },
+    {
+      "id": "trapping-rain-water",
+      "title": "Trapping Rain Water",
+      "difficulty": "Hard",
+      "frequency": 69.8
+    },
+    {
+      "id": "longest-palindromic-substring",
+      "title": "Longest Palindromic Substring",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "evaluate-division",
+      "title": "Evaluate Division",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "multiply-strings",
+      "title": "Multiply Strings",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    },
+    {
+      "id": "rotate-array",
+      "title": "Rotate Array",
+      "difficulty": "Medium",
+      "frequency": 69.8
+    }
+  ]
+}
