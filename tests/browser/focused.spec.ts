@@ -70,17 +70,17 @@ for (const width of [1280, 390]) {
       buffer: Buffer.from(JSON.stringify(state)),
     });
     await expect(page.locator(".sidebar-plan")).toContainText(
-      "30 of 100 practiced",
+      "30 of 172 practiced",
     );
     await page
       .getByRole("button", { name: "All problems", exact: true })
       .click();
-    await expect(page.locator(".week-group .problem-row")).toHaveCount(100);
+    await expect(page.locator(".week-group .problem-row")).toHaveCount(172);
     const orders = await page
       .locator(".week-group .problem-row .meta")
       .allTextContents();
     expect(orders.map((t) => Number(t.match(/#(\d+)/)![1]))).toEqual(
-      Array.from({ length: 100 }, (_, i) => i + 1),
+      Array.from({ length: 172 }, (_, i) => i + 1),
     );
     await page.getByLabel("Search problems").fill("Meeting Rooms");
     await expect(page.locator(".week-group .problem-row")).toHaveCount(1);
@@ -119,7 +119,7 @@ for (const width of [1280, 390]) {
     );
     await page.reload();
     await expect(page.locator(".sidebar-plan")).toContainText(
-      "31 of 100 practiced",
+      "31 of 172 practiced",
     );
     const remote = await (await page.request.get("/api/grind/state")).json();
     expect(

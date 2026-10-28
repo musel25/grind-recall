@@ -14,7 +14,129 @@ export function duration(n: number) {
     ? `${Math.floor(n / 60)}h${n % 60 ? ` ${Math.round(n % 60)}m` : ""}`
     : `${Math.round(n)}m`;
 }
-export function Session({
+type SessionProps = {
+  problem: Problem;
+  planWeek: number;
+  state: StudyState;
+  day: string;
+  onClose: () => void;
+  onMorning: (marked: boolean) => boolean;
+  onSave: (
+    rating: 1 | 2 | 3 | 4 | null,
+    minutes: number,
+    note: string,
+  ) => boolean;
+};
+export function Session(props: SessionProps) {
+  return props.problem.review === false ? (
+    <CompletionSession {...props} />
+  ) : (
+    <ReviewSession {...props} />
+  );
+}
+function CompletionSession({
+  problem: p,
+  state,
+  onClose,
+  onSave,
+}: SessionProps) {
+  const ref = useRef<HTMLDialogElement>(null);
+  const progress = state.progress[p.id];
+  const [minutes, setMinutes] = useState(p.minutes * 2);
+  const [note, setNote] = useState("");
+  const [error, setError] = useState("");
+  useEffect(() => {
+    ref.current?.showModal();
+  }, []);
+  return (
+    <dialog ref={ref} onCancel={onClose} className="session-dialog">
+      <div className="dialog-top">
+        <span className="eyebrow">Python course · One completion</span>
+        <button
+          className="icon-button"
+          aria-label="Close practice"
+          onClick={onClose}
+        >
+          <X size={20} />
+        </button>
+      </div>
+      <h2>{p.title}</h2>
+      <div className="meta">
+        <span>{p.stage}</span>
+        <span className={"difficulty " + p.difficulty.toLowerCase()}>
+          {p.difficulty}
+        </span>
+      </div>
+      <p className="session-prompt">
+        Complete the exercise on Cojudge. Then record your time and mark it
+        complete here. This exercise has no repeat reviews.
+      </p>
+      <a
+        className="button primary"
+        href={p.url}
+        target="_blank"
+        rel="noreferrer"
+      >
+        Open on Cojudge <ArrowUpRight size={17} />
+      </a>
+      {progress ? (
+        <div className="notice success">
+          <Check size={18} />
+          <div>
+            Completed {dateLabel(progress.due)}. No review is scheduled.
+            {progress.note && <p>{progress.note}</p>}
+          </div>
+        </div>
+      ) : (
+        <form
+          className="rating-area"
+          onSubmit={(event) => {
+            event.preventDefault();
+            if (!Number.isFinite(minutes) || minutes < 1 || minutes > 600) {
+              setError("Enter between 1 and 600 minutes.");
+              return;
+            }
+            if (onSave(null, minutes, note)) onClose();
+            else
+              setError(
+                "Your completion could not be saved. Your current progress is unchanged.",
+              );
+          }}
+        >
+          <label>
+            Time spent (minutes)
+            <input
+              type="number"
+              min="1"
+              max="600"
+              value={minutes}
+              onChange={(e) => setMinutes(Number(e.target.value))}
+              required
+            />
+          </label>
+          <label>
+            Notes (optional)
+            <textarea
+              value={note}
+              maxLength={5000}
+              onChange={(e) => setNote(e.target.value)}
+              rows={3}
+            />
+          </label>
+          <button className="button secondary finish-button" type="submit">
+            Mark complete <Check size={17} />
+          </button>
+          {error && (
+            <p role="alert" className="error-text">
+              {error}
+            </p>
+          )}
+        </form>
+      )}
+    </dialog>
+  );
+}
+function ReviewSession({
   problem: p,
   planWeek,
   state,
@@ -22,15 +144,7 @@ export function Session({
   onClose,
   onSave,
   onMorning,
-}: {
-  problem: Problem;
-  planWeek: number;
-  state: StudyState;
-  day: string;
-  onClose: () => void;
-  onMorning: (marked: boolean) => boolean;
-  onSave: (rating: 1 | 2 | 3 | 4, minutes: number, note: string) => boolean;
-}) {
+}: SessionProps) {
   const ref = useRef<HTMLDialogElement>(null);
   const progress = state.progress[p.id];
   const [finished, setFinished] = useState(false);
@@ -249,7 +363,9 @@ export function Session({
           {history.map((a) => (
             <div className="history-line" key={a.id}>
               <span>{dateLabel(a.day)}</span>
-              <strong>{labels[a.rating - 1]}</strong>
+              <strong>
+                {a.rating === null ? "Completed" : labels[a.rating - 1]}
+              </strong>
               <span>{duration(a.minutes)}</span>
             </div>
           ))}

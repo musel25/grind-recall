@@ -756,6 +756,15 @@ a {
   overflow: hidden;
   background: white;
 }
+.course-link {
+  margin: 16px 20px;
+}
+.course-group > summary > span:first-child {
+  min-width: 0;
+}
+.course-group > summary svg {
+  flex-shrink: 0;
+}
 .week-group > summary {
   list-style: none;
   display: flex;

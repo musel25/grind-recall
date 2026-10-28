@@ -2,6 +2,9 @@ import { problems } from "./model";
 import type { Progress, StudyState } from "./types";
 export const STORAGE_KEY = "grind-recall:v1";
 const ids = new Set(problems.map((p) => p.id));
+const onceIds = new Set(
+  problems.filter((p) => p.review === false).map((p) => p.id),
+);
 function validDate(v: unknown): v is string {
   return (
     typeof v === "string" &&
@@ -77,7 +80,7 @@ export function validateState(input: unknown): StudyState {
     s.morningStudy !== undefined &&
     (!object(s.morningStudy) ||
       Object.entries(s.morningStudy).some(
-        ([id, day]) => !ids.has(id) || !validDate(day),
+        ([id, day]) => !ids.has(id) || onceIds.has(id) || !validDate(day),
       ))
   )
     return fail();
@@ -140,9 +143,15 @@ export function validateState(input: unknown): StudyState {
     return fail();
   }
   for (const [id, p] of Object.entries(s.progress))
-    if (!ids.has(id) || !checkProgress(p)) return fail();
+    if (
+      !ids.has(id) ||
+      !checkProgress(p) ||
+      (onceIds.has(id) && p.card !== null)
+    )
+      return fail();
   const seen = new Set<string>();
   const events = new Set<string>();
+  const completions = new Set<string>();
   for (const a of s.history) {
     if (
       !object(a) ||
@@ -150,7 +159,12 @@ export function validateState(input: unknown): StudyState {
       typeof a.id !== "string" ||
       !a.id ||
       !validDate(a.day) ||
-      ![1, 2, 3, 4].includes(a.rating) ||
+      (onceIds.has(a.problemId)
+        ? a.rating !== null ||
+          !a.wasNew ||
+          a.previous !== null ||
+          completions.has(a.problemId)
+        : a.rating === null || ![1, 2, 3, 4].includes(a.rating)) ||
       !numeric(a.minutes, 1, 600) ||
       typeof a.wasNew !== "boolean" ||
       (a.previous !== null && !checkProgress(a.previous))
@@ -161,6 +175,7 @@ export function validateState(input: unknown): StudyState {
       return fail();
     seen.add(key);
     events.add(a.id);
+    if (onceIds.has(a.problemId)) completions.add(a.problemId);
   }
   return structuredClone(s);
 }

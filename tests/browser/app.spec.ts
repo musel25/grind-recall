@@ -25,7 +25,7 @@ test("complete daily work, preserve it on reload, undo and backup round trip", a
   await expect(
     page.getByRole("heading", { name: "Your practice, today." }),
   ).toBeVisible();
-  await expect(page.locator(".sidebar-plan")).toContainText("10 of 97");
+  await expect(page.locator(".sidebar-plan")).toContainText("10 of 169");
   const count = await page.locator(".problem-row").count();
   expect(count).toBeGreaterThan(0);
   for (let i = 0; i < count; i++) {
@@ -33,13 +33,18 @@ test("complete daily work, preserve it on reload, undo and backup round trip", a
       .getByRole("button", { name: "Start practice", exact: true })
       .click();
     await expect(page.getByRole("dialog")).toBeVisible();
-    await page.getByRole("button", { name: "Rate my attempt" }).click();
-    await page
-      .getByLabel("What should you remember?")
-      .fill("Check empty inputs");
-    await page
-      .getByRole("button", { name: /^Good Solved independently/ })
-      .click();
+    if (await page.getByRole("link", { name: "Open on Cojudge" }).count()) {
+      await page.getByLabel("Notes (optional)").fill("Check empty inputs");
+      await page.getByRole("button", { name: "Mark complete" }).click();
+    } else {
+      await page.getByRole("button", { name: "Rate my attempt" }).click();
+      await page
+        .getByLabel("What should you remember?")
+        .fill("Check empty inputs");
+      await page
+        .getByRole("button", { name: /^Good Solved independently/ })
+        .click();
+    }
   }
   await expect(
     page.getByRole("heading", { name: "All set for today." }),
@@ -291,9 +296,17 @@ test("plan by time or deadline; preserve pause and ratings survive reload", asyn
 test("completed lists preserve review budget and allow saving settings after deadline", async ({
   page,
 }) => {
-  const { default: problems } = await import("../../src/problems.json", {
-    with: { type: "json" },
-  });
+  const problems: Problem[] = [
+    ...JSON.parse(
+      readFileSync(new URL("../../src/problems.json", import.meta.url), "utf8"),
+    ),
+    ...JSON.parse(
+      readFileSync(
+        new URL("../../src/cojudge-courses.json", import.meta.url),
+        "utf8",
+      ),
+    ).flatMap((course: { problems: Problem[] }) => course.problems),
+  ];
   await page.goto("./");
   await page
     .getByRole("button", { name: "Continue with my first 10 completed" })

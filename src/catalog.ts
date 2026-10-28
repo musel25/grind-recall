@@ -1,6 +1,15 @@
 import data from "./problems.json";
+import courses from "./cojudge-courses.json";
 import type { Problem, StudyState } from "./types";
-export const problems: Problem[] = data;
+export const cojudgeCourses: {
+  id: string;
+  title: string;
+  problems: Problem[];
+}[] = courses;
+export const problems: Problem[] = [
+  ...data,
+  ...cojudgeCourses.flatMap((course) => course.problems),
+];
 export const initialTen = [
   "two-sum",
   "valid-parentheses",
@@ -17,6 +26,7 @@ export function activeProblems(state?: StudyState | null): Problem[] {
   return problems
     .filter(
       (p) =>
+        p.review === false ||
         p.core ||
         (p.bloomberg && !p.deferred) ||
         !!state?.progress[p.id] ||
@@ -29,6 +39,11 @@ export function archivedProblems(state?: StudyState | null): Problem[] {
   return problems.filter((p) => !active.has(p.id));
 }
 export function problemSource(p: Problem): string {
+  if (p.course)
+    return (
+      cojudgeCourses.find((course) => course.id === p.course)?.title ??
+      "Cojudge"
+    );
   return p.core && p.bloomberg
     ? "Grind 75 · Bloomberg"
     : p.core
