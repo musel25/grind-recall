@@ -25,16 +25,18 @@ export function simulatePace(
         ? Math.round(p.minutes * s.settings.reviewMultiplier)
         : p.minutes * 2;
       s.progress[p.id] = {
-        ...nextReview(previous?.card ?? null, 3, date, s, p.id),
+        ...(p.review === false
+          ? { due: date, card: null }
+          : nextReview(previous?.card ?? null, 3, date, s, p.id)),
         imported: previous?.imported ?? false,
         note: "",
-        independent: true,
+        independent: p.review !== false,
       };
       s.history.push({
         id: `projection-${date}-${p.id}`,
         problemId: p.id,
         day: date,
-        rating: 3,
+        rating: p.review === false ? null : 3,
         minutes: spent,
         wasNew: !previous,
         previous: null,

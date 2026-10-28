@@ -12,12 +12,15 @@ export type Problem = {
   deferred?: boolean;
   stage?: string;
   estimatedMinutes?: boolean;
+  course?: string;
+  review?: boolean;
 };
 export type StoredCard = Omit<Card, "due" | "last_review"> & {
   due: string;
   last_review?: string;
 };
 export type Progress = {
+  // One-time exercises store their completion date here and never enter reviews.
   due: string;
   card: StoredCard | null;
   imported: boolean;
@@ -28,7 +31,7 @@ export type Attempt = {
   id: string;
   problemId: string;
   day: string;
-  rating: 1 | 2 | 3 | 4;
+  rating: 1 | 2 | 3 | 4 | null;
   minutes: number;
   wasNew: boolean;
   previous: Progress | null;

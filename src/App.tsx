@@ -40,7 +40,12 @@ import { PlanSummary, fullDate } from "./PlanSummary";
 import { Settings } from "./Settings";
 import type { Problem, StudyState } from "./types";
 import { bankWeeks, type BankWeek } from "./bank";
-import { activeProblems, archivedProblems, problemSource } from "./catalog";
+import {
+  activeProblems,
+  archivedProblems,
+  problemSource,
+  cojudgeCourses,
+} from "./catalog";
 type AppStore = {
   load: () => StudyState | null;
   save: (next: StudyState, expected: number | null) => void;
@@ -144,7 +149,8 @@ export default function App({
             Remember tomorrow.
           </h1>
           <p>
-            Grind 75 + Bloomberg, in learning order with spaced reviews.
+            Grind 75 + Bloomberg with spaced reviews, plus Python courses on
+            Cojudge.
             <br />
             One clear list of what to work on each day.
           </p>
@@ -204,8 +210,14 @@ export default function App({
             </>
           )}
           <small>
-            Your pace · {activeProblems().length} focused problems + practiced
-            extras · Synced to your account
+            Your pace ·{" "}
+            {activeProblems().filter((p) => p.review !== false).length}{" "}
+            algorithm problems ·{" "}
+            {cojudgeCourses.reduce(
+              (sum, course) => sum + course.problems.length,
+              0,
+            )}{" "}
+            Python exercises · Synced to your account
           </small>
         </div>
         <a
@@ -275,8 +287,9 @@ export default function App({
   }
   const budget = plan.budgetMinutes;
   const estimate = plan.totalMinutes + plan.doneMinutes;
-  const nextDue = Object.values(state.progress)
-    .map((p) => reviewDay(p.due, state))
+  const nextDue = active
+    .filter((p) => p.review !== false && state.progress[p.id])
+    .map((p) => reviewDay(state.progress[p.id].due, state))
     .filter((d) => d > day)
     .sort()[0];
   const breakDays = (state.planning?.breaks ?? [])
@@ -285,6 +298,7 @@ export default function App({
   const upcomingProblems = upcomingDay
     ? active.filter(
         (p) =>
+          p.review !== false &&
           state.progress[p.id] &&
           reviewDay(state.progress[p.id].due, state) === upcomingDay,
       )
@@ -311,6 +325,7 @@ export default function App({
           {[
             ["today", "Today", CalendarDays],
             ["problems", "All problems", ListChecks],
+            ["courses", "Python courses", BookOpen],
             ["settings", "Settings", Settings2],
           ].map(([key, label, Icon]) => {
             const C = Icon as typeof CalendarDays;
@@ -718,7 +733,9 @@ export default function App({
                       {problems.find((p) => p.id === a.problemId)?.title}
                     </span>
                     <small>
-                      {["", "Again", "Hard", "Good", "Easy"][a.rating]}
+                      {a.rating === null
+                        ? "Completed"
+                        : ["", "Again", "Hard", "Good", "Easy"][a.rating]}
                     </small>
                   </button>
                 ))}
@@ -764,8 +781,11 @@ export default function App({
               <div className="upcoming-days">
                 {Array.from({ length: 14 }, (_, i) => {
                   const date = addDays(day, i + 1);
-                  const n = Object.values(state.progress).filter(
-                    (p) => reviewDay(p.due, state) === date,
+                  const n = active.filter(
+                    (p) =>
+                      p.review !== false &&
+                      state.progress[p.id] &&
+                      reviewDay(state.progress[p.id].due, state) === date,
                   ).length;
                   return (
                     <button
@@ -828,6 +848,9 @@ export default function App({
             groups={roadmap}
           />
         )}
+        {view === "courses" && (
+          <CourseList state={state} day={day} onSelect={setSelected} />
+        )}
         {view === "settings" && (
           <Settings
             state={state}
@@ -841,7 +864,7 @@ export default function App({
         )}
         <footer>
           <span>Consistency over cramming.</span>
-          <span>Grind 75 + Bloomberg + spaced repetition</span>
+          <span>Grind 75 + Bloomberg + Python courses</span>
         </footer>
       </main>
       {selected && (
@@ -868,7 +891,9 @@ export default function App({
               );
               if (commit(next)) {
                 setToast(
-                  `${selected.title} recorded. Next review ${dateLabel(reviewDay(next.progress[selected.id].due, next))}.`,
+                  selected.review === false
+                    ? `${selected.title} completed. No repeat reviews.`
+                    : `${selected.title} recorded. Next review ${dateLabel(reviewDay(next.progress[selected.id].due, next))}.`,
                 );
                 return true;
               }
@@ -896,7 +921,9 @@ function ProblemRow({
   onSelect: (p: Problem) => void;
   review?: boolean;
 }) {
-  const done = state.history.some((a) => a.day === day && a.problemId === p.id);
+  const done =
+    (p.review === false && !!state.progress[p.id]) ||
+    state.history.some((a) => a.day === day && a.problemId === p.id);
   const progress = state.progress[p.id];
   return (
     <button
@@ -929,6 +956,7 @@ function ProblemRow({
             )}
             {review ? " review" : " solve + study"}
           </span>
+          {p.review === false && <span>No repeat reviews</span>}
           {review && (
             <span>Due {dateLabel(reviewDay(progress.due, state))}</span>
           )}
@@ -943,7 +971,13 @@ function ProblemRow({
         </span>
       </span>
       <span className="row-action">
-        {done ? "Recorded" : review ? "Review" : "Practice"}
+        {done
+          ? p.review === false
+            ? "Completed"
+            : "Recorded"
+          : review
+            ? "Review"
+            : "Practice"}
         <ChevronRight size={17} />
       </span>
     </button>
@@ -992,7 +1026,7 @@ function ProblemSection({
           />
           {(onMorning || onSkip) && (
             <div className="study-row-footer">
-              {onMorning && (
+              {onMorning && p.review !== false && (
                 <button
                   className="text-button"
                   aria-label={`Studied ${p.title} this morning`}
@@ -1027,6 +1061,70 @@ function SkipButton({
     </button>
   );
 }
+function CourseList({
+  state,
+  day,
+  onSelect,
+}: {
+  state: StudyState;
+  day: string;
+  onSelect: (p: Problem) => void;
+}) {
+  const firstIncomplete = cojudgeCourses.find((course) =>
+    course.problems.some((p) => !state.progress[p.id]),
+  )?.id;
+  return (
+    <>
+      <div className="page-heading">
+        <h1>Python courses</h1>
+        <p>
+          OOP → Pytest → Data Formats → Collections. Complete each exercise on
+          Cojudge, then mark it complete here. These courses share your daily
+          study time. They have no repeat reviews.
+        </p>
+      </div>
+      {cojudgeCourses.map((course) => {
+        const completed = course.problems.filter(
+          (p) => state.progress[p.id],
+        ).length;
+        return (
+          <details
+            className="week-group course-group"
+            key={course.id}
+            open={course.id === (firstIncomplete ?? cojudgeCourses[0].id)}
+          >
+            <summary>
+              <span>
+                <ChevronRight size={18} />
+                {course.title}
+              </span>
+              <span className="week-summary">
+                {completed}/{course.problems.length}
+              </span>
+            </summary>
+            <a
+              className="text-button course-link"
+              href={`https://cojudge.musel.dev/?course=${course.id}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Open course on Cojudge <ArrowUpRight size={15} />
+            </a>
+            {course.problems.map((p) => (
+              <ProblemRow
+                key={p.id}
+                p={p}
+                state={state}
+                day={day}
+                onSelect={onSelect}
+              />
+            ))}
+          </details>
+        );
+      })}
+    </>
+  );
+}
 function ProblemList({
   state,
   day,
@@ -1054,6 +1152,7 @@ function ProblemList({
           : status === "Practiced"
             ? !!state.progress[p.id]
             : !!state.progress[p.id] &&
+              p.review !== false &&
               reviewDay(state.progress[p.id].due, state) <= day &&
               !state.planning?.breaks?.includes(day))),
   );
@@ -1067,7 +1166,7 @@ function ProblemList({
           learning order, grouped across your {groups.length}-week plan by
           estimated effort. This is your roadmap; Today accounts for reviews and
           study breaks. Includes all 75 Grind problems, 22 additional Bloomberg
-          problems, and your practiced extras.
+          problems, your practiced extras, and the Python courses on Cojudge.
         </p>
       </div>
       <div className="list-tools">

@@ -40,33 +40,42 @@ export function initialState(day: string, importTen = false): StudyState {
 export function recordAttempt(
   state: StudyState,
   id: string,
-  rating: 1 | 2 | 3 | 4,
+  rating: 1 | 2 | 3 | 4 | null,
   day: string,
   minutes: number,
   note: string,
 ): StudyState {
-  if (!problems.some((p) => p.id === id)) throw new Error("Unknown problem.");
-  if (![1, 2, 3, 4].includes(rating)) throw new Error("Invalid rating.");
+  const problem = problems.find((p) => p.id === id);
+  if (!problem) throw new Error("Unknown problem.");
+  const once = problem.review === false;
+  if (!once && (rating === null || ![1, 2, 3, 4].includes(rating)))
+    throw new Error("Invalid rating.");
   if (!Number.isFinite(minutes) || minutes < 1 || minutes > 600)
     throw new Error("Enter between 1 and 600 minutes.");
   if (state.history.some((a) => a.problemId === id && a.day === day))
     throw new Error(
       "This problem is already recorded today. Undo it to change your rating.",
     );
+  if (once && state.progress[id])
+    throw new Error(
+      "This exercise is already complete. Undo its completion to change it.",
+    );
   const s = structuredClone(state);
   const previous = s.progress[id] ?? null;
-  const next = nextReview(previous?.card ?? null, rating, day, state, id);
+  const next = once
+    ? { due: day, card: null }
+    : nextReview(previous?.card ?? null, rating!, day, state, id);
   s.progress[id] = {
     ...next,
     imported: previous?.imported ?? false,
     note: note.slice(0, 5000),
-    independent: (previous?.independent ?? false) || rating >= 2,
+    independent: !once && ((previous?.independent ?? false) || rating! >= 2),
   };
   s.history.push({
     id: crypto.randomUUID(),
     problemId: id,
     day,
-    rating,
+    rating: once ? null : rating,
     minutes,
     wasNew: !previous,
     previous,
@@ -80,7 +89,10 @@ export function undoAttempt(state: StudyState): StudyState {
   if (!a) return state;
   if (a.previous) {
     s.progress[a.problemId] = a.previous;
-    if (s.planning?.breaks?.includes(a.previous.due)) {
+    if (
+      problems.find((p) => p.id === a.problemId)?.review !== false &&
+      s.planning?.breaks?.includes(a.previous.due)
+    ) {
       const last = [...s.history]
         .reverse()
         .find((h) => h.problemId === a.problemId);
@@ -203,12 +215,20 @@ export function setStudyBreak(
   if (
     JSON.stringify(next.planning.breaks) ===
       JSON.stringify(state.planning?.breaks) &&
-    !Object.values(next.progress).some((p) => p.due >= start && p.due <= end)
+    !Object.entries(next.progress).some(
+      ([id, p]) =>
+        problems.find((problem) => problem.id === id)?.review !== false &&
+        p.due >= start &&
+        p.due <= end,
+    )
   )
     return next;
   const resume = addDays(end, 1);
   const affected = Object.entries(next.progress).filter(
-    ([, p]) => p.due >= start && p.due <= resume,
+    ([id, p]) =>
+      problems.find((problem) => problem.id === id)?.review !== false &&
+      p.due >= start &&
+      p.due <= resume,
   );
   const latest = new Map(next.history.map((a) => [a.problemId, a.rating]));
   affected.sort(
@@ -234,6 +254,8 @@ export function markMorningStudy(
   marked: boolean,
 ): StudyState {
   if (!problems.some((p) => p.id === id)) throw Error("Unknown problem.");
+  if (problems.find((p) => p.id === id)?.review === false)
+    throw Error("This exercise uses one completion. Open it to mark complete.");
   if (
     !/^\d{4}-\d{2}-\d{2}$/.test(day) ||
     !Number.isFinite(Date.parse(day)) ||

@@ -1,5 +1,5 @@
 import { createEmptyCard, fsrs, type Grade } from "ts-fsrs";
-import { activeProblems } from "./catalog";
+import { activeProblems, problems as catalog } from "./catalog";
 import type { StoredCard, StudyState, Problem } from "./types";
 const engine = fsrs({
   request_retention: 0.9,
@@ -46,7 +46,11 @@ export function reviewSlot(
   if (!state) return first;
   const counts = new Map<string, number>();
   for (const [id, p] of Object.entries(state.progress)) {
-    if (id === problemId) continue;
+    if (
+      id === problemId ||
+      catalog.find((problem) => problem.id === id)?.review === false
+    )
+      continue;
     const date = reviewDay(p.due, state);
     counts.set(date, (counts.get(date) ?? 0) + 1);
   }
@@ -168,6 +172,26 @@ export function awaitingEvening(s: StudyState, id: string, day: string) {
     )
   );
 }
+// Alternate the two first-pass tracks. Reconstruct today's candidates before
+// removing today's completions so an early finish never adds replacement work.
+function learningOrder(problems: Problem[], state: StudyState, day: string) {
+  const algorithms = problems.filter((p) => p.review !== false);
+  const python = problems.filter((p) => p.review === false);
+  const previous = state.history.filter((a) => a.wasNew && a.day < day).at(-1);
+  let pythonFirst =
+    !!previous &&
+    catalog.find((p) => p.id === previous.problemId)?.review !== false;
+  const ordered: Problem[] = [];
+  let a = 0,
+    b = 0;
+  while (a < algorithms.length || b < python.length) {
+    if (b < python.length && (pythonFirst || a >= algorithms.length))
+      ordered.push(python[b++]);
+    else ordered.push(algorithms[a++]);
+    pythonFirst = !pythonFirst;
+  }
+  return ordered;
+}
 export function dailyPlan(s: StudyState, day: string) {
   const problems = activeProblems(s);
   const end = addDays(s.settings.startDate, s.settings.weeks * 7 - 1);
@@ -190,7 +214,11 @@ export function dailyPlan(s: StudyState, day: string) {
       ? []
       : problems.filter((p) => awaitingEvening(s, p.id, day));
   const eveningIds = new Set(eveningProblems.map((p) => p.id));
-  const remaining = problems.filter((p) => !s.progress[p.id]);
+  const remaining = learningOrder(
+    problems.filter((p) => !s.progress[p.id]),
+    s,
+    day,
+  );
   const remainingMinutes = remaining.reduce((sum, p) => sum + p.minutes * 2, 0);
   const doneNewMinutes = problems
     .filter((p) => newDoneIds.has(p.id))
@@ -211,6 +239,7 @@ export function dailyPlan(s: StudyState, day: string) {
       : problems
           .filter(
             (p) =>
+              p.review !== false &&
               s.progress[p.id] &&
               (reviewDay(s.progress[p.id].due, s) <= day ||
                 eveningIds.has(p.id)) &&
@@ -245,8 +274,10 @@ export function dailyPlan(s: StudyState, day: string) {
     0,
     budgetMinutes - reviewMinutes - completedReviewEstimate,
   );
-  const startOfDayCandidates = problems.filter(
-    (p) => !s.progress[p.id] || newDoneIds.has(p.id),
+  const startOfDayCandidates = learningOrder(
+    problems.filter((p) => !s.progress[p.id] || newDoneIds.has(p.id)),
+    s,
+    day,
   );
   const newProblems: Problem[] = [];
   if (!beforeStart && !onBreak) {

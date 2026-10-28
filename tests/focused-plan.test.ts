@@ -18,6 +18,9 @@ test("old backups keep practiced extras but never schedule untouched archive ent
   // Simulate all original questions practiced except one outside both requested lists.
   for (const p of original)
     if (p.id !== "sudoku-solver") s.progress[p.id] = { ...saved };
+  // Isolate algorithm archive behavior from the separately tested Python path.
+  for (const p of problems.filter((p) => p.review === false))
+    s.progress[p.id] = { ...saved };
   s.settings.hours = 80;
   s.planning = { days: { [day]: { extras: ["sudoku-solver"] } }, weeks: {} };
   const before = JSON.stringify(s);
@@ -54,7 +57,7 @@ import sources from "../docs/catalog/focused-sources.json";
 import { problems } from "../src/model";
 test("selected lists are complete, deduplicated and account-specific extras fill ordered slots", () => {
   const s = initialState(day);
-  const active = activeProblems(s);
+  const active = activeProblems(s).filter((p) => p.review !== false);
   assert.equal(sources.core.length, 75);
   assert.equal(sources.bloomberg.length, 57);
   assert.equal(active.length, 97);
@@ -71,7 +74,7 @@ test("selected lists are complete, deduplicated and account-specific extras fill
   assert.equal(archivedProblems(s).length, 97);
   s.progress["meeting-rooms"] = { ...saved };
   s.progress["roman-to-integer"] = { ...saved };
-  const retained = activeProblems(s);
+  const retained = activeProblems(s).filter((p) => p.review !== false);
   assert.equal(retained.length, 99);
   assert.ok(!archivedProblems(s).some((p) => p.id === "meeting-rooms"));
   assert.ok(
@@ -82,7 +85,10 @@ test("selected lists are complete, deduplicated and account-specific extras fill
     retained.map((p) => p.order),
     Array.from({ length: 99 }, (_, i) => i + 1),
   );
-  assert.equal(activeProblems(initialState(day)).length, 97);
+  assert.equal(
+    activeProblems(initialState(day)).filter((p) => p.review !== false).length,
+    97,
+  );
 });
 test("onboarding imports the historical first ten even after reordering", () => {
   assert.deepEqual(
@@ -192,7 +198,7 @@ test("approved cuts yield 100 with the three practiced extras, without deleting 
   ])
     s.progress[id] = { ...saved };
   const before = JSON.stringify(s);
-  const active = activeProblems(s);
+  const active = activeProblems(s).filter((p) => p.review !== false);
   assert.equal(active.length, 100);
   assert.equal(active.filter((p) => !s.progress[p.id]).length, 70);
   assert.equal(active.filter((p) => p.core).length, 75);
