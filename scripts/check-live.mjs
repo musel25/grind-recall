@@ -67,14 +67,38 @@ try {
     .filter({ hasText: "Saved to your account" })
     .waitFor();
   await page
-    .getByRole("button", { name: "Studied Two Sum this morning", exact: true })
+    .getByRole("button", { name: /^Studied .+ this morning$/ })
+    .first()
     .click();
   await page
     .locator('.account-bar [role="status"]')
     .filter({ hasText: "Saved to your account" })
     .waitFor();
+  await page
+    .getByRole("button", { name: "Python courses", exact: true })
+    .click();
+  assert.equal(await page.locator(".course-group").count(), 5);
+  const decorators = page.locator(".course-group").last();
+  await decorators.locator("summary").click();
+  await decorators.locator(".problem-row").first().click();
+  assert.equal(
+    await page
+      .getByRole("link", { name: "Open on Cojudge" })
+      .getAttribute("href"),
+    "https://cojudge.musel.dev/problems/pbdc-01-create-a-sandwich-decorator",
+  );
+  await page.getByRole("button", { name: "Mark complete" }).click();
+  await page
+    .locator('.account-bar [role="status"]')
+    .filter({ hasText: "Saved to your account" })
+    .waitFor();
   const saved = await state(page);
-  assert.ok(saved.state.morningStudy["two-sum"]);
+  assert.equal(Object.keys(saved.state.morningStudy).length, 1);
+  assert.equal(saved.state.history.at(-1).rating, null);
+  assert.equal(
+    saved.state.progress["pbdc-01-create-a-sandwich-decorator"].card,
+    null,
+  );
   const phone = await browser.newContext({
     viewport: { width: 390, height: 844 },
   });
@@ -107,7 +131,7 @@ try {
   assert.deepEqual((await state(page)).state, saved.state);
   assert.deepEqual(errors, []);
   console.log(
-    "PASS: live HTTPS, Planner service worker compatibility, account signup/login, VPS persistence, separate phone session, account isolation, mobile layout.",
+    "PASS: live HTTPS, Planner service worker compatibility, five Python courses, Cojudge completion without ratings, account signup/login, VPS persistence, separate phone session, account isolation, mobile layout.",
   );
 } finally {
   await browser.close();
