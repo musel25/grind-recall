@@ -19,8 +19,8 @@ const first = "pb-01-write-a-property";
 const python = () =>
   problems.filter((p) => p.url.startsWith("https://cojudge.musel.dev/"));
 
-test("the four local courses retain their order and all 60 Cojudge exercise links", () => {
-  assert.equal(python().length, 60);
+test("the five local courses retain their order and all 72 Cojudge exercise links", () => {
+  assert.equal(python().length, 72);
   assert.deepEqual(
     [...new Set(python().map((p) => p.course))],
     [
@@ -28,6 +28,7 @@ test("the four local courses retain their order and all 60 Cojudge exercise link
       "pybites-pytest",
       "pybites-data-formats",
       "pybites-collections",
+      "pybites-decorators-context-managers",
     ],
   );
   assert.deepEqual(
@@ -36,15 +37,51 @@ test("the four local courses retain their order and all 60 Cojudge exercise link
       "pybites-pytest",
       "pybites-data-formats",
       "pybites-collections",
+      "pybites-decorators-context-managers",
     ].map((course) => python().filter((p) => p.course === course).length),
-    [22, 10, 17, 11],
+    [22, 10, 17, 11, 12],
   );
   for (const p of python()) {
     assert.equal(p.url, `https://cojudge.musel.dev/problems/${p.id}`);
     assert.equal(p.review, false);
     assert.ok(activeProblems().some((active) => active.id === p.id));
   }
-  assert.ok(!problems.some((p) => p.id.startsWith("pbdc-")));
+  assert.deepEqual(
+    python()
+      .filter((p) => p.course === "pybites-decorators-context-managers")
+      .map((p) => Number(p.id.match(/^pbdc-(\d+)-/)![1])),
+    Array.from({ length: 12 }, (_, i) => i + 1),
+  );
+});
+
+test("Decorators and Context Managers follows Collections and completes without a review", () => {
+  let state = setDayMinutes(initialState(day), day, 240);
+  for (const p of python().filter(
+    (p) => p.course !== "pybites-decorators-context-managers",
+  )) {
+    state = recordAttempt(state, p.id, null, day, 15, "");
+  }
+  const exercise = "pbdc-01-create-a-sandwich-decorator";
+  state = setDayMinutes(state, "2026-10-29", 240);
+  assert.equal(
+    dailyPlan(state, "2026-10-29").newProblems.find((p) => p.review === false)
+      ?.id,
+    exercise,
+  );
+  state = recordAttempt(
+    state,
+    exercise,
+    null,
+    "2026-10-29",
+    20,
+    "Decorator call order",
+  );
+  assert.equal(state.history.at(-1)!.rating, null);
+  assert.equal(state.progress[exercise].card, null);
+  assert.deepEqual(validateState(JSON.parse(JSON.stringify(state))), state);
+  assert.ok(
+    !dailyPlan(state, "2026-11-29").reviews.some((p) => p.id === exercise),
+  );
 });
 
 test("one completion stores time and a note without creating a rating or a review", () => {

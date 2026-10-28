@@ -21,7 +21,7 @@ for (const width of [1440, 390]) {
     await page
       .getByRole("button", { name: "Continue with my first 10 completed" })
       .click();
-    await expect(page.locator(".sidebar-plan")).toContainText("10 of 157");
+    await expect(page.locator(".sidebar-plan")).toContainText("10 of 169");
     await page
       .getByRole("button", { name: "Python courses", exact: true })
       .click();
@@ -29,12 +29,13 @@ for (const width of [1440, 390]) {
       page.getByRole("heading", { name: "Python courses" }),
     ).toBeVisible();
     const courses = page.locator(".course-group");
-    await expect(courses).toHaveCount(4);
+    await expect(courses).toHaveCount(5);
     await expect(courses.locator("summary")).toHaveText([
       "Pybites OOP Path0/22",
       "Pybites Pytest Path0/10",
       "Pybites Data Formats Path0/17",
       "Pybites Collections Path0/11",
+      "Pybites Decorators and Context Managers Path0/12",
     ]);
     await expect(
       courses.first().getByRole("link", { name: "Open course on Cojudge" }),
@@ -101,6 +102,30 @@ for (const width of [1440, 390]) {
       .getByRole("button", { name: "Python courses", exact: true })
       .click();
     await expect(courses.first().locator("summary")).toContainText("0/22");
+    await courses.first().locator("summary").click();
+    await courses.last().locator("summary").click();
+    await courses.last().locator(".problem-row").first().click();
+    await expect(
+      dialog.getByRole("link", { name: "Open on Cojudge" }),
+    ).toHaveAttribute(
+      "href",
+      "https://cojudge.musel.dev/problems/pbdc-01-create-a-sandwich-decorator",
+    );
+    await expect(
+      dialog.getByRole("button", { name: "Rate my attempt" }),
+    ).toHaveCount(0);
+    await dialog.getByLabel("Time spent (minutes)").fill("20");
+    await dialog.getByRole("button", { name: "Mark complete" }).click();
+    await expect(courses.last().locator("summary")).toContainText("1/12");
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await page.screenshot({
+      path: `/tmp/grind-decorators-${width}.png`,
+      fullPage: true,
+    });
     expect(errors).toEqual([]);
   });
 }

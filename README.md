@@ -21,7 +21,7 @@ npx playwright test # requires local Vite, a disposable Timer API/DB, and Google
 
 ## Scheduling and the math
 
-The focused algorithm base contains 97 unique problems: all 75 Grind problems plus 22 selected Bloomberg-only additions. With the user’s three practiced extras this is 100 active algorithm problems. The Python path adds 60 one-time exercises. Eighteen approved Bloomberg-only cuts are archived; original source membership remains recorded. Practiced extras from the original 169 stay active per account; untouched extras are archived. Original time estimates are retained; the 25 newly added algorithm problems use estimated solve times of 20/30/45 minutes for Easy/Medium/Hard, doubled for first-pass solve + study.
+The focused algorithm base contains 97 unique problems: all 75 Grind problems plus 22 selected Bloomberg-only additions. With the user’s three practiced extras this is 100 active algorithm problems. The Python path adds 72 one-time exercises. Eighteen approved Bloomberg-only cuts are archived; original source membership remains recorded. Practiced extras from the original 169 stay active per account; untouched extras are archived. Original time estimates are retained; the 25 newly added algorithm problems use estimated solve times of 20/30/45 minutes for Easy/Medium/Hard, doubled for first-pass solve + study.
 
 FSRS via `ts-fsrs` uses default parameters and 90% desired retention, deterministic intervals, and no intraday steps. Again returns the next study day, retaining FSRS memory state. Hard, Good, and Easy use FSRS intervals from the first attempt onward. The rate button leads to all four choices, each showing its next due date. This is a coding-practice adaptation, not a guarantee of 90% interview performance. Dates are calendar days in the selected timezone. The four ratings distinguish needing help from independently solving with difficulty.
 
@@ -87,17 +87,17 @@ The bank uses the same plan length as the sidebar: the selected weeks in deadlin
 
 ## Python courses on Cojudge
 
-Python course exercises now share the daily study budget with algorithm problems. Due algorithm reviews come first. New work alternates between algorithms and the Python path: **OOP → Pytest → Data Formats → Collections**. The bank's **Python courses** view shows the four ordered lists and completion counts.
+Python course exercises now share the daily study budget with algorithm problems. Due algorithm reviews come first. New work alternates between algorithms and the Python path: **OOP → Pytest → Data Formats → Collections → Decorators and Context Managers**. The bank's **Python courses** view shows the five ordered lists and completion counts.
 
-Each of the 60 exercises opens directly on `cojudge.musel.dev`. Complete it there, then use **Mark complete** in Grind to save time and an optional note. Completion creates no rating, FSRS card, or repeat review. Completion time counts toward the weekly goal and forecast. Reload, account sync, JSON backups, skips, breaks, and Undo use the same saved state as algorithm work. Grind does not automatically read Cojudge completion flags.
+Each of the 72 exercises opens directly on `cojudge.musel.dev`. Complete it there, then use **Mark complete** in Grind to save time and an optional note. Completion creates no rating, FSRS card, or repeat review. Completion time counts toward the weekly goal and forecast. Reload, account sync, JSON backups, skips, breaks, and Undo use the same saved state as algorithm work. Grind does not automatically read Cojudge completion flags.
 
-The catalog comes from the local Cojudge content in `capital-one-prep/cojudge`. To refresh these four courses:
+The catalog comes from the local Cojudge content in `capital-one-prep/cojudge`. To refresh these five courses:
 
 ```sh
 node scripts/import-cojudge.mjs /path/to/cojudge-content
 ```
 
-The importer retains course order, exercise IDs, titles, and difficulty. Solve estimates are 15/30/45 minutes for Easy/Medium/Hard, doubled for initial study. Source exercises remain in Cojudge. Publishing them is a separate operation. Decorators and Context Managers is excluded until that course is ready.
+The importer retains course order, exercise IDs, titles, and difficulty. Solve estimates are 15/30/45 minutes for Easy/Medium/Hard, doubled for initial study. Source exercises remain in Cojudge. Publishing them is a separate operation.
 
 ## Offline interview notebooks
 

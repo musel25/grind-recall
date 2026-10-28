@@ -11,6 +11,7 @@ const courseIds = [
   "pybites-pytest",
   "pybites-data-formats",
   "pybites-collections",
+  "pybites-decorators-context-managers",
 ];
 const minutes = { Easy: 15, Medium: 30, Hard: 45 };
 const seen = new Set();

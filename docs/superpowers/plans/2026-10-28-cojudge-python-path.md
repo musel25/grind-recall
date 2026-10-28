@@ -2,19 +2,19 @@
 
 > **For agentic workers:** Use superpowers:executing-plans to implement this plan in this session.
 
-**Goal:** Include the local OOP, Pytest, Data Formats, and Collections exercises in Grind with direct Cojudge links and one completion per exercise.
+**Goal:** Include the local OOP, Pytest, Data Formats, Collections, and Decorators and Context Managers exercises in Grind with direct Cojudge links and one completion per exercise.
 
 **Architecture:** Import a static course catalog from the local Cojudge content. Extend the existing progress and attempt model to support completion without a rating or FSRS card. Alternate new algorithm and Python exercises within the existing daily budget, after due algorithm reviews. Use the same rules in forecasts, backups, undo, skips, and account sync.
 
 **Tech Stack:** Existing React, TypeScript, Vite, Node test runner, and Playwright.
 
-**Spec:** The approved description in the conversation: the four courses follow the image order; each exercise opens on Cojudge; mark completion without repeat reviews. Decorators and Context Managers remain excluded until the user reports that course ready. The user controls course deployment.
+**Spec:** The approved description in the conversation: the five courses follow the image order; each exercise opens on Cojudge; mark completion without repeat reviews. The user confirmed that Decorators and Context Managers is ready; include its 12 exercises after Collections. The user controls course deployment.
 
 ## Global Constraints
 
 - Preserve all existing algorithm progress, review dates, notes, and archived extras.
 - Read course content from `capital-one-prep/cojudge`; change only Grind.
-- Use the Pybites OOP course, followed by Pytest, Data Formats, and Collections.
+- Use the Pybites OOP course, followed by Pytest, Data Formats, Collections, and Decorators and Context Managers.
 - Estimate solve minutes as 15/30/45 for Easy/Medium/Hard; allow twice that for first study, as in Grind.
 - Keep original course IDs and exercise IDs. Link to `https://cojudge.musel.dev/problems/<id>`.
 - Preserve the user's modified notebook in the main checkout.
@@ -41,4 +41,4 @@
 - [x] Run `npm test`, `npm run build`, and relevant browser tests. Review the complete diff.
 - [x] Commit the feature with a specific Conventional Commit message. Push the branch immediately.
 
-Validation: 78 unit tests and 19 browser tests pass. The production build passes. Browser checks use a disposable local Timer API and SQLite database. Desktop and mobile screenshots show the course view without horizontal overflow. A separate code review found no issues. The generated catalog matches the local course order and metadata for all 60 exercises.
+Validation: 79 unit tests and 19 browser tests pass. The production build passes. Browser checks use a disposable local Timer API and SQLite database. Desktop and mobile screenshots show the course view without horizontal overflow. A separate code review found no issues. The generated catalog matches the local course order and metadata for all 72 exercises.

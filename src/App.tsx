@@ -1078,9 +1078,10 @@ function CourseList({
       <div className="page-heading">
         <h1>Python courses</h1>
         <p>
-          OOP → Pytest → Data Formats → Collections. Complete each exercise on
-          Cojudge, then mark it complete here. These courses share your daily
-          study time. They have no repeat reviews.
+          OOP → Pytest → Data Formats → Collections → Decorators and Context
+          Managers. Complete each exercise on Cojudge, then mark it complete
+          here. These courses share your daily study time. They have no repeat
+          reviews.
         </p>
       </div>
       {cojudgeCourses.map((course) => {
