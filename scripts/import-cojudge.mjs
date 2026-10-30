@@ -14,12 +14,21 @@ const courseIds = [
   "pybites-decorators-context-managers",
 ];
 const minutes = { Easy: 9, Medium: 18, Hard: 27 };
+const selection = JSON.parse(
+  await readFile(
+    new URL("../docs/catalog/python-first-pass.json", import.meta.url),
+    "utf8",
+  ),
+);
 const seen = new Set();
 const readJson = async (path) =>
   JSON.parse(await readFile(resolve(source, path), "utf8"));
 let order = 0;
 const courses = [];
 for (const id of courseIds) {
+  const selected = new Set(selection[id]);
+  if (!selected.size || selected.size !== selection[id].length)
+    throw Error(`Missing or duplicate first-pass selection: ${id}`);
   const course = await readJson(`courses/${id}/courseinfo.json`);
   const problems = [];
   for (const category of course["category-order"]) {
@@ -44,9 +53,12 @@ for (const id of courseIds) {
         course: id,
         stage: course.title,
         review: true,
+        deferred: !selected.has(slug),
       });
     }
   }
+  if ([...selected].some((slug) => !problems.some((p) => p.id === slug)))
+    throw Error(`Unknown first-pass exercise in ${id}`);
   courses.push({ id, title: course.title, problems });
 }
 await writeFile(

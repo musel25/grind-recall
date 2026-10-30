@@ -46,7 +46,7 @@ function legacyCompletion(): StudyState {
   return state;
 }
 
-test("all five Python courses stay active and retain 72 ordered Cojudge links", () => {
+test("all five Python catalogs retain 72 ordered Cojudge links and select the first pass", () => {
   assert.equal(python().length, 72);
   assert.deepEqual(
     [...new Set(python().map((p) => p.course))],
@@ -70,7 +70,10 @@ test("all five Python courses stay active and retain 72 ordered Cojudge links", 
   );
   for (const p of python()) {
     assert.equal(p.url, `https://cojudge.musel.dev/problems/${p.id}`);
-    assert.ok(activeProblems().some((active) => active.id === p.id));
+    assert.equal(
+      activeProblems().some((active) => active.id === p.id),
+      !p.deferred,
+    );
   }
   const state = setDayMinutes(initialState(day), day, 240);
   for (const p of python().filter(
@@ -89,7 +92,7 @@ test("Python first-study and review budgets use 60 percent of the previous durat
     ["Medium", 36, 18],
     ["Hard", 54, 27],
   ] as const) {
-    const p = python().find((p) => p.difficulty === difficulty)!;
+    const p = python().find((p) => p.difficulty === difficulty && !p.deferred)!;
     assert.ok(p);
     let state = setDayMinutes(initialState(day), day, initial);
     for (const other of activeProblems(state))

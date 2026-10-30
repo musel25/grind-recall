@@ -39,7 +39,7 @@ test("Bank follows deadline weeks, preserves every problem and updates practice 
     await expect(
       page.locator(".week-group").last().locator("summary"),
     ).toContainText(`Week ${weeks}`);
-    await expect(page.locator(".week-group .problem-row")).toHaveCount(169);
+    await expect(page.locator(".week-group .problem-row")).toHaveCount(136);
     const house = page
       .locator(".week-group")
       .filter({ hasText: "House Robber" });
@@ -56,7 +56,7 @@ test("Bank follows deadline weeks, preserves every problem and updates practice 
     );
     await page.getByRole("button", { name: "Close practice" }).click();
     await page.getByLabel("Search problems").fill("");
-    await expect(page.locator(".week-group .problem-row")).toHaveCount(169);
+    await expect(page.locator(".week-group .problem-row")).toHaveCount(136);
   }
   await page.reload();
   await page.getByRole("button", { name: "All problems", exact: true }).click();
@@ -74,7 +74,7 @@ test("Bank follows deadline weeks, preserves every problem and updates practice 
   );
   await page.getByRole("button", { name: "All problems", exact: true }).click();
   await expect(page.locator(".week-group")).toHaveCount(estimatedWeeks);
-  await expect(page.locator(".week-group .problem-row")).toHaveCount(169);
+  await expect(page.locator(".week-group .problem-row")).toHaveCount(136);
   expect(await readProgress()).toEqual(before);
   await page.setViewportSize({ width: 390, height: 844 });
   expect(

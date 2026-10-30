@@ -1,0 +1,51 @@
+{
+  "pybites-oop": [
+    "pb-01-write-a-property",
+    "pb-02-complete-a-user-class-properties-and-representation-dunder-methods",
+    "pb-03-subclassing-vehicles-in-motion",
+    "pb-04-no-promo-twice-keep-state-in-a-class",
+    "pb-07-implement-a-color-class-with-staticmethod",
+    "pb-09-write-your-own-data-class",
+    "pb-10-complete-a-tox-ini-file-parser-class",
+    "pb-12-alternative-constructors",
+    "pb-15-abcs-and-class-inheritance"
+  ],
+  "pybites-pytest": [
+    "pbt-01-write-tests-for-fibonacci",
+    "pbt-02-write-tests-for-list-to-decimal",
+    "pbt-03-test-print-standard-output",
+    "pbt-05-test-code-that-parses-json-and-ip-ranges",
+    "pbt-06-mocking-a-standard-library-function",
+    "pbt-07-write-tests-for-an-account-class",
+    "pbt-09-test-a-number-guessing-game",
+    "pbt-10-test-a-movie-db-class"
+  ],
+  "pybites-data-formats": [
+    "pdf-02-analyze-some-basic-car-data",
+    "pdf-04-convert-dict-to-namedtuplejson",
+    "pdf-05-parse-omdb-movie-json-data",
+    "pdf-09-use-the-ipinfo-api-to-lookup-ip-country",
+    "pdf-11-turn-messy-csv-into-json",
+    "pdf-12-analyze-some-bite-stats-data",
+    "pdf-14-analyze-nba-data-with-sqlite3"
+  ],
+  "pybites-collections": [
+    "pbc-01-loop-over-a-dict-of-namedtuples-calculating-a-total-score",
+    "pbc-02-keep-a-queue-of-last-n-items",
+    "pbc-03-group-names-by-country",
+    "pbc-05-pybites-die-hard",
+    "pbc-07-find-the-most-common-word",
+    "pbc-08-movie-data-analysis",
+    "pbc-09-what-south-park-characters-talk-most",
+    "pbc-11-make-an-index-of-story-characters"
+  ],
+  "pybites-decorators-context-managers": [
+    "pbdc-01-create-a-sandwich-decorator",
+    "pbdc-02-write-a-decorator-with-argument",
+    "pbdc-03-write-a-login_required-decorator",
+    "pbdc-04-write-a-numbers-validation-decorator",
+    "pbdc-07-write-a-context-manager",
+    "pbdc-09-write-a-performance-monitoring-context-manager",
+    "pbdc-12-write-a-retry-decorator"
+  ]
+}

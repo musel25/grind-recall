@@ -212,11 +212,8 @@ export default function App({
           <small>
             Your pace · {activeProblems().filter((p) => !p.course).length}{" "}
             algorithm problems ·{" "}
-            {cojudgeCourses.reduce(
-              (sum, course) => sum + course.problems.length,
-              0,
-            )}{" "}
-            Python exercises · Synced to your account
+            {activeProblems().filter((p) => p.course).length} Python exercises ·
+            Synced to your account
           </small>
         </div>
         <a
@@ -1069,7 +1066,12 @@ function CourseList({
   day: string;
   onSelect: (p: Problem) => void;
 }) {
-  const firstIncomplete = cojudgeCourses.find((course) =>
+  const activeIds = new Set(activeProblems(state).map((p) => p.id));
+  const courses = cojudgeCourses.map((course) => ({
+    ...course,
+    problems: course.problems.filter((p) => activeIds.has(p.id)),
+  }));
+  const firstIncomplete = courses.find((course) =>
     course.problems.some((p) => !state.progress[p.id]),
   )?.id;
   return (
@@ -1078,13 +1080,14 @@ function CourseList({
         <h1>Python courses</h1>
         <p>
           OOP → Pytest → Data Formats → Collections → Decorators and Context
-          Managers. Practice each exercise on Cojudge, then rate your attempt
-          here. These courses share your daily study time and use spaced
-          reviews. Earlier completions stay saved and are ready for a first
-          rated review.
+          Managers. This first pass selects 39 exercises for practical Python
+          skills. Practice on Cojudge, then rate your attempt here. Selected
+          exercises share your daily study time and use spaced reviews.
+          Previously practiced extras stay active. Other exercises are in All
+          problems → Archive.
         </p>
       </div>
-      {cojudgeCourses.map((course) => {
+      {courses.map((course) => {
         const completed = course.problems.filter(
           (p) => state.progress[p.id],
         ).length;
@@ -1092,7 +1095,7 @@ function CourseList({
           <details
             className="week-group course-group"
             key={course.id}
-            open={course.id === (firstIncomplete ?? cojudgeCourses[0].id)}
+            open={course.id === (firstIncomplete ?? courses[0].id)}
           >
             <summary>
               <span>
@@ -1236,7 +1239,10 @@ function ProblemList({
             <span className="problem-info">
               <strong>{p.title}</strong>
               <span className="meta">
-                {p.difficulty} · Archived · Open on LeetCode
+                {p.difficulty} ·{" "}
+                {p.course
+                  ? "Optional · Open on Cojudge"
+                  : "Archived · Open on LeetCode"}
               </span>
             </span>
             <ArrowUpRight size={17} />

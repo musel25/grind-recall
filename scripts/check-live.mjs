@@ -78,6 +78,13 @@ try {
     .getByRole("button", { name: "Python courses", exact: true })
     .click();
   assert.equal(await page.locator(".course-group").count(), 5);
+  assert.equal(await page.locator(".course-group .problem-row").count(), 39);
+  assert.equal(
+    await page
+      .getByRole("button", { name: /06. Subclass the dict built-in/ })
+      .count(),
+    0,
+  );
   const decorators = page.locator(".course-group").last();
   await decorators.locator("summary").click();
   await decorators.locator(".problem-row").first().click();
@@ -132,7 +139,7 @@ try {
   assert.deepEqual((await state(page)).state, saved.state);
   assert.deepEqual(errors, []);
   console.log(
-    "PASS: live HTTPS, Planner service worker compatibility, five Python courses, Cojudge ratings and review cards, account signup/login, VPS persistence, separate phone session, account isolation, mobile layout.",
+    "PASS: live HTTPS, Planner service worker compatibility, 39 selected Python exercises in five courses, Cojudge ratings and review cards, account signup/login, VPS persistence, separate phone session, account isolation, mobile layout.",
   );
 } finally {
   await browser.close();

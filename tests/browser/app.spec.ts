@@ -25,7 +25,7 @@ test("complete daily work, preserve it on reload, undo and backup round trip", a
   await expect(
     page.getByRole("heading", { name: "Your practice, today." }),
   ).toBeVisible();
-  await expect(page.locator(".sidebar-plan")).toContainText("10 of 169");
+  await expect(page.locator(".sidebar-plan")).toContainText("10 of 136");
   const count = await page.locator(".problem-row").count();
   expect(count).toBeGreaterThan(0);
   for (let i = 0; i < count; i++) {

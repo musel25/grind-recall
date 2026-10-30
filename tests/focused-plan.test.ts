@@ -71,7 +71,7 @@ test("selected lists are complete, deduplicated and account-specific extras fill
         .map((p) => p.id),
     ]),
   );
-  assert.equal(archivedProblems(s).length, 97);
+  assert.equal(archivedProblems(s).filter((p) => !p.course).length, 97);
   s.progress["meeting-rooms"] = { ...saved };
   s.progress["roman-to-integer"] = { ...saved };
   const retained = activeProblems(s).filter((p) => !p.course);

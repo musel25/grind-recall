@@ -14,7 +14,8 @@
         "order": 1,
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pb-02-complete-a-user-class-properties-and-representation-dunder-methods",
@@ -27,7 +28,8 @@
         "order": 2,
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pb-03-subclassing-vehicles-in-motion",
@@ -40,7 +42,8 @@
         "order": 3,
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pb-04-no-promo-twice-keep-state-in-a-class",
@@ -53,7 +56,8 @@
         "order": 4,
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pb-05-keep-state-in-a-class-make-its-instance-callable",
@@ -66,7 +70,8 @@
         "order": 5,
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pb-06-subclass-the-dict-built-in",
@@ -79,7 +84,8 @@
         "order": 6,
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pb-07-implement-a-color-class-with-staticmethod",
@@ -92,7 +98,8 @@
         "order": 7,
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pb-08-oop-fun-at-the-zoo",
@@ -105,7 +112,8 @@
         "order": 8,
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pb-09-write-your-own-data-class",
@@ -118,7 +126,8 @@
         "order": 9,
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pb-10-complete-a-tox-ini-file-parser-class",
@@ -131,7 +140,8 @@
         "order": 10,
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pb-11-multiple-inheritance-mro",
@@ -144,7 +154,8 @@
         "order": 11,
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pb-12-alternative-constructors",
@@ -157,7 +168,8 @@
         "order": 12,
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pb-13-enrich-a-class-with-dunder-methods",
@@ -170,7 +182,8 @@
         "order": 13,
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pb-14-write-a-context-manager",
@@ -183,7 +196,8 @@
         "order": 14,
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pb-15-abcs-and-class-inheritance",
@@ -196,7 +210,8 @@
         "order": 15,
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pb-16-matrix-multiplication-operator",
@@ -209,7 +224,8 @@
         "order": 16,
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pb-17-building-a-karma-app-implement-the-user-class",
@@ -222,7 +238,8 @@
         "order": 17,
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pb-18-write-a-score-property",
@@ -235,7 +252,8 @@
         "order": 18,
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pb-19-subclass-the-list-built-in",
@@ -248,7 +266,8 @@
         "order": 19,
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pb-20-ninja-rankings",
@@ -261,7 +280,8 @@
         "order": 20,
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pb-21-composition-inheritance-abstract-base-class-what",
@@ -274,7 +294,8 @@
         "order": 21,
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pb-22-evaluate-a-bridge-hand",
@@ -287,7 +308,8 @@
         "order": 22,
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
-        "review": true
+        "review": true,
+        "deferred": true
       }
     ]
   },
@@ -306,7 +328,8 @@
         "order": 23,
         "course": "pybites-pytest",
         "stage": "Pybites Pytest Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pbt-02-write-tests-for-list-to-decimal",
@@ -319,7 +342,8 @@
         "order": 24,
         "course": "pybites-pytest",
         "stage": "Pybites Pytest Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pbt-03-test-print-standard-output",
@@ -332,7 +356,8 @@
         "order": 25,
         "course": "pybites-pytest",
         "stage": "Pybites Pytest Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pbt-04-test-fizzbuzz",
@@ -345,7 +370,8 @@
         "order": 26,
         "course": "pybites-pytest",
         "stage": "Pybites Pytest Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pbt-05-test-code-that-parses-json-and-ip-ranges",
@@ -358,7 +384,8 @@
         "order": 27,
         "course": "pybites-pytest",
         "stage": "Pybites Pytest Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pbt-06-mocking-a-standard-library-function",
@@ -371,7 +398,8 @@
         "order": 28,
         "course": "pybites-pytest",
         "stage": "Pybites Pytest Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pbt-07-write-tests-for-an-account-class",
@@ -384,7 +412,8 @@
         "order": 29,
         "course": "pybites-pytest",
         "stage": "Pybites Pytest Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pbt-08-zodiacal-data-parsing",
@@ -397,7 +426,8 @@
         "order": 30,
         "course": "pybites-pytest",
         "stage": "Pybites Pytest Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pbt-09-test-a-number-guessing-game",
@@ -410,7 +440,8 @@
         "order": 31,
         "course": "pybites-pytest",
         "stage": "Pybites Pytest Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pbt-10-test-a-movie-db-class",
@@ -423,7 +454,8 @@
         "order": 32,
         "course": "pybites-pytest",
         "stage": "Pybites Pytest Path",
-        "review": true
+        "review": true,
+        "deferred": false
       }
     ]
   },
@@ -442,7 +474,8 @@
         "order": 33,
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pdf-02-analyze-some-basic-car-data",
@@ -455,7 +488,8 @@
         "order": 34,
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pdf-03-pickling-objects",
@@ -468,7 +502,8 @@
         "order": 35,
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pdf-04-convert-dict-to-namedtuplejson",
@@ -481,7 +516,8 @@
         "order": 36,
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pdf-05-parse-omdb-movie-json-data",
@@ -494,7 +530,8 @@
         "order": 37,
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pdf-06-movie-data-analysis",
@@ -507,7 +544,8 @@
         "order": 38,
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pdf-07-parse-a-csv-file-and-create-a-bar-chart",
@@ -520,7 +558,8 @@
         "order": 39,
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pdf-08-what-south-park-characters-talk-most",
@@ -533,7 +572,8 @@
         "order": 40,
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pdf-09-use-the-ipinfo-api-to-lookup-ip-country",
@@ -546,7 +586,8 @@
         "order": 41,
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pdf-10-analyze-stock-data",
@@ -559,7 +600,8 @@
         "order": 42,
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pdf-11-turn-messy-csv-into-json",
@@ -572,7 +614,8 @@
         "order": 43,
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pdf-12-analyze-some-bite-stats-data",
@@ -585,7 +628,8 @@
         "order": 44,
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pdf-13-parse-income-distribution-from-latin-america-xml",
@@ -598,7 +642,8 @@
         "order": 45,
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pdf-14-analyze-nba-data-with-sqlite3",
@@ -611,7 +656,8 @@
         "order": 46,
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pdf-15-analyze-some-bite-stats-data-part-ii",
@@ -624,7 +670,8 @@
         "order": 47,
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pdf-16-marvel-data-analysis",
@@ -637,7 +684,8 @@
         "order": 48,
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pdf-17-15-way-rock-paper-scissors",
@@ -650,7 +698,8 @@
         "order": 49,
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
-        "review": true
+        "review": true,
+        "deferred": true
       }
     ]
   },
@@ -669,7 +718,8 @@
         "order": 50,
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pbc-02-keep-a-queue-of-last-n-items",
@@ -682,7 +732,8 @@
         "order": 51,
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pbc-03-group-names-by-country",
@@ -695,7 +746,8 @@
         "order": 52,
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pbc-04-top-10-pybites-tags",
@@ -708,7 +760,8 @@
         "order": 53,
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pbc-05-pybites-die-hard",
@@ -721,7 +774,8 @@
         "order": 54,
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pbc-06-convert-dict-to-namedtuplejson",
@@ -734,7 +788,8 @@
         "order": 55,
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pbc-07-find-the-most-common-word",
@@ -747,7 +802,8 @@
         "order": 56,
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pbc-08-movie-data-analysis",
@@ -760,7 +816,8 @@
         "order": 57,
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pbc-09-what-south-park-characters-talk-most",
@@ -773,7 +830,8 @@
         "order": 58,
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pbc-10-beautifulsoup-ii-scrape-us-holidays",
@@ -786,7 +844,8 @@
         "order": 59,
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pbc-11-make-an-index-of-story-characters",
@@ -799,7 +858,8 @@
         "order": 60,
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
-        "review": true
+        "review": true,
+        "deferred": false
       }
     ]
   },
@@ -818,7 +878,8 @@
         "order": 61,
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pbdc-02-write-a-decorator-with-argument",
@@ -831,7 +892,8 @@
         "order": 62,
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pbdc-03-write-a-login_required-decorator",
@@ -844,7 +906,8 @@
         "order": 63,
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pbdc-04-write-a-numbers-validation-decorator",
@@ -857,7 +920,8 @@
         "order": 64,
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pbdc-05-suppressing-exceptions",
@@ -870,7 +934,8 @@
         "order": 65,
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pbdc-06-capture-stdout",
@@ -883,7 +948,8 @@
         "order": 66,
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pbdc-07-write-a-context-manager",
@@ -896,7 +962,8 @@
         "order": 67,
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pbdc-08-the-singledispatch-countdown-challenge",
@@ -909,7 +976,8 @@
         "order": 68,
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pbdc-09-write-a-performance-monitoring-context-manager",
@@ -922,7 +990,8 @@
         "order": 69,
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
-        "review": true
+        "review": true,
+        "deferred": false
       },
       {
         "id": "pbdc-10-manipulate-string-decorator",
@@ -935,7 +1004,8 @@
         "order": 70,
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pbdc-11-cached-property-decorator",
@@ -948,7 +1018,8 @@
         "order": 71,
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
-        "review": true
+        "review": true,
+        "deferred": true
       },
       {
         "id": "pbdc-12-write-a-retry-decorator",
@@ -961,7 +1032,8 @@
         "order": 72,
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
-        "review": true
+        "review": true,
+        "deferred": false
       }
     ]
   }

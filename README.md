@@ -21,7 +21,7 @@ npx playwright test # requires local Vite, a disposable Timer API/DB, and Google
 
 ## Scheduling and the math
 
-The focused algorithm base contains 97 unique problems: all 75 Grind problems plus 22 selected Bloomberg-only additions. With the user’s three practiced extras this is 100 active algorithm problems. The Python path adds 72 exercises with spaced reviews. Eighteen approved Bloomberg-only cuts are archived; original source membership remains recorded. Practiced extras from the original 169 stay active per account; untouched extras are archived. Original time estimates are retained; the 25 newly added algorithm problems use estimated solve times of 20/30/45 minutes for Easy/Medium/Hard, doubled for first-pass solve + study.
+The focused algorithm base contains 97 unique problems: all 75 Grind problems plus 22 selected Bloomberg-only additions. With the user’s three practiced extras this is 100 active algorithm problems. The Python path selects 39 of 72 exercises with spaced reviews. Untouched optional Python exercises are archived; practiced extras stay active. Eighteen approved Bloomberg-only cuts are archived; original source membership remains recorded. Practiced extras from the original 169 stay active per account; untouched extras are archived. Original time estimates are retained; the 25 newly added algorithm problems use estimated solve times of 20/30/45 minutes for Easy/Medium/Hard, doubled for first-pass solve + study.
 
 FSRS via `ts-fsrs` uses default parameters and 90% desired retention, deterministic intervals, and no intraday steps. Again returns the next study day, retaining FSRS memory state. Hard, Good, and Easy use FSRS intervals from the first attempt onward. The rate button leads to all four choices, each showing its next due date. This is a coding-practice adaptation, not a guarantee of 90% interview performance. Dates are calendar days in the selected timezone. The four ratings distinguish needing help from independently solving with difficulty.
 
@@ -87,13 +87,13 @@ The bank uses the same plan length as the sidebar: the selected weeks in deadlin
 
 ## Python courses on Cojudge
 
-Python course exercises now share the daily study budget with algorithm problems. Due algorithm and Python reviews come first. New work alternates between algorithms and the Python path: **OOP → Pytest → Data Formats → Collections → Decorators and Context Managers**. The bank's **Python courses** view shows the five ordered lists and completion counts.
+Python course exercises now share the daily study budget with algorithm problems. Due algorithm and Python reviews come first. New work alternates between algorithms and the Python path: **OOP → Pytest → Data Formats → Collections → Decorators and Context Managers**. The bank's **Python courses** view shows the five selected lists and completion counts. The [first-pass selection](docs/catalog/python-first-pass.md) lists all 39 exercises and their purpose.
 
-Each of the 72 exercises opens directly on `cojudge.musel.dev`. Practice it there, then use **Rate my attempt** in Grind. Choose Again, Hard, Good, or Easy to save time, an optional note, and an FSRS review card. Python exercises use the same review schedule, daily budget, morning study, skips, breaks, Undo, account sync, and backups as algorithm problems. Forecasts include Python reviews. Grind does not automatically read Cojudge completion flags.
+Each selected exercise opens directly on `cojudge.musel.dev`. Practice it there, then use **Rate my attempt** in Grind. Choose Again, Hard, Good, or Easy to save time, an optional note, and an FSRS review card. Python exercises use the same review schedule, daily budget, morning study, skips, breaks, Undo, account sync, and backups as algorithm problems. Forecasts include Python reviews. Grind does not automatically read Cojudge completion flags.
 
 Earlier **Mark complete** records stay intact, including their time and notes. They become baseline reviews using their saved completion date; no rating or memory history is invented. The first rated review creates a card. Undo restores the earlier completion. Close old app tabs and reload Grind before recording new practice.
 
-The catalog comes from the local Cojudge content in `capital-one-prep/cojudge`. To refresh these five courses:
+The catalog comes from the local Cojudge content in `capital-one-prep/cojudge`. The selection is kept in `docs/catalog/python-first-pass.json`. The importer retains the full catalog and marks untouched optional work as deferred. Optional exercises are available through All problems → Archive. Previously practiced extras and pending morning work remain active. To refresh these five courses:
 
 ```sh
 node scripts/import-cojudge.mjs /path/to/cojudge-content
