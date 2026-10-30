@@ -87,18 +87,19 @@ try {
       .getAttribute("href"),
     "https://cojudge.musel.dev/problems/pbdc-01-create-a-sandwich-decorator",
   );
-  await page.getByRole("button", { name: "Mark complete" }).click();
+  await page.getByRole("button", { name: "Rate my attempt" }).click();
+  await page
+    .getByRole("button", { name: /^Good Solved independently/ })
+    .click();
   await page
     .locator('.account-bar [role="status"]')
     .filter({ hasText: "Saved to your account" })
     .waitFor();
   const saved = await state(page);
   assert.equal(Object.keys(saved.state.morningStudy).length, 1);
-  assert.equal(saved.state.history.at(-1).rating, null);
-  assert.equal(
-    saved.state.progress["pbdc-01-create-a-sandwich-decorator"].card,
-    null,
-  );
+  assert.equal(saved.state.history.at(-1).rating, 3);
+  assert.ok(saved.state.progress["pbdc-01-create-a-sandwich-decorator"].card);
+  assert.equal(saved.state.history.at(-1).minutes, 18);
   const phone = await browser.newContext({
     viewport: { width: 390, height: 844 },
   });
@@ -131,7 +132,7 @@ try {
   assert.deepEqual((await state(page)).state, saved.state);
   assert.deepEqual(errors, []);
   console.log(
-    "PASS: live HTTPS, Planner service worker compatibility, five Python courses, Cojudge completion without ratings, account signup/login, VPS persistence, separate phone session, account isolation, mobile layout.",
+    "PASS: live HTTPS, Planner service worker compatibility, five Python courses, Cojudge ratings and review cards, account signup/login, VPS persistence, separate phone session, account isolation, mobile layout.",
   );
 } finally {
   await browser.close();

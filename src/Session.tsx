@@ -196,9 +196,9 @@ function ReviewSession({
         </span>
       </div>
       <p className="session-prompt">
-        Try it without hints. Explain your approach and its time and space
-        complexity, then rate it Again, Hard, Good, or Easy. Practicing a
-        problem does not retire it from reviews.
+        {p.course
+          ? "Try the exercise on Cojudge without hints. Explain the Python concepts you used, then rate it Again, Hard, Good, or Easy. Your rating schedules the next review."
+          : "Try it without hints. Explain your approach and its time and space complexity, then rate it Again, Hard, Good, or Easy. Practicing a problem does not retire it from reviews."}
       </p>
       <a
         className="button primary"
@@ -206,7 +206,7 @@ function ReviewSession({
         target="_blank"
         rel="noreferrer"
       >
-        Open on LeetCode <ArrowUpRight size={17} />
+        Open on {p.course ? "Cojudge" : "LeetCode"} <ArrowUpRight size={17} />
       </a>
       {!rated && !finished && (
         <div className="morning-action">

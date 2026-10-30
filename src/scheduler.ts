@@ -175,12 +175,11 @@ export function awaitingEvening(s: StudyState, id: string, day: string) {
 // Alternate the two first-pass tracks. Reconstruct today's candidates before
 // removing today's completions so an early finish never adds replacement work.
 function learningOrder(problems: Problem[], state: StudyState, day: string) {
-  const algorithms = problems.filter((p) => p.review !== false);
-  const python = problems.filter((p) => p.review === false);
+  const algorithms = problems.filter((p) => !p.course);
+  const python = problems.filter((p) => !!p.course);
   const previous = state.history.filter((a) => a.wasNew && a.day < day).at(-1);
   let pythonFirst =
-    !!previous &&
-    catalog.find((p) => p.id === previous.problemId)?.review !== false;
+    !!previous && !catalog.find((p) => p.id === previous.problemId)?.course;
   const ordered: Problem[] = [];
   let a = 0,
     b = 0;

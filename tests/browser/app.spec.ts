@@ -33,18 +33,13 @@ test("complete daily work, preserve it on reload, undo and backup round trip", a
       .getByRole("button", { name: "Start practice", exact: true })
       .click();
     await expect(page.getByRole("dialog")).toBeVisible();
-    if (await page.getByRole("link", { name: "Open on Cojudge" }).count()) {
-      await page.getByLabel("Notes (optional)").fill("Check empty inputs");
-      await page.getByRole("button", { name: "Mark complete" }).click();
-    } else {
-      await page.getByRole("button", { name: "Rate my attempt" }).click();
-      await page
-        .getByLabel("What should you remember?")
-        .fill("Check empty inputs");
-      await page
-        .getByRole("button", { name: /^Good Solved independently/ })
-        .click();
-    }
+    await page.getByRole("button", { name: "Rate my attempt" }).click();
+    await page
+      .getByLabel("What should you remember?")
+      .fill("Check empty inputs");
+    await page
+      .getByRole("button", { name: /^Good Solved independently/ })
+      .click();
   }
   await expect(
     page.getByRole("heading", { name: "All set for today." }),

@@ -5,6 +5,7 @@ const ids = new Set(problems.map((p) => p.id));
 const onceIds = new Set(
   problems.filter((p) => p.review === false).map((p) => p.id),
 );
+const courseIds = new Set(problems.filter((p) => !!p.course).map((p) => p.id));
 function validDate(v: unknown): v is string {
   return (
     typeof v === "string" &&
@@ -152,6 +153,7 @@ export function validateState(input: unknown): StudyState {
   const seen = new Set<string>();
   const events = new Set<string>();
   const completions = new Set<string>();
+  const practiced = new Set<string>();
   for (const a of s.history) {
     if (
       !object(a) ||
@@ -159,12 +161,13 @@ export function validateState(input: unknown): StudyState {
       typeof a.id !== "string" ||
       !a.id ||
       !validDate(a.day) ||
-      (onceIds.has(a.problemId)
-        ? a.rating !== null ||
+      (a.rating === null
+        ? (!courseIds.has(a.problemId) && !onceIds.has(a.problemId)) ||
           !a.wasNew ||
           a.previous !== null ||
-          completions.has(a.problemId)
-        : a.rating === null || ![1, 2, 3, 4].includes(a.rating)) ||
+          completions.has(a.problemId) ||
+          practiced.has(a.problemId)
+        : onceIds.has(a.problemId) || ![1, 2, 3, 4].includes(a.rating)) ||
       !numeric(a.minutes, 1, 600) ||
       typeof a.wasNew !== "boolean" ||
       (a.previous !== null && !checkProgress(a.previous))
@@ -175,7 +178,8 @@ export function validateState(input: unknown): StudyState {
       return fail();
     seen.add(key);
     events.add(a.id);
-    if (onceIds.has(a.problemId)) completions.add(a.problemId);
+    if (a.rating === null) completions.add(a.problemId);
+    practiced.add(a.problemId);
   }
   return structuredClone(s);
 }

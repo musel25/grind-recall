@@ -3,6 +3,8 @@ import { test, expect } from "@playwright/test";
 test("Bank follows deadline weeks, preserves every problem and updates practice labels", async ({
   page,
 }) => {
+  // This scenario runs three deadline forecasts and then a time-based forecast.
+  test.slow();
   const response = await page.request.post("/api/grind/register", {
     data: {
       email: `bank-${crypto.randomUUID()}@example.com`,

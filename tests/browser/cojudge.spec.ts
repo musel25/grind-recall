@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 for (const width of [1440, 390]) {
-  test(`Cojudge course links, completion, reload and undo (${width}px)`, async ({
+  test(`Cojudge course links, ratings, reload and undo (${width}px)`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 950 });
@@ -52,16 +52,17 @@ for (const width of [1440, 390]) {
       "https://cojudge.musel.dev/problems/pb-01-write-a-property",
     );
     await expect(
-      dialog.getByRole("button", { name: "Rate my attempt" }),
-    ).toHaveCount(0);
-    await expect(
       dialog.getByRole("button", { name: "Studied this morning" }),
-    ).toHaveCount(0);
+    ).toBeVisible();
+    await dialog.getByRole("button", { name: "Rate my attempt" }).click();
+    await expect(dialog.getByLabel("Time spent (minutes)")).toHaveValue("18");
     await dialog.getByLabel("Time spent (minutes)").fill("25");
     await dialog
-      .getByLabel("Notes (optional)")
+      .getByLabel("What should you remember?")
       .fill("A computed read-only property.");
-    await dialog.getByRole("button", { name: "Mark complete" }).click();
+    await dialog
+      .getByRole("button", { name: /^Good Solved independently/ })
+      .click();
     await expect(courses.first().locator("summary")).toContainText("1/22");
     await expect(page.locator('.account-bar [role="status"]')).toHaveText(
       "Saved to your account",
@@ -75,10 +76,10 @@ for (const width of [1440, 390]) {
       .first()
       .getByRole("button", { name: /01. Write a property/ })
       .click();
-    await expect(dialog).toContainText("No review is scheduled.");
+    await expect(dialog).toContainText("Recorded for today. Next review");
     await expect(dialog).toContainText("A computed read-only property.");
     await expect(
-      dialog.getByRole("button", { name: "Mark complete" }),
+      dialog.getByRole("button", { name: "Rate my attempt" }),
     ).toHaveCount(0);
     await dialog.getByRole("button", { name: "Close practice" }).click();
     await page.screenshot({
@@ -93,8 +94,8 @@ for (const width of [1440, 390]) {
     const saved = await page.evaluate(
       async () => (await (await fetch("/api/grind/state")).json()).state,
     );
-    expect(saved.history.at(-1).rating).toBe(null);
-    expect(saved.progress["pb-01-write-a-property"].card).toBe(null);
+    expect(saved.history.at(-1).rating).toBe(3);
+    expect(saved.progress["pb-01-write-a-property"].card).not.toBe(null);
     expect(saved.progress["two-sum"].imported).toBe(true);
     await page.getByRole("button", { name: "Today", exact: true }).click();
     await page.getByRole("button", { name: "Undo last attempt" }).click();
@@ -111,11 +112,12 @@ for (const width of [1440, 390]) {
       "href",
       "https://cojudge.musel.dev/problems/pbdc-01-create-a-sandwich-decorator",
     );
-    await expect(
-      dialog.getByRole("button", { name: "Rate my attempt" }),
-    ).toHaveCount(0);
+    await dialog.getByRole("button", { name: "Rate my attempt" }).click();
+    await expect(dialog.getByLabel("Time spent (minutes)")).toHaveValue("18");
     await dialog.getByLabel("Time spent (minutes)").fill("20");
-    await dialog.getByRole("button", { name: "Mark complete" }).click();
+    await dialog
+      .getByRole("button", { name: /^Good Solved independently/ })
+      .click();
     await expect(courses.last().locator("summary")).toContainText("1/12");
     expect(
       await page.evaluate(
@@ -129,3 +131,88 @@ for (const width of [1440, 390]) {
     expect(errors).toEqual([]);
   });
 }
+
+test("old Python completions can be reviewed, synced, and undone without losing completion history", async ({
+  page,
+}) => {
+  const response = await page.request.post("/api/grind/register", {
+    data: {
+      email: `legacy-python-${crypto.randomUUID()}@example.com`,
+      password: "test-password-123",
+    },
+  });
+  expect(response.status()).toBe(201);
+  await page.route(/fonts\.(googleapis|gstatic)\.com/, (route) =>
+    route.abort(),
+  );
+  await page.goto("./");
+  await page.getByRole("button", { name: "Start from problem one" }).click();
+  await expect(page.locator('.account-bar [role="status"]')).toHaveText(
+    "Saved to your account",
+  );
+  const current = (await (await page.request.get("/api/grind/state")).json())
+    .state;
+  const first = "pb-01-write-a-property";
+  current.progress[first] = {
+    due: "2026-10-01",
+    card: null,
+    imported: false,
+    independent: false,
+    note: "Original course note",
+  };
+  current.history.push({
+    id: "old-completion",
+    problemId: first,
+    day: "2026-10-01",
+    rating: null,
+    minutes: 25,
+    wasNew: true,
+    previous: null,
+  });
+  await page.getByRole("button", { name: "Settings", exact: true }).click();
+  page.on("dialog", (dialog) => dialog.accept());
+  await page
+    .getByLabel("Import backup file")
+    .setInputFiles({
+      name: "old-python.json",
+      mimeType: "application/json",
+      buffer: Buffer.from(JSON.stringify(current)),
+    });
+  await page.getByRole("button", { name: "Today", exact: true }).click();
+  await page
+    .locator(".problem-row")
+    .filter({ hasText: "01. Write a property" })
+    .click();
+  const dialog = page.getByRole("dialog");
+  await expect(
+    dialog.getByRole("link", { name: "Open on Cojudge" }),
+  ).toHaveAttribute("href", `https://cojudge.musel.dev/problems/${first}`);
+  await dialog.getByRole("button", { name: "Rate my attempt" }).click();
+  await expect(dialog.getByLabel("Time spent (minutes)")).toHaveValue("9");
+  await expect(dialog.getByLabel("What should you remember?")).toHaveValue(
+    "Original course note",
+  );
+  await dialog
+    .getByRole("button", { name: /^Again Needed help or forgot/ })
+    .click();
+  await expect(page.locator('.account-bar [role="status"]')).toHaveText(
+    "Saved to your account",
+  );
+  await page.reload();
+  await expect(
+    page.getByRole("button", { name: "Undo last attempt" }),
+  ).toBeVisible();
+  const reviewed = (await (await page.request.get("/api/grind/state")).json())
+    .state;
+  expect(reviewed.history[0]).toEqual(current.history[0]);
+  expect(reviewed.history.at(-1).rating).toBe(1);
+  expect(reviewed.progress[first].card).not.toBe(null);
+  await page.getByRole("button", { name: "Undo last attempt" }).click();
+  await expect(page.locator('.account-bar [role="status"]')).toHaveText(
+    "Saved to your account",
+  );
+  const undone = (await (await page.request.get("/api/grind/state")).json())
+    .state;
+  expect(undone.history).toEqual(current.history);
+  expect(undone.progress).toEqual(current.progress);
+});

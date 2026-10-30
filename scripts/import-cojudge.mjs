@@ -13,7 +13,7 @@ const courseIds = [
   "pybites-collections",
   "pybites-decorators-context-managers",
 ];
-const minutes = { Easy: 15, Medium: 30, Hard: 45 };
+const minutes = { Easy: 9, Medium: 18, Hard: 27 };
 const seen = new Set();
 const readJson = async (path) =>
   JSON.parse(await readFile(resolve(source, path), "utf8"));
@@ -43,7 +43,7 @@ for (const id of courseIds) {
         order: ++order,
         course: id,
         stage: course.title,
-        review: false,
+        review: true,
       });
     }
   }

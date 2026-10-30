@@ -210,8 +210,7 @@ export default function App({
             </>
           )}
           <small>
-            Your pace ·{" "}
-            {activeProblems().filter((p) => p.review !== false).length}{" "}
+            Your pace · {activeProblems().filter((p) => !p.course).length}{" "}
             algorithm problems ·{" "}
             {cojudgeCourses.reduce(
               (sum, course) => sum + course.problems.length,
@@ -1079,9 +1078,10 @@ function CourseList({
         <h1>Python courses</h1>
         <p>
           OOP → Pytest → Data Formats → Collections → Decorators and Context
-          Managers. Complete each exercise on Cojudge, then mark it complete
-          here. These courses share your daily study time. They have no repeat
-          reviews.
+          Managers. Practice each exercise on Cojudge, then rate your attempt
+          here. These courses share your daily study time and use spaced
+          reviews. Earlier completions stay saved and are ready for a first
+          rated review.
         </p>
       </div>
       {cojudgeCourses.map((course) => {
@@ -1117,6 +1117,7 @@ function CourseList({
                 p={p}
                 state={state}
                 day={day}
+                review={!!state.progress[p.id]}
                 onSelect={onSelect}
               />
             ))}

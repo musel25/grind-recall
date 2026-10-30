@@ -26,7 +26,7 @@ export function activeProblems(state?: StudyState | null): Problem[] {
   return problems
     .filter(
       (p) =>
-        p.review === false ||
+        !!p.course ||
         p.core ||
         (p.bloomberg && !p.deferred) ||
         !!state?.progress[p.id] ||

@@ -20,7 +20,7 @@ export type StoredCard = Omit<Card, "due" | "last_review"> & {
   last_review?: string;
 };
 export type Progress = {
-  // One-time exercises store their completion date here and never enter reviews.
+  // Older unrated course completions use their completion date as a baseline due date.
   due: string;
   card: StoredCard | null;
   imported: boolean;
