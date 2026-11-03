@@ -99,7 +99,7 @@ The catalog comes from the local Cojudge content in `capital-one-prep/cojudge`. 
 node scripts/import-cojudge.mjs /path/to/cojudge-content
 ```
 
-The importer retains course order, exercise IDs, titles, and difficulty. Python solve estimates are 9/18/27 minutes for Easy/Medium/Hard, doubled to 18/36/54 minutes for initial study. These are 60% of the previous estimates. Reviews use the solve estimate times the review-duration setting. Algorithm estimates remain unchanged. Source exercises remain in Cojudge. Publishing them is a separate operation.
+The importer retains course order, exercise IDs, titles, and difficulty. Python solve estimates are 7.5/15/22.5 minutes for Easy/Medium/Hard, doubled to 15/30/45 minutes for initial study. These are 50% of the original 15/30/45 estimates (reduced from 60% on 2026-11-03). Reviews use the solve estimate times the review-duration setting. Algorithm estimates remain unchanged. Source exercises remain in Cojudge. Publishing them is a separate operation.
 
 ## Offline interview notebooks
 

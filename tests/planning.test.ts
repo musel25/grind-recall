@@ -42,7 +42,8 @@ test("deadline mode solves budget against the same actual daily queue", () => {
   assert.equal(simulatePace(s, day, a.hours).finish, a.finish);
 });
 test("impossible target and tiny budgets report no feasible result, not fake dates", () => {
-  const s = base();
+  // Two study days before a one-week deadline exceed the 80-hour weekly cap.
+  const s = setStudyBreak(initialState(day, true), "2026-10-06", "2026-10-12");
   s.settings.planMode = "deadline";
   s.settings.weeks = 1;
   assert.equal(estimatePlan(s, day).feasible, false);

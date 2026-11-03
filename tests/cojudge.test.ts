@@ -86,11 +86,12 @@ test("all five Python catalogs retain 72 ordered Cojudge links and select the fi
   );
 });
 
-test("Python first-study and review budgets use 60 percent of the previous durations", () => {
+test("Python first-study and review budgets use 50 percent of the previous durations", () => {
+  // Solve estimates 7.5/15/22.5; reviews round half-minutes up.
   for (const [difficulty, initial, review] of [
-    ["Easy", 18, 9],
-    ["Medium", 36, 18],
-    ["Hard", 54, 27],
+    ["Easy", 15, 8],
+    ["Medium", 30, 15],
+    ["Hard", 45, 23],
   ] as const) {
     const p = python().find((p) => p.difficulty === difficulty && !p.deferred)!;
     assert.ok(p);
@@ -109,7 +110,7 @@ test("Python first-study and review budgets use 60 percent of the previous durat
     state.settings.reviewMultiplier = 0.5;
     assert.equal(
       dailyPlan(state, "2026-10-29").reviewMinutes,
-      Math.round(review / 2),
+      Math.round(p.minutes * 0.5),
     );
   }
   const algorithm = problems.find((p) => p.id === "two-sum")!;
@@ -293,6 +294,7 @@ test("forecast includes Python reviews and final study without changing saved pr
   const before = JSON.stringify(state);
   const result = simulatePace(state, "2026-10-29", 10, 30);
   assert.equal(result.finish, "2026-10-29");
-  assert.equal(result.minutes, 27);
+  // Easy review (8) plus the final Easy first study (15).
+  assert.equal(result.minutes, 23);
   assert.equal(JSON.stringify(state), before);
 });

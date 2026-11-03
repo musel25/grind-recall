@@ -13,7 +13,7 @@ const courseIds = [
   "pybites-collections",
   "pybites-decorators-context-managers",
 ];
-const minutes = { Easy: 9, Medium: 18, Hard: 27 };
+const minutes = { Easy: 7.5, Medium: 15, Hard: 22.5 };
 const selection = JSON.parse(
   await readFile(
     new URL("../docs/catalog/python-first-pass.json", import.meta.url),

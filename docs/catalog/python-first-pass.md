@@ -4,7 +4,7 @@ Select 39 of the 72 catalog exercises for interview preparation and practical Py
 
 The selection is stored in [python-first-pass.json](python-first-pass.json). The importer preserves all exercise IDs and applies the selection with `deferred` metadata. The website shows the selected exercises. Untouched optional exercises remain in All problems → Archive and are excluded from daily assignments and forecasts. Previously practiced extras and pending morning work stay active. Notes, ratings, time, backups, and review dates are preserved.
 
-The 60% Python time estimates and spaced reviews still apply. The selected first-study estimates total 1332 minutes. This excludes repeat reviews and is a planning estimate.
+The 50% Python time estimates and spaced reviews still apply. The selected first-study estimates total 1110 minutes. This excludes repeat reviews and is a planning estimate.
 
 ## Pybites OOP Path — 9 selected
 

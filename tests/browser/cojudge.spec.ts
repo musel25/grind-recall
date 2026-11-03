@@ -59,7 +59,7 @@ for (const width of [1440, 390]) {
       dialog.getByRole("button", { name: "Studied this morning" }),
     ).toBeVisible();
     await dialog.getByRole("button", { name: "Rate my attempt" }).click();
-    await expect(dialog.getByLabel("Time spent (minutes)")).toHaveValue("18");
+    await expect(dialog.getByLabel("Time spent (minutes)")).toHaveValue("15");
     await dialog.getByLabel("Time spent (minutes)").fill("25");
     await dialog
       .getByLabel("What should you remember?")
@@ -117,7 +117,7 @@ for (const width of [1440, 390]) {
       "https://cojudge.musel.dev/problems/pbdc-01-create-a-sandwich-decorator",
     );
     await dialog.getByRole("button", { name: "Rate my attempt" }).click();
-    await expect(dialog.getByLabel("Time spent (minutes)")).toHaveValue("18");
+    await expect(dialog.getByLabel("Time spent (minutes)")).toHaveValue("15");
     await dialog.getByLabel("Time spent (minutes)").fill("20");
     await dialog
       .getByRole("button", { name: /^Good Solved independently/ })
@@ -206,7 +206,7 @@ test("old Python completions can be reviewed, synced, and undone without losing 
     dialog.getByRole("link", { name: "Open on Cojudge" }),
   ).toHaveAttribute("href", `https://cojudge.musel.dev/problems/${first}`);
   await dialog.getByRole("button", { name: "Rate my attempt" }).click();
-  await expect(dialog.getByLabel("Time spent (minutes)")).toHaveValue("18");
+  await expect(dialog.getByLabel("Time spent (minutes)")).toHaveValue("15");
   await expect(dialog.getByLabel("What should you remember?")).toHaveValue(
     "Original course note",
   );

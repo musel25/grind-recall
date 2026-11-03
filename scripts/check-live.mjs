@@ -106,7 +106,7 @@ try {
   assert.equal(Object.keys(saved.state.morningStudy).length, 1);
   assert.equal(saved.state.history.at(-1).rating, 3);
   assert.ok(saved.state.progress["pbdc-01-create-a-sandwich-decorator"].card);
-  assert.equal(saved.state.history.at(-1).minutes, 18);
+  assert.equal(saved.state.history.at(-1).minutes, 15);
   const phone = await browser.newContext({
     viewport: { width: 390, height: 844 },
   });

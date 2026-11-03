@@ -74,7 +74,7 @@ test("daily planning and the finish forecast exclude untouched optional exercise
   assert.equal(plan.nextExtra, undefined);
   assert.deepEqual(simulatePace(state, day, 10, 30), {
     finish: day,
-    minutes: 18,
+    minutes: 15,
   });
   assert.equal(JSON.stringify(state), before);
 });
