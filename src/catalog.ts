@@ -26,11 +26,12 @@ export function activeProblems(state?: StudyState | null): Problem[] {
   return problems
     .filter(
       (p) =>
-        (!!p.course && !p.deferred) ||
-        p.core ||
-        (p.bloomberg && !p.deferred) ||
-        !!state?.progress[p.id] ||
-        !!state?.morningStudy?.[p.id],
+        !p.retired &&
+        ((!!p.course && !p.deferred) ||
+          p.core ||
+          (p.bloomberg && !p.deferred) ||
+          !!state?.progress[p.id] ||
+          !!state?.morningStudy?.[p.id]),
     )
     .map((p, i) => ({ ...p, order: i + 1 }));
 }

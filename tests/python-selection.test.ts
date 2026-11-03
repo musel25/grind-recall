@@ -19,22 +19,23 @@ import { validateState } from "../src/storage";
 
 const day = "2026-10-29";
 const selectedNumbers: Record<string, number[]> = {
-  "pybites-oop": [1, 2, 3, 4, 7, 9, 10, 12, 15],
-  "pybites-pytest": [1, 2, 3, 5, 6, 7, 9, 10],
-  "pybites-data-formats": [2, 4, 5, 9, 11, 12, 14],
-  "pybites-collections": [1, 2, 3, 5, 7, 8, 9, 11],
-  "pybites-decorators-context-managers": [1, 2, 3, 4, 7, 9, 12],
+  "pybites-oop": [1, 2, 3, 4, 9, 12, 15],
+  "pybites-pytest": [1, 3, 5, 6, 7, 10],
+  "pybites-data-formats": [5, 9, 11, 14],
+  "pybites-collections": [2, 3, 7, 8],
+  "pybites-decorators-context-managers": [1, 3, 7, 12],
 };
 const number = (id: string) => Number(id.match(/^[a-z]+-(\d+)-/)![1]);
 const first = "pb-01-write-a-property";
-const optional = "pb-06-subclass-the-dict-built-in";
+const optional = "pb-08-oop-fun-at-the-zoo";
+const retired = "pb-06-subclass-the-dict-built-in";
 const selected = problems.filter(
   (p) => p.course && selectedNumbers[p.course].includes(number(p.id)),
 );
 
-test("the default Python plan contains the 39 selected exercises across all five topics", () => {
+test("the default Python plan contains the 25 selected exercises across all five topics", () => {
   const active = activeProblems();
-  assert.equal(active.filter((p) => p.course).length, 39);
+  assert.equal(active.filter((p) => p.course).length, 25);
   for (const course of cojudgeCourses) {
     assert.deepEqual(
       active.filter((p) => p.course === course.id).map((p) => number(p.id)),
@@ -43,9 +44,9 @@ test("the default Python plan contains the 39 selected exercises across all five
   }
   assert.equal(
     active.filter((p) => p.course && p.difficulty === "Hard").length,
-    7,
+    5,
   );
-  assert.equal(archivedProblems().filter((p) => p.course).length, 33);
+  assert.equal(archivedProblems().filter((p) => p.course).length, 47);
   assert.equal(problems.filter((p) => p.course).length, 72);
 });
 
@@ -113,4 +114,27 @@ test("pending morning work on an optional exercise remains in the active plan", 
   assert.deepEqual(validateState(JSON.parse(JSON.stringify(state))), state);
   const removed = markMorningStudy(state, optional, day, false);
   assert.ok(!activeProblems(removed).some((p) => p.id === optional));
+});
+
+test("retired exercises leave reviews and forecasts but keep their saved progress", () => {
+  const practiced = recordAttempt(
+    initialState(day),
+    retired,
+    3,
+    day,
+    20,
+    "Retired note",
+  );
+  assert.ok(!activeProblems(practiced).some((p) => p.id === retired));
+  assert.ok(archivedProblems(practiced).some((p) => p.id === retired));
+  assert.ok(
+    !dailyPlan(practiced, practiced.progress[retired].due).reviews.some(
+      (p) => p.id === retired,
+    ),
+  );
+  assert.equal(practiced.progress[retired].note, "Retired note");
+  assert.deepEqual(
+    problems.filter((p) => p.retired).map((p) => number(p.id)),
+    [5, 6, 7, 10],
+  );
 });

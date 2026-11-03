@@ -10,6 +10,7 @@ export type Problem = {
   core?: boolean;
   bloomberg?: boolean;
   deferred?: boolean;
+  retired?: boolean;
   stage?: string;
   estimatedMinutes?: boolean;
   course?: string;

@@ -70,17 +70,17 @@ for (const width of [1280, 390]) {
       buffer: Buffer.from(JSON.stringify(state)),
     });
     await expect(page.locator(".sidebar-plan")).toContainText(
-      "30 of 118 practiced",
+      "30 of 104 practiced",
     );
     await page
       .getByRole("button", { name: "All problems", exact: true })
       .click();
-    await expect(page.locator(".week-group .problem-row")).toHaveCount(118);
+    await expect(page.locator(".week-group .problem-row")).toHaveCount(104);
     const orders = await page
       .locator(".week-group .problem-row .meta")
       .allTextContents();
     expect(orders.map((t) => Number(t.match(/#(\d+)/)![1]))).toEqual(
-      Array.from({ length: 118 }, (_, i) => i + 1),
+      Array.from({ length: 104 }, (_, i) => i + 1),
     );
     await page.getByLabel("Search problems").fill("Meeting Rooms");
     await expect(page.locator(".week-group .problem-row")).toHaveCount(1);
@@ -92,7 +92,7 @@ for (const width of [1280, 390]) {
     await page.getByRole("button", { name: "Close practice" }).click();
     await page.getByLabel("Search problems").fill("");
     await page.getByLabel("Problem collection").selectOption("Archive");
-    await expect(page.locator("a.problem-row")).toHaveCount(148);
+    await expect(page.locator("a.problem-row")).toHaveCount(162);
     await expect(
       page.getByRole("link", { name: /Sudoku Solver/ }),
     ).toBeVisible();
@@ -122,7 +122,7 @@ for (const width of [1280, 390]) {
     );
     await page.reload();
     await expect(page.locator(".sidebar-plan")).toContainText(
-      "31 of 118 practiced",
+      "31 of 104 practiced",
     );
     const remote = await (await page.request.get("/api/grind/state")).json();
     expect(remote.state.progress["trapping-rain-water"].note).toBe(

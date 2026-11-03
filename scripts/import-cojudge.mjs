@@ -20,6 +20,9 @@ const selection = JSON.parse(
     "utf8",
   ),
 );
+const retired = new Set(selection.retired ?? []);
+if (retired.size !== (selection.retired ?? []).length)
+  throw Error("Duplicate retired exercise");
 const seen = new Set();
 const readJson = async (path) =>
   JSON.parse(await readFile(resolve(source, path), "utf8"));
@@ -54,6 +57,7 @@ for (const id of courseIds) {
         stage: course.title,
         review: true,
         deferred: !selected.has(slug),
+        ...(retired.has(slug) ? { retired: true } : {}),
       });
     }
   }
@@ -61,6 +65,9 @@ for (const id of courseIds) {
     throw Error(`Unknown first-pass exercise in ${id}`);
   courses.push({ id, title: course.title, problems });
 }
+for (const slug of retired)
+  if (!seen.has(slug) || courseIds.some((id) => selection[id].includes(slug)))
+    throw Error(`Retired exercise is unknown or selected: ${slug}`);
 await writeFile(
   new URL("../src/cojudge-courses.json", import.meta.url),
   JSON.stringify(courses, null, 2) + "\n",

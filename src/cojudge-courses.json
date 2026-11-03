@@ -71,7 +71,8 @@
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pb-06-subclass-the-dict-built-in",
@@ -85,7 +86,8 @@
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pb-07-implement-a-color-class-with-staticmethod",
@@ -99,7 +101,8 @@
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pb-08-oop-fun-at-the-zoo",
@@ -141,7 +144,8 @@
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pb-11-multiple-inheritance-mro",
@@ -343,7 +347,7 @@
         "course": "pybites-pytest",
         "stage": "Pybites Pytest Path",
         "review": true,
-        "deferred": false
+        "deferred": true
       },
       {
         "id": "pbt-03-test-print-standard-output",
@@ -441,7 +445,7 @@
         "course": "pybites-pytest",
         "stage": "Pybites Pytest Path",
         "review": true,
-        "deferred": false
+        "deferred": true
       },
       {
         "id": "pbt-10-test-a-movie-db-class",
@@ -489,7 +493,7 @@
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
         "review": true,
-        "deferred": false
+        "deferred": true
       },
       {
         "id": "pdf-03-pickling-objects",
@@ -517,7 +521,7 @@
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
         "review": true,
-        "deferred": false
+        "deferred": true
       },
       {
         "id": "pdf-05-parse-omdb-movie-json-data",
@@ -629,7 +633,7 @@
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
         "review": true,
-        "deferred": false
+        "deferred": true
       },
       {
         "id": "pdf-13-parse-income-distribution-from-latin-america-xml",
@@ -719,7 +723,7 @@
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
         "review": true,
-        "deferred": false
+        "deferred": true
       },
       {
         "id": "pbc-02-keep-a-queue-of-last-n-items",
@@ -775,7 +779,7 @@
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
         "review": true,
-        "deferred": false
+        "deferred": true
       },
       {
         "id": "pbc-06-convert-dict-to-namedtuplejson",
@@ -831,7 +835,7 @@
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
         "review": true,
-        "deferred": false
+        "deferred": true
       },
       {
         "id": "pbc-10-beautifulsoup-ii-scrape-us-holidays",
@@ -859,7 +863,7 @@
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
         "review": true,
-        "deferred": false
+        "deferred": true
       }
     ]
   },
@@ -893,7 +897,7 @@
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
         "review": true,
-        "deferred": false
+        "deferred": true
       },
       {
         "id": "pbdc-03-write-a-login_required-decorator",
@@ -921,7 +925,7 @@
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
         "review": true,
-        "deferred": false
+        "deferred": true
       },
       {
         "id": "pbdc-05-suppressing-exceptions",
@@ -991,7 +995,7 @@
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
         "review": true,
-        "deferred": false
+        "deferred": true
       },
       {
         "id": "pbdc-10-manipulate-string-decorator",

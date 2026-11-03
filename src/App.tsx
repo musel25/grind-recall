@@ -1079,11 +1079,11 @@ function CourseList({
         <h1>Python courses</h1>
         <p>
           OOP → Pytest → Data Formats → Collections → Decorators and Context
-          Managers. This first pass selects 39 exercises for practical Python
+          Managers. This first pass selects 25 exercises for practical Python
           skills. Practice on Cojudge, then rate your attempt here. Selected
           exercises share your daily study time and use spaced reviews.
-          Previously practiced extras stay active. Other exercises are in All
-          problems → Archive.
+          Previously practiced extras stay active, except four retired OOP
+          bites. Other exercises are in All problems → Archive.
         </p>
       </div>
       {courses.map((course) => {
