@@ -8,7 +8,7 @@ const original: { id: string }[] = JSON.parse(
 );
 import type { StudyState } from "../../src/types";
 for (const width of [1280, 390]) {
-  test(`focused roadmap preserves legacy extras, archives untouched problems, and saves new Bloomberg work (${width}px)`, async ({
+  test(`focused roadmap preserves legacy extras, archives untouched problems, and saves new Grind work (${width}px)`, async ({
     page,
   }) => {
     const errors: string[] = [];
@@ -70,17 +70,17 @@ for (const width of [1280, 390]) {
       buffer: Buffer.from(JSON.stringify(state)),
     });
     await expect(page.locator(".sidebar-plan")).toContainText(
-      "30 of 139 practiced",
+      "30 of 118 practiced",
     );
     await page
       .getByRole("button", { name: "All problems", exact: true })
       .click();
-    await expect(page.locator(".week-group .problem-row")).toHaveCount(139);
+    await expect(page.locator(".week-group .problem-row")).toHaveCount(118);
     const orders = await page
       .locator(".week-group .problem-row .meta")
       .allTextContents();
     expect(orders.map((t) => Number(t.match(/#(\d+)/)![1]))).toEqual(
-      Array.from({ length: 139 }, (_, i) => i + 1),
+      Array.from({ length: 118 }, (_, i) => i + 1),
     );
     await page.getByLabel("Search problems").fill("Meeting Rooms");
     await expect(page.locator(".week-group .problem-row")).toHaveCount(1);
@@ -92,12 +92,15 @@ for (const width of [1280, 390]) {
     await page.getByRole("button", { name: "Close practice" }).click();
     await page.getByLabel("Search problems").fill("");
     await page.getByLabel("Problem collection").selectOption("Archive");
-    await expect(page.locator("a.problem-row")).toHaveCount(127);
+    await expect(page.locator("a.problem-row")).toHaveCount(148);
     await expect(
       page.getByRole("link", { name: /Sudoku Solver/ }),
     ).toBeVisible();
     await expect(
       page.getByRole("link", { name: /Stone Game IV/ }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: /Using a Robot/ }),
     ).toBeVisible();
     await page.getByLabel("Search problems").fill("Meeting Rooms");
     await expect(
@@ -105,12 +108,12 @@ for (const width of [1280, 390]) {
     ).toBeVisible();
     await page.getByLabel("Search problems").fill("");
     await page.getByLabel("Problem collection").selectOption("Active plan");
-    await page.getByLabel("Search problems").fill("Using a Robot");
-    await page.getByRole("button", { name: /Using a Robot/ }).click();
+    await page.getByLabel("Search problems").fill("Trapping Rain Water");
+    await page.getByRole("button", { name: /Trapping Rain Water/ }).click();
     await page.getByRole("button", { name: "Rate my attempt" }).click();
     await page
       .getByLabel("What should you remember?")
-      .fill("Track the minimum remaining character");
+      .fill("Track the max height from both sides");
     await page
       .getByRole("button", { name: /^Good Solved independently/ })
       .click();
@@ -119,14 +122,12 @@ for (const width of [1280, 390]) {
     );
     await page.reload();
     await expect(page.locator(".sidebar-plan")).toContainText(
-      "31 of 139 practiced",
+      "31 of 118 practiced",
     );
     const remote = await (await page.request.get("/api/grind/state")).json();
-    expect(
-      remote.state.progress[
-        "using-a-robot-to-print-the-lexicographically-smallest-string"
-      ].note,
-    ).toBe("Track the minimum remaining character");
+    expect(remote.state.progress["trapping-rain-water"].note).toBe(
+      "Track the max height from both sides",
+    );
     for (const [id, progress] of Object.entries(state.progress))
       expect(remote.state.progress[id]).toEqual(progress);
     await page

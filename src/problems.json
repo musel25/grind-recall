@@ -108,7 +108,8 @@
     "stage": "Array and hash-table foundations",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "title": "Maximum Subarray",
@@ -132,7 +133,8 @@
     "order": 11,
     "stage": "Array and hash-table foundations",
     "core": false,
-    "bloomberg": true
+    "bloomberg": true,
+    "deferred": true
   },
   {
     "title": "Product of Array Except Self",
@@ -180,7 +182,8 @@
     "order": 15,
     "stage": "Array and hash-table foundations",
     "core": false,
-    "bloomberg": true
+    "bloomberg": true,
+    "deferred": true
   },
   {
     "title": "Valid Palindrome",
@@ -229,7 +232,8 @@
     "stage": "Pointers and sliding windows",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "id": "contains-duplicate-ii",
@@ -315,7 +319,8 @@
     "order": 26,
     "stage": "Pointers and sliding windows",
     "core": false,
-    "bloomberg": true
+    "bloomberg": true,
+    "deferred": true
   },
   {
     "id": "valid-triangle-number",
@@ -439,7 +444,8 @@
     "order": 36,
     "stage": "Linked-list and stack foundations",
     "core": false,
-    "bloomberg": true
+    "bloomberg": true,
+    "deferred": true
   },
   {
     "id": "reverse-linked-list-ii",
@@ -452,7 +458,8 @@
     "stage": "Linked-list and stack foundations",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "title": "Reorder List",
@@ -464,7 +471,8 @@
     "order": 38,
     "stage": "Linked-list and stack foundations",
     "core": false,
-    "bloomberg": true
+    "bloomberg": true,
+    "deferred": true
   },
   {
     "title": "Valid Parentheses",
@@ -537,7 +545,8 @@
     "stage": "Linked-list and stack foundations",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "title": "Decode String",
@@ -549,7 +558,8 @@
     "order": 45,
     "stage": "Linked-list and stack foundations",
     "core": false,
-    "bloomberg": true
+    "bloomberg": true,
+    "deferred": true
   },
   {
     "title": "Binary Search",
@@ -633,7 +643,8 @@
     "order": 52,
     "stage": "Binary search and intervals",
     "core": false,
-    "bloomberg": true
+    "bloomberg": true,
+    "deferred": true
   },
   {
     "title": "Random Pick with Weight",
@@ -826,7 +837,8 @@
     "stage": "Tree traversal and recursive invariants",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "title": "Maximum Width of Binary Tree",
@@ -1044,7 +1056,8 @@
     "order": 86,
     "stage": "Dynamic programming foundations",
     "core": false,
-    "bloomberg": true
+    "bloomberg": true,
+    "deferred": true
   },
   {
     "title": "Unique Paths",
@@ -1320,7 +1333,8 @@
     "order": 109,
     "stage": "Heaps and pointer-based design",
     "core": false,
-    "bloomberg": true
+    "bloomberg": true,
+    "deferred": true
   },
   {
     "title": "Design Hit Counter",
@@ -1345,7 +1359,8 @@
     "stage": "Connectivity and graph dependencies",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "title": "Graph Valid Tree",
@@ -1394,7 +1409,8 @@
     "stage": "Connectivity and graph dependencies",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "title": "Course Schedule",
@@ -1502,7 +1518,8 @@
     "order": 124,
     "stage": "Simulation and string implementation",
     "core": false,
-    "bloomberg": true
+    "bloomberg": true,
+    "deferred": true
   },
   {
     "title": "Set Matrix Zeroes",
@@ -1802,7 +1819,8 @@
     "stage": "Greedy decisions and stack applications",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "title": "Gas Station",
@@ -1814,7 +1832,8 @@
     "order": 149,
     "stage": "Greedy decisions and stack applications",
     "core": false,
-    "bloomberg": true
+    "bloomberg": true,
+    "deferred": true
   },
   {
     "title": "Task Scheduler",
@@ -1875,7 +1894,8 @@
     "stage": "Greedy decisions and stack applications",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "title": "Trapping Rain Water",
@@ -2151,7 +2171,8 @@
     "order": 177,
     "stage": "Arithmetic and advanced array invariants",
     "core": false,
-    "bloomberg": true
+    "bloomberg": true,
+    "deferred": true
   },
   {
     "title": "Missing Number",
@@ -2313,7 +2334,8 @@
     "stage": "Arithmetic and advanced array invariants",
     "core": false,
     "bloomberg": true,
-    "estimatedMinutes": true
+    "estimatedMinutes": true,
+    "deferred": true
   },
   {
     "title": "Median of Two Sorted Arrays",

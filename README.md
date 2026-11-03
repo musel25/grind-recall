@@ -1,6 +1,6 @@
 # Grind Recall
 
-A daily Grind 75 + Bloomberg planner with spaced repetition. Choose a completion deadline or a daily time budget; the other is estimated including spaced reviews.
+A daily Grind 75 planner with spaced repetition. Choose a completion deadline or a daily time budget; the other is estimated including spaced reviews.
 
 Built with React, TypeScript, Vite, and FSRS. Hosted on a personal VPS. Progress syncs to a separate account on the VPS through the Planner API. JSON backups remain available.
 
@@ -21,7 +21,7 @@ npx playwright test # requires local Vite, a disposable Timer API/DB, and Google
 
 ## Scheduling and the math
 
-The focused algorithm base contains 97 unique problems: all 75 Grind problems plus 22 selected Bloomberg-only additions. With the user’s three practiced extras this is 100 active algorithm problems. The Python path selects 39 of 72 exercises with spaced reviews. Untouched optional Python exercises are archived; practiced extras stay active. Eighteen approved Bloomberg-only cuts are archived; original source membership remains recorded. Practiced extras from the original 169 stay active per account; untouched extras are archived. Original time estimates are retained; the 25 newly added algorithm problems use estimated solve times of 20/30/45 minutes for Easy/Medium/Hard, doubled for first-pass solve + study.
+The focused algorithm base contains the 75 Grind problems. The 22 Bloomberg-only additions are archived (2026-11-03); practiced ones stay active per account. With the user’s four practiced extras this is 79 active algorithm problems. The Python path selects 39 of 72 exercises with spaced reviews. Untouched optional Python exercises are archived; practiced extras stay active. Eighteen approved Bloomberg-only cuts are archived; original source membership remains recorded. Practiced extras from the original 169 stay active per account; untouched extras are archived. Original time estimates are retained; the 25 newly added algorithm problems use estimated solve times of 20/30/45 minutes for Easy/Medium/Hard, doubled for first-pass solve + study.
 
 FSRS via `ts-fsrs` uses default parameters and 90% desired retention, deterministic intervals, and no intraday steps. Again returns the next study day, retaining FSRS memory state. Hard, Good, and Easy use FSRS intervals from the first attempt onward. The rate button leads to all four choices, each showing its next due date. This is a coding-practice adaptation, not a guarantee of 90% interview performance. Dates are calendar days in the selected timezone. The four ratings distinguish needing help from independently solving with difficulty.
 

@@ -1,5 +1,7 @@
 # Grind 75 + Bloomberg learning order
 
+> **Update (2026-11-03):** The 22 Bloomberg-only additions are archived after the Bloomberg application closed. The active base is now the **75 Grind problems** plus each account's practiced extras. Practiced Bloomberg problems stay active and keep their reviews. See [Bloomberg-only additions archived](#bloomberg-only-additions-archived-2026-11-03). The sections below record the earlier 97/100 plan.
+
 The focused base contains all 75 Grind problems plus 22 selected Bloomberg-only additions: **97 unique problems**. The user’s three practiced extras make **100 active problems**, with 30 practiced and 70 remaining at approval. The 18 approved cuts are archived, not deleted. Every account also retains its previously practiced extras. Unrated morning-study items remain active so in-flight study is not lost. The other original problems are archived, searchable and linked from the Archive view; they are excluded from new assignments and forecasts.
 
 The [source manifest](focused-sources.json) preserves membership and the pasted Bloomberg frequencies. This is the user's historical snapshot, not a claim about current Bloomberg interview frequency. The original snapshot includes three SQL entries, now deferred under the approved cuts. New problems absent from the original catalog use clearly estimated solve times: Easy 20, Medium 30, Hard 45 minutes; first-pass study remains twice solve time. Existing estimates and stable IDs are unchanged.
@@ -25,6 +27,12 @@ Optional practiced extras occupy related positions in the full catalog rather th
 The first version respected prerequisites but delayed some closely related follow-ups and clustered the first hard problems near the end. This revision brings Stock II next to Stock I, linked-list additions/reversal/reordering next to the pointer foundations, and Decode String next to stack parsing. Tree reconstruction follows traversal/LCA rather than being postponed until the final hard block.
 
 Hard checkpoints are distributed after the necessary groundwork: Minimum Window revisits sliding windows after the tree stage; multiway merge and streaming median follow heap foundations; Word Ladder follows graph traversal/connectivity; tree serialization follows reconstruction with intervening practice. Stone Game IV was placed late as a specialized extension and subsequently archived in the approved reduction below. This balances short topic runs with return visits; it does not claim there is one universally optimal sequence. Existing progress is skipped automatically and never reset.
+
+## Bloomberg-only additions archived (2026-11-03)
+
+The Bloomberg application closed, so the 22 Bloomberg-only additions leave the active plan. They use the same deferred flag as the earlier cuts: IDs, metadata and Bloomberg tags are kept, and any account with practice or morning study for one of them keeps it active with its reviews. Untouched additions move to the Archive view and are excluded from new assignments and forecasts. To restore them, remove `deferred` from those entries in `src/problems.json`.
+
+Archived: Best Time to Buy and Sell Stock II, Group Anagrams, Longest Consecutive Sequence, Maximum Average Subarray I, 3Sum Closest, Add Two Numbers, Reverse Linked List II, Reorder List, Simplify Path, Decode String, Find K Closest Elements, Binary Tree Vertical Order Traversal, House Robber, Insert Delete GetRandom O(1), Number of Provinces, Evaluate Division, Rotate Image, Two City Scheduling, Gas Station, Using a Robot to Print the Lexicographically Smallest String, Single Number, Split Array Largest Sum.
 
 ## Approved reduction to 100 (2026-10-15)
 

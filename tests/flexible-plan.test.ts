@@ -112,9 +112,9 @@ test("legacy backup and flexible plan round-trip; invalid overrides rejected", (
 
 test("adding a long next problem does not silently add a shorter following problem too", () => {
   let s = initialState(day, true);
-  // Leave Group Anagrams (60m solve+study) before Single Number (30m).
+  // Leave Product of Array Except Self (60m solve+study) before Valid Palindrome (30m).
   for (const p of problems.filter(
-    (p) => !["group-anagrams", "single-number"].includes(p.id),
+    (p) => !["product-of-array-except-self", "valid-palindrome"].includes(p.id),
   ))
     s.progress[p.id] = {
       due: "2026-11-01",
@@ -128,8 +128,8 @@ test("adding a long next problem does not silently add a shorter following probl
   s = addExtraProblem(s, day);
   assert.deepEqual(
     dailyPlan(s, day).newProblems.map((p) => p.id),
-    ["group-anagrams"],
+    ["product-of-array-except-self"],
   );
-  s = recordAttempt(s, "group-anagrams", 3, day, 30, "");
+  s = recordAttempt(s, "product-of-array-except-self", 3, day, 30, "");
   assert.equal(dailyPlan(s, day).newProblems.length, 0);
 });

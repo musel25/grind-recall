@@ -17,7 +17,8 @@ test("old backups keep practiced extras but never schedule untouched archive ent
   const s = initialState(day);
   // Simulate all original questions practiced except one outside both requested lists.
   for (const p of original)
-    if (p.id !== "sudoku-solver") s.progress[p.id] = { ...saved };
+    if (p.id !== "sudoku-solver" && p.id !== "trapping-rain-water")
+      s.progress[p.id] = { ...saved };
   // Isolate algorithm archive behavior from the separately tested Python path.
   for (const p of problems.filter((p) => !!p.course))
     s.progress[p.id] = { ...saved };
@@ -26,8 +27,9 @@ test("old backups keep practiced extras but never schedule untouched archive ent
   const before = JSON.stringify(s);
   const plan = dailyPlan(validateState(s), day);
   assert.ok(!plan.newProblems.some((p) => p.id === "sudoku-solver"));
+  assert.ok(plan.newProblems.some((p) => p.id === "trapping-rain-water"));
   assert.ok(
-    plan.newProblems.some(
+    !plan.newProblems.some(
       (p) =>
         p.id === "using-a-robot-to-print-the-lexicographically-smallest-string",
     ),
@@ -60,22 +62,14 @@ test("selected lists are complete, deduplicated and account-specific extras fill
   const active = activeProblems(s).filter((p) => !p.course);
   assert.equal(sources.core.length, 75);
   assert.equal(sources.bloomberg.length, 57);
-  assert.equal(active.length, 97);
+  assert.equal(active.length, 75);
   assert.equal(active.filter((p) => p.core && p.bloomberg).length, 17);
-  assert.deepEqual(
-    new Set(active.map((p) => p.id)),
-    new Set([
-      ...sources.core,
-      ...sources.bloomberg
-        .filter((p) => !approvedCuts.includes(p.id))
-        .map((p) => p.id),
-    ]),
-  );
-  assert.equal(archivedProblems(s).filter((p) => !p.course).length, 97);
+  assert.deepEqual(new Set(active.map((p) => p.id)), new Set(sources.core));
+  assert.equal(archivedProblems(s).filter((p) => !p.course).length, 119);
   s.progress["meeting-rooms"] = { ...saved };
   s.progress["roman-to-integer"] = { ...saved };
   const retained = activeProblems(s).filter((p) => !p.course);
-  assert.equal(retained.length, 99);
+  assert.equal(retained.length, 77);
   assert.ok(!archivedProblems(s).some((p) => p.id === "meeting-rooms"));
   assert.ok(
     retained.findIndex((p) => p.id === "meeting-rooms") <
@@ -83,11 +77,11 @@ test("selected lists are complete, deduplicated and account-specific extras fill
   );
   assert.deepEqual(
     retained.map((p) => p.order),
-    Array.from({ length: 99 }, (_, i) => i + 1),
+    Array.from({ length: 77 }, (_, i) => i + 1),
   );
   assert.equal(
     activeProblems(initialState(day)).filter((p) => !p.course).length,
-    97,
+    75,
   );
 });
 test("onboarding imports the historical first ten even after reordering", () => {
@@ -161,7 +155,9 @@ test("focused applications follow their prerequisites even when optional extras 
     ["article-views-i", "game-play-analysis-iv"],
   ];
   for (const [a, b] of pairs.filter((pair) =>
-    pair.every((id) => !approvedCuts.includes(id)),
+    pair.every(
+      (id) => !approvedCuts.includes(id) && !bloombergOnlyCuts.includes(id),
+    ),
   )) {
     const ai = active.findIndex((p) => p.id === a),
       bi = active.findIndex((p) => p.id === b);
@@ -179,7 +175,7 @@ test("follow-ups stay near foundations and representative hard problems precede 
     ["merge-k-sorted-lists", "word-break"],
     ["find-median-from-data-stream", "split-array-largest-sum"],
     ["word-ladder", "split-array-largest-sum"],
-  ])
+  ].filter((pair) => pair.every((id) => !bloombergOnlyCuts.includes(id))))
     assert.ok(ids.indexOf(a) < ids.indexOf(b), `${a} before ${b}`);
 });
 
@@ -187,7 +183,12 @@ const approvedCuts =
   `recyclable-and-low-fat-products article-views-i game-play-analysis-iv concatenation-of-array fibonacci-number smallest-divisible-digit-product-i smallest-missing-integer-greater-than-sequential-prefix-sum stone-game-iv median-of-two-sorted-arrays divide-two-integers zigzag-conversion multiply-strings find-the-index-of-the-first-occurrence-in-a-string happy-number contains-duplicate-ii valid-triangle-number rotate-array next-permutation`.split(
     " ",
   );
-test("approved cuts yield 100 with the three practiced extras, without deleting any work", () => {
+// Bloomberg-only additions archived after the Bloomberg application closed.
+const bloombergOnlyCuts =
+  `best-time-to-buy-and-sell-stock-ii group-anagrams longest-consecutive-sequence maximum-average-subarray-i 3sum-closest add-two-numbers reverse-linked-list-ii reorder-list simplify-path decode-string find-k-closest-elements binary-tree-vertical-order-traversal house-robber insert-delete-getrandom-o1 number-of-provinces evaluate-division rotate-image two-city-scheduling gas-station using-a-robot-to-print-the-lexicographically-smallest-string single-number split-array-largest-sum`.split(
+    " ",
+  );
+test("cuts yield the 75 Grind problems plus the four practiced extras, without deleting any work", () => {
   const s = initialState(day);
   for (const p of original.slice(0, 26)) s.progress[p.id] = { ...saved };
   for (const id of [
@@ -199,9 +200,16 @@ test("approved cuts yield 100 with the three practiced extras, without deleting 
     s.progress[id] = { ...saved };
   const before = JSON.stringify(s);
   const active = activeProblems(s).filter((p) => !p.course);
-  assert.equal(active.length, 100);
-  assert.equal(active.filter((p) => !s.progress[p.id]).length, 70);
+  assert.equal(active.length, 79);
+  assert.equal(active.filter((p) => !s.progress[p.id]).length, 49);
   assert.equal(active.filter((p) => p.core).length, 75);
+  // Practiced Bloomberg work stays active; untouched Bloomberg additions are archived.
+  assert.ok(active.some((p) => p.id === "house-robber"));
+  for (const id of bloombergOnlyCuts.filter((id) => !s.progress[id]))
+    assert.ok(
+      archivedProblems(s).some((p) => p.id === id),
+      id,
+    );
   for (const id of approvedCuts) {
     assert.ok(!active.some((p) => p.id === id), id);
     assert.ok(

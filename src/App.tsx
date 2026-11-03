@@ -149,8 +149,7 @@ export default function App({
             Remember tomorrow.
           </h1>
           <p>
-            Grind 75 + Bloomberg with spaced reviews, plus Python courses on
-            Cojudge.
+            Grind 75 with spaced reviews, plus Python courses on Cojudge.
             <br />
             One clear list of what to work on each day.
           </p>
@@ -860,7 +859,7 @@ export default function App({
         )}
         <footer>
           <span>Consistency over cramming.</span>
-          <span>Grind 75 + Bloomberg + Python courses</span>
+          <span>Grind 75 + Python courses</span>
         </footer>
       </main>
       {selected && (
@@ -1170,8 +1169,8 @@ function ProblemList({
           {activeProblems(state).length} active problems in prerequisite-based
           learning order, grouped across your {groups.length}-week plan by
           estimated effort. This is your roadmap; Today accounts for reviews and
-          study breaks. Includes all 75 Grind problems, 22 additional Bloomberg
-          problems, your practiced extras, and the Python courses on Cojudge.
+          study breaks. Includes all 75 Grind problems, your practiced extras,
+          and the Python courses on Cojudge.
         </p>
       </div>
       <div className="list-tools">
