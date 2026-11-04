@@ -1,5 +1,8 @@
 # Cojudge Python Path Implementation Plan
 
+> Historical record. This work was completed and later changed. Do not execute these instructions as a current plan. Read [the current architecture](../../architecture.md) and [project instructions](../../../AGENTS.md). Past deployment authorization does not apply to new work.
+
+
 > **For agentic workers:** Use superpowers:executing-plans to implement this plan in this session.
 
 **Goal:** Include the local OOP, Pytest, Data Formats, Collections, and Decorators and Context Managers exercises in Grind with direct Cojudge links and one completion per exercise.

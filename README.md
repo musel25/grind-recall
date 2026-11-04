@@ -6,6 +6,8 @@ Built with React, TypeScript, Vite, and FSRS. Hosted on a personal VPS. Progress
 
 ## Run locally
 
+Use Node 22.21.0, as recorded in `.nvmrc`. Read [AGENTS.md](AGENTS.md) for project instructions and [docs/architecture.md](docs/architecture.md) for the current code map and behavior rules.
+
 ```sh
 npm ci
 npm run dev
@@ -13,15 +15,17 @@ npm run dev
 ```
 
 ```sh
-npm test            # scheduling, dates, state validation, backups
-npm run simulate    # time-budget and deadline scenarios
-npm run build       # type-check and production build
-npx playwright test # requires local Vite, a disposable Timer API/DB, and Google Chrome
+npm run check         # formatting, app/tool types, unit tests, production build
+npm run simulate      # time-budget and deadline scenarios
+npm run setup:browser # first run: pinned Timer backend and managed Chromium
+npm run test:browser  # starts isolated servers and a temporary database per test
 ```
+
+On a supported Linux host that needs browser system packages, use `npm run setup:browser -- --with-deps`. Tests use the real Timer API routes and keep production rate limits enabled. They do not use a personal database. GitHub Actions runs local checks and browser tests for pull requests and `main`. `npm run test:live` is a separate production action and is excluded from CI.
 
 ## Scheduling and the math
 
-The focused algorithm base contains the 75 Grind problems. The 22 Bloomberg-only additions are archived (2026-11-03); practiced ones stay active per account. With the user’s four practiced extras this is 79 active algorithm problems. The Python path selects 39 of 72 exercises with spaced reviews. Untouched optional Python exercises are archived; practiced extras stay active. Eighteen approved Bloomberg-only cuts are archived; original source membership remains recorded. Practiced extras from the original 169 stay active per account; untouched extras are archived. Original time estimates are retained; the 25 newly added algorithm problems use estimated solve times of 20/30/45 minutes for Easy/Medium/Hard, doubled for first-pass solve + study.
+The default algorithm base contains the 75 Grind problems. The 22 Bloomberg-only additions are archived (2026-11-03); practiced ones stay active per account. With the user’s four practiced extras this is 79 active algorithm problems. The Python path selects 25 of 72 exercises with spaced reviews. Untouched optional Python exercises are archived; practiced extras and pending morning work stay active, except four retired OOP exercises. Retired exercises retain saved progress and history but do not count toward active completion. Original source membership remains recorded. Practiced extras from the original 169 stay active per account; untouched extras are archived. Original time estimates are retained; the 25 algorithm problems added during curriculum expansion use estimated solve times of 20/30/45 minutes for Easy/Medium/Hard, doubled for first-pass solve + study.
 
 FSRS via `ts-fsrs` uses default parameters and 90% desired retention, deterministic intervals, and no intraday steps. Again returns the next study day, retaining FSRS memory state. Hard, Good, and Easy use FSRS intervals from the first attempt onward. The rate button leads to all four choices, each showing its next due date. This is a coding-practice adaptation, not a guarantee of 90% interview performance. Dates are calendar days in the selected timezone. The four ratings distinguish needing help from independently solving with difficulty.
 
@@ -37,7 +41,7 @@ First-ten import records no fictional solve date or rating: baseline reviews are
 
 Production: https://timer.musel.dev/grind/
 
-`./scripts/deploy.sh` builds committed code, checks tests, uploads a versioned static release to the `my-vps` SSH host, installs an isolated nginx location on the existing HTTPS vhost, validates nginx, and checks the page plus existing timer API health. Each commit must be pushed before deployment. The Timer backend must be deployed first with its own `./deploy.sh`; Grind uses `/api/grind/` on the same origin and needs no additional public port.
+When deployment is requested, `./scripts/deploy.sh` requires a clean checkout and fetches the upstream branch to verify that its commit matches `HEAD`. It runs `npm ci` and `npm run check`, uploads a versioned static release to the `my-vps` SSH host, installs an isolated nginx location on the existing HTTPS vhost, validates nginx, and checks the page plus existing timer API health. A missing upstream, unpushed commit, or newer remote commit stops deployment before building or uploading. The Timer backend must be deployed first with its own `./deploy.sh`; Grind uses `/api/grind/` on the same origin and needs no additional public port.
 
 Releases: `/var/www/grind-recall/releases/<git-sha>`, active symlink: `/var/www/grind-recall/current`. To roll back, point `current` to a previous release with an atomic symlink replacement; nginx need not restart. Nginx config backups are beside the existing vhost, named `timer.musel.dev.grind-backup-<sha>`.
 
@@ -51,7 +55,7 @@ The Planner service worker must exclude `/grind/` from its navigation fallback. 
 
 ## Flexible days and study breaks
 
-Use Today → Adjust time for a one-day time budget or current study-week hours override. Weeks are seven-day blocks anchored to the plan start. Settings → Planned study break blocks an inclusive date range. Saving a break redistributes affected reviews (including the resume-day cohort) with a soft target of seven scheduled reviews per day. Imported/low-stability cards go first; failed retries keep the first available day. Other reviews use the earliest available slot within three study days of their adjusted due date, falling back to the least occupied of those days. Existing later appointments remain reserved. New ratings use the same bounded allocation, excluding the current card; Again bypasses balancing. Due dates and scheduled intervals change, but ratings, notes, history, and FSRS memory fields do not. Re-saving the same break is stable; removing it keeps assigned appointments. Seven is a count target, not a time budget or a hard queue cap: overdue work and retries remain visible. This preserves FSRS memory history; time mode updates the completion estimate and deadline mode recalculates the required study time. No assignments appear on break days. Break dates sync with the account state and export with backups.
+Use Today → Adjust time for a one-day time budget or current calendar-week hours override. Weekly budgets run Monday–Sunday in the study timezone. The first partial week is prorated from the plan start. Journey week numbers count seven-day periods from the plan start. Settings → Planned study break blocks an inclusive date range. Saving a break redistributes affected reviews (including the resume-day cohort) with a soft target of seven scheduled reviews per day. Imported/low-stability cards go first; failed retries keep the first available day. Other reviews use the earliest available slot within three study days of their adjusted due date, falling back to the least occupied of those days. Existing later appointments remain reserved. New ratings use the same bounded allocation, excluding the current card; Again bypasses balancing. Due dates and scheduled intervals change, but ratings, notes, history, and FSRS memory fields do not. Re-saving the same break is stable; removing it keeps assigned appointments. Seven is a count target, not a time budget or a hard queue cap: overdue work and retries remain visible. This preserves FSRS memory history; time mode updates the completion estimate and deadline mode recalculates the required study time. No assignments appear on break days. Break dates sync with the account state and export with backups.
 
 Timer’s sidebar (Tools → Grind Recall), or More → Grind Recall on mobile, links directly to this app. Navigation uses a full-page link so the separate app loads correctly.
 
@@ -75,7 +79,7 @@ An open page retains edits locally if its connection fails and retries on reconn
 
 Older tabs opened before account sync was deployed can still write to the original browser save. On startup, sync, and storage changes, Grind checks that save for problems, attempts, or morning marks missing from the account, even when the account already has progress. A prominent recovery notice replaces the all-saved status. **Restore browser progress to my account** restores the original progress while keeping current account settings and planning, only when it preserves all account attempts, cards, notes and morning marks; it first backs up the account copy and then syncs normally. Conflicting copies stay intact with export actions for reconciliation. Account ownership is explicit: someone else’s original browser progress can be excluded. Once incorporated, the original snapshot is remembered so intentional Undo does not resurrect old attempts. Close pre-account tabs after recovery.
 
-For local dev, run Timer on port 8080, or set `GRIND_API_URL=http://127.0.0.1:18080` before starting Vite. Browser tests register disposable accounts, so use a throwaway Timer database. Registration is limited to 20 accounts per 15 minutes per process and login/registration to 30 attempts per IP per window; restart the disposable test API between repeated full browser runs.
+For local dev, run Timer on port 8080, or set `GRIND_API_URL=http://127.0.0.1:18080` before starting Vite. Automated browser tests start their own disposable backend for each test. They do not use the development API. Registration remains limited to 20 accounts per 15 minutes per process and login/registration to 30 attempts per IP per window. Fresh test processes prevent repeated runs from sharing those limits.
 
 ## Learning order
 

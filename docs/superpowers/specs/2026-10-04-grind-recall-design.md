@@ -1,5 +1,8 @@
 # Grind Recall
 
+> Historical record. This work was completed and later changed. Do not execute these instructions as a current plan. Read [the current architecture](../../architecture.md) and [project instructions](../../../AGENTS.md). Past deployment authorization does not apply to new work.
+
+
 User intent: finish the supplied 169 problems in 15 weeks and retain them through daily spaced practice. User explicitly requested implementation and VPS deployment after reviewing the initial in-chat design. Proceed within that authorization.
 
 ## Experience

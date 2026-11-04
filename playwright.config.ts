@@ -1,12 +1,14 @@
 import { defineConfig } from "@playwright/test";
 export default defineConfig({
   testDir: "./tests/browser",
+  workers: 2,
   use: {
-    baseURL: process.env.GRIND_BASE_URL || "http://127.0.0.1:5173/grind/",
+    trace: "retain-on-failure",
     headless: true,
     launchOptions: {
-      executablePath: "/usr/bin/google-chrome",
-      args: ["--no-sandbox"],
+      ...(process.env.CHROME_PATH
+        ? { executablePath: process.env.CHROME_PATH }
+        : {}),
     },
   },
   reporter: "list",

@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 
 for (const width of [1440, 390]) {
   test(`Cojudge course links, ratings, reload and undo (${width}px)`, async ({

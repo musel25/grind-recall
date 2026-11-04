@@ -4,12 +4,14 @@ import { randomUUID, randomBytes } from "node:crypto";
 import { execFileSync } from "node:child_process";
 const origin = "https://timer.musel.dev";
 const password = randomBytes(24).toString("hex");
+/** @type {import('../src/cloud').User[]} */
 const created = [];
 const browser = await chromium.launch({
   headless: true,
   executablePath: process.env.CHROME_PATH || "/usr/bin/google-chrome",
   args: ["--no-sandbox"],
 });
+/** @param {import('@playwright/test').Page} page @param {string} email */
 async function register(page, email) {
   await page.goto(`${origin}/grind/`);
   await page
@@ -29,6 +31,7 @@ async function register(page, email) {
   assert.equal(res.status(), 201);
   created.push((await res.json()).user);
 }
+/** @param {import('@playwright/test').Page} page */
 async function state(page) {
   return page.evaluate(async () =>
     (
@@ -44,6 +47,7 @@ try {
   });
   const page = await desktop.newPage();
   page.setDefaultTimeout(30000);
+  /** @type {string[]} */
   const errors = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto(origin);

@@ -13,7 +13,7 @@ import {
   setDayMinutes,
   undoAttempt,
 } from "../src/model";
-import { dailyPlan } from "../src/scheduler";
+import { addDays, dailyPlan, reviewSlot } from "../src/scheduler";
 import { simulatePace } from "../src/planning";
 import { validateState } from "../src/storage";
 
@@ -137,4 +137,44 @@ test("retired exercises leave reviews and forecasts but keep their saved progres
     problems.filter((p) => p.retired).map((p) => number(p.id)),
     [5, 6, 7, 10],
   );
+});
+
+test("a valid backup with a retired review today keeps recorded time and can still plan", () => {
+  const firstAttempt = recordAttempt(
+    initialState(day),
+    retired,
+    3,
+    day,
+    15,
+    "Keep",
+  );
+  const reviewDay = addDays(day, 1);
+  const state = validateState(
+    recordAttempt(firstAttempt, retired, 3, reviewDay, 20, "Keep"),
+  );
+  const before = structuredClone(state);
+  const plan = dailyPlan(state, reviewDay);
+  assert.equal(plan.doneMinutes, 20);
+  assert.equal(plan.todays.length, 1);
+  assert.ok(
+    ![...plan.reviews, ...plan.newProblems].some((p) => p.id === retired),
+  );
+  assert.deepEqual(state, before);
+});
+
+test("retired review dates do not occupy active review slots", () => {
+  const state = initialState(day);
+  const due = addDays(day, 7);
+  for (const p of [
+    ...problems.filter((p) => p.retired),
+    ...activeProblems().slice(0, 3),
+  ])
+    state.progress[p.id] = {
+      due,
+      card: null,
+      imported: true,
+      independent: false,
+      note: "Keep",
+    };
+  assert.equal(reviewSlot(due, state), due);
 });

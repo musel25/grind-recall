@@ -1,5 +1,8 @@
 # Grind Recall Implementation Plan
 
+> Historical record. This work was completed and later changed. Do not execute these instructions as a current plan. Read [the current architecture](../../architecture.md) and [project instructions](../../../AGENTS.md). Past deployment authorization does not apply to new work.
+
+
 Goal: ship a useful daily study planner with all 169 problems and honest review scheduling.
 Architecture: static React UI; pure typed schedule/state functions; FSRS dependency; browser persistence; VPS nginx static hosting.
 Spec: ../specs/2026-10-04-grind-recall-design.md

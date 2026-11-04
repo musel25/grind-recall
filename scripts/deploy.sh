@@ -4,9 +4,9 @@ cd "$(dirname "$0")/.."
 if [[ -n $(git status --porcelain) ]]; then
   echo 'Commit and push changes before deploying.' >&2; exit 1
 fi
+node scripts/check-pushed.mjs
 npm ci
-npm test
-npm run build
+npm run check
 release=$(git rev-parse --short=12 HEAD)
 archive=$(mktemp --suffix=.tar.gz)
 trap 'rm -f "$archive"' EXIT

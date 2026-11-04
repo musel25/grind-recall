@@ -1,4 +1,4 @@
-import { test, expect, type Page } from "@playwright/test";
+import { test, expect, type Page } from "./fixtures";
 
 const password = "test-password-123";
 test.beforeEach(async ({ page }) => {
@@ -23,6 +23,7 @@ async function serverState(page: Page) {
 test("migrates the original plan unchanged, syncs to a phone, and isolates a second account", async ({
   page,
   browser,
+  baseURL,
 }) => {
   const email = `migration-${crypto.randomUUID()}@example.com`;
   const registration = await page.request.post("/api/grind/register", {
@@ -46,18 +47,16 @@ test("migrates the original plan unchanged, syncs to a phone, and isolates a sec
       reviewMultiplier: 1,
     },
     progress: Object.fromEntries(
-      problems
-        .slice(0, 10)
-        .map((p) => [
-          p.id,
-          {
-            due: "2026-10-07",
-            card: null,
-            imported: true,
-            note: "",
-            independent: false,
-          },
-        ]),
+      problems.slice(0, 10).map((p) => [
+        p.id,
+        {
+          due: "2026-10-07",
+          card: null,
+          imported: true,
+          note: "",
+          independent: false,
+        },
+      ]),
     ),
     history: [],
     morningStudy: { "contains-duplicate": day },
@@ -83,7 +82,7 @@ test("migrates the original plan unchanged, syncs to a phone, and isolates a sec
     ),
   ).toEqual(legacy);
   const phone = await browser.newContext({
-    baseURL: test.info().project.use.baseURL,
+    baseURL,
     viewport: { width: 390, height: 844 },
   });
   const mobile = await phone.newPage();
@@ -122,7 +121,7 @@ test("migrates the original plan unchanged, syncs to a phone, and isolates a sec
     fullPage: true,
   });
   const partner = await browser.newContext({
-    baseURL: test.info().project.use.baseURL,
+    baseURL,
   });
   const other = await partner.newPage();
   await other.goto("./");
@@ -147,6 +146,7 @@ test("migrates the original plan unchanged, syncs to a phone, and isolates a sec
 test("offline work retries and concurrent device edits require explicit recovery", async ({
   page,
   browser,
+  baseURL,
 }) => {
   const email = `offline-${crypto.randomUUID()}@example.com`;
   expect(
@@ -162,7 +162,7 @@ test("offline work retries and concurrent device edits require explicit recovery
     .click();
   await expect.poll(async () => (await serverState(page)).version).toBe(1);
   const phone = await browser.newContext({
-    baseURL: test.info().project.use.baseURL,
+    baseURL,
   });
   const mobile = await phone.newPage();
   await signedIn(mobile, email);

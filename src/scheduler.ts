@@ -45,9 +45,11 @@ export function reviewSlot(
   const first = reviewDay(day, state);
   if (!state) return first;
   const counts = new Map<string, number>();
+  const activeIds = new Set(activeProblems(state).map((p) => p.id));
   for (const [id, p] of Object.entries(state.progress)) {
     if (
       id === problemId ||
+      !activeIds.has(id) ||
       catalog.find((problem) => problem.id === id)?.review === false
     )
       continue;
@@ -266,7 +268,8 @@ export function dailyPlan(s: StudyState, day: string) {
   const completedReviewEstimate = todays
     .filter((a) => !a.wasNew)
     .reduce((total, a) => {
-      const p = problems.find((p) => p.id === a.problemId)!;
+      // History can include exercises that have since left the active plan.
+      const p = catalog.find((p) => p.id === a.problemId)!;
       return total + Math.round(p.minutes * s.settings.reviewMultiplier);
     }, 0);
   let room = Math.max(
