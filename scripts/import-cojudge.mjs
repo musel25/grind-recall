@@ -13,6 +13,7 @@ const courseIds = [
   "pybites-collections",
   "pybites-decorators-context-managers",
 ];
+/** @type {Record<string, number>} */
 const minutes = { Easy: 7.5, Medium: 15, Hard: 22.5 };
 const selection = JSON.parse(
   await readFile(
@@ -24,6 +25,7 @@ const retired = new Set(selection.retired ?? []);
 if (retired.size !== (selection.retired ?? []).length)
   throw Error("Duplicate retired exercise");
 const seen = new Set();
+/** @param {string} path */
 const readJson = async (path) =>
   JSON.parse(await readFile(resolve(source, path), "utf8"));
 let order = 0;
@@ -33,6 +35,7 @@ for (const id of courseIds) {
   if (!selected.size || selected.size !== selection[id].length)
     throw Error(`Missing or duplicate first-pass selection: ${id}`);
   const course = await readJson(`courses/${id}/courseinfo.json`);
+  /** @type {import('../src/types').Problem[]} */
   const problems = [];
   for (const category of course["category-order"]) {
     for (const slug of course["problems-of-category"][category]) {

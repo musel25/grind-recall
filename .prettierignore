@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.cache/
+output/
+flight-study/
+docs/catalog/
+docs/superpowers/
+test-results/
+playwright-report/
+package-lock.json
+src/problems.json
+src/cojudge-courses.json

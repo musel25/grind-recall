@@ -1,5 +1,5 @@
-import data from "./problems.json";
-import courses from "./cojudge-courses.json";
+import data from "./problems.json" with { type: "json" };
+import courses from "./cojudge-courses.json" with { type: "json" };
 import type { Problem, StudyState } from "./types";
 export const cojudgeCourses: {
   id: string;

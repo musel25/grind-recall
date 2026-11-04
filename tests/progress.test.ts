@@ -9,7 +9,12 @@ import type { StudyState } from "../src/types";
 
 function text(state: StudyState) {
   return renderToStaticMarkup(
-    createElement(App, { store: { load: () => state, save: () => {} } }),
+    createElement<{ store: { load: () => StudyState; save: () => void } }>(
+      App,
+      {
+        store: { load: () => state, save: () => {} },
+      },
+    ),
   )
     .replace(/<[^>]+>/g, " ")
     .replace(/\s+/g, " ");

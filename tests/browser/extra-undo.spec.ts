@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 import type { StudyState } from "../../src/types";
 
 test("extra additions can be undone in reverse order after reload without losing progress", async ({

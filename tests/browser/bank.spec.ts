@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 
 test("Bank follows deadline weeks, preserves every problem and updates practice labels", async ({
   page,

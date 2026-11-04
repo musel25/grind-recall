@@ -9,7 +9,13 @@
     "preview": "vite preview --host 127.0.0.1",
     "test": "tsx --test tests/*.test.ts",
     "simulate": "tsx scripts/simulate.ts",
-    "test:live": "node scripts/check-live.mjs"
+    "test:live": "node scripts/check-live.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.tools.json",
+    "check": "npm run format:check && npm run typecheck && npm test && npm run build",
+    "setup:browser": "node scripts/setup-browser.mjs",
+    "test:browser": "playwright test"
   },
   "dependencies": {
     "lucide-react": "^1.52.0",
@@ -19,12 +25,16 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
+    "@types/node": "^22.20.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.1",
     "prettier": "^3.9.9",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
-    "vite": "^8.3.2"
+    "vite": "^8.3.5"
+  },
+  "engines": {
+    "node": ">=22.21.0 <23"
   }
 }

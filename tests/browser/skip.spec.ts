@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "./fixtures";
 import type { StudyState } from "../../src/types";
 
 for (const width of [1280, 390]) {
