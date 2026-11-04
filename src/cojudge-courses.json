@@ -15,7 +15,8 @@
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pb-02-complete-a-user-class-properties-and-representation-dunder-methods",
@@ -29,7 +30,8 @@
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pb-03-subclassing-vehicles-in-motion",
@@ -43,7 +45,8 @@
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pb-04-no-promo-twice-keep-state-in-a-class",
@@ -57,7 +60,8 @@
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pb-05-keep-state-in-a-class-make-its-instance-callable",
@@ -116,7 +120,8 @@
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pb-09-write-your-own-data-class",
@@ -130,7 +135,8 @@
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pb-10-complete-a-tox-ini-file-parser-class",
@@ -159,7 +165,8 @@
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pb-12-alternative-constructors",
@@ -173,7 +180,8 @@
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pb-13-enrich-a-class-with-dunder-methods",
@@ -187,7 +195,8 @@
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pb-14-write-a-context-manager",
@@ -201,7 +210,8 @@
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pb-15-abcs-and-class-inheritance",
@@ -215,7 +225,8 @@
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pb-16-matrix-multiplication-operator",
@@ -229,7 +240,8 @@
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pb-17-building-a-karma-app-implement-the-user-class",
@@ -243,7 +255,8 @@
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pb-18-write-a-score-property",
@@ -257,7 +270,8 @@
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pb-19-subclass-the-list-built-in",
@@ -271,7 +285,8 @@
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pb-20-ninja-rankings",
@@ -285,7 +300,8 @@
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pb-21-composition-inheritance-abstract-base-class-what",
@@ -299,7 +315,8 @@
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pb-22-evaluate-a-bridge-hand",
@@ -313,7 +330,8 @@
         "course": "pybites-oop",
         "stage": "Pybites OOP Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       }
     ]
   },
@@ -333,7 +351,8 @@
         "course": "pybites-pytest",
         "stage": "Pybites Pytest Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbt-02-write-tests-for-list-to-decimal",
@@ -347,7 +366,8 @@
         "course": "pybites-pytest",
         "stage": "Pybites Pytest Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbt-03-test-print-standard-output",
@@ -361,7 +381,8 @@
         "course": "pybites-pytest",
         "stage": "Pybites Pytest Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbt-04-test-fizzbuzz",
@@ -375,7 +396,8 @@
         "course": "pybites-pytest",
         "stage": "Pybites Pytest Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbt-05-test-code-that-parses-json-and-ip-ranges",
@@ -389,7 +411,8 @@
         "course": "pybites-pytest",
         "stage": "Pybites Pytest Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbt-06-mocking-a-standard-library-function",
@@ -403,7 +426,8 @@
         "course": "pybites-pytest",
         "stage": "Pybites Pytest Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbt-07-write-tests-for-an-account-class",
@@ -417,7 +441,8 @@
         "course": "pybites-pytest",
         "stage": "Pybites Pytest Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbt-08-zodiacal-data-parsing",
@@ -431,7 +456,8 @@
         "course": "pybites-pytest",
         "stage": "Pybites Pytest Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbt-09-test-a-number-guessing-game",
@@ -445,7 +471,8 @@
         "course": "pybites-pytest",
         "stage": "Pybites Pytest Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbt-10-test-a-movie-db-class",
@@ -459,7 +486,8 @@
         "course": "pybites-pytest",
         "stage": "Pybites Pytest Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       }
     ]
   },
@@ -479,7 +507,8 @@
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pdf-02-analyze-some-basic-car-data",
@@ -493,7 +522,8 @@
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pdf-03-pickling-objects",
@@ -507,7 +537,8 @@
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pdf-04-convert-dict-to-namedtuplejson",
@@ -521,7 +552,8 @@
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pdf-05-parse-omdb-movie-json-data",
@@ -535,7 +567,8 @@
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pdf-06-movie-data-analysis",
@@ -549,7 +582,8 @@
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pdf-07-parse-a-csv-file-and-create-a-bar-chart",
@@ -563,7 +597,8 @@
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pdf-08-what-south-park-characters-talk-most",
@@ -577,7 +612,8 @@
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pdf-09-use-the-ipinfo-api-to-lookup-ip-country",
@@ -591,7 +627,8 @@
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pdf-10-analyze-stock-data",
@@ -605,7 +642,8 @@
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pdf-11-turn-messy-csv-into-json",
@@ -619,7 +657,8 @@
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pdf-12-analyze-some-bite-stats-data",
@@ -633,7 +672,8 @@
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pdf-13-parse-income-distribution-from-latin-america-xml",
@@ -647,7 +687,8 @@
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pdf-14-analyze-nba-data-with-sqlite3",
@@ -661,7 +702,8 @@
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pdf-15-analyze-some-bite-stats-data-part-ii",
@@ -675,7 +717,8 @@
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pdf-16-marvel-data-analysis",
@@ -689,7 +732,8 @@
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pdf-17-15-way-rock-paper-scissors",
@@ -703,7 +747,8 @@
         "course": "pybites-data-formats",
         "stage": "Pybites Data Formats Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       }
     ]
   },
@@ -723,7 +768,8 @@
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbc-02-keep-a-queue-of-last-n-items",
@@ -737,7 +783,8 @@
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbc-03-group-names-by-country",
@@ -751,7 +798,8 @@
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbc-04-top-10-pybites-tags",
@@ -765,7 +813,8 @@
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbc-05-pybites-die-hard",
@@ -779,7 +828,8 @@
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbc-06-convert-dict-to-namedtuplejson",
@@ -793,7 +843,8 @@
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbc-07-find-the-most-common-word",
@@ -807,7 +858,8 @@
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbc-08-movie-data-analysis",
@@ -821,7 +873,8 @@
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbc-09-what-south-park-characters-talk-most",
@@ -835,7 +888,8 @@
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbc-10-beautifulsoup-ii-scrape-us-holidays",
@@ -849,7 +903,8 @@
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbc-11-make-an-index-of-story-characters",
@@ -863,7 +918,8 @@
         "course": "pybites-collections",
         "stage": "Pybites Collections Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       }
     ]
   },
@@ -883,7 +939,8 @@
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbdc-02-write-a-decorator-with-argument",
@@ -897,7 +954,8 @@
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbdc-03-write-a-login_required-decorator",
@@ -911,7 +969,8 @@
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbdc-04-write-a-numbers-validation-decorator",
@@ -925,7 +984,8 @@
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbdc-05-suppressing-exceptions",
@@ -939,7 +999,8 @@
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbdc-06-capture-stdout",
@@ -953,7 +1014,8 @@
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbdc-07-write-a-context-manager",
@@ -967,7 +1029,8 @@
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbdc-08-the-singledispatch-countdown-challenge",
@@ -981,7 +1044,8 @@
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbdc-09-write-a-performance-monitoring-context-manager",
@@ -995,7 +1059,8 @@
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbdc-10-manipulate-string-decorator",
@@ -1009,7 +1074,8 @@
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbdc-11-cached-property-decorator",
@@ -1023,7 +1089,8 @@
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
         "review": true,
-        "deferred": true
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "pbdc-12-write-a-retry-decorator",
@@ -1037,7 +1104,8 @@
         "course": "pybites-decorators-context-managers",
         "stage": "Pybites Decorators and Context Managers Path",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       }
     ]
   }

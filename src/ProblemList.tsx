@@ -45,8 +45,8 @@ export function ProblemList({
           {activeProblems(state).length} active problems in prerequisite-based
           learning order, grouped across your {groups.length}-week plan by
           estimated effort. This is your roadmap; Today accounts for reviews and
-          study breaks. Includes all 75 Grind problems, your practiced extras,
-          and the Python courses on Cojudge.
+          study breaks. Includes all 75 Grind problems and your practiced
+          LeetCode extras.
         </p>
       </div>
       <div className="list-tools">
@@ -99,7 +99,8 @@ export function ProblemList({
       {collection === "Archive" && (
         <p className="results-count">
           Archived problems are excluded from daily assignments and forecasts.
-          Your practiced extras remain in the active plan.
+          Your practiced LeetCode extras remain in the active plan. Python
+          courses stay archived, including practiced exercises.
         </p>
       )}
       {collection === "Archive" &&
@@ -116,7 +117,7 @@ export function ProblemList({
               <span className="meta">
                 {p.difficulty} ·{" "}
                 {p.course
-                  ? "Optional · Open on Cojudge"
+                  ? "Archived · Open on Cojudge"
                   : "Archived · Open on LeetCode"}
               </span>
             </span>

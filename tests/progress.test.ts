@@ -35,8 +35,8 @@ test("a completed active plan with retired progress displays 100 percent", () =>
     };
   const rendered = text(state);
   assert.match(rendered, /100%/);
-  assert.match(rendered, /100 of 100 practiced/);
-  assert.match(rendered, /100 solved independently/);
+  assert.match(rendered, /75 of 75 practiced/);
+  assert.match(rendered, /75 solved independently/);
 });
 
 test("partial active progress excludes retired work from practiced and independent counts", () => {
@@ -54,7 +54,7 @@ test("partial active progress excludes retired work from practiced and independe
     };
   const before = structuredClone(state);
   const rendered = text(state);
-  assert.match(rendered, /1 of 100 practiced/);
+  assert.match(rendered, /1 of 75 practiced/);
   assert.match(rendered, /1 solved independently/);
   assert.deepEqual(state, before);
 });

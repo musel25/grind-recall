@@ -3,172 +3,81 @@ import assert from "node:assert/strict";
 import {
   activeProblems,
   archivedProblems,
-  cojudgeCourses,
   problems,
+  progressSummary,
 } from "../src/catalog";
 import {
   initialState,
   markMorningStudy,
   recordAttempt,
   setDayMinutes,
-  undoAttempt,
 } from "../src/model";
-import { addDays, dailyPlan, reviewSlot } from "../src/scheduler";
-import { simulatePace } from "../src/planning";
+import { dailyPlan, reviewSlot, addDays } from "../src/scheduler";
+import { simulatePace, estimatePlan } from "../src/planning";
 import { validateState } from "../src/storage";
 
-const day = "2026-10-29";
-const selectedNumbers: Record<string, number[]> = {
-  "pybites-oop": [1, 2, 3, 4, 9, 12, 15],
-  "pybites-pytest": [1, 3, 5, 6, 7, 10],
-  "pybites-data-formats": [5, 9, 11, 14],
-  "pybites-collections": [2, 3, 7, 8],
-  "pybites-decorators-context-managers": [1, 3, 7, 12],
-};
-const number = (id: string) => Number(id.match(/^[a-z]+-(\d+)-/)![1]);
-const first = "pb-01-write-a-property";
-const optional = "pb-08-oop-fun-at-the-zoo";
-const retired = "pb-06-subclass-the-dict-built-in";
-const selected = problems.filter(
-  (p) => p.course && selectedNumbers[p.course].includes(number(p.id)),
-);
+const day = "2026-11-04";
+const python = problems.filter((p) => p.course);
 
-test("the default Python plan contains the 25 selected exercises across all five topics", () => {
-  const active = activeProblems();
-  assert.equal(active.filter((p) => p.course).length, 25);
-  for (const course of cojudgeCourses) {
-    assert.deepEqual(
-      active.filter((p) => p.course === course.id).map((p) => number(p.id)),
-      selectedNumbers[course.id],
-    );
+test("all Python courses stay archived even with saved progress and morning marks", () => {
+  let state = initialState(day);
+  for (const p of python) {
+    state = markMorningStudy(state, p.id, day, true);
+    state = recordAttempt(state, p.id, 3, day, 15, "Keep this note");
   }
-  assert.equal(
-    active.filter((p) => p.course && p.difficulty === "Hard").length,
-    5,
-  );
-  assert.equal(archivedProblems().filter((p) => p.course).length, 47);
-  assert.equal(problems.filter((p) => p.course).length, 72);
-});
-
-test("daily planning and the finish forecast exclude untouched optional exercises", () => {
-  const state = setDayMinutes(initialState(day), day, 240);
-  for (const p of problems
-    .filter((p) => !p.course && (p.core || (p.bloomberg && !p.deferred)))
-    .concat(selected)) {
-    if (p.id !== first)
-      state.progress[p.id] = {
-        due: "2027-12-01",
-        card: null,
-        imported: true,
-        independent: false,
-        note: "",
-      };
-  }
-  state.planning!.days[day].extras = [optional];
-  const before = JSON.stringify(state);
-  const plan = dailyPlan(state, day);
-  assert.deepEqual(
-    plan.newProblems.map((p) => p.id),
-    [first],
-  );
-  assert.equal(plan.remainingCount, 1);
-  assert.equal(plan.nextExtra, undefined);
-  assert.deepEqual(simulatePace(state, day, 10, 30), {
-    finish: day,
-    minutes: 15,
+  const restored = validateState(JSON.parse(JSON.stringify(state)));
+  const before = structuredClone(restored);
+  assert.equal(python.length, 72);
+  assert.ok(python.every((p) => p.retired && p.deferred));
+  assert.equal(activeProblems(restored).length, 75);
+  assert.equal(archivedProblems(restored).filter((p) => p.course).length, 72);
+  assert.deepEqual(progressSummary(restored), {
+    total: 75,
+    practiced: 0,
+    independent: 0,
   });
-  assert.equal(JSON.stringify(state), before);
-});
-
-test("previously practiced optional exercises retain reviews, notes, backups, and Undo", () => {
-  const original = initialState(day);
-  const practiced = recordAttempt(
-    original,
-    optional,
-    3,
-    day,
-    20,
-    "Existing note",
-  );
-  const restored = validateState(JSON.parse(JSON.stringify(practiced)));
-  assert.deepEqual(restored, practiced);
-  assert.ok(activeProblems(restored).some((p) => p.id === optional));
-  assert.ok(!archivedProblems(restored).some((p) => p.id === optional));
+  const plan = dailyPlan(restored, addDays(day, 1));
   assert.ok(
-    dailyPlan(restored, restored.progress[optional].due).reviews.some(
-      (p) => p.id === optional,
+    [...plan.reviews, ...plan.newProblems, ...plan.eveningProblems].every(
+      (p) => !p.course,
     ),
   );
-  assert.equal(restored.progress[optional].note, "Existing note");
-  const undone = undoAttempt(restored);
-  assert.ok(!activeProblems(undone).some((p) => p.id === optional));
-  assert.ok(archivedProblems(undone).some((p) => p.id === optional));
+  assert.deepEqual(restored, before);
 });
 
-test("pending morning work on an optional exercise remains in the active plan", () => {
-  const state = markMorningStudy(initialState(day), optional, day, true);
-  assert.ok(activeProblems(state).some((p) => p.id === optional));
-  assert.ok(
-    dailyPlan(state, day).eveningProblems.some((p) => p.id === optional),
-  );
-  assert.deepEqual(validateState(JSON.parse(JSON.stringify(state))), state);
-  const removed = markMorningStudy(state, optional, day, false);
-  assert.ok(!activeProblems(removed).some((p) => p.id === optional));
-});
-
-test("retired exercises leave reviews and forecasts but keep their saved progress", () => {
-  const practiced = recordAttempt(
-    initialState(day),
-    retired,
-    3,
+test("archived pending morning work and explicit extras cannot enter the daily queue", () => {
+  let state = markMorningStudy(
+    setDayMinutes(initialState(day), day, 240),
+    python[0].id,
     day,
-    20,
-    "Retired note",
+    true,
   );
-  assert.ok(!activeProblems(practiced).some((p) => p.id === retired));
-  assert.ok(archivedProblems(practiced).some((p) => p.id === retired));
-  assert.ok(
-    !dailyPlan(practiced, practiced.progress[retired].due).reviews.some(
-      (p) => p.id === retired,
-    ),
-  );
-  assert.equal(practiced.progress[retired].note, "Retired note");
-  assert.deepEqual(
-    problems.filter((p) => p.retired).map((p) => number(p.id)),
-    [5, 6, 7, 10],
-  );
-});
-
-test("a valid backup with a retired review today keeps recorded time and can still plan", () => {
-  const firstAttempt = recordAttempt(
-    initialState(day),
-    retired,
-    3,
-    day,
-    15,
-    "Keep",
-  );
-  const reviewDay = addDays(day, 1);
-  const state = validateState(
-    recordAttempt(firstAttempt, retired, 3, reviewDay, 20, "Keep"),
-  );
+  state.planning!.days[day] = { extras: [python[1].id] };
   const before = structuredClone(state);
-  const plan = dailyPlan(state, reviewDay);
-  assert.equal(plan.doneMinutes, 20);
-  assert.equal(plan.todays.length, 1);
+  const plan = dailyPlan(state, day);
   assert.ok(
-    ![...plan.reviews, ...plan.newProblems].some((p) => p.id === retired),
+    [...plan.newProblems, ...plan.eveningProblems].every((p) => !p.course),
   );
   assert.deepEqual(state, before);
+  assert.deepEqual(validateState(JSON.parse(JSON.stringify(state))), state);
+});
+
+test("Grind 75 and practiced LeetCode extras stay active while Python does not affect forecasts", () => {
+  let state = initialState(day);
+  const extra = problems.find((p) => !p.core && !p.course)!;
+  state = recordAttempt(state, extra.id, 3, day, 30, "Keep LeetCode");
+  assert.equal(activeProblems(state).length, 76);
+  assert.ok(activeProblems(state).some((p) => p.id === extra.id));
+  const forecast = simulatePace(state, addDays(day, 1), 10, 730);
+  state = recordAttempt(state, python[0].id, 1, day, 15, "Keep Python");
+  assert.deepEqual(simulatePace(state, addDays(day, 1), 10, 730), forecast);
+  assert.equal(state.progress[extra.id].note, "Keep LeetCode");
 });
 
 test("retired review dates do not occupy active review slots", () => {
   const state = initialState(day);
   const due = addDays(day, 7);
-  for (const p of [
-    ...problems.filter((p) => p.retired),
-    ...activeProblems().slice(0, 3),
-  ])
+  for (const p of [...python, ...activeProblems().slice(0, 3)])
     state.progress[p.id] = {
       due,
       card: null,
@@ -177,4 +86,16 @@ test("retired review dates do not occupy active review slots", () => {
       note: "Keep",
     };
   assert.equal(reviewSlot(due, state), due);
+});
+
+test("a later archived Python completion cannot change the active plan finish date", () => {
+  let state = initialState("2026-11-01");
+  for (const p of activeProblems(state))
+    state = recordAttempt(state, p.id, 3, "2026-11-01", 15, "");
+  const before = structuredClone(state);
+  const finish = estimatePlan(state, day);
+  assert.equal(finish.finish, "2026-11-01");
+  state = recordAttempt(state, python[0].id, 3, "2026-11-03", 15, "Keep");
+  assert.deepEqual(estimatePlan(state, day), finish);
+  assert.deepEqual(state.history.slice(0, -1), before.history);
 });

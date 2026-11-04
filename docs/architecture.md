@@ -16,15 +16,15 @@ This file describes the current app. The README describes setup and use. Older s
 | `src/App.tsx`                                  | App state, navigation, persistence callbacks, settings, and the practice dialog.  |
 | `src/TodayView.tsx`                            | Daily summary, queue, completed work, adjustments, and upcoming reviews.          |
 | `src/StudySidebar.tsx`                         | Navigation and active progress display.                                           |
-| `src/ProblemList.tsx`, `src/CourseList.tsx`    | Problem bank and Python course views.                                             |
+| `src/ProblemList.tsx`                          | Active problem bank and archive.                                                  |
 | `src/ProblemRow.tsx`, `src/ProblemSection.tsx` | Shared study rows and section controls.                                           |
 | `src/Session.tsx`, `src/Settings.tsx`          | Practice ratings and plan settings.                                               |
 
 ## Catalog and Historical Data
 
-The default active list has 75 algorithm problems and 25 selected Python exercises. Python retains all 72 exercises in its catalog. Practiced optional exercises and pending morning work can remain active per account. Four retired OOP exercises remain archived even when practiced. Previously practiced algorithm extras are account-specific.
+The default active list has 75 Grind algorithm problems. Previously practiced LeetCode extras remain active per account. All 72 Python exercises are deferred and retired, including practiced exercises and pending morning work. The importer preserves this archive policy. Python remains in the full catalog for backups and historical attempts. The sidebar has no Python courses view.
 
-Active reviewable exercises use FSRS. Old Python completions without ratings remain valid. They become baseline reviews without invented ratings or memory history.
+Active reviewable exercises use FSRS. Old Python completions without ratings remain valid in the archive. No ratings or memory history are invented.
 
 Use the active list for assignments, forecast completion, review-slot allocation, and progress percentages. Use the full catalog for historical attempts. Retired exercises can appear in valid backups or today's history. Their recorded time still counts toward actual practice time. Keep saved progress and notes intact.
 
@@ -34,7 +34,7 @@ Store study days as `YYYY-MM-DD`. Use the selected study timezone to determine t
 
 Weekly budgets run Monday through Sunday. Prorate the first partial week from the plan start. Old weekly override keys apply to the calendar week containing the saved date. Journey week numbers count seven-day periods from the plan start. They are display labels, not budget boundaries.
 
-Due reviews take priority and stay visible above budget. New problems fit the remaining daily time. Algorithms and Python alternate in learning order. Reconstruct original daily candidates before removing completed or skipped work. Do not silently refill those slots.
+Due reviews take priority and stay visible above budget. New problems fit the remaining daily time. New assignments use active algorithm problems in learning order. Reconstruct original daily candidates before removing completed or skipped work. Do not silently refill those slots.
 
 Forecasts clone saved state. They reuse the daily queue and scheduler and assume future Good ratings. Time mode estimates a finish date. Deadline mode searches for a sufficient weekly budget and verifies it with the same simulation. Completion means every active problem has a first attempt. Reviews continue afterward.
 

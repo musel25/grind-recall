@@ -17,7 +17,6 @@ import { activeProblems, progressSummary } from "./catalog";
 import { StudySidebar } from "./StudySidebar";
 import { TodayView } from "./TodayView";
 import { ProblemList } from "./ProblemList";
-import { CourseList } from "./CourseList";
 type AppStore = {
   load: () => StudyState | null;
   save: (next: StudyState, expected: number | null) => void;
@@ -123,7 +122,7 @@ export default function App({
             Remember tomorrow.
           </h1>
           <p>
-            Grind 75 with spaced reviews, plus Python courses on Cojudge.
+            Grind 75 with spaced reviews and your practiced LeetCode extras.
             <br />
             One clear list of what to work on each day.
           </p>
@@ -183,10 +182,8 @@ export default function App({
             </>
           )}
           <small>
-            Your pace · {activeProblems().filter((p) => !p.course).length}{" "}
-            algorithm problems ·{" "}
-            {activeProblems().filter((p) => p.course).length} Python exercises ·
-            Synced to your account
+            Your pace · {activeProblems().length} Grind problems · Synced to
+            your account
           </small>
         </div>
         <a
@@ -303,9 +300,6 @@ export default function App({
             groups={roadmap}
           />
         )}
-        {view === "courses" && (
-          <CourseList state={state} day={day} onSelect={setSelected} />
-        )}
         {view === "settings" && (
           <Settings
             state={state}
@@ -319,7 +313,7 @@ export default function App({
         )}
         <footer>
           <span>Consistency over cramming.</span>
-          <span>Grind 75 + Python courses</span>
+          <span>Grind 75 + practiced LeetCode extras</span>
         </footer>
       </main>
       {selected && (
