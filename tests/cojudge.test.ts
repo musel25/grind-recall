@@ -13,7 +13,7 @@ import type { StudyState } from "../src/types";
 
 const day = "2026-10-28";
 const first = "pb-01-write-a-property";
-const python = () => problems.filter((p) => !!p.course);
+const python = () => problems.filter((p) => p.course?.startsWith("pybites-"));
 const saved = {
   due: "2027-01-01",
   card: null,

@@ -1108,5 +1108,137 @@
         "retired": true
       }
     ]
+  },
+  {
+    "id": "applied-ai-nine",
+    "title": "Applied AI — 9 Exercises",
+    "problems": [
+      {
+        "id": "ai-01-clean-documents",
+        "title": "01. Clean Documents",
+        "url": "https://cojudge.musel.dev/problems/ai-01-clean-documents",
+        "difficulty": "Easy",
+        "minutes": 10,
+        "estimatedMinutes": true,
+        "week": 1,
+        "order": 73,
+        "course": "applied-ai-nine",
+        "stage": "Applied AI — 9 Exercises",
+        "review": true,
+        "deferred": false
+      },
+      {
+        "id": "ai-02-split-documents",
+        "title": "02. Split Documents",
+        "url": "https://cojudge.musel.dev/problems/ai-02-split-documents",
+        "difficulty": "Easy",
+        "minutes": 10,
+        "estimatedMinutes": true,
+        "week": 1,
+        "order": 74,
+        "course": "applied-ai-nine",
+        "stage": "Applied AI — 9 Exercises",
+        "review": true,
+        "deferred": false
+      },
+      {
+        "id": "ai-03-find-similar-documents",
+        "title": "03. Find Similar Documents",
+        "url": "https://cojudge.musel.dev/problems/ai-03-find-similar-documents",
+        "difficulty": "Medium",
+        "minutes": 20,
+        "estimatedMinutes": true,
+        "week": 1,
+        "order": 75,
+        "course": "applied-ai-nine",
+        "stage": "Applied AI — 9 Exercises",
+        "review": true,
+        "deferred": false
+      },
+      {
+        "id": "ai-04-build-context",
+        "title": "04. Build Context",
+        "url": "https://cojudge.musel.dev/problems/ai-04-build-context",
+        "difficulty": "Easy",
+        "minutes": 10,
+        "estimatedMinutes": true,
+        "week": 1,
+        "order": 76,
+        "course": "applied-ai-nine",
+        "stage": "Applied AI — 9 Exercises",
+        "review": true,
+        "deferred": false
+      },
+      {
+        "id": "ai-05-validate-extracted-tasks",
+        "title": "05. Validate Extracted Tasks",
+        "url": "https://cojudge.musel.dev/problems/ai-05-validate-extracted-tasks",
+        "difficulty": "Medium",
+        "minutes": 15,
+        "estimatedMinutes": true,
+        "week": 1,
+        "order": 77,
+        "course": "applied-ai-nine",
+        "stage": "Applied AI — 9 Exercises",
+        "review": true,
+        "deferred": false
+      },
+      {
+        "id": "ai-06-check-citations",
+        "title": "06. Check Citations",
+        "url": "https://cojudge.musel.dev/problems/ai-06-check-citations",
+        "difficulty": "Easy",
+        "minutes": 10,
+        "estimatedMinutes": true,
+        "week": 1,
+        "order": 78,
+        "course": "applied-ai-nine",
+        "stage": "Applied AI — 9 Exercises",
+        "review": true,
+        "deferred": false
+      },
+      {
+        "id": "ai-07-evaluate-search",
+        "title": "07. Evaluate Search",
+        "url": "https://cojudge.musel.dev/problems/ai-07-evaluate-search",
+        "difficulty": "Medium",
+        "minutes": 15,
+        "estimatedMinutes": true,
+        "week": 1,
+        "order": 79,
+        "course": "applied-ai-nine",
+        "stage": "Applied AI — 9 Exercises",
+        "review": true,
+        "deferred": false
+      },
+      {
+        "id": "ai-08-cache-embeddings",
+        "title": "08. Cache Embeddings",
+        "url": "https://cojudge.musel.dev/problems/ai-08-cache-embeddings",
+        "difficulty": "Medium",
+        "minutes": 15,
+        "estimatedMinutes": true,
+        "week": 1,
+        "order": 80,
+        "course": "applied-ai-nine",
+        "stage": "Applied AI — 9 Exercises",
+        "review": true,
+        "deferred": false
+      },
+      {
+        "id": "ai-09-retry-failed-requests",
+        "title": "09. Retry Failed Requests",
+        "url": "https://cojudge.musel.dev/problems/ai-09-retry-failed-requests",
+        "difficulty": "Medium",
+        "minutes": 15,
+        "estimatedMinutes": true,
+        "week": 1,
+        "order": 81,
+        "course": "applied-ai-nine",
+        "stage": "Applied AI — 9 Exercises",
+        "review": true,
+        "deferred": false
+      }
+    ]
   }
 ]

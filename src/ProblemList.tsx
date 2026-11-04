@@ -45,8 +45,8 @@ export function ProblemList({
           {activeProblems(state).length} active problems in prerequisite-based
           learning order, grouped across your {groups.length}-week plan by
           estimated effort. This is your roadmap; Today accounts for reviews and
-          study breaks. Includes all 75 Grind problems and your practiced
-          LeetCode extras.
+          study breaks. Includes 75 Grind problems, nine Applied AI exercises,
+          and your practiced LeetCode extras.
         </p>
       </div>
       <div className="list-tools">
@@ -99,8 +99,8 @@ export function ProblemList({
       {collection === "Archive" && (
         <p className="results-count">
           Archived problems are excluded from daily assignments and forecasts.
-          Your practiced LeetCode extras remain in the active plan. Python
-          courses stay archived, including practiced exercises.
+          Your practiced LeetCode extras remain in the active plan. The five
+          Pybites courses stay archived, including practiced exercises.
         </p>
       )}
       {collection === "Archive" &&

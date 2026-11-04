@@ -12,12 +12,12 @@ import {
   recordAttempt,
   setDayMinutes,
 } from "../src/model";
-import { dailyPlan, reviewSlot, addDays } from "../src/scheduler";
+import { dailyPlan, reviewSlot, addDays, studyWeek } from "../src/scheduler";
 import { simulatePace, estimatePlan } from "../src/planning";
 import { validateState } from "../src/storage";
 
 const day = "2026-11-04";
-const python = problems.filter((p) => p.course);
+const python = problems.filter((p) => p.course?.startsWith("pybites-"));
 
 test("all Python courses stay archived even with saved progress and morning marks", () => {
   let state = initialState(day);
@@ -29,17 +29,21 @@ test("all Python courses stay archived even with saved progress and morning mark
   const before = structuredClone(restored);
   assert.equal(python.length, 72);
   assert.ok(python.every((p) => p.retired && p.deferred));
-  assert.equal(activeProblems(restored).length, 75);
-  assert.equal(archivedProblems(restored).filter((p) => p.course).length, 72);
+  assert.equal(activeProblems(restored).length, 84);
+  assert.equal(
+    archivedProblems(restored).filter((p) => p.course?.startsWith("pybites-"))
+      .length,
+    72,
+  );
   assert.deepEqual(progressSummary(restored), {
-    total: 75,
+    total: 84,
     practiced: 0,
     independent: 0,
   });
   const plan = dailyPlan(restored, addDays(day, 1));
   assert.ok(
     [...plan.reviews, ...plan.newProblems, ...plan.eveningProblems].every(
-      (p) => !p.course,
+      (p) => !p.retired,
     ),
   );
   assert.deepEqual(restored, before);
@@ -56,21 +60,25 @@ test("archived pending morning work and explicit extras cannot enter the daily q
   const before = structuredClone(state);
   const plan = dailyPlan(state, day);
   assert.ok(
-    [...plan.newProblems, ...plan.eveningProblems].every((p) => !p.course),
+    [...plan.newProblems, ...plan.eveningProblems].every((p) => !p.retired),
   );
   assert.deepEqual(state, before);
   assert.deepEqual(validateState(JSON.parse(JSON.stringify(state))), state);
 });
 
-test("Grind 75 and practiced LeetCode extras stay active while Python does not affect forecasts", () => {
+test("Grind 75 and practiced LeetCode extras stay active while archived reviews do not affect future-week forecasts", () => {
   let state = initialState(day);
   const extra = problems.find((p) => !p.core && !p.course)!;
   state = recordAttempt(state, extra.id, 3, day, 30, "Keep LeetCode");
-  assert.equal(activeProblems(state).length, 76);
+  assert.equal(activeProblems(state).length, 85);
   assert.ok(activeProblems(state).some((p) => p.id === extra.id));
-  const forecast = simulatePace(state, addDays(day, 1), 10, 730);
+  // Archived practice still counts toward actual time in its calendar week.
+  // Compare the next week to isolate assignments and reviews from that time.
+  const nextWeek = "2026-11-09";
+  const forecast = simulatePace(state, nextWeek, 10, 730);
   state = recordAttempt(state, python[0].id, 1, day, 15, "Keep Python");
-  assert.deepEqual(simulatePace(state, addDays(day, 1), 10, 730), forecast);
+  assert.deepEqual(simulatePace(state, nextWeek, 10, 730), forecast);
+  assert.equal(studyWeek(state, day).doneMinutes, 45);
   assert.equal(state.progress[extra.id].note, "Keep LeetCode");
 });
 
