@@ -45,6 +45,7 @@ import {
   archivedProblems,
   problemSource,
   cojudgeCourses,
+  progressSummary,
 } from "./catalog";
 type AppStore = {
   load: () => StudyState | null;
@@ -105,7 +106,10 @@ export default function App({
     [savedState, day],
   );
   const active = useMemo(() => activeProblems(savedState), [savedState]);
-  const total = active.length;
+  const { total, practiced, independent } = useMemo(
+    () => progressSummary(savedState),
+    [savedState],
+  );
   const roadmap = useMemo(
     () => bankWeeks(active, projection?.weeks ?? 15),
     [active, projection?.weeks],
@@ -240,10 +244,6 @@ export default function App({
     : null;
   const displayWeeks = projection!.weeks;
   const trackWeeks = Math.min(52, displayWeeks);
-  const practiced = Object.keys(state.progress).length;
-  const independent = Object.values(state.progress).filter(
-    (p) => p.independent,
-  ).length;
   const week = Math.min(
     displayWeeks,
     Math.max(1, Math.floor(dayDiff(state.settings.startDate, day) / 7) + 1),

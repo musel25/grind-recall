@@ -39,6 +39,15 @@ export function archivedProblems(state?: StudyState | null): Problem[] {
   const active = new Set(activeProblems(state).map((p) => p.id));
   return problems.filter((p) => !active.has(p.id));
 }
+export function progressSummary(state?: StudyState | null) {
+  const active = activeProblems(state);
+  return {
+    total: active.length,
+    practiced: active.filter((p) => !!state?.progress[p.id]).length,
+    independent: active.filter((p) => state?.progress[p.id]?.independent)
+      .length,
+  };
+}
 export function problemSource(p: Problem): string {
   if (p.course)
     return (
