@@ -21,7 +21,7 @@ npm run setup:browser # first run: pinned Timer backend and managed Chromium
 npm run test:browser  # starts isolated servers and a temporary database per test
 ```
 
-On a supported Linux host that needs browser system packages, use `npm run setup:browser -- --with-deps`. Tests use the real Timer API routes and keep production rate limits enabled. They do not use a personal database. GitHub Actions runs local checks and browser tests for pull requests and development branches. `npm run test:live` is a separate production action and is excluded from CI.
+On a supported Linux host that needs browser system packages, use `npm run setup:browser -- --with-deps`. Tests use the real Timer API routes and keep production rate limits enabled. They do not use a personal database. GitHub Actions runs local checks and browser tests for pull requests and `main`. `npm run test:live` is a separate production action and is excluded from CI.
 
 ## Scheduling and the math
 

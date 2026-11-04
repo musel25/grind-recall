@@ -86,3 +86,5 @@ Files: `AGENTS.md`, `README.md`, `docs/architecture.md`, historical plans and sp
 
 - Task 4 complete: `npm run check` passes with 93 unit tests. The full managed-Chromium suite passes with 22 browser tests, including desktop/mobile retired history and account-sync cases. The isolated backend setup completed from the pinned public revision.
 - Task 5 complete: Local documentation links pass. `npm run simulate` passes. Independent follow-up review has no remaining actionable findings. Mobile course layout was inspected. No deployment was performed.
+
+- Hosted verification: The first hosted code check passed. Runtime annotations identified deprecated Node 20 actions and an upcoming runner migration. Pin Ubuntu 24.04 and Node 24 action runtimes. Run CI on pull requests and main to avoid duplicate push/PR runs for topic branches.
