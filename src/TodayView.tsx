@@ -405,7 +405,7 @@ export function TodayView({
             <button
               key={a.id}
               onClick={() =>
-                setSelected(active.find((p) => p.id === a.problemId)!)
+                setSelected(problems.find((p) => p.id === a.problemId)!)
               }
             >
               <Check size={15} />
