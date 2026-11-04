@@ -65,11 +65,11 @@ for (const width of [1280, 390]) {
     );
     await page.reload();
     await expect(page.locator(".sidebar-plan")).toContainText(
-      "75 of 75 practiced",
+      "84 of 84 practiced",
     );
     await expect(page.locator(".sidebar-plan")).toContainText("100%");
     await expect(page.locator(".sidebar-plan")).toContainText(
-      "75 solved independently",
+      "84 solved independently",
     );
     await expect(
       page.getByRole("region", { name: "Today's summary" }),

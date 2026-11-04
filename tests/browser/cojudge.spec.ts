@@ -18,7 +18,7 @@ for (const width of [1440, 390]) {
     });
     expect(response.status()).toBe(201);
     const day = new Date().toISOString().slice(0, 10);
-    const python = problems.filter((p) => p.course);
+    const python = problems.filter((p) => p.course?.startsWith("pybites-"));
     const extra = problems.find((p) => !p.core && !p.course)!;
     let state = initialState(addDays(day, -1), true);
     state.settings.timezone = "UTC";
@@ -76,7 +76,7 @@ for (const width of [1440, 390]) {
       page.getByRole("button", { name: "Python courses", exact: true }),
     ).toHaveCount(0);
     await expect(page.locator(".sidebar-plan")).toContainText(
-      "11 of 76 practiced",
+      "11 of 85 practiced",
     );
     for (const p of python.slice(0, 3))
       await expect(
@@ -86,7 +86,7 @@ for (const width of [1440, 390]) {
     await page
       .getByRole("button", { name: "All problems", exact: true })
       .click();
-    await expect(page.locator(".week-group .problem-row")).toHaveCount(76);
+    await expect(page.locator(".week-group .problem-row")).toHaveCount(85);
     await page.getByLabel("Search problems").fill(extra.title);
     await expect(
       page.getByRole("button", { name: new RegExp(extra.title) }),

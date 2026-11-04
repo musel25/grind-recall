@@ -22,7 +22,7 @@ This file describes the current app. The README describes setup and use. Older s
 
 ## Catalog and Historical Data
 
-The default active list has 75 Grind algorithm problems. Previously practiced LeetCode extras remain active per account. All 72 Python exercises are deferred and retired, including practiced exercises and pending morning work. The importer preserves this archive policy. Python remains in the full catalog for backups and historical attempts. The sidebar has no Python courses view.
+The default active list has 84 problems: 75 Grind algorithm problems and nine Applied AI exercises. An account with four practiced LeetCode extras has 88. Previously practiced LeetCode extras remain active per account. All 72 Pybites exercises are deferred and retired, including practiced exercises and pending morning work. The importer preserves this archive policy. Pybites remains in the full catalog for backups and historical attempts. The sidebar has no courses view. Applied AI exercises appear in All problems and Today. `scripts/import-cojudge.mjs` takes the archived content root and an optional second root for the native `applied-ai-nine` course. Pass both roots to refresh all 81 Cojudge records. A legacy one-root refresh preserves the existing nine AI records. Without a complete existing AI course, it stops before writing. It rejects missing or reordered native AI exercises. It preserves archived metadata and maps `studyMinutes / 2` to the catalog estimate, matching the scheduler’s 2× first-study multiplier.
 
 Active reviewable exercises use FSRS. Old Python completions without ratings remain valid in the archive. No ratings or memory history are invented.
 
@@ -34,7 +34,7 @@ Store study days as `YYYY-MM-DD`. Use the selected study timezone to determine t
 
 Weekly budgets run Monday through Sunday. Prorate the first partial week from the plan start. Old weekly override keys apply to the calendar week containing the saved date. Journey week numbers count seven-day periods from the plan start. They are display labels, not budget boundaries.
 
-Due reviews take priority and stay visible above budget. New problems fit the remaining daily time. New assignments use active algorithm problems in learning order. Reconstruct original daily candidates before removing completed or skipped work. Do not silently refill those slots.
+Due reviews take priority and stay visible above budget. New problems fit the remaining daily time. New assignments alternate active algorithms and Applied AI exercises in their respective learning order. Both tracks share one time budget and the FSRS review scheduler. Reconstruct original daily candidates before removing completed or skipped work. Do not silently refill those slots.
 
 Forecasts clone saved state. They reuse the daily queue and scheduler and assume future Good ratings. Time mode estimates a finish date. Deadline mode searches for a sufficient weekly budget and verifies it with the same simulation. Completion means every active problem has a first attempt. Reviews continue afterward.
 

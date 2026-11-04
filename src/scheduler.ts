@@ -178,18 +178,21 @@ export function awaitingEvening(s: StudyState, id: string, day: string) {
 // removing today's completions so an early finish never adds replacement work.
 function learningOrder(problems: Problem[], state: StudyState, day: string) {
   const algorithms = problems.filter((p) => !p.course);
-  const python = problems.filter((p) => !!p.course);
-  const previous = state.history.filter((a) => a.wasNew && a.day < day).at(-1);
-  let pythonFirst =
+  const courses = problems.filter((p) => !!p.course);
+  const activeIds = new Set(activeProblems(state).map((p) => p.id));
+  const previous = state.history
+    .filter((a) => a.wasNew && a.day < day && activeIds.has(a.problemId))
+    .at(-1);
+  let courseFirst =
     !!previous && !catalog.find((p) => p.id === previous.problemId)?.course;
   const ordered: Problem[] = [];
   let a = 0,
     b = 0;
-  while (a < algorithms.length || b < python.length) {
-    if (b < python.length && (pythonFirst || a >= algorithms.length))
-      ordered.push(python[b++]);
+  while (a < algorithms.length || b < courses.length) {
+    if (b < courses.length && (courseFirst || a >= algorithms.length))
+      ordered.push(courses[b++]);
     else ordered.push(algorithms[a++]);
-    pythonFirst = !pythonFirst;
+    courseFirst = !courseFirst;
   }
   return ordered;
 }
