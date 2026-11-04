@@ -18,11 +18,12 @@ test("first rating changes interval immediately; failure returns next study day"
 });
 test("time mode extends duration, preserves budget, history and pause; more time finishes sooner", () => {
   const s = base();
+  s.settings.weeks = 1;
   const before = JSON.stringify(s);
   const a = estimatePlan(s, day);
-  assert.ok(a.finish! > "2027-01-16");
+  assert.ok(a.finish! > addDays(day, 6));
   assert.equal(a.hours, 10);
-  assert.ok(a.weeks > 15);
+  assert.ok(a.weeks > 1);
   const fast = base();
   fast.settings.hours = 20;
   const b = estimatePlan(fast, day);

@@ -1,6 +1,5 @@
 import {
   ArrowUpRight,
-  BookOpen,
   CalendarDays,
   ListChecks,
   Repeat2,
@@ -45,7 +44,6 @@ export function StudySidebar({
         {[
           ["today", "Today", CalendarDays],
           ["problems", "All problems", ListChecks],
-          ["courses", "Python courses", BookOpen],
           ["settings", "Settings", Settings2],
         ].map(([key, label, Icon]) => {
           const C = Icon as typeof CalendarDays;

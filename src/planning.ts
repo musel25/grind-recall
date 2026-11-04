@@ -64,10 +64,11 @@ export function estimatePlan(state: StudyState, day: string): PlanEstimate {
     state.settings.startDate,
     state.settings.weeks * 7 - 1,
   );
-  if (activeProblems(state).every((p) => !!state.progress[p.id])) {
+  const activeIds = new Set(activeProblems(state).map((p) => p.id));
+  if ([...activeIds].every((id) => !!state.progress[id])) {
     const finish =
       state.history
-        .filter((a) => a.wasNew)
+        .filter((a) => a.wasNew && activeIds.has(a.problemId))
         .map((a) => a.day)
         .sort()
         .at(-1) ?? day;

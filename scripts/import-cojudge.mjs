@@ -32,7 +32,7 @@ let order = 0;
 const courses = [];
 for (const id of courseIds) {
   const selected = new Set(selection[id]);
-  if (!selected.size || selected.size !== selection[id].length)
+  if (selected.size !== selection[id].length)
     throw Error(`Missing or duplicate first-pass selection: ${id}`);
   const course = await readJson(`courses/${id}/courseinfo.json`);
   /** @type {import('../src/types').Problem[]} */
