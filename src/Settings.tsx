@@ -3,9 +3,14 @@ import { Download, Upload, Info } from "lucide-react";
 import { downloadBackup, validateState } from "./storage";
 import { StudyBreak } from "./StudyBreak";
 import { estimatePlan, applyEstimate } from "./planning";
-import { todayIn } from "./scheduler";
+import { addDays, planEndDate, todayIn } from "./scheduler";
 import { PlanSummary } from "./PlanSummary";
 import type { StudyState } from "./types";
+function settingsDraft(settings: StudyState["settings"]) {
+  return settings.planMode === "deadline"
+    ? { ...settings, finishDate: planEndDate(settings) }
+    : { ...settings };
+}
 export function Settings({
   state,
   onSave,
@@ -15,8 +20,8 @@ export function Settings({
   onSave: (s: StudyState) => boolean;
   onImport: (s: StudyState) => boolean;
 }) {
-  const [draft, setDraft] = useState(state.settings);
-  useEffect(() => setDraft(state.settings), [state.settings]);
+  const [draft, setDraft] = useState(() => settingsDraft(state.settings));
+  useEffect(() => setDraft(settingsDraft(state.settings)), [state.settings]);
   const preview = useMemo(() => {
     try {
       const candidate = validateState({ ...state, settings: draft });
@@ -86,28 +91,38 @@ export function Settings({
             Plan by
             <select
               value={draft.planMode ?? "time"}
-              onChange={(e) =>
-                setDraft({
+              onChange={(e) => {
+                const next = {
                   ...draft,
                   planMode: e.target.value as "time" | "deadline",
-                })
-              }
+                };
+                if (next.planMode === "deadline")
+                  next.finishDate = next.startDate ? planEndDate(next) : "";
+                else delete next.finishDate;
+                setDraft(next);
+              }}
             >
               <option value="time">My daily study time</option>
-              <option value="deadline">My finish deadline</option>
+              <option value="deadline">My finish date</option>
             </select>
           </label>
           {draft.planMode === "deadline" ? (
             <label>
-              Plan length (weeks)
+              Finish date
               <input
-                type="number"
+                type="date"
                 required
-                min="1"
-                max="104"
-                value={draft.weeks}
+                min={draft.startDate}
+                max={
+                  draft.startDate ? addDays(draft.startDate, 1399) : undefined
+                }
+                value={
+                  draft.startDate
+                    ? planEndDate(draft)
+                    : (draft.finishDate ?? "")
+                }
                 onChange={(e) =>
-                  setDraft({ ...draft, weeks: Number(e.target.value) })
+                  setDraft({ ...draft, finishDate: e.target.value })
                 }
               />
             </label>

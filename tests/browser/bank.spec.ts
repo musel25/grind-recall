@@ -1,3 +1,4 @@
+import { addDays } from "../../src/scheduler";
 import { test, expect } from "./fixtures";
 
 test("Bank follows deadline weeks, preserves every problem and updates practice labels", async ({
@@ -28,7 +29,14 @@ test("Bank follows deadline weeks, preserves every problem and updates practice 
   for (const weeks of [16, 8, 20]) {
     await page.getByRole("button", { name: "Settings", exact: true }).click();
     await page.getByLabel("Plan by").selectOption("deadline");
-    await page.getByLabel("Plan length (weeks)").fill(String(weeks));
+    await page
+      .getByLabel("Finish date", { exact: true })
+      .fill(
+        addDays(
+          await page.getByLabel("Start date").inputValue(),
+          weeks * 7 - 1,
+        ),
+      );
     await page
       .getByRole("button", { name: "Save settings", exact: true })
       .click();

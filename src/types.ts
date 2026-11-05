@@ -39,6 +39,7 @@ export type Attempt = {
 };
 export type Settings = {
   planMode?: "time" | "deadline";
+  finishDate?: string;
   startDate: string;
   weeks: number;
   hours: number;

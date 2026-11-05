@@ -1,6 +1,6 @@
 import { createEmptyCard, fsrs, type Grade } from "ts-fsrs";
 import { activeProblems, problems as catalog } from "./catalog";
-import type { StoredCard, StudyState, Problem } from "./types";
+import type { StoredCard, StudyState, Problem, Settings } from "./types";
 const engine = fsrs({
   request_retention: 0.9,
   enable_fuzz: false,
@@ -17,6 +17,11 @@ export function dayDiff(a: string, b: string) {
   return Math.round(
     (Date.parse(b + "T12:00:00Z") - Date.parse(a + "T12:00:00Z")) / DAY,
   );
+}
+export function planEndDate(settings: Settings) {
+  return settings.planMode === "deadline" && settings.finishDate !== undefined
+    ? settings.finishDate
+    : addDays(settings.startDate, settings.weeks * 7 - 1);
 }
 export function todayIn(timezone: string, now = new Date()) {
   const parts = new Intl.DateTimeFormat("en-US", {
@@ -198,7 +203,7 @@ function learningOrder(problems: Problem[], state: StudyState, day: string) {
 }
 export function dailyPlan(s: StudyState, day: string) {
   const problems = activeProblems(s);
-  const end = addDays(s.settings.startDate, s.settings.weeks * 7 - 1);
+  const end = planEndDate(s.settings);
   const daysLeft = Math.max(0, dayDiff(day, end) + 1);
   const beforeStart = day < s.settings.startDate;
   const onBreak = s.planning?.breaks?.includes(day) ?? false;

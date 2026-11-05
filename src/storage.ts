@@ -1,5 +1,6 @@
 import { problems } from "./model";
 import type { Progress, StudyState } from "./types";
+import { dayDiff } from "./scheduler";
 export const STORAGE_KEY = "grind-recall:v1";
 const ids = new Set(problems.map((p) => p.id));
 const onceIds = new Set(
@@ -131,6 +132,10 @@ export function validateState(input: unknown): StudyState {
   if (
     (t.planMode !== undefined && !["time", "deadline"].includes(t.planMode)) ||
     !validDate(t.startDate) ||
+    (t.finishDate !== undefined &&
+      (!validDate(t.finishDate) ||
+        t.finishDate < t.startDate ||
+        dayDiff(t.startDate, t.finishDate) >= 1400)) ||
     !numeric(t.weeks, 1, 200) ||
     !Number.isInteger(t.weeks) ||
     !numeric(t.hours, 1, 80) ||
