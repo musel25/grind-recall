@@ -45,8 +45,8 @@ export function ProblemList({
           {activeProblems(state).length} active problems in prerequisite-based
           learning order, grouped across your {groups.length}-week plan by
           estimated effort. This is your roadmap; Today accounts for reviews and
-          study breaks. Includes 75 Grind problems, nine Applied AI exercises,
-          and your practiced LeetCode extras.
+          study breaks. Includes 75 Grind problems and your practiced LeetCode
+          extras.
         </p>
       </div>
       <div className="list-tools">

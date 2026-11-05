@@ -122,8 +122,7 @@ export default function App({
             Remember tomorrow.
           </h1>
           <p>
-            Grind 75, nine Applied AI exercises, and your practiced LeetCode
-            extras. All use spaced reviews.
+            Grind 75 and your practiced LeetCode extras. All use spaced reviews.
             <br />
             One clear list of what to work on each day.
           </p>
@@ -314,7 +313,7 @@ export default function App({
         )}
         <footer>
           <span>Consistency over cramming.</span>
-          <span>Grind 75 + Applied AI 9 + practiced LeetCode extras</span>
+          <span>Grind 75 + practiced LeetCode extras</span>
         </footer>
       </main>
       {selected && (
