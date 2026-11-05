@@ -129,7 +129,7 @@ if (aiSource) {
   }
   courses.push({ id, title: course.title, problems });
 } else {
-  // A legacy one-root refresh must not remove active IDs from saved backups.
+  // A legacy one-root refresh must retain IDs used by saved backups.
   let existing;
   try {
     existing = JSON.parse(await readFile(output, "utf8"));
@@ -152,5 +152,12 @@ if (aiSource) {
   courses.push(retained);
   for (const p of retained.problems) seen.add(p.id);
 }
+// Retain the removed course for backups without reactivating saved work.
+for (const course of courses)
+  if (course.id === "applied-ai-nine")
+    for (const p of course.problems) {
+      p.deferred = true;
+      p.retired = true;
+    }
 await writeFile(output, JSON.stringify(courses, null, 2) + "\n");
 console.log(`Imported ${seen.size} exercises in ${courses.length} courses.`);

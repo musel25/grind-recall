@@ -13,7 +13,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import courses from "../src/cojudge-courses.json";
 
-test("two-root import preserves every archived field and uses native AI study budgets", async () => {
+test("two-root import preserves every archived field and keeps AI archived with native study budgets", async () => {
   const root = await mkdtemp(join(tmpdir(), "grind-import-"));
   const json = async (path: string, value: unknown) => {
     await mkdir(join(path, ".."), { recursive: true });
@@ -92,6 +92,21 @@ test("two-root import preserves every archived field and uses native AI study bu
       imported[5].problems.map((p: { id: string }) => p.id),
       ids,
     );
+    await json(
+      join(root, "src/cojudge-courses.json"),
+      imported.map((course: { id: string; problems: object[] }) =>
+        course.id === "applied-ai-nine"
+          ? {
+              ...course,
+              problems: course.problems.map((p) => ({
+                ...p,
+                retired: false,
+                deferred: false,
+              })),
+            }
+          : course,
+      ),
+    );
     execFileSync(process.execPath, [
       join(root, "scripts/import-cojudge.mjs"),
       join(root, "old"),
@@ -143,7 +158,8 @@ test("two-root import preserves every archived field and uses native AI study bu
       course: "applied-ai-nine",
       stage: "Applied AI — 9 Exercises",
       review: true,
-      deferred: false,
+      deferred: true,
+      retired: true,
     });
     await json(join(root, "new/courses/applied-ai-nine/courseinfo.json"), {
       title: "Applied AI — 9 Exercises",

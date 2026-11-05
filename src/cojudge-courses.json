@@ -1125,7 +1125,8 @@
         "course": "applied-ai-nine",
         "stage": "Applied AI — 9 Exercises",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "ai-02-split-documents",
@@ -1139,7 +1140,8 @@
         "course": "applied-ai-nine",
         "stage": "Applied AI — 9 Exercises",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "ai-03-find-similar-documents",
@@ -1153,7 +1155,8 @@
         "course": "applied-ai-nine",
         "stage": "Applied AI — 9 Exercises",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "ai-04-build-context",
@@ -1167,7 +1170,8 @@
         "course": "applied-ai-nine",
         "stage": "Applied AI — 9 Exercises",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "ai-05-validate-extracted-tasks",
@@ -1181,7 +1185,8 @@
         "course": "applied-ai-nine",
         "stage": "Applied AI — 9 Exercises",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "ai-06-check-citations",
@@ -1195,7 +1200,8 @@
         "course": "applied-ai-nine",
         "stage": "Applied AI — 9 Exercises",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "ai-07-evaluate-search",
@@ -1209,7 +1215,8 @@
         "course": "applied-ai-nine",
         "stage": "Applied AI — 9 Exercises",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "ai-08-cache-embeddings",
@@ -1223,7 +1230,8 @@
         "course": "applied-ai-nine",
         "stage": "Applied AI — 9 Exercises",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       },
       {
         "id": "ai-09-retry-failed-requests",
@@ -1237,7 +1245,8 @@
         "course": "applied-ai-nine",
         "stage": "Applied AI — 9 Exercises",
         "review": true,
-        "deferred": false
+        "deferred": true,
+        "retired": true
       }
     ]
   }

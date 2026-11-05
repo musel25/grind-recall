@@ -76,7 +76,7 @@ for (const width of [1440, 390]) {
       page.getByRole("button", { name: "Python courses", exact: true }),
     ).toHaveCount(0);
     await expect(page.locator(".sidebar-plan")).toContainText(
-      "11 of 85 practiced",
+      "11 of 76 practiced",
     );
     for (const p of python.slice(0, 3))
       await expect(
@@ -86,7 +86,7 @@ for (const width of [1440, 390]) {
     await page
       .getByRole("button", { name: "All problems", exact: true })
       .click();
-    await expect(page.locator(".week-group .problem-row")).toHaveCount(85);
+    await expect(page.locator(".week-group .problem-row")).toHaveCount(76);
     await page.getByLabel("Search problems").fill(extra.title);
     await expect(
       page.getByRole("button", { name: new RegExp(extra.title) }),

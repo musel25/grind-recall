@@ -29,14 +29,14 @@ test("all Python courses stay archived even with saved progress and morning mark
   const before = structuredClone(restored);
   assert.equal(python.length, 72);
   assert.ok(python.every((p) => p.retired && p.deferred));
-  assert.equal(activeProblems(restored).length, 84);
+  assert.equal(activeProblems(restored).length, 75);
   assert.equal(
     archivedProblems(restored).filter((p) => p.course?.startsWith("pybites-"))
       .length,
     72,
   );
   assert.deepEqual(progressSummary(restored), {
-    total: 84,
+    total: 75,
     practiced: 0,
     independent: 0,
   });
@@ -70,7 +70,7 @@ test("Grind 75 and practiced LeetCode extras stay active while archived reviews 
   let state = initialState(day);
   const extra = problems.find((p) => !p.core && !p.course)!;
   state = recordAttempt(state, extra.id, 3, day, 30, "Keep LeetCode");
-  assert.equal(activeProblems(state).length, 85);
+  assert.equal(activeProblems(state).length, 76);
   assert.ok(activeProblems(state).some((p) => p.id === extra.id));
   // Archived practice still counts toward actual time in its calendar week.
   // Compare the next week to isolate assignments and reviews from that time.
