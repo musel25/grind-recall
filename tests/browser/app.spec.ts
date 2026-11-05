@@ -1,4 +1,5 @@
 import { test, expect } from "./fixtures";
+import { addDays } from "../../src/scheduler";
 import { readFileSync } from "node:fs";
 import type { StudyState, Problem } from "../../src/types";
 test.beforeEach(async ({ page }) => {
@@ -127,9 +128,19 @@ test("imported settings appear immediately and saving cannot restore stale setti
     mimeType: "application/json",
     buffer: Buffer.from(backup),
   });
-  await expect(page.getByLabel("Plan length (weeks)")).toHaveValue("20");
+  await expect(page.getByLabel("Finish date", { exact: true })).toHaveValue(
+    addDays(JSON.parse(backup).settings.startDate, 139),
+  );
   await expect(page.getByLabel("Plan by")).toHaveValue("deadline");
-  await expect(page.getByLabel("Plan estimate")).toContainText("20 weeks");
+  await expect(page.getByLabel("Plan estimate")).toContainText(
+    "hours/week to finish by",
+  );
+  await page
+    .getByLabel("Start date")
+    .fill(addDays(JSON.parse(backup).settings.startDate, 1));
+  await expect(page.getByLabel("Finish date", { exact: true })).toHaveValue(
+    addDays(JSON.parse(backup).settings.startDate, 139),
+  );
   await page
     .getByRole("button", { name: "Save settings", exact: true })
     .click();
@@ -226,8 +237,14 @@ test("plan by time or deadline; preserve pause and ratings survive reload", asyn
   await page.getByRole("button", { name: "Settings", exact: true }).click();
   await expect(page.getByLabel("Study time (hours/day)")).toHaveValue("2");
   await page.getByLabel("Plan by").selectOption("deadline");
-  await page.getByLabel("Plan length (weeks)").fill("20");
-  await expect(page.getByLabel("Plan estimate")).toContainText("20 weeks");
+  const finishDate = addDays(
+    await page.getByLabel("Start date").inputValue(),
+    139,
+  );
+  await page.getByLabel("Finish date", { exact: true }).fill(finishDate);
+  await expect(page.getByLabel("Plan estimate")).toContainText(
+    "hours/week to finish by",
+  );
   const requiredHours = Number(
     (await page.getByLabel("Plan estimate").innerText()).match(
       /([\d.]+) hours\/week/,
@@ -248,6 +265,7 @@ test("plan by time or deadline; preserve pause and ratings survive reload", asyn
   );
   expect(saved.settings.planMode).toBe("deadline");
   expect(saved.settings.weeks).toBe(20);
+  expect(saved.settings.finishDate).toBe(finishDate);
   expect(saved.settings.hours).toBe(requiredHours);
   expect(saved.planning.breaks).toHaveLength(5);
   await page.getByRole("button", { name: "Today", exact: true }).click();

@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { initialState, setStudyBreak, problems } from "../src/model";
-import { nextReview, addDays } from "../src/scheduler";
+import { nextReview, addDays, dailyPlan } from "../src/scheduler";
 import { estimatePlan, simulatePace, applyEstimate } from "../src/planning";
 import { validateState } from "../src/storage";
 const day = "2026-10-04";
@@ -83,4 +83,60 @@ test("completed deadline plans preserve review budget and cannot claim a missed 
   assert.equal(e.completed, true);
   assert.equal(e.hours, 10);
   assert.equal(e.feasible, false);
+});
+
+test("an exact finish date overrides whole weeks and survives backup and forecast updates", () => {
+  const s = base();
+  Object.assign(s.settings, {
+    planMode: "deadline",
+    weeks: 1,
+    finishDate: "2027-02-16",
+  });
+  const before = structuredClone(s);
+  const estimate = estimatePlan(s, day);
+  assert.equal(estimate.target, "2027-02-16");
+  assert.equal(estimate.weeks, 20);
+  assert.ok(estimate.feasible);
+  assert.ok(estimate.finish! <= "2027-02-16");
+  const saved = validateState(
+    JSON.parse(JSON.stringify(applyEstimate(s, estimate))),
+  );
+  assert.equal(estimatePlan(saved, day).target, "2027-02-16");
+  assert.equal(dailyPlan(saved, day).end, "2027-02-16");
+  assert.deepEqual(saved.progress, before.progress);
+  assert.deepEqual(saved.history, before.history);
+  assert.deepEqual(saved.planning, before.planning);
+  assert.deepEqual(s, before);
+});
+
+test("a finish date cannot borrow study days from the rounded final week", () => {
+  const s = initialState(day);
+  Object.assign(s.settings, {
+    planMode: "deadline",
+    weeks: 20,
+    finishDate: day,
+  });
+  assert.equal(estimatePlan(s, day).target, day);
+  assert.equal(estimatePlan(s, day).feasible, false);
+});
+
+test("invalid finish dates are rejected and old week-based deadlines keep their exact date", () => {
+  const s = base();
+  s.settings.planMode = "deadline";
+  s.settings.weeks = 20;
+  const legacy = estimatePlan(s, day);
+  assert.equal(legacy.target, "2027-02-20");
+  for (const finishDate of [
+    "",
+    "2027-02-29",
+    "2026-10-03",
+    "bad",
+    null,
+    123,
+    "2030-08-04",
+  ]) {
+    const invalid = structuredClone(s);
+    Object.assign(invalid.settings, { finishDate });
+    assert.throws(() => validateState(invalid));
+  }
 });

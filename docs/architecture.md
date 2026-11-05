@@ -36,7 +36,7 @@ Weekly budgets run Monday through Sunday. Prorate the first partial week from th
 
 Due reviews take priority and stay visible above budget. New problems fit the remaining daily time. New assignments use active algorithms in learning order. Reconstruct original daily candidates before removing completed or skipped work. Do not silently refill those slots.
 
-Forecasts clone saved state. They reuse the daily queue and scheduler and assume future Good ratings. Time mode estimates a finish date. Deadline mode searches for a sufficient weekly budget and verifies it with the same simulation. Completion means every active problem has a first attempt. Reviews continue afterward.
+Forecasts clone saved state. They reuse the daily queue and scheduler and assume future Good ratings. Time mode estimates a finish date. Deadline mode stores an optional exact `settings.finishDate` and searches for a sufficient weekly budget and verifies it through that inclusive date with the same simulation. Legacy plans without this field use `startDate + weeks × 7 − 1`. Roadmap weeks round up for display without extending the saved finish date. Settings exposes either a finish date or a daily time budget. Completion means every active problem has a first attempt. Reviews continue afterward.
 
 ## Account Data
 

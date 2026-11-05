@@ -38,7 +38,7 @@ export function PlanSummary({ plan }: { plan: PlanEstimate }) {
             ? "This deadline is not feasible within 80 hours/week with your current breaks and overrides. Extend the plan or adjust your available days."
             : "No completion within the next two years at this pace. Increase your daily time to make room for new problems alongside reviews."
           : plan.mode === "deadline"
-            ? `${plan.hours.toFixed(1)} hours/week to finish by ${fullDate(plan.target)} (${plan.weeks} weeks from your start date).`
+            ? `${plan.hours.toFixed(1)} hours/week to finish by ${fullDate(plan.target)}.`
             : `About ${plan.weeks} weeks total at ${duration(Math.round((plan.hours * 60) / 7))}/day (${plan.hours.toFixed(1)} hours/week).`}
       </p>
       <small>

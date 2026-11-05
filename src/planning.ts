@@ -1,5 +1,11 @@
 import { activeProblems } from "./catalog";
-import { addDays, dailyPlan, dayDiff, nextReview } from "./scheduler";
+import {
+  addDays,
+  dailyPlan,
+  dayDiff,
+  nextReview,
+  planEndDate,
+} from "./scheduler";
 import type { StudyState } from "./types";
 
 // Use the same whole-problem queue and review scheduler as actual practice.
@@ -60,9 +66,10 @@ export type PlanEstimate = {
 };
 export function estimatePlan(state: StudyState, day: string): PlanEstimate {
   const mode = state.settings.planMode ?? "time";
-  const target = addDays(
-    state.settings.startDate,
-    state.settings.weeks * 7 - 1,
+  const target = planEndDate(state.settings);
+  const weeks = Math.max(
+    1,
+    Math.ceil((dayDiff(state.settings.startDate, target) + 1) / 7),
   );
   const activeIds = new Set(activeProblems(state).map((p) => p.id));
   if ([...activeIds].every((id) => !!state.progress[id])) {
@@ -78,7 +85,7 @@ export function estimatePlan(state: StudyState, day: string): PlanEstimate {
       finish,
       target: mode === "time" ? finish : target,
       hours: state.settings.hours,
-      weeks: state.settings.weeks,
+      weeks,
       minutes: 0,
       feasible: mode === "time" || finish <= target,
     };
@@ -113,7 +120,7 @@ export function estimatePlan(state: StudyState, day: string): PlanEstimate {
       ...result,
       mode,
       hours: 80,
-      weeks: state.settings.weeks,
+      weeks,
       target,
       feasible: false,
     };
@@ -130,7 +137,7 @@ export function estimatePlan(state: StudyState, day: string): PlanEstimate {
     ...result,
     mode,
     hours: high / 2,
-    weeks: state.settings.weeks,
+    weeks,
     target,
     feasible: !!result.finish,
   };
