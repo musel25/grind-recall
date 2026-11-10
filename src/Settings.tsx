@@ -25,7 +25,12 @@ export function Settings({
   const preview = useMemo(() => {
     try {
       const candidate = validateState({ ...state, settings: draft });
-      return estimatePlan(candidate, todayIn(draft.timezone));
+      return estimatePlan(candidate, todayIn(draft.timezone), {
+        preserveBudget:
+          (draft.planMode ?? "time") === (state.settings.planMode ?? "time") &&
+          draft.startDate === state.settings.startDate &&
+          planEndDate(draft) === planEndDate(state.settings),
+      });
     } catch {
       return null;
     }

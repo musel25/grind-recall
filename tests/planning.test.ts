@@ -4,6 +4,7 @@ import { initialState, setStudyBreak, problems } from "../src/model";
 import { nextReview, addDays, dailyPlan } from "../src/scheduler";
 import { estimatePlan, simulatePace, applyEstimate } from "../src/planning";
 import { validateState } from "../src/storage";
+import { activeProblems } from "../src/catalog";
 const day = "2026-10-04";
 const base = () =>
   setStudyBreak(initialState(day, true), "2026-10-08", "2026-10-12");
@@ -139,4 +140,32 @@ test("invalid finish dates are rejected and old week-based deadlines keep their 
     Object.assign(invalid.settings, { finishDate });
     assert.throws(() => validateState(invalid));
   }
+});
+
+test("automatic deadline updates keep the saved weekly time for new problems", () => {
+  const day = "2026-11-10";
+  const s = initialState(day);
+  s.settings = {
+    ...s.settings,
+    planMode: "deadline",
+    finishDate: addDays(day, 60),
+    hours: 9,
+  };
+  // Only one first attempt remains. A smaller budget is sufficient, but an
+  // automatic update must keep the saved time so fewer reviews free new work.
+  for (const p of activeProblems(s).slice(0, -1))
+    s.progress[p.id] = {
+      due: addDays(day, 100),
+      card: null,
+      imported: true,
+      note: "",
+      independent: false,
+    };
+  const before = structuredClone(s);
+  const automatic = estimatePlan(s, day, { preserveBudget: true });
+  const explicit = estimatePlan(s, day);
+  assert.equal(automatic.hours, 9);
+  assert.ok(explicit.hours < 9);
+  assert.ok(automatic.finish! <= s.settings.finishDate!);
+  assert.deepEqual(s, before);
 });

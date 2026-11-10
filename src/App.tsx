@@ -72,7 +72,10 @@ export default function App({
   );
   void tick;
   const projection = useMemo(
-    () => (savedState ? estimatePlan(savedState, day) : null),
+    () =>
+      savedState
+        ? estimatePlan(savedState, day, { preserveBudget: true })
+        : null,
     [savedState, day],
   );
   const active = useMemo(() => activeProblems(savedState), [savedState]);

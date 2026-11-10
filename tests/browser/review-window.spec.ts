@@ -140,3 +140,84 @@ test("daily summary adds row times and does not refill after fast completion", a
   await page.reload();
   await expect(page.locator(".problem-row")).toHaveCount(2);
 });
+
+test("automatic deadline forecasts keep the weekly time after reviews decrease", async ({
+  page,
+}) => {
+  const day = new Date().toISOString().slice(0, 10);
+  const state = initialState(day);
+  state.settings = {
+    ...state.settings,
+    timezone: "UTC",
+    planMode: "deadline",
+    finishDate: addDays(day, 60),
+    hours: 9,
+  };
+  for (const p of activeProblems(state).slice(0, -1))
+    state.progress[p.id] = {
+      due: addDays(day, 100),
+      card: null,
+      imported: true,
+      note: "",
+      independent: false,
+    };
+  const registered = await page.request.post("/api/grind/register", {
+    data: {
+      email: `budget-${crypto.randomUUID()}@example.com`,
+      password: "test-password-123",
+    },
+  });
+  expect(registered.status()).toBe(201);
+  const { accountId } = await (
+    await page.request.get("/api/grind/state")
+  ).json();
+  expect(
+    (
+      await page.request.put("/api/grind/state", {
+        data: {
+          accountId,
+          state,
+          baseVersion: 0,
+          mutationId: crypto.randomUUID(),
+        },
+      })
+    ).ok(),
+  ).toBe(true);
+  await page.goto("./");
+  await expect(
+    page.getByRole("region", { name: "Daily and weekly plan" }),
+  ).toContainText("1h 18m/day on average");
+  await expect(page.getByLabel("Plan estimate")).toContainText(
+    "9.0 hours/week",
+  );
+  await page.getByText("Adjust time", { exact: true }).click();
+  await page
+    .getByRole("button", { name: "Update this plan", exact: true })
+    .click();
+  await expect(page.locator('.account-bar [role="status"]')).toHaveText(
+    "Saved to your account",
+  );
+  await page.reload();
+  await expect(
+    page.getByRole("region", { name: "Daily and weekly plan" }),
+  ).toContainText("1h 18m/day on average");
+  expect(
+    (await (await page.request.get("/api/grind/state")).json()).state.settings
+      .hours,
+  ).toBe(9);
+  await page.getByRole("button", { name: "Settings", exact: true }).click();
+  await page.getByLabel("Estimated review duration").selectOption("0.5");
+  await expect(page.getByLabel("Plan estimate")).toContainText(
+    "9.0 hours/week",
+  );
+  await page
+    .getByRole("button", { name: "Save settings", exact: true })
+    .click();
+  await expect(page.locator('.account-bar [role="status"]')).toHaveText(
+    "Saved to your account",
+  );
+  expect(
+    (await (await page.request.get("/api/grind/state")).json()).state.settings
+      .hours,
+  ).toBe(9);
+});

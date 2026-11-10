@@ -63,6 +63,8 @@ Timer’s sidebar (Tools → Grind Recall), or More → Grind Recall on mobile, 
 
 Today shows the daily time target and the assigned time separately. New problems use the closest whole-problem total in learning order after reviews. Whole problems can put the total above or below the target. Completing or skipping work does not add replacement work. Shorter review estimates leave more time for new problems when the next whole problem fits that total.
 
+Automatic deadline updates keep your saved weekly time so fewer reviews leave more time for new problems. They can increase the budget to meet the deadline. Changing the planning mode, start date, or finish date in Settings can recalculate a lower budget. Changing only the review duration keeps the saved weekly time.
+
 To reduce review counts, use **Today → Adjust time → Spread reviews**. The default is at most four reviews per day for seven days starting today. Completed reviews count toward this limit. The saved dates move to available study days; excess reviews can move past the end date. New ratings, failed retries, missed days, and the forecast use the same limit during this period. Outside this period, the usual review rules apply. Notes, attempts, morning marks, and FSRS memory remain saved. The selected option also restores automatic daily time for these dates. This removes custom daily budgets that can otherwise leave less time for new problems.
 
 ## Skipping individual problems

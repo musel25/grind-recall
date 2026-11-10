@@ -66,7 +66,11 @@ export type PlanEstimate = {
   feasible: boolean;
   minutes: number;
 };
-export function estimatePlan(state: StudyState, day: string): PlanEstimate {
+export function estimatePlan(
+  state: StudyState,
+  day: string,
+  options: { preserveBudget?: boolean } = {},
+): PlanEstimate {
   const mode = state.settings.planMode ?? "time";
   const target = planEndDate(state.settings);
   const weeks = Math.max(
@@ -134,11 +138,14 @@ export function estimatePlan(state: StudyState, day: string): PlanEstimate {
       result = trial;
     } else low = mid + 1;
   }
-  result = simulatePace(state, day, high / 2, limit);
+  const hours = options.preserveBudget
+    ? Math.max(high / 2, state.settings.hours)
+    : high / 2;
+  result = simulatePace(state, day, hours, limit);
   return {
     ...result,
     mode,
-    hours: high / 2,
+    hours,
     weeks,
     target,
     feasible: !!result.finish,
