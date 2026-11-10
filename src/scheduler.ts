@@ -46,6 +46,7 @@ export function reviewSlot(
   day: string,
   state?: StudyState,
   problemId?: string,
+  unallocatedIds?: ReadonlySet<string>,
 ) {
   const first = reviewDay(day, state);
   if (!state) return first;
@@ -54,6 +55,7 @@ export function reviewSlot(
   for (const [id, p] of Object.entries(state.progress)) {
     if (
       id === problemId ||
+      unallocatedIds?.has(id) ||
       !activeIds.has(id) ||
       catalog.find((problem) => problem.id === id)?.review === false
     )
@@ -61,11 +63,37 @@ export function reviewSlot(
     const date = reviewDay(p.due, state);
     counts.set(date, (counts.get(date) ?? 0) + 1);
   }
+  // The explicit, temporary limit also counts reviews already completed.
+  const window = state.planning?.reviewWindow;
+  for (const attempt of state.history)
+    if (
+      !attempt.wasNew &&
+      activeIds.has(attempt.problemId) &&
+      window &&
+      attempt.day >= window.start &&
+      attempt.day <= window.end
+    )
+      counts.set(attempt.day, (counts.get(attempt.day) ?? 0) + 1);
+  let available = first;
+  while (
+    window &&
+    available >= window.start &&
+    available <= window.end &&
+    (counts.get(available) ?? 0) >= window.maxPerDay
+  )
+    available = reviewDay(addDays(available, 1), state);
+  if (window && first >= window.start && first <= window.end) return available;
   let best = first;
   let candidate = first;
   // Fixed three-study-day window, not an unbounded search for an empty day.
   for (let i = 0; i < 3; i++) {
     const count = counts.get(candidate) ?? 0;
+    if (window && candidate >= window.start && candidate <= window.end) {
+      if (count < window.maxPerDay) return candidate;
+      candidate = reviewDay(addDays(candidate, 1), state);
+      i--;
+      continue;
+    }
     if (count < REVIEW_TARGET) return candidate;
     if (count < (counts.get(best) ?? 0)) best = candidate;
     candidate = reviewDay(addDays(candidate, 1), state);
@@ -114,9 +142,14 @@ export function nextReview(
   // Coding practice is day-based. Lapses get a next-study-day retry;
   // stability/difficulty still come from FSRS, not a reset to an empty card.
   const interval = rating === 1 ? 1 : Math.max(1, result.scheduled_days);
-  const requested = addDays(day, interval);
+  const requested = reviewDay(addDays(day, interval), state);
   const due =
-    rating === 1
+    rating === 1 &&
+    !(
+      state?.planning?.reviewWindow &&
+      requested >= state.planning.reviewWindow.start &&
+      requested <= state.planning.reviewWindow.end
+    )
       ? reviewDay(requested, state)
       : reviewSlot(requested, state, problemId);
   result.due = new Date(due + "T12:00:00Z");
@@ -292,7 +325,9 @@ export function dailyPlan(s: StudyState, day: string) {
   const newProblems: Problem[] = [];
   if (!beforeStart && !onBreak) {
     for (const p of startOfDayCandidates) {
-      if (p.minutes * 2 > room) break;
+      // Stop at the closest ordered whole-problem total. Prefer staying under
+      // on a tie. Reconstruct completed candidates before applying this rule.
+      if (p.minutes * 2 > room && p.minutes * 2 - room >= room) break;
       if (!s.progress[p.id]) newProblems.push(p);
       room -= p.minutes * 2;
     }

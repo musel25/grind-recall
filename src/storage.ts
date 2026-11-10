@@ -94,6 +94,18 @@ export function validateState(input: unknown): StudyState {
     )
       return fail();
     const breaks = s.planning.breaks;
+    const window = s.planning.reviewWindow;
+    if (
+      window !== undefined &&
+      (!object(window) ||
+        !validDate(window.start) ||
+        !validDate(window.end) ||
+        window.end < window.start ||
+        dayDiff(window.start, window.end) > 365 ||
+        !numeric(window.maxPerDay, 1, 100) ||
+        !Number.isInteger(window.maxPerDay))
+    )
+      return fail();
     if (
       breaks !== undefined &&
       (!Array.isArray(breaks) ||

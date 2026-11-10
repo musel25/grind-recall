@@ -437,8 +437,8 @@ export function TodayView({
             {estimate > budget && (
               <p>
                 Today's reviews and assignments need about {duration(estimate)},
-                above your {duration(budget)} budget. Due reviews remain
-                visible.
+                above your {duration(budget)} target. Whole problems can exceed
+                this target. Due reviews remain visible.
               </p>
             )}
             <button className="text-button" onClick={() => setView("settings")}>

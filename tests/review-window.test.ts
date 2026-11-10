@@ -1,0 +1,152 @@
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import * as model from "../src/model";
+import { activeProblems } from "../src/catalog";
+import { addDays, dailyPlan, nextReview } from "../src/scheduler";
+import { validateState } from "../src/storage";
+
+const day = "2026-11-10";
+
+test("a seven-day review limit moves excess work, counts today's reviews, and preserves saved work", () => {
+  let s = model.initialState(addDays(day, -7));
+  const active = activeProblems(s);
+  for (const p of active.slice(0, 35)) {
+    s = model.recordAttempt(s, p.id, 3, addDays(day, -7), 15, "keep note");
+    s.progress[p.id].due = day;
+    s.progress[p.id].card!.due = day + "T12:00:00.000Z";
+  }
+  s = model.recordAttempt(s, active[0].id, 3, day, 13, "keep today");
+  const before = structuredClone(s);
+  assert.equal(typeof model.setReviewWindow, "function");
+  const result = model.setReviewWindow(s, day, addDays(day, 6), 4);
+  assert.deepEqual(s, before);
+  assert.deepEqual(result.history, before.history);
+  assert.deepEqual(result.settings, before.settings);
+  for (let i = 0; i < 7; i++) {
+    const date = addDays(day, i);
+    const completed = result.history.filter(
+      (a) => a.day === date && !a.wasNew,
+    ).length;
+    assert.ok(dailyPlan(result, date).reviews.length <= 4 - completed);
+    // Advance through the scheduled work so due dates do not accumulate.
+    for (const p of dailyPlan(result, date).reviews)
+      result.progress[p.id].due = "2027-01-01";
+  }
+  const saved = model.setReviewWindow(s, day, addDays(day, 6), 4);
+  assert.ok(Object.values(saved.progress).some((p) => p.due > addDays(day, 6)));
+  for (const [id, p] of Object.entries(saved.progress)) {
+    assert.equal(p.note, before.progress[id].note);
+    const { due, scheduled_days, ...memory } = p.card!;
+    const {
+      due: oldDue,
+      scheduled_days: oldDays,
+      ...oldMemory
+    } = before.progress[id].card!;
+    assert.deepEqual(memory, oldMemory);
+    assert.equal(due.slice(0, 10), p.due);
+  }
+  assert.deepEqual(validateState(saved), saved);
+  assert.deepEqual(
+    model.setReviewWindow(saved, day, addDays(day, 6), 4).progress,
+    saved.progress,
+  );
+});
+
+test("new ratings and failed retries use available slots within the limited week", () => {
+  let s = model.initialState(day);
+  assert.equal(typeof model.setReviewWindow, "function");
+  const active = activeProblems(s);
+  for (const p of active.slice(0, 12))
+    s.progress[p.id] = {
+      due: addDays(day, 1),
+      card: null,
+      imported: true,
+      note: "",
+      independent: false,
+    };
+  s = model.setReviewWindow(s, day, addDays(day, 6), 4);
+  for (const grade of [1, 3] as const) {
+    const preview = nextReview(null, grade, day, s, active[12].id);
+    const saved = model.recordAttempt(s, active[12].id, grade, day, 15, "");
+    assert.equal(saved.progress[active[12].id].due, preview.due);
+    const occupied = Object.values(s.progress).filter(
+      (p) => p.due === preview.due,
+    ).length;
+    assert.ok(occupied < 4);
+  }
+});
+
+test("missed days and breaks keep the four-review limit when the window is rebalanced", () => {
+  let s = model.initialState(day, true);
+  assert.equal(typeof model.setReviewWindow, "function");
+  s = model.setReviewWindow(s, day, addDays(day, 6), 4);
+  s = model.setStudyBreak(s, addDays(day, 1), addDays(day, 2));
+  s = model.rebalanceReviewWindow(s, addDays(day, 4));
+  assert.ok(dailyPlan(s, addDays(day, 4)).reviews.length <= 4);
+  assert.ok(
+    Object.values(s.progress).every(
+      (p) => !s.planning!.breaks!.includes(p.due),
+    ),
+  );
+  assert.deepEqual(model.rebalanceReviewWindow(s, addDays(day, 4)), s);
+});
+
+test("invalid review windows are rejected without changing the state", () => {
+  const s = model.initialState(day);
+  assert.equal(typeof model.setReviewWindow, "function");
+  for (const max of [0, 4.5, 101, NaN])
+    assert.throws(() => model.setReviewWindow(s, day, addDays(day, 6), max));
+  assert.throws(() => model.setReviewWindow(s, "bad", day, 4));
+  assert.throws(() => model.setReviewWindow(s, day, addDays(day, -1), 4));
+  const invalid = {
+    ...s,
+    planning: {
+      days: {},
+      weeks: {},
+      reviewWindow: { start: day, end: day, maxPerDay: 0 },
+    },
+  };
+  assert.throws(() => validateState(invalid));
+});
+
+test("completed practiced extras reserve slots while the window is rebalanced", () => {
+  let s = model.initialState(addDays(day, -7));
+  const extras = model.problems
+    .filter((p) => p.deferred && !p.retired && !p.course)
+    .slice(0, 4);
+  assert.equal(extras.length, 4);
+  for (const p of [...extras, ...activeProblems(s).slice(0, 4)])
+    s = model.recordAttempt(s, p.id, 3, addDays(day, -7), 15, "");
+  for (const p of extras) s = model.recordAttempt(s, p.id, 1, day, 15, "");
+  for (const p of activeProblems(s)
+    .filter((p) => !extras.some((extra) => extra.id === p.id))
+    .slice(0, 4)) {
+    s.progress[p.id].due = day;
+    s.progress[p.id].card!.due = day + "T12:00:00.000Z";
+  }
+  s = model.setReviewWindow(s, day, addDays(day, 6), 4);
+  assert.equal(dailyPlan(s, day).reviews.length, 0);
+});
+
+test("Again preview respects a full window reached after a study break", () => {
+  let s = model.initialState(day);
+  s = model.setStudyBreak(s, addDays(day, 1), addDays(day, 1));
+  s = model.setReviewWindow(s, addDays(day, 2), addDays(day, 6), 4);
+  const candidates = activeProblems(s).filter((p) => !s.progress[p.id]);
+  for (const p of candidates.slice(0, 4))
+    s.progress[p.id] = {
+      due: addDays(day, 2),
+      card: null,
+      imported: true,
+      note: "",
+      independent: false,
+    };
+  const id = candidates[4].id;
+  const preview = nextReview(null, 1, day, s, id);
+  const saved = model.rebalanceReviewWindow(
+    model.recordAttempt(s, id, 1, day, 15, ""),
+    day,
+  );
+  assert.equal(preview.due, addDays(day, 3));
+  assert.equal(saved.progress[id].due, preview.due);
+});

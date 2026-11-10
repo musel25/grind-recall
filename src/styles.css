@@ -1482,6 +1482,11 @@ footer {
   grid-template-columns: 1fr 1fr;
   gap: 22px;
 }
+.today-controls .automatic-time-choice {
+  flex-direction: row;
+  align-items: center;
+  margin-top: 16px;
+}
 .time-inputs .text-button {
   font-size: 10px;
 }

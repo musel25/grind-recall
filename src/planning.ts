@@ -7,6 +7,7 @@ import {
   planEndDate,
 } from "./scheduler";
 import type { StudyState } from "./types";
+import { rebalanceReviewWindow } from "./model";
 
 // Use the same whole-problem queue and review scheduler as actual practice.
 // Future ratings are Good; existing cards, pauses and overrides are preserved.
@@ -16,7 +17,7 @@ export function simulatePace(
   hours: number,
   limit = 730,
 ) {
-  const s = structuredClone(state);
+  let s = structuredClone(state);
   s.settings.hours = hours;
   const start = day < s.settings.startDate ? s.settings.startDate : day;
   let minutes = 0;
@@ -24,6 +25,7 @@ export function simulatePace(
     return { finish: day, minutes };
   for (let n = 0; n < limit; n++) {
     const date = addDays(start, n);
+    s = rebalanceReviewWindow(s, date);
     const plan = dailyPlan(s, date);
     for (const p of [...plan.reviews, ...plan.newProblems]) {
       const previous = s.progress[p.id];

@@ -64,6 +64,7 @@ export type DayAdjustment = {
 };
 export type Planning = {
   breaks?: string[];
+  reviewWindow?: { start: string; end: string; maxPerDay: number };
   days: Record<string, DayAdjustment>;
   weeks: Record<string, number>;
 };

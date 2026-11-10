@@ -1,4 +1,4 @@
-import { problems, initialTen } from "./catalog";
+import { problems, initialTen, activeProblems } from "./catalog";
 export { problems } from "./catalog";
 import {
   addDays,
@@ -113,6 +113,76 @@ function mutablePlan(state: StudyState) {
   next.planning ??= { days: {}, weeks: {} };
   next.revision++;
   return next as StudyState & { planning: NonNullable<StudyState["planning"]> };
+}
+export function setReviewWindow(
+  state: StudyState,
+  start: string,
+  end: string,
+  maxPerDay: number,
+): StudyState {
+  const valid = (date: string) =>
+    /^\d{4}-\d{2}-\d{2}$/.test(date) &&
+    Number.isFinite(Date.parse(date)) &&
+    addDays(date, 0) === date;
+  if (
+    !valid(start) ||
+    !valid(end) ||
+    end < start ||
+    dayDiff(start, end) > 365 ||
+    !Number.isInteger(maxPerDay) ||
+    maxPerDay < 1 ||
+    maxPerDay > 100
+  )
+    throw new Error(
+      "Choose valid dates and between 1 and 100 reviews per day.",
+    );
+  const next = mutablePlan(state);
+  next.planning.reviewWindow = { start, end, maxPerDay };
+  return rebalanceReviewWindow(next, start);
+}
+
+export function rebalanceReviewWindow(
+  state: StudyState,
+  day: string,
+): StudyState {
+  const window = state.planning?.reviewWindow;
+  if (!window || day > window.end) return state;
+  const start = day > window.start ? day : window.start;
+  const activeIds = new Set(
+    activeProblems(state)
+      .filter((p) => p.review !== false)
+      .map((p) => p.id),
+  );
+  const affected = Object.entries(state.progress)
+    .filter(([id, p]) => activeIds.has(id) && p.due <= window.end)
+    .sort(
+      ([a, pa], [b, pb]) =>
+        pa.due.localeCompare(pb.due) ||
+        (pa.card?.stability ?? 0) - (pb.card?.stability ?? 0) ||
+        a.localeCompare(b),
+    );
+  const next = structuredClone(state);
+  // Keep progress present so practiced extras remain active while allocating.
+  const unallocated = new Set(affected.map(([id]) => id));
+  let changed = false;
+  for (const [id, p] of affected) {
+    unallocated.delete(id);
+    const due = reviewSlot(
+      p.due < start ? start : p.due,
+      next,
+      id,
+      unallocated,
+    );
+    const progress = structuredClone(p);
+    if (due !== p.due) {
+      moveReview(progress, due);
+      changed = true;
+    }
+    next.progress[id] = progress;
+  }
+  if (!changed) return state;
+  next.revision++;
+  return next;
 }
 export function setDayMinutes(
   state: StudyState,

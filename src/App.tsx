@@ -5,6 +5,7 @@ import {
   recordAttempt,
   markMorningStudy,
   setProblemSkipped,
+  rebalanceReviewWindow,
 } from "./model";
 import { dailyPlan, dayDiff, todayIn, reviewDay } from "./scheduler";
 import { loadState, saveState, STORAGE_KEY } from "./storage";
@@ -92,6 +93,7 @@ export default function App({
   );
   function commit(next: StudyState) {
     try {
+      next = rebalanceReviewWindow(next, day);
       if (store) store.save(next, state?.revision ?? null);
       else saveState(next, state?.revision ?? null);
       setState(next);
@@ -103,6 +105,11 @@ export default function App({
       return false;
     }
   }
+  useEffect(() => {
+    if (!savedState || selected || view !== "today") return;
+    const next = rebalanceReviewWindow(savedState, day);
+    if (next !== savedState) commit(next);
+  }, [savedState, day, selected, view]);
   if (!state)
     return (
       <div className="welcome">

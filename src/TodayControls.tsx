@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Clock3, SlidersHorizontal } from "lucide-react";
-import { dailyPlan } from "./scheduler";
-import { setDayMinutes, setWeekHours } from "./model";
+import { addDays, dailyPlan } from "./scheduler";
+import { setDayMinutes, setWeekHours, setReviewWindow } from "./model";
 import { duration, dateLabel } from "./Session";
 import type { StudyState } from "./types";
 export function TodayControls({
@@ -17,6 +17,10 @@ export function TodayControls({
   const [minutes, setMinutes] = useState(plan.budgetMinutes);
   const [hours, setHours] = useState(plan.week.goalMinutes / 60);
   const [error, setError] = useState("");
+  const [reviewStart, setReviewStart] = useState(day);
+  const [reviewEnd, setReviewEnd] = useState(addDays(day, 6));
+  const [reviewLimit, setReviewLimit] = useState(4);
+  const [automaticTime, setAutomaticTime] = useState(true);
   useEffect(() => {
     setMinutes(plan.budgetMinutes);
     setHours(plan.week.goalMinutes / 60);
@@ -43,6 +47,22 @@ export function TodayControls({
             ? " Today's budget is held steady after skipping a problem."
             : ""}
       </p>
+      <p>
+        Assigned today: {duration(plan.totalMinutes + plan.doneMinutes)},
+        including reviews and completed time. New problems use the closest total
+        in learning order. Whole problems can put this above or below the daily
+        target.
+      </p>
+      {state.planning?.reviewWindow &&
+        day <= state.planning.reviewWindow.end && (
+          <p>
+            At most {state.planning.reviewWindow.maxPerDay} scheduled reviews a
+            day: {dateLabel(state.planning.reviewWindow.start)}–
+            {dateLabel(state.planning.reviewWindow.end)}. Completed reviews
+            count toward this limit. Excess reviews move to later days,
+            including after this period.
+          </p>
+        )}
       <details>
         <summary>
           <SlidersHorizontal size={14} /> Adjust time
@@ -120,6 +140,83 @@ export function TodayControls({
             Update this plan
           </button>
           {error && <p role="status">{error}</p>}
+        </form>
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            try {
+              let next = setReviewWindow(
+                state,
+                reviewStart,
+                reviewEnd,
+                reviewLimit,
+              );
+              if (automaticTime)
+                for (
+                  let date = reviewStart;
+                  date <= reviewEnd;
+                  date = addDays(date, 1)
+                )
+                  next = setDayMinutes(next, date, null);
+              if (onSave(next))
+                setError(
+                  "Reviews spread across available days. New problems use the available time.",
+                );
+            } catch (error) {
+              setError((error as Error).message);
+            }
+          }}
+        >
+          <h3>Spread reviews</h3>
+          <div className="time-inputs">
+            <label>
+              Review limit start
+              <input
+                type="date"
+                required
+                min={day}
+                value={reviewStart}
+                onChange={(event) => setReviewStart(event.target.value)}
+              />
+            </label>
+            <label>
+              Review limit end
+              <input
+                type="date"
+                required
+                min={reviewStart}
+                value={reviewEnd}
+                onChange={(event) => setReviewEnd(event.target.value)}
+              />
+            </label>
+            <label>
+              Maximum reviews per day
+              <input
+                type="number"
+                required
+                min="1"
+                max="100"
+                value={reviewLimit}
+                onChange={(event) => setReviewLimit(Number(event.target.value))}
+              />
+            </label>
+          </div>
+          <label className="automatic-time-choice">
+            <input
+              type="checkbox"
+              checked={automaticTime}
+              onChange={(event) => setAutomaticTime(event.target.checked)}
+            />{" "}
+            Use automatic daily time for these dates
+          </label>
+          <p>
+            This moves saved review dates. Ratings, notes, and memory stay
+            saved. New ratings and missed days use this limit. Overflow moves
+            past the end date.
+          </p>
+          <button className="button secondary" type="submit">
+            Spread these reviews
+          </button>
         </form>
       </details>
     </section>

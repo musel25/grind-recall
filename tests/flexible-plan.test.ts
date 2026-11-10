@@ -123,7 +123,7 @@ test("adding a long next problem does not silently add a shorter following probl
       note: "",
       independent: false,
     };
-  s = setDayMinutes(s, day, 40);
+  s = setDayMinutes(s, day, 30);
   assert.equal(dailyPlan(s, day).newProblems.length, 0);
   s = addExtraProblem(s, day);
   assert.deepEqual(
