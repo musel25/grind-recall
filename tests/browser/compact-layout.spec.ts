@@ -50,6 +50,14 @@ for (const width of [1440, 390]) {
     await expect(
       page.getByRole("complementary").getByRole("button", { name: "Today" }),
     ).toBeFocused();
+    const sidebar = page.getByRole("complementary");
+    const firstLink = sidebar.locator("a").first();
+    const lastLink = sidebar.locator("a").last();
+    await lastLink.focus();
+    await page.keyboard.press("Tab");
+    await expect(firstLink).toBeFocused();
+    await page.keyboard.press("Shift+Tab");
+    await expect(lastLink).toBeFocused();
     await page.keyboard.press("Escape");
     await expect(page.getByRole("complementary")).toHaveCount(0);
     await expect(menu).toBeFocused();
@@ -72,4 +80,9 @@ test("account actions stay available without a full account bar", async ({
   await page.getByRole("button", { name: "Account", exact: true }).click();
   await expect(page.getByRole("button", { name: "Sync now" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Sign out" })).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("button", { name: "Sync now" })).toHaveCount(0);
+  await page.getByRole("button", { name: "Account", exact: true }).click();
+  await page.getByRole("heading", { name: "Your practice, today." }).click();
+  await expect(page.getByRole("button", { name: "Sync now" })).toHaveCount(0);
 });

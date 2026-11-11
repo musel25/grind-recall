@@ -68,6 +68,26 @@ export default function App({
       if (event.key === "Escape") {
         setNavigationOpen(false);
         navigationButton.current?.focus();
+      } else if (event.key === "Tab" && navigationRef.current) {
+        const panel = navigationRef.current;
+        const controls = panel.querySelectorAll<HTMLElement>(
+          "a[href], button:not([disabled])",
+        );
+        const first = controls[0];
+        const last = controls[controls.length - 1];
+        if (
+          first &&
+          last &&
+          (event.shiftKey
+            ? document.activeElement === first
+            : document.activeElement === last)
+        ) {
+          event.preventDefault();
+          (event.shiftKey ? last : first).focus();
+        } else if (first && !panel.contains(document.activeElement)) {
+          event.preventDefault();
+          first.focus();
+        }
       }
     };
     window.addEventListener("keydown", onKey);

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Cloud, Repeat2, UserRound } from "lucide-react";
 import App from "./App";
 import { CloudStore, request, type User } from "./cloud";
@@ -170,6 +170,27 @@ function SignedIn({
   const [, redraw] = useState(0);
   const [error, setError] = useState("");
   const [accountOpen, setAccountOpen] = useState(false);
+  const accountRef = useRef<HTMLDivElement>(null);
+  const accountButton = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (!accountOpen) return;
+    const onPointer = (event: PointerEvent) => {
+      if (!accountRef.current?.contains(event.target as Node))
+        setAccountOpen(false);
+    };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setAccountOpen(false);
+        accountButton.current?.focus();
+      }
+    };
+    document.addEventListener("pointerdown", onPointer);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onPointer);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [accountOpen]);
   const [skipLegacy, setSkipLegacy] = useState(
     () => localStorage.getItem(`${store.key}:skip-legacy`) === "yes",
   );
@@ -222,8 +243,9 @@ function SignedIn({
   }
   return (
     <div className="cloud-session">
-      <div className="account-bar">
+      <div ref={accountRef} className="account-bar">
         <button
+          ref={accountButton}
           type="button"
           className="account-toggle"
           aria-label="Account"
