@@ -1,5 +1,15 @@
-import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, Check, Info, Repeat2, X } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  ArrowRight,
+  CalendarDays,
+  Check,
+  Info,
+  ListChecks,
+  Menu,
+  Repeat2,
+  Settings2,
+  X,
+} from "lucide-react";
 import {
   initialState,
   recordAttempt,
@@ -7,7 +17,7 @@ import {
   setProblemSkipped,
   rebalanceReviewWindow,
 } from "./model";
-import { dailyPlan, dayDiff, todayIn, reviewDay } from "./scheduler";
+import { dailyPlan, todayIn, reviewDay } from "./scheduler";
 import { loadState, saveState, STORAGE_KEY } from "./storage";
 import { Session, dateLabel } from "./Session";
 import { estimatePlan, applyEstimate } from "./planning";
@@ -15,7 +25,7 @@ import { Settings } from "./Settings";
 import type { Problem, StudyState } from "./types";
 import { bankWeeks } from "./bank";
 import { activeProblems, progressSummary } from "./catalog";
-import { StudySidebar } from "./StudySidebar";
+import { StudyProgress, StudySidebar } from "./StudySidebar";
 import { TodayView } from "./TodayView";
 import { ProblemList } from "./ProblemList";
 type AppStore = {
@@ -41,6 +51,9 @@ export default function App({
   const [savedState, setState] = useState<StudyState | null>(loaded.state);
   const [error, setError] = useState(loaded.error);
   const [view, setView] = useState("today");
+  const [navigationOpen, setNavigationOpen] = useState(false);
+  const navigationRef = useRef<HTMLElement>(null);
+  const navigationButton = useRef<HTMLButtonElement>(null);
   const [selected, setSelected] = useState<Problem | null>(null);
   const [toast, setToast] = useState("");
   const [tick, setTick] = useState(0);
@@ -48,6 +61,18 @@ export default function App({
     const id = setInterval(() => setTick((n) => n + 1), 30000);
     return () => clearInterval(id);
   }, []);
+  useEffect(() => {
+    if (!navigationOpen) return;
+    navigationRef.current?.querySelector<HTMLElement>("nav button")?.focus();
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setNavigationOpen(false);
+        navigationButton.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [navigationOpen]);
   useEffect(() => {
     if (store) return;
     const listener = (e: StorageEvent) => {
@@ -205,11 +230,6 @@ export default function App({
       </div>
     );
   const plan = dailyPlan(state, day);
-  const displayWeeks = projection!.weeks;
-  const week = Math.min(
-    displayWeeks,
-    Math.max(1, Math.floor(dayDiff(state.settings.startDate, day) / 7) + 1),
-  );
   function skipProblem(p: Problem, skipped = true) {
     try {
       if (commit(setProblemSkipped(state!, day, p.id, skipped)))
@@ -240,25 +260,63 @@ export default function App({
   }
   return (
     <div className="app-shell">
-      <StudySidebar
-        view={view}
-        setView={setView}
-        queueLength={plan.reviews.length + plan.newProblems.length}
-        projection={projection!}
-        total={total}
-        practiced={practiced}
-        independent={independent}
-      />
+      {navigationOpen && (
+        <StudySidebar
+          view={view}
+          setView={setView}
+          queueLength={plan.reviews.length + plan.newProblems.length}
+          onClose={() => {
+            setNavigationOpen(false);
+            navigationButton.current?.focus();
+          }}
+          sidebarRef={navigationRef}
+        />
+      )}
       <main className="main">
         <header className="topbar">
-          <span>
-            <span className="status-dot" /> Your daily practice space
-          </span>
-          <span>
-            Week {week}
-            {projection?.feasible ? ` of ${displayWeeks}` : ""}
-          </span>
+          <button
+            ref={navigationButton}
+            type="button"
+            className="navigation-toggle"
+            aria-label={navigationOpen ? "Close navigation" : "Open navigation"}
+            aria-expanded={navigationOpen}
+            onClick={() => setNavigationOpen(!navigationOpen)}
+          >
+            <Menu size={19} />
+          </button>
+          <span>Grind Recall</span>
+          <nav className="topbar-nav" aria-label="Practice navigation">
+            {[
+              ["today", "Today", CalendarDays],
+              ["problems", "All problems", ListChecks],
+              ["settings", "Settings", Settings2],
+            ].map(([key, label, Icon]) => {
+              const C = Icon as typeof CalendarDays;
+              return (
+                <button
+                  key={key as string}
+                  type="button"
+                  aria-label={label as string}
+                  className={view === key ? "active" : ""}
+                  onClick={() => {
+                    setView(key as string);
+                    setNavigationOpen(false);
+                    window.scrollTo(0, 0);
+                  }}
+                >
+                  <C size={16} />
+                  <span>{label as string}</span>
+                </button>
+              );
+            })}
+          </nav>
         </header>
+        <StudyProgress
+          projection={projection!}
+          total={total}
+          practiced={practiced}
+          independent={independent}
+        />
         {error && (
           <div role="alert" className="notice error">
             <Info size={20} />
@@ -291,8 +349,6 @@ export default function App({
             day={day}
             projection={projection!}
             plan={plan}
-            total={total}
-            practiced={practiced}
             commit={commit}
             setSelected={setSelected}
             setView={setView}

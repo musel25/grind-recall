@@ -5,41 +5,52 @@ import {
   Repeat2,
   Settings2,
   ShieldCheck,
+  X,
 } from "lucide-react";
+import type { RefObject } from "react";
 import type { PlanEstimate } from "./planning";
 import type { progressSummary } from "./catalog";
 export function StudySidebar({
   view,
   setView,
   queueLength,
-  projection,
-  total,
-  practiced,
-  independent,
-}: ReturnType<typeof progressSummary> & {
+  onClose,
+  sidebarRef,
+}: {
   view: string;
   setView: (view: string) => void;
   queueLength: number;
-  projection: PlanEstimate;
+  onClose: () => void;
+  sidebarRef: RefObject<HTMLElement | null>;
 }) {
-  const displayWeeks = projection.weeks;
   return (
-    <aside className="sidebar">
-      <a
-        className="brand"
-        href="#"
-        onClick={(e) => {
-          e.preventDefault();
-          setView("today");
-        }}
-      >
-        <span className="brand-icon">
-          <Repeat2 size={23} />
-        </span>
-        <span>
-          Grind Recall<small>A little, every day.</small>
-        </span>
-      </a>
+    <aside ref={sidebarRef} className="sidebar">
+      <div className="sidebar-heading">
+        <a
+          className="brand"
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            setView("today");
+            onClose();
+          }}
+        >
+          <span className="brand-icon">
+            <Repeat2 size={23} />
+          </span>
+          <span>
+            Grind Recall<small>A little, every day.</small>
+          </span>
+        </a>
+        <button
+          type="button"
+          className="sidebar-close"
+          aria-label="Close navigation"
+          onClick={onClose}
+        >
+          <X size={18} />
+        </button>
+      </div>
       <nav aria-label="Main navigation">
         {[
           ["today", "Today", CalendarDays],
@@ -54,6 +65,7 @@ export function StudySidebar({
               className={view === key ? "nav-item active" : "nav-item"}
               onClick={() => {
                 setView(key as string);
+                onClose();
                 window.scrollTo(0, 0);
               }}
             >
@@ -66,23 +78,6 @@ export function StudySidebar({
           );
         })}
       </nav>
-      <div className="sidebar-plan">
-        <div className="small-heading">
-          {projection?.feasible
-            ? `Your ${displayWeeks}-week journey`
-            : "Your study journey"}{" "}
-          <span>{Math.round((practiced / total) * 100)}%</span>
-        </div>
-        <div className="progress-track">
-          <div style={{ width: `${(practiced / total) * 100}%` }} />
-        </div>
-        <p>
-          <strong>{practiced}</strong> of {total} practiced
-        </p>
-        <span className="sidebar-caption">
-          {independent} solved independently
-        </span>
-      </div>
       <div className="sidebar-bottom">
         <a href="/week">
           Back to Timer <ArrowUpRight size={13} />
@@ -98,5 +93,35 @@ export function StudySidebar({
         </a>
       </div>
     </aside>
+  );
+}
+
+export function StudyProgress({
+  projection,
+  total,
+  practiced,
+  independent,
+}: ReturnType<typeof progressSummary> & {
+  projection: PlanEstimate;
+}) {
+  const displayWeeks = projection.weeks;
+  return (
+    <section className="sidebar-plan" aria-label="Study progress">
+      <div className="small-heading">
+        {projection?.feasible
+          ? `Your ${displayWeeks}-week journey`
+          : "Your study journey"}{" "}
+        <span>{Math.round((practiced / total) * 100)}%</span>
+      </div>
+      <div className="progress-track">
+        <div style={{ width: `${(practiced / total) * 100}%` }} />
+      </div>
+      <p>
+        <strong>{practiced}</strong> of {total} practiced
+      </p>
+      <span className="sidebar-caption">
+        {independent} solved independently
+      </span>
+    </section>
   );
 }

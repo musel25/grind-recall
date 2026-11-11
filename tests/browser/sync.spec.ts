@@ -184,6 +184,7 @@ test("offline work retries and concurrent device edits require explicit recovery
     .click();
   await expect.poll(async () => (await serverState(mobile)).version).toBe(2);
   await page.context().setOffline(false);
+  await page.getByRole("button", { name: "Account", exact: true }).click();
   await page.getByRole("button", { name: "Sync now", exact: true }).click();
   await expect(
     page.getByRole("button", { name: "Load server progress" }),
@@ -214,6 +215,7 @@ test("offline work retries and concurrent device edits require explicit recovery
         (await serverState(page)).state.morningStudy?.["contains-duplicate"],
     )
     .toBeTruthy();
+  await mobile.getByRole("button", { name: "Account", exact: true }).click();
   await mobile.getByRole("button", { name: "Sync now", exact: true }).click();
   await expect(
     mobile.getByRole("region", { name: "Practice tonight" }),

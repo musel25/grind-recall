@@ -184,9 +184,9 @@ test("automatic deadline forecasts keep the weekly time after reviews decrease",
     ).ok(),
   ).toBe(true);
   await page.goto("./");
-  await expect(
-    page.getByRole("region", { name: "Daily and weekly plan" }),
-  ).toContainText("1h 18m/day on average");
+  await expect(page.getByLabel("Plan estimate")).toContainText(
+    "About 1h 18m a day",
+  );
   await expect(page.getByLabel("Plan estimate")).toContainText(
     "9.0 hours/week",
   );
@@ -198,9 +198,9 @@ test("automatic deadline forecasts keep the weekly time after reviews decrease",
     "Saved to your account",
   );
   await page.reload();
-  await expect(
-    page.getByRole("region", { name: "Daily and weekly plan" }),
-  ).toContainText("1h 18m/day on average");
+  await expect(page.getByLabel("Plan estimate")).toContainText(
+    "About 1h 18m a day",
+  );
   expect(
     (await (await page.request.get("/api/grind/state")).json()).state.settings
       .hours,

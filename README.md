@@ -37,6 +37,8 @@ Predictions are recomputed after recorded practice or settings changes. They use
 
 First-ten import records no fictional solve date or rating: baseline reviews are distributed two per day over the next five days. Sign in with a Planner account or create a separate account. Each account has private progress. Backups are validated before replacing state; revisions detect stale tab writes. Undo reverts the latest attempt.
 
+The practice page starts with the left panel closed. Use the top controls for Today, All problems, and Settings. The menu button opens the panel and its link back to Planner. The progress summary stays at the top of the page. Use the account button for sync status, backups, Sync now, and Sign out.
+
 ## Deployment
 
 Production: https://timer.musel.dev/grind/
@@ -73,6 +75,8 @@ Use **Not today** beside any unfinished problem in Today, including reviews and 
 
 Skipped reviews return on the next study day with their original due dates and may show as overdue. New problems remain in learning order and become eligible again next study day, subject to reviews and the available time budget; they are not all forced into tomorrow. Later new work can consequently move back. Explicit extra additions apply only to their original day. The weekly goal remains unchanged, so unfinished time is redistributed over the remaining study days. The completion estimate recalculates (or deadline mode adjusts the required future budget). While skips remain, today's automatic time budget is held steady so recalculation does not add replacements. Undoing every skip releases that hold, preserving any explicit time override. Adjust time → Use automatic time also releases it.
 
+Coming up lists known reviews. You can open and rate a review early. Its next review date then follows the new rating. The time you record counts toward this week's goal. It can lower an automatic budget on a later day in the same week. A custom daily budget stays fixed.
+
 ## Morning study, evening recall
 
 “Studied this morning” on a new problem row or inside its practice dialog records a date-only marker. It does not create a rating, change FSRS cards/due dates, increase completed counts, or log minutes. Pending work appears once in “Practice tonight”, persists across reloads/backups, and carries forward until rated or unmarked (hidden during study breaks). The evening attempt records the combined study/practice time once. Rating resolves the marker via history; Undo last attempt restores the pending item. Existing backups without morning markers remain valid.
@@ -81,9 +85,9 @@ Skipped reviews return on the next study day with their original due dates and m
 
 Open Grind first in the browser with your existing progress. Use your Planner login, then choose **Save existing progress to my account**. The old `grind-recall:v1` value is never overwritten or removed. On your phone, sign in to the same account. A partner should create their own account and start fresh; do not import your browser progress into their account.
 
-Each device keeps an account-scoped snapshot and pending save. Writes use server versions and idempotent mutation IDs. Concurrent stale saves stop with a conflict notice; export the local version, then explicitly load the server version. That action also keeps a local recovery copy. Backups can be imported through Settings when an intentional replacement is needed. A legacy browser backup is available from the account bar even if an account already has progress.
+Each device keeps an account-scoped snapshot and pending save. Writes use server versions and idempotent mutation IDs. Concurrent stale saves stop with a conflict notice; export the local version, then explicitly load the server version. That action also keeps a local recovery copy. Backups can be imported through Settings when an intentional replacement is needed. A legacy browser backup is available from the account menu even if an account already has progress.
 
-An open page retains edits locally if its connection fails and retries on reconnect, focus, or every five seconds. Wait for **Saved to your account** before changing devices. Reopening the app requires a connection to verify login. Background updates wait while a practice dialog, Settings, or daily-time editor is open so unsaved drafts are not silently discarded. A save attempted during an in-flight request asks you to retry; it never reports success without storing the edit.
+An open page retains edits locally if its connection fails and retries on reconnect, focus, or every five seconds. Open the account menu and wait for **Saved to your account** before changing devices. Reopening the app requires a connection to verify login. Background updates wait while a practice dialog, Settings, or daily-time editor is open so unsaved drafts are not silently discarded. A save attempted during an in-flight request asks you to retry; it never reports success without storing the edit.
 
 Older tabs opened before account sync was deployed can still write to the original browser save. On startup, sync, and storage changes, Grind checks that save for problems, attempts, or morning marks missing from the account, even when the account already has progress. A prominent recovery notice replaces the all-saved status. **Restore browser progress to my account** restores the original progress while keeping current account settings and planning, only when it preserves all account attempts, cards, notes and morning marks; it first backs up the account copy and then syncs normally. Conflicting copies stay intact with export actions for reconciliation. Account ownership is explicit: someone else’s original browser progress can be excluded. Once incorporated, the original snapshot is remembered so intentional Undo does not resurrect old attempts. Close pre-account tabs after recovery.
 

@@ -84,6 +84,7 @@ test("refresh and Sync now expose all eight attempts from an old tab and recover
     original,
   );
   await page.reload();
+  await page.getByRole("button", { name: "Account", exact: true }).click();
   await page.getByRole("button", { name: "Sync now", exact: true }).click();
   await expect(page.getByRole("alert")).toContainText(
     "8 additional problems, 8 attempts",

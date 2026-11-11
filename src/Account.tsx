@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Cloud, Repeat2 } from "lucide-react";
+import { Cloud, Repeat2, UserRound } from "lucide-react";
 import App from "./App";
 import { CloudStore, request, type User } from "./cloud";
 import { downloadBackup, loadState, STORAGE_KEY } from "./storage";
@@ -169,6 +169,7 @@ function SignedIn({
 }) {
   const [, redraw] = useState(0);
   const [error, setError] = useState("");
+  const [accountOpen, setAccountOpen] = useState(false);
   const [skipLegacy, setSkipLegacy] = useState(
     () => localStorage.getItem(`${store.key}:skip-legacy`) === "yes",
   );
@@ -222,7 +223,16 @@ function SignedIn({
   return (
     <div className="cloud-session">
       <div className="account-bar">
-        <div>
+        <button
+          type="button"
+          className="account-toggle"
+          aria-label="Account"
+          aria-expanded={accountOpen}
+          onClick={() => setAccountOpen(!accountOpen)}
+        >
+          <UserRound size={18} />
+        </button>
+        <div className={`account-menu${accountOpen ? " is-open" : ""}`}>
           <strong>{user.email}</strong>
           <span role="status">
             <Cloud size={15} />{" "}
@@ -232,8 +242,6 @@ function SignedIn({
                 ? "Additional browser progress needs recovery"
                 : store.status}
           </span>
-        </div>
-        <div className="button-row">
           {legacy.state && store.load() && (
             <button className="text-button" onClick={exportOriginal}>
               Original browser backup

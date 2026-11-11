@@ -15,7 +15,7 @@ This file describes the current app. The README describes setup and use. Older s
 | `src/Account.tsx`                              | Login, migration, account notices, and the sync lifecycle.                        |
 | `src/App.tsx`                                  | App state, navigation, persistence callbacks, settings, and the practice dialog.  |
 | `src/TodayView.tsx`                            | Daily summary, queue, completed work, adjustments, and upcoming reviews.          |
-| `src/StudySidebar.tsx`                         | Navigation and active progress display.                                           |
+| `src/StudySidebar.tsx`                         | Collapsible navigation and top progress summary.                                  |
 | `src/ProblemList.tsx`                          | Active problem bank and archive.                                                  |
 | `src/ProblemRow.tsx`, `src/ProblemSection.tsx` | Shared study rows and section controls.                                           |
 | `src/Session.tsx`, `src/Settings.tsx`          | Practice ratings and plan settings.                                               |

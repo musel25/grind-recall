@@ -37,30 +37,16 @@ export function TodayControls({
           this week
         </span>
       </div>
-      <p>
-        {duration(Math.ceil((state.settings.hours * 60) / 7))}/day on average.
-        Today's budget spreads the remaining weekly goal over remaining study
-        days, accounting for breaks. It includes time already practiced today.
-        {state.planning?.days[day]?.minutes !== undefined
-          ? " You have a custom time budget for today."
-          : state.planning?.days[day]?.skipBudgetMinutes !== undefined
-            ? " Today's budget is held steady after skipping a problem."
-            : ""}
-      </p>
-      <p>
-        Assigned today: {duration(plan.totalMinutes + plan.doneMinutes)},
-        including reviews and completed time. New problems use the closest total
-        in learning order. Whole problems can put this above or below the daily
-        target.
-      </p>
+      {state.planning?.days[day]?.minutes !== undefined && (
+        <p>Custom budget today.</p>
+      )}
+      <p>Assigned today: {duration(plan.totalMinutes + plan.doneMinutes)}.</p>
       {state.planning?.reviewWindow &&
         day <= state.planning.reviewWindow.end && (
           <p>
             At most {state.planning.reviewWindow.maxPerDay} scheduled reviews a
             day: {dateLabel(state.planning.reviewWindow.start)}–
-            {dateLabel(state.planning.reviewWindow.end)}. Completed reviews
-            count toward this limit. Excess reviews move to later days,
-            including after this period.
+            {dateLabel(state.planning.reviewWindow.end)}.
           </p>
         )}
       <details>

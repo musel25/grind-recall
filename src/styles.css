@@ -1786,3 +1786,199 @@ footer {
   font-size: 0.85rem;
   color: var(--muted);
 }
+
+/* The practice screen keeps navigation available without reserving a sidebar. */
+.app-shell {
+  display: block;
+}
+.sidebar {
+  box-shadow: 12px 0 32px rgb(31 53 92 / 12%);
+  z-index: 30;
+}
+.sidebar-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  justify-content: space-between;
+}
+.sidebar-close,
+.navigation-toggle,
+.account-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: white;
+  color: #536887;
+}
+.sidebar-close:hover,
+.navigation-toggle:hover,
+.account-toggle:hover {
+  background: #edf2fe;
+}
+.main {
+  grid-column: auto;
+}
+.topbar {
+  justify-content: flex-start;
+  gap: 13px;
+  height: 62px;
+  font-weight: 650;
+  color: #243650;
+}
+.topbar-nav {
+  display: flex;
+  gap: 3px;
+  margin-left: 18px;
+  padding-right: 45px;
+}
+.topbar-nav button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 9px;
+  border-radius: 8px;
+  color: #718097;
+  font-size: 12px;
+  font-weight: 550;
+}
+.topbar-nav button:hover,
+.topbar-nav button.active {
+  background: #edf2fe;
+  color: var(--blue);
+}
+.sidebar-plan {
+  margin: 20px 0 28px;
+  padding: 16px 19px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.sidebar-plan .small-heading {
+  font-size: 13px;
+  color: #344b75;
+}
+.sidebar-plan .small-heading span {
+  font-size: 13px;
+  color: var(--blue);
+}
+.sidebar-plan .progress-track {
+  margin: 9px 0;
+}
+.sidebar-plan p,
+.sidebar-plan .sidebar-caption {
+  display: inline;
+  font-size: 12px;
+}
+.sidebar-plan .sidebar-caption::before {
+  content: " · ";
+}
+.today-controls {
+  margin-top: 0;
+}
+.cloud-session {
+  position: relative;
+}
+.cloud-session:has(.app-shell) .account-bar {
+  position: absolute;
+  top: 12px;
+  right: max(22px, calc((100vw - 1190px) / 2 + 58px));
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  z-index: 40;
+  display: block;
+}
+.account-menu {
+  display: none;
+  position: absolute;
+  top: 42px;
+  right: 0;
+  width: min(260px, calc(100vw - 32px));
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 12px 28px rgb(31 53 92 / 14%);
+}
+.account-menu.is-open {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+}
+.account-menu strong {
+  font-size: 12px;
+}
+.account-menu [role="status"] {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.account-menu button {
+  text-align: left;
+}
+.cloud-session:has(.app-shell) .account-bar:has(.cloud-notice) {
+  position: relative;
+  top: auto;
+  right: auto;
+  margin: 0;
+  padding: 12px 20px;
+  background: #fff;
+}
+@media (max-width: 760px) {
+  .sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: min(300px, calc(100vw - 36px));
+    height: 100dvh;
+    padding: 24px 18px;
+    flex-direction: column;
+    align-items: stretch;
+    border-right: 1px solid var(--line);
+    border-bottom: 0;
+    gap: 0;
+  }
+  .sidebar nav {
+    display: grid;
+    margin: 36px 0 0;
+  }
+  .nav-item > span {
+    display: inline;
+  }
+  .sidebar-bottom {
+    display: flex;
+  }
+  .sidebar-plan {
+    display: block;
+  }
+  .main {
+    padding: 0 22px;
+  }
+  .topbar > span {
+    display: none;
+  }
+  .topbar-nav {
+    margin-left: auto;
+    padding-right: 42px;
+  }
+  .topbar-nav button {
+    width: 35px;
+    height: 35px;
+    justify-content: center;
+    padding: 0;
+  }
+  .topbar-nav button span {
+    display: none;
+  }
+  .cloud-session:has(.app-shell) .account-bar {
+    right: 22px;
+  }
+  .today-heading {
+    margin-top: 24px;
+  }
+}

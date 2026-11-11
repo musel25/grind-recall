@@ -41,12 +41,6 @@ export function PlanSummary({ plan }: { plan: PlanEstimate }) {
             ? `${plan.hours.toFixed(1)} hours/week to finish by ${fullDate(plan.target)}.`
             : `About ${plan.weeks} weeks total at ${duration(Math.round((plan.hours * 60) / 7))}/day (${plan.hours.toFixed(1)} hours/week).`}
       </p>
-      <small>
-        Includes new problems and spaced reviews, with future attempts rated
-        Good. Actual ratings and time may change the estimate. Daily time is an
-        average; breaks and weekly progress redistribute it. Completion means
-        all active problems practiced at least once; reviews continue.
-      </small>
     </div>
   );
 }

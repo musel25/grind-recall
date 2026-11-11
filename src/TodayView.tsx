@@ -21,8 +21,8 @@ import {
   removeExtraProblem,
   undoAttempt,
 } from "./model";
-import { addDays, dailyPlan, dayDiff, reviewDay } from "./scheduler";
-import { PlanSummary, fullDate } from "./PlanSummary";
+import { addDays, dailyPlan, reviewDay } from "./scheduler";
+import { PlanSummary } from "./PlanSummary";
 import type { PlanEstimate } from "./planning";
 import { TodayControls } from "./TodayControls";
 import { duration, dateLabel } from "./Session";
@@ -34,8 +34,6 @@ export function TodayView({
   day,
   projection,
   plan,
-  total,
-  practiced,
   commit,
   setSelected,
   setView,
@@ -48,8 +46,6 @@ export function TodayView({
   day: string;
   projection: PlanEstimate;
   plan: ReturnType<typeof dailyPlan>;
-  total: number;
-  practiced: number;
   commit: (state: StudyState) => boolean;
   setSelected: (p: Problem) => void;
   setView: (view: string) => void;
@@ -69,17 +65,6 @@ export function TodayView({
         !state.planning?.days[day]?.skipped?.includes(id),
     );
   const lastExtra = active.find((p) => p.id === lastExtraId);
-  const finishDate =
-    projection!.mode === "time" ? projection!.finish : projection!.target;
-  const daysRemaining = finishDate
-    ? Math.max(0, dayDiff(day, finishDate) + 1)
-    : null;
-  const displayWeeks = projection!.weeks;
-  const trackWeeks = Math.min(52, displayWeeks);
-  const week = Math.min(
-    displayWeeks,
-    Math.max(1, Math.floor(dayDiff(state.settings.startDate, day) / 7) + 1),
-  );
   const eveningIds = new Set(plan.eveningProblems.map((p) => p.id));
   const readyReviews = plan.reviews.filter((p) => !eveningIds.has(p.id));
   const readyNew = plan.newProblems.filter((p) => !eveningIds.has(p.id));
@@ -107,14 +92,6 @@ export function TodayView({
     <>
       <div className="page-heading today-heading">
         <div>
-          <p className="date-line">
-            {new Date(day + "T12:00:00Z").toLocaleDateString(undefined, {
-              weekday: "long",
-              month: "long",
-              day: "numeric",
-              timeZone: "UTC",
-            })}
-          </p>
           <h1>Your practice, today.</h1>
           <p>
             {queue.length
@@ -160,11 +137,9 @@ export function TodayView({
               {duration(plan.totalMinutes)}
               <small>remaining</small>
             </strong>
-            <p>
-              {plan.doneMinutes
-                ? `${duration(plan.doneMinutes)} practiced today`
-                : `${duration(budget)} daily budget`}
-            </p>
+            {plan.doneMinutes > 0 && (
+              <p>{duration(plan.doneMinutes)} practiced today</p>
+            )}
           </div>
         </div>
       </section>
@@ -181,50 +156,6 @@ export function TodayView({
           </span>
         </div>
       )}
-      <section className="journey">
-        <div>
-          <span className="small-heading">The bigger picture</span>
-          <p>
-            <strong>
-              {practiced} / {total}
-            </strong>{" "}
-            problems practiced{" "}
-            <span>
-              {projection?.completed
-                ? "All problems practiced · keep reviewing"
-                : finishDate
-                  ? `${projection?.mode === "time" ? "Estimated finish" : "Target"} ${fullDate(finishDate)}`
-                  : "Choose a sustainable pace in Settings"}
-            </span>
-          </p>
-        </div>
-        <div
-          className="week-track"
-          aria-label={`Week ${week} of ${displayWeeks}`}
-        >
-          {Array.from({ length: trackWeeks }, (_, i) => (
-            <span
-              key={i}
-              title={`Week ${Math.ceil(((i + 1) * displayWeeks) / trackWeeks)}`}
-              className={
-                i + 1 < Math.ceil((week * trackWeeks) / displayWeeks)
-                  ? "past"
-                  : i + 1 === Math.ceil((week * trackWeeks) / displayWeeks)
-                    ? "current"
-                    : ""
-              }
-            />
-          ))}
-        </div>
-        <div className="journey-bottom">
-          <span>Week {week}</span>
-          <span>
-            {daysRemaining === null
-              ? "Estimate unavailable"
-              : `${daysRemaining} days left`}
-          </span>
-        </div>
-      </section>
       <div className="section-header">
         <h2>
           Today's list <span>{queue.length}</span>
@@ -311,10 +242,8 @@ export function TodayView({
             <small>{plan.skippedProblems.length} still unfinished</small>
           </div>
           <p className="skip-explanation">
-            Eligible again {dateLabel(reviewDay(addDays(day, 1), state))}.
-            Reviews come first; new problems keep their learning order and fit
-            the day's time budget. Later new work may wait longer. Nothing is
-            marked complete, and review due dates stay unchanged.
+            Unfinished. Available again{" "}
+            {dateLabel(reviewDay(addDays(day, 1), state))}.
           </p>
           {plan.skippedProblems.map((p) => (
             <div className="skipped-row" key={p.id}>
@@ -436,9 +365,8 @@ export function TodayView({
             <PlanSummary plan={projection} />
             {estimate > budget && (
               <p>
-                Today's reviews and assignments need about {duration(estimate)},
-                above your {duration(budget)} target. Whole problems can exceed
-                this target. Due reviews remain visible.
+                Assigned work is about {duration(estimate)}, above today's{" "}
+                {duration(budget)} budget.
               </p>
             )}
             <button className="text-button" onClick={() => setView("settings")}>
