@@ -86,3 +86,14 @@ test("account actions stay available without a full account bar", async ({
   await page.getByRole("heading", { name: "Your practice, today." }).click();
   await expect(page.getByRole("button", { name: "Sync now" })).toHaveCount(0);
 });
+
+test("opening one menu closes the other", async ({ page }) => {
+  await page.getByRole("button", { name: "Open navigation" }).click();
+  await page.getByRole("button", { name: "Account", exact: true }).click();
+  await expect(page.getByRole("complementary")).toHaveCount(0);
+  await page.keyboard.press("Tab");
+  await expect(page.getByRole("button", { name: "Sync now" })).toBeFocused();
+  await page.getByRole("button", { name: "Open navigation" }).click();
+  await expect(page.getByRole("button", { name: "Sync now" })).toHaveCount(0);
+  await expect(page.getByRole("complementary")).toBeVisible();
+});

@@ -46,7 +46,14 @@ function read(store?: AppStore) {
 export default function App({
   store,
   onCommitted,
-}: { store?: AppStore; onCommitted?: () => void } = {}) {
+  accountOpen = false,
+  onNavigationOpen,
+}: {
+  store?: AppStore;
+  onCommitted?: () => void;
+  accountOpen?: boolean;
+  onNavigationOpen?: () => void;
+} = {}) {
   const [loaded] = useState(() => read(store));
   const [savedState, setState] = useState<StudyState | null>(loaded.state);
   const [error, setError] = useState(loaded.error);
@@ -61,6 +68,9 @@ export default function App({
     const id = setInterval(() => setTick((n) => n + 1), 30000);
     return () => clearInterval(id);
   }, []);
+  useEffect(() => {
+    if (accountOpen) setNavigationOpen(false);
+  }, [accountOpen]);
   useEffect(() => {
     if (!navigationOpen) return;
     navigationRef.current?.querySelector<HTMLElement>("nav button")?.focus();
@@ -300,7 +310,10 @@ export default function App({
             className="navigation-toggle"
             aria-label={navigationOpen ? "Close navigation" : "Open navigation"}
             aria-expanded={navigationOpen}
-            onClick={() => setNavigationOpen(!navigationOpen)}
+            onClick={() => {
+              if (!navigationOpen) onNavigationOpen?.();
+              setNavigationOpen(!navigationOpen);
+            }}
           >
             <Menu size={19} />
           </button>

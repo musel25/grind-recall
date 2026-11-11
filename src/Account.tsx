@@ -451,6 +451,8 @@ function SignedIn({
         <App
           key={`${user.id}:${store.epoch}`}
           store={store}
+          accountOpen={accountOpen}
+          onNavigationOpen={() => setAccountOpen(false)}
           onCommitted={() => {
             queueMicrotask(() => void store.sync());
           }}
