@@ -1,4 +1,4 @@
-import { test, expect } from "./fixtures";
+import { test, expect, navigate } from "./fixtures";
 import { addDays } from "../../src/scheduler";
 
 for (const width of [1440, 390]) {
@@ -25,7 +25,7 @@ for (const width of [1440, 390]) {
     const before = (await (await page.request.get("/api/grind/state")).json())
       .state;
     const finishDate = addDays(before.settings.startDate, 137);
-    await page.getByRole("button", { name: "Settings", exact: true }).click();
+    await navigate(page, "Settings");
     await page.getByLabel("Plan by").selectOption("deadline");
     await expect(page.getByLabel("Study time (hours/day)")).toHaveCount(0);
     await expect(page.getByLabel("Plan length (weeks)")).toHaveCount(0);
@@ -66,7 +66,7 @@ for (const width of [1440, 390]) {
       "Saved to your account",
     );
     await page.reload();
-    await page.getByRole("button", { name: "Settings", exact: true }).click();
+    await navigate(page, "Settings");
     await expect(page.getByLabel("Finish date", { exact: true })).toHaveValue(
       finishDate,
     );
@@ -86,7 +86,7 @@ for (const width of [1440, 390]) {
       "Saved to your account",
     );
     await page.reload();
-    await page.getByRole("button", { name: "Settings", exact: true }).click();
+    await navigate(page, "Settings");
     await expect(page.getByLabel("Finish date", { exact: true })).toHaveValue(
       finishDate,
     );
@@ -102,7 +102,7 @@ for (const width of [1440, 390]) {
       "Saved to your account",
     );
     await page.reload();
-    await page.getByRole("button", { name: "Settings", exact: true }).click();
+    await navigate(page, "Settings");
     await expect(page.getByLabel("Study time (hours/day)")).toHaveValue("2");
     saved = (await (await page.request.get("/api/grind/state")).json()).state;
     expect(saved.settings.planMode).toBe("time");

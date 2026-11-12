@@ -37,7 +37,7 @@ Predictions are recomputed after recorded practice or settings changes. They use
 
 First-ten import records no fictional solve date or rating: baseline reviews are distributed two per day over the next five days. Sign in with a Planner account or create a separate account. Each account has private progress. Backups are validated before replacing state; revisions detect stale tab writes. Undo reverts the latest attempt.
 
-The practice page starts with the left panel closed. Use the top controls for Today, All problems, and Settings. The menu button opens the panel and its link back to Planner. The progress summary stays at the top of the page. Use the account button for sync status, backups, Sync now, and Sign out.
+The practice page starts with the left panel closed. Use the menu button for Today, All problems, Settings, and the link back to Planner. The progress summary stays at the top of the page. Use the account button for sync status, backups, Sync now, and Sign out.
 
 ## Deployment
 
@@ -63,7 +63,7 @@ Timer’s sidebar (Tools → Grind Recall), or More → Grind Recall on mobile, 
 
 ## Daily time and fewer reviews
 
-Today shows the daily time target and the assigned time separately. New problems use the closest whole-problem total in learning order after reviews. Whole problems can put the total above or below the target. Completing or skipping work does not add replacement work. Shorter review estimates leave more time for new problems when the next whole problem fits that total.
+Today shows the usual daily average and this week's remaining time in one plan summary. Today's share uses the time practiced before today and the study days left this week. The assigned list can exceed that share because due reviews stay visible and new problems are whole tasks. New problems use the closest whole-problem total in learning order after reviews. Completing or skipping work does not add replacement work. Shorter review estimates leave more time for new problems when the next whole problem fits that total.
 
 Automatic deadline updates keep your saved weekly time so fewer reviews leave more time for new problems. They can increase the budget to meet the deadline. Changing the planning mode, start date, or finish date in Settings can recalculate a lower budget. Changing only the review duration keeps the saved weekly time.
 

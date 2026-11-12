@@ -1,4 +1,4 @@
-import { test, expect } from "./fixtures";
+import { test, expect, navigate } from "./fixtures";
 import { addDays } from "../../src/scheduler";
 import { readFileSync } from "node:fs";
 import type { StudyState, Problem } from "../../src/types";
@@ -45,6 +45,9 @@ test("complete daily work, preserve it on reload, undo and backup round trip", a
   await expect(
     page.getByRole("heading", { name: "All set for today." }),
   ).toBeVisible();
+  await expect(
+    page.getByText("Your daily list is clear.", { exact: false }),
+  ).toHaveCount(0);
   await page.reload();
   await expect(
     page.getByRole("heading", { name: "All set for today." }),
@@ -53,7 +56,7 @@ test("complete daily work, preserve it on reload, undo and backup round trip", a
   await expect(
     page.getByRole("button", { name: "Start practice", exact: true }),
   ).toBeVisible();
-  await page.getByRole("button", { name: "Settings", exact: true }).click();
+  await navigate(page, "Settings");
   const download = page.waitForEvent("download");
   await page.getByRole("button", { name: "Export backup" }).click();
   const file = await download;
@@ -74,7 +77,7 @@ test("search and rate an existing problem on mobile without overflow", async ({
   await page
     .getByRole("button", { name: "Continue with my first 10 completed" })
     .click();
-  await page.getByRole("button", { name: "All problems", exact: true }).click();
+  await navigate(page, "All problems");
   await page.getByRole("textbox", { name: "Search problems" }).fill("Two Sum");
   await expect(page.locator(".problem-row")).toHaveCount(1);
   await page.locator(".problem-row").click();
@@ -107,7 +110,7 @@ test("imported settings appear immediately and saving cannot restore stale setti
   await page
     .getByRole("button", { name: "Continue with my first 10 completed" })
     .click();
-  await page.getByRole("button", { name: "Settings", exact: true }).click();
+  await navigate(page, "Settings");
   const backup = await page.evaluate(() => {
     const state = JSON.parse(
       localStorage.getItem(
@@ -188,14 +191,14 @@ test("one-click extras, day/week controls and visible breaks persist", async ({
   );
   expect(saved.settings.hours).toBe(10);
   expect(Object.values(saved.planning.weeks)).toContain(20);
-  await page.getByRole("button", { name: "Settings", exact: true }).click();
+  await navigate(page, "Settings");
   const futureDay = (offset: number) =>
     new Date(Date.now() + offset * 86400000).toISOString().slice(0, 10);
   const breakStart = futureDay(3);
   await page.getByLabel("Break starts").fill(breakStart);
   await page.getByLabel("Break ends").fill(futureDay(6));
   await page.getByRole("button", { name: "Save study break" }).click();
-  await page.getByRole("button", { name: "Today", exact: true }).click();
+  await navigate(page, "Today");
   await expect(page.locator(".break-banner")).toContainText(
     new Date(breakStart + "T12:00:00Z").toLocaleDateString("en-US", {
       month: "short",
@@ -218,7 +221,7 @@ test("plan by time or deadline; preserve pause and ratings survive reload", asyn
   await page
     .getByRole("button", { name: "Continue with my first 10 completed" })
     .click();
-  await page.getByRole("button", { name: "Settings", exact: true }).click();
+  await navigate(page, "Settings");
   await page.getByLabel("Study time (hours/day)").fill("2");
   await expect(page.getByLabel("Plan estimate")).toContainText(
     "14.0 hours/week",
@@ -234,7 +237,7 @@ test("plan by time or deadline; preserve pause and ratings survive reload", asyn
     .getByRole("button", { name: "Save settings", exact: true })
     .click();
   await page.reload();
-  await page.getByRole("button", { name: "Settings", exact: true }).click();
+  await navigate(page, "Settings");
   await expect(page.getByLabel("Study time (hours/day)")).toHaveValue("2");
   await page.getByLabel("Plan by").selectOption("deadline");
   const finishDate = addDays(
@@ -268,7 +271,7 @@ test("plan by time or deadline; preserve pause and ratings survive reload", asyn
   expect(saved.settings.finishDate).toBe(finishDate);
   expect(saved.settings.hours).toBe(requiredHours);
   expect(saved.planning.breaks).toHaveLength(5);
-  await page.getByRole("button", { name: "Today", exact: true }).click();
+  await navigate(page, "Today");
   await page
     .getByRole("button", { name: "Start practice", exact: true })
     .click();
@@ -367,7 +370,7 @@ test("completed lists preserve review budget and allow saving settings after dea
   await expect(page.getByLabel("Plan estimate")).toContainText(
     "All active problems practiced",
   );
-  await page.getByRole("button", { name: "Settings", exact: true }).click();
+  await navigate(page, "Settings");
   await page.getByLabel("Estimated review duration").selectOption("0.5");
   await page
     .getByRole("button", { name: "Save settings", exact: true })
@@ -503,7 +506,7 @@ test("saving a break spreads reviews and syncs stable appointments", async ({
     };
   await page.goto("./");
   await page.getByRole("button", { name: "Start from problem one" }).click();
-  await page.getByRole("button", { name: "Settings", exact: true }).click();
+  await navigate(page, "Settings");
   page.on("dialog", (d) => d.accept());
   await page.getByLabel("Import backup file").setInputFiles({
     name: "reviews.json",
@@ -525,7 +528,7 @@ test("saving a break spreads reviews and syncs stable appointments", async ({
   };
   await expect.poll(counts).toEqual([7, 7, 5]);
   await page.reload();
-  await page.getByRole("button", { name: "Settings", exact: true }).click();
+  await navigate(page, "Settings");
   await expect(page.getByLabel("Break starts")).toHaveValue("2026-10-08");
   await page.getByRole("button", { name: "Save study break" }).click();
   await expect.poll(counts).toEqual([7, 7, 5]);

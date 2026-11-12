@@ -1,4 +1,4 @@
-import { test, expect } from "./fixtures";
+import { test, expect, navigate } from "./fixtures";
 import { initialState, recordAttempt, setDayMinutes } from "../../src/model";
 import { activeProblems } from "../../src/catalog";
 import { addDays } from "../../src/scheduler";
@@ -57,7 +57,7 @@ for (const width of [1440, 390]) {
     ).toContainText("4due reviews");
     await expect(
       page.getByRole("region", { name: "Daily and weekly plan" }),
-    ).toContainText("At most 4 scheduled reviews");
+    ).not.toContainText("At most 4 scheduled reviews");
     const saved = (await (await page.request.get("/api/grind/state")).json())
       .state;
     expect(saved.planning.reviewWindow).toEqual({
@@ -122,9 +122,9 @@ test("daily summary adds row times and does not refill after fast completion", a
   await expect(
     page.getByRole("region", { name: "Today's summary" }),
   ).toContainText("1h 30mremaining");
-  await expect(
-    page.getByRole("region", { name: "Daily and weekly plan" }),
-  ).toContainText("Assigned today: 1h 30m");
+  await expect(page.getByLabel("Plan estimate")).toContainText(
+    "Today's set time is 1h 18m",
+  );
   await expect(page.locator(".problem-row")).toHaveCount(3);
   await page.locator(".problem-row").first().click();
   await page.getByRole("button", { name: "Rate my attempt" }).click();
@@ -205,7 +205,7 @@ test("automatic deadline forecasts keep the weekly time after reviews decrease",
     (await (await page.request.get("/api/grind/state")).json()).state.settings
       .hours,
   ).toBe(9);
-  await page.getByRole("button", { name: "Settings", exact: true }).click();
+  await navigate(page, "Settings");
   await page.getByLabel("Estimated review duration").selectOption("0.5");
   await expect(page.getByLabel("Plan estimate")).toContainText(
     "9.0 hours/week",

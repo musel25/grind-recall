@@ -1,4 +1,4 @@
-import { test, expect } from "./fixtures";
+import { test, expect, navigate } from "./fixtures";
 import { readFileSync } from "node:fs";
 const original: { id: string }[] = JSON.parse(
   readFileSync(
@@ -24,7 +24,7 @@ for (const width of [1280, 390]) {
     expect(register.status()).toBe(201);
     await page.goto("./");
     await page.getByRole("button", { name: "Start from problem one" }).click();
-    await page.getByRole("button", { name: "Settings", exact: true }).click();
+    await navigate(page, "Settings");
     const day = new Date().toISOString().slice(0, 10);
     const state: StudyState = {
       version: 1,
@@ -72,9 +72,7 @@ for (const width of [1280, 390]) {
     await expect(page.locator(".sidebar-plan")).toContainText(
       "30 of 79 practiced",
     );
-    await page
-      .getByRole("button", { name: "All problems", exact: true })
-      .click();
+    await navigate(page, "All problems");
     await expect(page.locator(".week-group .problem-row")).toHaveCount(79);
     const orders = await page
       .locator(".week-group .problem-row .meta")
@@ -130,9 +128,7 @@ for (const width of [1280, 390]) {
     );
     for (const [id, progress] of Object.entries(state.progress))
       expect(remote.state.progress[id]).toEqual(progress);
-    await page
-      .getByRole("button", { name: "All problems", exact: true })
-      .click();
+    await navigate(page, "All problems");
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,

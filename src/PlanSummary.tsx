@@ -8,7 +8,17 @@ export function fullDate(day: string) {
     timeZone: "UTC",
   });
 }
-export function PlanSummary({ plan }: { plan: PlanEstimate }) {
+export function PlanSummary({
+  plan,
+  week,
+  todayMinutes,
+  customToday = false,
+}: {
+  plan: PlanEstimate;
+  week?: { remainingMinutes: number; daysLeft: number };
+  todayMinutes?: number;
+  customToday?: boolean;
+}) {
   if (plan.completed)
     return (
       <div className="plan-estimate" aria-label="Plan estimate">
@@ -41,6 +51,15 @@ export function PlanSummary({ plan }: { plan: PlanEstimate }) {
             ? `${plan.hours.toFixed(1)} hours/week to finish by ${fullDate(plan.target)}.`
             : `About ${plan.weeks} weeks total at ${duration(Math.round((plan.hours * 60) / 7))}/day (${plan.hours.toFixed(1)} hours/week).`}
       </p>
+      {week && todayMinutes !== undefined && (
+        <p>
+          This week: {duration(week.remainingMinutes)} remains over{" "}
+          {week.daysLeft} study {week.daysLeft === 1 ? "day" : "days"}. Today's{" "}
+          {customToday ? "set time" : "share"} is {duration(todayMinutes)}.
+          {!customToday &&
+            " This share adjusts for work done earlier this week."}
+        </p>
+      )}
     </div>
   );
 }

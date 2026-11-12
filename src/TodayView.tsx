@@ -93,11 +93,9 @@ export function TodayView({
       <div className="page-heading today-heading">
         <div>
           <h1>Your practice, today.</h1>
-          <p>
-            {queue.length
-              ? "A few new challenges. A little recall. Keep it moving."
-              : "Your daily list is clear. A good place to pause."}
-          </p>
+          {queue.length > 0 && (
+            <p>A few new challenges. A little recall. Keep it moving.</p>
+          )}
         </div>
         <span className="day-mark" aria-hidden="true">
           <CalendarDays size={36} />
@@ -271,17 +269,19 @@ export function TodayView({
                   ? "That's enough for today."
                   : "All set for today."}
           </h2>
-          <p>
-            {plan.beforeStart
-              ? `Your daily assignments begin ${dateLabel(state.settings.startDate)}.`
-              : plan.onBreak
-                ? `Reviews resume ${dateLabel(reviewDay(day, state))}. Your finish estimate accounts for this break.`
-                : plan.skippedProblems.length
-                  ? "Your skipped problems are saved above. Come back next study day, or undo a skip if you have more time."
+          {(!plan.skippedProblems.length ||
+            plan.beforeStart ||
+            plan.onBreak) && (
+            <p>
+              {plan.beforeStart
+                ? `Your daily assignments begin ${dateLabel(state.settings.startDate)}.`
+                : plan.onBreak
+                  ? `Reviews resume ${dateLabel(reviewDay(day, state))}. Your finish estimate accounts for this break.`
                   : nextDue
                     ? `Your next review is ${dateLabel(nextDue)}. Add one more problem whenever you feel like it.`
                     : "Come back tomorrow for your next assignment, or pick an extra problem."}
-          </p>
+            </p>
+          )}
           <button
             className="button secondary"
             onClick={() => setView("problems")}
@@ -362,11 +362,16 @@ export function TodayView({
         <div className="workload-note">
           <Info size={18} />
           <div>
-            <PlanSummary plan={projection} />
+            <PlanSummary
+              plan={projection}
+              week={plan.week}
+              todayMinutes={plan.budgetMinutes}
+              customToday={state.planning?.days[day]?.minutes !== undefined}
+            />
             {estimate > budget && (
               <p>
-                Assigned work is about {duration(estimate)}, above today's{" "}
-                {duration(budget)} budget.
+                Today's list takes about {duration(estimate)}. Due reviews and
+                whole problems can exceed today's share.
               </p>
             )}
             <button className="text-button" onClick={() => setView("settings")}>
