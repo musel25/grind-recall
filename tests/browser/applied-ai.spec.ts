@@ -1,4 +1,4 @@
-import { test, expect } from "./fixtures";
+import { test, expect, navigate } from "./fixtures";
 import { problems } from "../../src/catalog";
 import { initialState, markMorningStudy, recordAttempt } from "../../src/model";
 import { addDays } from "../../src/scheduler";
@@ -65,7 +65,7 @@ for (const width of [1440, 390]) {
     await expect(page.locator('.account-bar [role="status"]')).toHaveText(
       "Saved to your account",
     );
-    await page.getByRole("button", { name: "Settings", exact: true }).click();
+    await navigate(page, "Settings");
     page.on("dialog", (dialog) => dialog.accept());
     await page.getByLabel("Import backup file").setInputFiles({
       name: "practiced-ai.json",
@@ -85,9 +85,7 @@ for (const width of [1440, 390]) {
         page.locator(".problem-row").filter({ hasText: p.title }),
       ).toHaveCount(0);
 
-    await page
-      .getByRole("button", { name: "All problems", exact: true })
-      .click();
+    await navigate(page, "All problems");
     await expect(page.locator(".week-group .problem-row")).toHaveCount(76);
     await page.getByLabel("Search problems").fill(extra.title);
     await expect(

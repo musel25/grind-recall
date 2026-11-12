@@ -9,6 +9,16 @@ import { projectRoot } from "../../scripts/browser-config.mjs";
 
 export { expect };
 export type { Page } from "@playwright/test";
+export async function navigate(
+  page: import("@playwright/test").Page,
+  name: "Today" | "All problems" | "Settings",
+) {
+  await page.getByRole("button", { name: "Open navigation" }).click();
+  await page
+    .getByRole("complementary")
+    .getByRole("button", { name, exact: true })
+    .click();
+}
 export const test = base.extend<{ studyServer: string }>({
   studyServer: [
     async ({}, use) => {

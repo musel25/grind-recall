@@ -1,15 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  ArrowRight,
-  CalendarDays,
-  Check,
-  Info,
-  ListChecks,
-  Menu,
-  Repeat2,
-  Settings2,
-  X,
-} from "lucide-react";
+import { ArrowRight, Check, Info, Menu, Repeat2, X } from "lucide-react";
 import {
   initialState,
   recordAttempt,
@@ -318,31 +308,6 @@ export default function App({
             <Menu size={19} />
           </button>
           <span>Grind Recall</span>
-          <nav className="topbar-nav" aria-label="Practice navigation">
-            {[
-              ["today", "Today", CalendarDays],
-              ["problems", "All problems", ListChecks],
-              ["settings", "Settings", Settings2],
-            ].map(([key, label, Icon]) => {
-              const C = Icon as typeof CalendarDays;
-              return (
-                <button
-                  key={key as string}
-                  type="button"
-                  aria-label={label as string}
-                  className={view === key ? "active" : ""}
-                  onClick={() => {
-                    setView(key as string);
-                    setNavigationOpen(false);
-                    window.scrollTo(0, 0);
-                  }}
-                >
-                  <C size={16} />
-                  <span>{label as string}</span>
-                </button>
-              );
-            })}
-          </nav>
         </header>
         <StudyProgress
           projection={projection!}

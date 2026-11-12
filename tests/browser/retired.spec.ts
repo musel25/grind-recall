@@ -1,4 +1,4 @@
-import { test, expect } from "./fixtures";
+import { test, expect, navigate } from "./fixtures";
 import { activeProblems, problems } from "../../src/catalog";
 import { initialState, recordAttempt } from "../../src/model";
 import { addDays } from "../../src/scheduler";
@@ -52,7 +52,7 @@ for (const width of [1280, 390]) {
     await expect(page.locator('.account-bar [role="status"]')).toHaveText(
       "Saved to your account",
     );
-    await page.getByRole("button", { name: "Settings", exact: true }).click();
+    await navigate(page, "Settings");
     page.on("dialog", (dialog) => dialog.accept());
     await page.getByLabel("Import backup file").setInputFiles({
       name: "retired.json",

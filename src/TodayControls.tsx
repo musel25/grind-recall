@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Clock3, SlidersHorizontal } from "lucide-react";
+import { SlidersHorizontal } from "lucide-react";
 import { addDays, dailyPlan } from "./scheduler";
 import { setDayMinutes, setWeekHours, setReviewWindow } from "./model";
-import { duration, dateLabel } from "./Session";
+import { dateLabel } from "./Session";
 import type { StudyState } from "./types";
 export function TodayControls({
   state,
@@ -27,28 +27,6 @@ export function TodayControls({
   }, [day, plan.budgetMinutes, plan.week.goalMinutes]);
   return (
     <section className="today-controls" aria-label="Daily and weekly plan">
-      <div className="time-overview">
-        <span>
-          <Clock3 size={16} />
-          <strong>{duration(plan.budgetMinutes)}</strong> today's budget
-        </span>
-        <span>
-          {duration(plan.week.doneMinutes)} / {duration(plan.week.goalMinutes)}{" "}
-          this week
-        </span>
-      </div>
-      {state.planning?.days[day]?.minutes !== undefined && (
-        <p>Custom budget today.</p>
-      )}
-      <p>Assigned today: {duration(plan.totalMinutes + plan.doneMinutes)}.</p>
-      {state.planning?.reviewWindow &&
-        day <= state.planning.reviewWindow.end && (
-          <p>
-            At most {state.planning.reviewWindow.maxPerDay} scheduled reviews a
-            day: {dateLabel(state.planning.reviewWindow.start)}–
-            {dateLabel(state.planning.reviewWindow.end)}.
-          </p>
-        )}
       <details>
         <summary>
           <SlidersHorizontal size={14} /> Adjust time

@@ -32,7 +32,23 @@ for (const width of [1440, 390]) {
     );
     await expect(
       page.getByRole("region", { name: "Daily and weekly plan" }),
-    ).toContainText("today's budget");
+    ).not.toContainText("today's budget");
+    await expect(
+      page.getByRole("region", { name: "Daily and weekly plan" }),
+    ).not.toContainText("Assigned today:");
+    await expect(
+      page.getByRole("region", { name: "Daily and weekly plan" }),
+    ).not.toContainText("At most");
+    await expect(
+      page.getByRole("navigation", { name: "Practice navigation" }),
+    ).toHaveCount(0);
+    await expect(page.getByLabel("Plan estimate")).toContainText("This week:");
+    await expect(page.getByLabel("Plan estimate")).toContainText(
+      "Today's total target",
+    );
+    await expect(page.getByLabel("Plan estimate")).toContainText(
+      "Time practiced today counts toward it",
+    );
     await expect(
       page.getByRole("region", { name: "Daily and weekly plan" }),
     ).not.toContainText("/day on average");

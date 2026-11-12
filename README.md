@@ -37,7 +37,7 @@ Predictions are recomputed after recorded practice or settings changes. They use
 
 First-ten import records no fictional solve date or rating: baseline reviews are distributed two per day over the next five days. Sign in with a Planner account or create a separate account. Each account has private progress. Backups are validated before replacing state; revisions detect stale tab writes. Undo reverts the latest attempt.
 
-The practice page starts with the left panel closed. Use the top controls for Today, All problems, and Settings. The menu button opens the panel and its link back to Planner. The progress summary stays at the top of the page. Use the account button for sync status, backups, Sync now, and Sign out.
+The practice page starts with the left panel closed. Use the menu button for Today, All problems, Settings, and the link back to Planner. The progress summary stays at the top of the page. Use the account button for sync status, backups, Sync now, and Sign out.
 
 ## Deployment
 
@@ -63,7 +63,7 @@ Timer’s sidebar (Tools → Grind Recall), or More → Grind Recall on mobile, 
 
 ## Daily time and fewer reviews
 
-Today shows the daily time target and the assigned time separately. New problems use the closest whole-problem total in learning order after reviews. Whole problems can put the total above or below the target. Completing or skipping work does not add replacement work. Shorter review estimates leave more time for new problems when the next whole problem fits that total.
+Today shows the usual daily average and this week's remaining time in one plan summary. Today's total target uses the time practiced before today and the study days left this week. Time practiced today counts toward that target. The assigned list can exceed the target because due reviews stay visible and new problems are whole tasks. New problems use the closest whole-problem total in learning order after reviews. Completing or skipping work does not add replacement work. Shorter review estimates leave more time for new problems when the next whole problem fits that total.
 
 Automatic deadline updates keep your saved weekly time so fewer reviews leave more time for new problems. They can increase the budget to meet the deadline. Changing the planning mode, start date, or finish date in Settings can recalculate a lower budget. Changing only the review duration keeps the saved weekly time.
 
@@ -75,7 +75,7 @@ Use **Not today** beside any unfinished problem in Today, including reviews and 
 
 Skipped reviews return on the next study day with their original due dates and may show as overdue. New problems remain in learning order and become eligible again next study day, subject to reviews and the available time budget; they are not all forced into tomorrow. Later new work can consequently move back. Explicit extra additions apply only to their original day. The weekly goal remains unchanged, so unfinished time is redistributed over the remaining study days. The completion estimate recalculates (or deadline mode adjusts the required future budget). While skips remain, today's automatic time budget is held steady so recalculation does not add replacements. Undoing every skip releases that hold, preserving any explicit time override. Adjust time → Use automatic time also releases it.
 
-Coming up lists known reviews. You can open and rate a review early. Its next review date then follows the new rating. The time you record counts toward this week's goal. It can lower an automatic budget on a later day in the same week. A custom daily budget stays fixed.
+Coming up lists known reviews. Select an upcoming day to add a practiced problem for an extra review or remove an extra review you added. A missed extra review appears in today's list until you rate or remove it. This does not change the saved FSRS due date until you rate the review. An extra review can exceed the temporary daily review limit when you add it yourself. You can open and rate a review early. Its next review date then follows the new rating. The time you record counts toward this week's goal. It can lower an automatic budget on a later day in the same week. A custom daily budget stays fixed.
 
 ## Morning study, evening recall
 

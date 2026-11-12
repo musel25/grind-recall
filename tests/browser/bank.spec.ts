@@ -1,5 +1,5 @@
 import { addDays } from "../../src/scheduler";
-import { test, expect } from "./fixtures";
+import { test, expect, navigate } from "./fixtures";
 
 test("Bank follows deadline weeks, preserves every problem and updates practice labels", async ({
   page,
@@ -27,7 +27,7 @@ test("Bank follows deadline weeks, preserves every problem and updates practice 
     });
   const before = await readProgress();
   for (const weeks of [16, 8, 20]) {
-    await page.getByRole("button", { name: "Settings", exact: true }).click();
+    await navigate(page, "Settings");
     await page.getByLabel("Plan by").selectOption("deadline");
     await page
       .getByLabel("Finish date", { exact: true })
@@ -40,9 +40,7 @@ test("Bank follows deadline weeks, preserves every problem and updates practice 
     await page
       .getByRole("button", { name: "Save settings", exact: true })
       .click();
-    await page
-      .getByRole("button", { name: "All problems", exact: true })
-      .click();
+    await navigate(page, "All problems");
     await expect(page.locator(".week-group")).toHaveCount(weeks);
     await expect(
       page.locator(".week-group").last().locator("summary"),
@@ -67,9 +65,9 @@ test("Bank follows deadline weeks, preserves every problem and updates practice 
     await expect(page.locator(".week-group .problem-row")).toHaveCount(75);
   }
   await page.reload();
-  await page.getByRole("button", { name: "All problems", exact: true }).click();
+  await navigate(page, "All problems");
   await expect(page.locator(".week-group")).toHaveCount(20);
-  await page.getByRole("button", { name: "Settings", exact: true }).click();
+  await navigate(page, "Settings");
   await page.getByLabel("Plan by").selectOption("time");
   await page.getByLabel("Study time (hours/day)").fill("2");
   await page
@@ -80,7 +78,7 @@ test("Bank follows deadline weeks, preserves every problem and updates practice 
       /(\d+)-week/,
     )![1],
   );
-  await page.getByRole("button", { name: "All problems", exact: true }).click();
+  await navigate(page, "All problems");
   await expect(page.locator(".week-group")).toHaveCount(estimatedWeeks);
   await expect(page.locator(".week-group .problem-row")).toHaveCount(75);
   expect(await readProgress()).toEqual(before);

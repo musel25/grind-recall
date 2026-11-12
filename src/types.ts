@@ -59,6 +59,7 @@ export type StudyState = {
 export type DayAdjustment = {
   minutes?: number;
   extras: string[];
+  reviews?: string[];
   skipped?: string[];
   skipBudgetMinutes?: number;
 };

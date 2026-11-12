@@ -65,6 +65,28 @@ export function reviewSlot(
   }
   // The explicit, temporary limit also counts reviews already completed.
   const window = state.planning?.reviewWindow;
+  if (window)
+    for (const [date, adjustment] of Object.entries(
+      state.planning?.days ?? {},
+    )) {
+      if (
+        date < window.start ||
+        date > window.end ||
+        state.planning?.breaks?.includes(date)
+      )
+        continue;
+      for (const id of adjustment.reviews ?? []) {
+        if (
+          id === problemId ||
+          !activeIds.has(id) ||
+          (state.progress[id] &&
+            reviewDay(state.progress[id].due, state) === date) ||
+          state.history.some((a) => a.day === date && a.problemId === id)
+        )
+          continue;
+        counts.set(date, (counts.get(date) ?? 0) + 1);
+      }
+    }
   for (const attempt of state.history)
     if (
       !attempt.wasNew &&
@@ -212,6 +234,20 @@ export function awaitingEvening(s: StudyState, id: string, day: string) {
     )
   );
 }
+export function scheduledReviews(s: StudyState, day: string): Problem[] {
+  if (s.planning?.breaks?.includes(day)) return [];
+  const manual = new Set(s.planning?.days[day]?.reviews ?? []);
+  const done = new Set(
+    s.history.filter((a) => a.day === day).map((a) => a.problemId),
+  );
+  return activeProblems(s).filter(
+    (p) =>
+      p.review !== false &&
+      !!s.progress[p.id] &&
+      !done.has(p.id) &&
+      (reviewDay(s.progress[p.id].due, s) === day || manual.has(p.id)),
+  );
+}
 // Alternate the two first-pass tracks. Reconstruct today's candidates before
 // removing today's completions so an early finish never adds replacement work.
 function learningOrder(problems: Problem[], state: StudyState, day: string) {
@@ -256,6 +292,18 @@ export function dailyPlan(s: StudyState, day: string) {
       ? []
       : problems.filter((p) => awaitingEvening(s, p.id, day));
   const eveningIds = new Set(eveningProblems.map((p) => p.id));
+  const manualReviewIds = new Set(
+    Object.entries(s.planning?.days ?? {})
+      .filter(([date]) => date <= day)
+      .flatMap(([date, adjustment]) =>
+        (adjustment.reviews ?? []).filter(
+          (id) =>
+            !s.history.some(
+              (attempt) => attempt.problemId === id && attempt.day >= date,
+            ),
+        ),
+      ),
+  );
   const remaining = learningOrder(
     problems.filter((p) => !s.progress[p.id]),
     s,
@@ -284,6 +332,7 @@ export function dailyPlan(s: StudyState, day: string) {
               p.review !== false &&
               s.progress[p.id] &&
               (reviewDay(s.progress[p.id].due, s) <= day ||
+                manualReviewIds.has(p.id) ||
                 eveningIds.has(p.id)) &&
               !doneIds.has(p.id),
           )

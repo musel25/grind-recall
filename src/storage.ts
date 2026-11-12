@@ -128,6 +128,11 @@ export function validateState(input: unknown): StudyState {
         entry.extras.length > ids.size ||
         new Set(entry.extras).size !== entry.extras.length ||
         entry.extras.some((id) => !ids.has(id)) ||
+        (entry.reviews !== undefined &&
+          (!Array.isArray(entry.reviews) ||
+            entry.reviews.length > ids.size ||
+            new Set(entry.reviews).size !== entry.reviews.length ||
+            entry.reviews.some((id) => !ids.has(id) || onceIds.has(id)))) ||
         (entry.skipped !== undefined &&
           (!Array.isArray(entry.skipped) ||
             entry.skipped.length > ids.size ||

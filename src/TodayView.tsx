@@ -18,10 +18,12 @@ import { activeProblems } from "./catalog";
 import {
   problems,
   addExtraProblem,
+  addManualReview,
   removeExtraProblem,
+  removeManualReview,
   undoAttempt,
 } from "./model";
-import { addDays, dailyPlan, reviewDay } from "./scheduler";
+import { addDays, dailyPlan, reviewDay, scheduledReviews } from "./scheduler";
 import { PlanSummary } from "./PlanSummary";
 import type { PlanEstimate } from "./planning";
 import { TodayControls } from "./TodayControls";
@@ -56,6 +58,7 @@ export function TodayView({
 }) {
   const active = activeProblems(state);
   const [upcomingDay, setUpcomingDay] = useState<string | null>(null);
+  const [reviewChoice, setReviewChoice] = useState("");
   const lastExtraId = [...(state.planning?.days[day]?.extras ?? [])]
     .reverse()
     .find(
@@ -67,6 +70,20 @@ export function TodayView({
   const lastExtra = active.find((p) => p.id === lastExtraId);
   const eveningIds = new Set(plan.eveningProblems.map((p) => p.id));
   const readyReviews = plan.reviews.filter((p) => !eveningIds.has(p.id));
+  const extraReviewRemovals = plan.reviews.flatMap((p) => {
+    if (reviewDay(state.progress[p.id].due, state) <= day) return [];
+    const scheduled = Object.keys(state.planning?.days ?? {})
+      .sort()
+      .find(
+        (date) =>
+          date <= day &&
+          state.planning?.days[date]?.reviews?.includes(p.id) &&
+          !state.history.some(
+            (attempt) => attempt.problemId === p.id && attempt.day >= date,
+          ),
+      );
+    return scheduled ? [{ problem: p, scheduled }] : [];
+  });
   const readyNew = plan.newProblems.filter((p) => !eveningIds.has(p.id));
   const queue = [...readyReviews, ...readyNew, ...plan.eveningProblems];
   const budget = plan.budgetMinutes;
@@ -80,11 +97,15 @@ export function TodayView({
     .filter((date) => date >= day)
     .sort();
   const upcomingProblems = upcomingDay
+    ? scheduledReviews(state, upcomingDay)
+    : [];
+  const reviewCandidates = upcomingDay
     ? active.filter(
         (p) =>
           p.review !== false &&
           state.progress[p.id] &&
-          reviewDay(state.progress[p.id].due, state) === upcomingDay,
+          reviewDay(state.progress[p.id].due, state) > upcomingDay &&
+          !state.planning?.days[upcomingDay]?.reviews?.includes(p.id),
       )
     : [];
 
@@ -93,11 +114,9 @@ export function TodayView({
       <div className="page-heading today-heading">
         <div>
           <h1>Your practice, today.</h1>
-          <p>
-            {queue.length
-              ? "A few new challenges. A little recall. Keep it moving."
-              : "Your daily list is clear. A good place to pause."}
-          </p>
+          {queue.length > 0 && (
+            <p>A few new challenges. A little recall. Keep it moving.</p>
+          )}
         </div>
         <span className="day-mark" aria-hidden="true">
           <CalendarDays size={36} />
@@ -181,6 +200,25 @@ export function TodayView({
           onSelect={setSelected}
           review
         />
+      )}
+      {extraReviewRemovals.length > 0 && (
+        <div className="manual-review-removals">
+          {extraReviewRemovals.map(({ problem, scheduled }) => (
+            <div key={problem.id}>
+              <span>Extra review: {problem.title}</span>
+              <button
+                className="text-button"
+                aria-label={`Remove extra review of ${problem.title}`}
+                onClick={() => {
+                  if (commit(removeManualReview(state, scheduled, problem.id)))
+                    setToast(`${problem.title} removed from today's list.`);
+                }}
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
       )}
       {readyNew.length > 0 && (
         <ProblemSection
@@ -271,17 +309,19 @@ export function TodayView({
                   ? "That's enough for today."
                   : "All set for today."}
           </h2>
-          <p>
-            {plan.beforeStart
-              ? `Your daily assignments begin ${dateLabel(state.settings.startDate)}.`
-              : plan.onBreak
-                ? `Reviews resume ${dateLabel(reviewDay(day, state))}. Your finish estimate accounts for this break.`
-                : plan.skippedProblems.length
-                  ? "Your skipped problems are saved above. Come back next study day, or undo a skip if you have more time."
+          {(!plan.skippedProblems.length ||
+            plan.beforeStart ||
+            plan.onBreak) && (
+            <p>
+              {plan.beforeStart
+                ? `Your daily assignments begin ${dateLabel(state.settings.startDate)}.`
+                : plan.onBreak
+                  ? `Reviews resume ${dateLabel(reviewDay(day, state))}. Your finish estimate accounts for this break.`
                   : nextDue
                     ? `Your next review is ${dateLabel(nextDue)}. Add one more problem whenever you feel like it.`
                     : "Come back tomorrow for your next assignment, or pick an extra problem."}
-          </p>
+            </p>
+          )}
           <button
             className="button secondary"
             onClick={() => setView("problems")}
@@ -362,11 +402,16 @@ export function TodayView({
         <div className="workload-note">
           <Info size={18} />
           <div>
-            <PlanSummary plan={projection} />
+            <PlanSummary
+              plan={projection}
+              week={plan.week}
+              todayMinutes={plan.budgetMinutes}
+              customToday={state.planning?.days[day]?.minutes !== undefined}
+            />
             {estimate > budget && (
               <p>
-                Assigned work is about {duration(estimate)}, above today's{" "}
-                {duration(budget)} budget.
+                Today's list takes about {duration(estimate)}. Due reviews and
+                whole problems can exceed today's total target.
               </p>
             )}
             <button className="text-button" onClick={() => setView("settings")}>
@@ -383,12 +428,7 @@ export function TodayView({
         <div className="upcoming-days">
           {Array.from({ length: 14 }, (_, i) => {
             const date = addDays(day, i + 1);
-            const n = active.filter(
-              (p) =>
-                p.review !== false &&
-                state.progress[p.id] &&
-                reviewDay(state.progress[p.id].due, state) === date,
-            ).length;
+            const n = scheduledReviews(state, date).length;
             return (
               <button
                 key={date}
@@ -398,9 +438,10 @@ export function TodayView({
                 }
                 aria-label={`Reviews for ${dateLabel(date)}`}
                 aria-pressed={upcomingDay === date}
-                onClick={() =>
-                  setUpcomingDay(upcomingDay === date ? null : date)
-                }
+                onClick={() => {
+                  setUpcomingDay(upcomingDay === date ? null : date);
+                  setReviewChoice("");
+                }}
               >
                 <span>
                   {new Date(date + "T12:00:00Z").toLocaleDateString(undefined, {
@@ -425,10 +466,30 @@ export function TodayView({
             <h3>{dateLabel(upcomingDay)}</h3>
             {upcomingProblems.length ? (
               upcomingProblems.map((p) => (
-                <button key={p.id} onClick={() => setSelected(p)}>
-                  {p.title}
-                  <ChevronRight size={15} />
-                </button>
+                <div className="upcoming-review" key={p.id}>
+                  <button onClick={() => setSelected(p)}>
+                    {p.title}
+                    <ChevronRight size={15} />
+                  </button>
+                  {state.planning?.days[upcomingDay]?.reviews?.includes(
+                    p.id,
+                  ) && (
+                    <button
+                      className="text-button"
+                      aria-label={`Remove ${p.title} from ${dateLabel(upcomingDay)}`}
+                      onClick={() => {
+                        if (
+                          commit(removeManualReview(state, upcomingDay, p.id))
+                        )
+                          setToast(
+                            `${p.title} removed from ${dateLabel(upcomingDay)}.`,
+                          );
+                      }}
+                    >
+                      Remove
+                    </button>
+                  )}
+                </div>
               ))
             ) : (
               <p>
@@ -437,6 +498,47 @@ export function TodayView({
                   : "No reviews scheduled yet."}
               </p>
             )}
+            {!state.planning?.breaks?.includes(upcomingDay) &&
+              reviewCandidates.length > 0 && (
+                <form
+                  className="add-review-form"
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    try {
+                      const next = addManualReview(
+                        state,
+                        upcomingDay,
+                        reviewChoice,
+                      );
+                      if (commit(next)) {
+                        setToast(`Review added to ${dateLabel(upcomingDay)}.`);
+                        setReviewChoice("");
+                      }
+                    } catch (error) {
+                      setError((error as Error).message);
+                    }
+                  }}
+                >
+                  <label>
+                    Problem to review
+                    <select
+                      required
+                      value={reviewChoice}
+                      onChange={(event) => setReviewChoice(event.target.value)}
+                    >
+                      <option value="">Choose a problem</option>
+                      {reviewCandidates.map((p) => (
+                        <option key={p.id} value={p.id}>
+                          {p.title}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <button className="button secondary" type="submit">
+                    <Plus size={14} /> Add review
+                  </button>
+                </form>
+              )}
           </div>
         )}
       </section>
