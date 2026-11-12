@@ -22,7 +22,8 @@ export function ProblemList({
   const [collection, setCollection] = useState("Active plan");
   const archived = archivedProblems(state);
   const pythonPlan = state.settings.curriculum === "python-next-steps";
-  const bank = collection === "Archive" ? archived : activeProblems(state);
+  const bank =
+    collection === "Archive" && !pythonPlan ? archived : activeProblems(state);
   const filtered = bank.filter(
     (p) =>
       (!search || p.title.toLowerCase().includes(search.toLowerCase())) &&
@@ -53,14 +54,16 @@ export function ProblemList({
         </p>
       </div>
       <div className="list-tools">
-        <select
-          aria-label="Problem collection"
-          value={collection}
-          onChange={(e) => setCollection(e.target.value)}
-        >
-          <option>Active plan</option>
-          <option>Archive</option>
-        </select>
+        {!pythonPlan && (
+          <select
+            aria-label="Problem collection"
+            value={collection}
+            onChange={(e) => setCollection(e.target.value)}
+          >
+            <option>Active plan</option>
+            <option>Archive</option>
+          </select>
+        )}
         <label className="search">
           <Search size={18} />
           <input
@@ -99,15 +102,15 @@ export function ProblemList({
           <p>Try a different search or filter.</p>
         </div>
       )}
-      {collection === "Archive" && (
+      {collection === "Archive" && !pythonPlan && (
         <p className="results-count">
           Archived problems are excluded from daily assignments and forecasts.
-          {pythonPlan
-            ? "Other problems stay available for history. They do not enter this Python plan."
-            : "Your practiced LeetCode extras remain in the active plan. The five Pybites courses stay archived, including practiced exercises."}
+          Your practiced LeetCode extras remain in the active plan. The five
+          Pybites courses stay archived, including practiced exercises.
         </p>
       )}
       {collection === "Archive" &&
+        !pythonPlan &&
         filtered.map((p) => (
           <a
             className="problem-row"

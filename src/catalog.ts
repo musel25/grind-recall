@@ -41,12 +41,10 @@ export function activeProblems(state?: StudyState | null): Problem[] {
     .map((p, i) => ({ ...p, order: i + 1 }));
 }
 export function archivedProblems(state?: StudyState | null): Problem[] {
+  if (state?.settings.curriculum === "python-next-steps") return [];
   const active = new Set(activeProblems(state).map((p) => p.id));
   return problems.filter(
-    (p) =>
-      !active.has(p.id) &&
-      (state?.settings.curriculum === "python-next-steps" ||
-        p.course !== "python-next-steps"),
+    (p) => !active.has(p.id) && p.course !== "python-next-steps",
   );
 }
 export function progressSummary(state?: StudyState | null) {

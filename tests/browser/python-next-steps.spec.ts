@@ -40,6 +40,7 @@ test("a new account starts Python Next Steps and keeps the plan on another devic
     .getByRole("button", { name: "All problems" })
     .click();
   await expect(page.getByText("40 active problems")).toBeVisible();
+  await expect(page.getByLabel("Problem collection")).toHaveCount(0);
   await expect(page.getByText("01. Sum Even Numbers")).toBeVisible();
   await page.getByText("01. Sum Even Numbers").click();
   await expect(
