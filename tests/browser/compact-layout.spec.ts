@@ -23,7 +23,7 @@ for (const width of [1440, 390]) {
     await expect(page.locator(".main .sidebar-plan")).toContainText(
       "10 of 75 practiced",
     );
-    await expect(page.locator(".main .sidebar-plan")).toContainText(
+    await expect(page.locator(".main .sidebar-plan")).not.toContainText(
       "solved independently",
     );
     await expect(page.getByText("Your daily practice space")).toHaveCount(0);

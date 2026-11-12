@@ -85,6 +85,10 @@ export function TodayView({
   });
   const readyNew = plan.newProblems.filter((p) => !eveningIds.has(p.id));
   const queue = [...readyReviews, ...readyNew, ...plan.eveningProblems];
+  const activeIds = new Set(active.map((p) => p.id));
+  const doneToday = plan.todays.filter((attempt) =>
+    activeIds.has(attempt.problemId),
+  ).length;
   const nextDue = active
     .filter((p) => p.review !== false && state.progress[p.id])
     .map((p) => reviewDay(state.progress[p.id].due, state))
@@ -111,6 +115,33 @@ export function TodayView({
         </span>
       </div>
       <section className="daily-overview" aria-label="Today's summary">
+        <div className="practice-progress">
+          <div className="practice-progress-item">
+            <div>
+              <strong>{doneToday} done today</strong>
+              <span>{queue.length} left in today's list</span>
+            </div>
+            <progress
+              aria-label="Today's progress"
+              value={doneToday}
+              max={Math.max(1, doneToday + queue.length)}
+            />
+          </div>
+          <div className="practice-progress-item">
+            <div>
+              <strong>
+                {duration(plan.week.doneMinutes)} of{" "}
+                {duration(plan.week.goalMinutes)} this week
+              </strong>
+              <span>Practice time</span>
+            </div>
+            <progress
+              aria-label="This week's progress"
+              value={Math.min(plan.week.doneMinutes, plan.week.goalMinutes)}
+              max={Math.max(1, plan.week.goalMinutes)}
+            />
+          </div>
+        </div>
         <div>
           <span className="overview-icon blue">
             <BookOpen size={19} />

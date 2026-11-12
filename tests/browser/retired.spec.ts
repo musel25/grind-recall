@@ -68,12 +68,15 @@ for (const width of [1280, 390]) {
       "75 of 75 practiced",
     );
     await expect(page.locator(".sidebar-plan")).toContainText("100%");
-    await expect(page.locator(".sidebar-plan")).toContainText(
+    await expect(page.locator(".sidebar-plan")).not.toContainText(
       "75 solved independently",
     );
     await expect(
       page.getByRole("region", { name: "Today's summary" }),
     ).toContainText("20m practiced today");
+    await expect(
+      page.getByRole("region", { name: "Today's summary" }),
+    ).toContainText("0 done today");
     const remote = await (await page.request.get("/api/grind/state")).json();
     expect(remote.state.history).toEqual(state.history);
     expect(remote.state.progress).toEqual(state.progress);

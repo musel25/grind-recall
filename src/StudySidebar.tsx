@@ -100,8 +100,7 @@ export function StudyProgress({
   projection,
   total,
   practiced,
-  independent,
-}: ReturnType<typeof progressSummary> & {
+}: Pick<ReturnType<typeof progressSummary>, "total" | "practiced"> & {
   projection: PlanEstimate;
 }) {
   const displayWeeks = projection.weeks;
@@ -119,9 +118,6 @@ export function StudyProgress({
       <p>
         <strong>{practiced}</strong> of {total} practiced
       </p>
-      <span className="sidebar-caption">
-        {independent} solved independently
-      </span>
     </section>
   );
 }
