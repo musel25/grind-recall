@@ -208,6 +208,8 @@ export function addManualReview(
 ): StudyState {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(day) || addDays(day, 0) !== day)
     throw new Error("Choose a valid review day.");
+  if (day < state.settings.startDate)
+    throw new Error("Choose a review day on or after your plan starts.");
   const problem = activeProblems(state).find((p) => p.id === id);
   if (!problem || problem.review === false || !state.progress[id])
     throw new Error("Choose a practiced problem for this review.");

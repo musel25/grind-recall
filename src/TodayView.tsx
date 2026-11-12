@@ -70,6 +70,20 @@ export function TodayView({
   const lastExtra = active.find((p) => p.id === lastExtraId);
   const eveningIds = new Set(plan.eveningProblems.map((p) => p.id));
   const readyReviews = plan.reviews.filter((p) => !eveningIds.has(p.id));
+  const extraReviewRemovals = plan.reviews.flatMap((p) => {
+    if (reviewDay(state.progress[p.id].due, state) <= day) return [];
+    const scheduled = Object.keys(state.planning?.days ?? {})
+      .sort()
+      .find(
+        (date) =>
+          date <= day &&
+          state.planning?.days[date]?.reviews?.includes(p.id) &&
+          !state.history.some(
+            (attempt) => attempt.problemId === p.id && attempt.day >= date,
+          ),
+      );
+    return scheduled ? [{ problem: p, scheduled }] : [];
+  });
   const readyNew = plan.newProblems.filter((p) => !eveningIds.has(p.id));
   const queue = [...readyReviews, ...readyNew, ...plan.eveningProblems];
   const budget = plan.budgetMinutes;
@@ -186,6 +200,25 @@ export function TodayView({
           onSelect={setSelected}
           review
         />
+      )}
+      {extraReviewRemovals.length > 0 && (
+        <div className="manual-review-removals">
+          {extraReviewRemovals.map(({ problem, scheduled }) => (
+            <div key={problem.id}>
+              <span>Extra review: {problem.title}</span>
+              <button
+                className="text-button"
+                aria-label={`Remove extra review of ${problem.title}`}
+                onClick={() => {
+                  if (commit(removeManualReview(state, scheduled, problem.id)))
+                    setToast(`${problem.title} removed from today's list.`);
+                }}
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
       )}
       {readyNew.length > 0 && (
         <ProblemSection
@@ -378,7 +411,7 @@ export function TodayView({
             {estimate > budget && (
               <p>
                 Today's list takes about {duration(estimate)}. Due reviews and
-                whole problems can exceed today's share.
+                whole problems can exceed today's total target.
               </p>
             )}
             <button className="text-button" onClick={() => setView("settings")}>

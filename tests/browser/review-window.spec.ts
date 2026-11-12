@@ -124,7 +124,7 @@ test("daily summary adds row times and does not refill after fast completion", a
     page.getByRole("region", { name: "Today's summary" }),
   ).toContainText("1h 30mremaining");
   await expect(page.getByLabel("Plan estimate")).toContainText(
-    "Today's set time is 1h 18m",
+    "Today's total target is 1h 18m",
   );
   await expect(page.locator(".problem-row")).toHaveCount(3);
   await page.locator(".problem-row").first().click();
@@ -297,4 +297,63 @@ test("an extra review can be added to and removed from a selected day", async ({
   saved = (await (await page.request.get("/api/grind/state")).json()).state;
   expect(saved.planning.days[target].reviews).toBeUndefined();
   expect(saved.progress["two-sum"]).toEqual(state.progress["two-sum"]);
+});
+
+test("a missed extra review can be removed from today's list", async ({
+  page,
+}) => {
+  const day = new Date().toISOString().slice(0, 10);
+  const target = addDays(day, -1);
+  const state = initialState(addDays(day, -7));
+  state.settings.timezone = "UTC";
+  state.progress["two-sum"] = {
+    due: addDays(day, 30),
+    card: null,
+    imported: true,
+    note: "keep this note",
+    independent: false,
+  };
+  state.planning = {
+    days: { [target]: { extras: [], reviews: ["two-sum"] } },
+    weeks: {},
+  };
+  const registered = await page.request.post("/api/grind/register", {
+    data: {
+      email: `missed-review-${crypto.randomUUID()}@example.com`,
+      password: "test-password-123",
+    },
+  });
+  expect(registered.status()).toBe(201);
+  const { accountId } = await (
+    await page.request.get("/api/grind/state")
+  ).json();
+  expect(
+    (
+      await page.request.put("/api/grind/state", {
+        data: {
+          accountId,
+          state,
+          baseVersion: 0,
+          mutationId: crypto.randomUUID(),
+        },
+      })
+    ).ok(),
+  ).toBe(true);
+  await page.goto("./");
+  await expect(
+    page.getByRole("button", { name: "Remove extra review of Two Sum" }),
+  ).toBeVisible();
+  await page
+    .getByRole("button", { name: "Remove extra review of Two Sum" })
+    .click();
+  await expect(page.locator('.account-bar [role="status"]')).toHaveText(
+    "Saved to your account",
+  );
+  const saved = (await (await page.request.get("/api/grind/state")).json())
+    .state;
+  expect(saved.planning.days[target].reviews).toBeUndefined();
+  expect(saved.progress["two-sum"]).toEqual(state.progress["two-sum"]);
+  await expect(
+    page.getByRole("button", { name: "Remove extra review of Two Sum" }),
+  ).toHaveCount(0);
 });

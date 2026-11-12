@@ -53,11 +53,12 @@ export function PlanSummary({
       </p>
       {week && todayMinutes !== undefined && (
         <p>
-          This week: {duration(week.remainingMinutes)} remains over{" "}
-          {week.daysLeft} study {week.daysLeft === 1 ? "day" : "days"}. Today's{" "}
-          {customToday ? "set time" : "share"} is {duration(todayMinutes)}.
+          This week: {duration(week.remainingMinutes)} remains toward your
+          weekly goal. Today's total target is {duration(todayMinutes)}
+          {customToday ? " (set by you)" : ""}. Time practiced today counts
+          toward it.
           {!customToday &&
-            " This share adjusts for work done earlier this week."}
+            " The target spreads the time left at the start of today over the remaining study days."}
         </p>
       )}
     </div>

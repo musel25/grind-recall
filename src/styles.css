@@ -1544,6 +1544,26 @@ footer {
   font-size: 12px;
   color: #8292a8;
 }
+.manual-review-removals {
+  margin: -10px 0 18px;
+  padding: 0 16px 12px;
+  border: 1px solid var(--line);
+  border-top: 0;
+  border-radius: 0 0 9px 9px;
+  background: white;
+}
+.manual-review-removals > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 10px;
+  font-size: 11px;
+  color: #6b7c94;
+}
+.manual-review-removals .text-button {
+  color: var(--blue);
+}
 .upcoming-review {
   display: flex;
   align-items: center;

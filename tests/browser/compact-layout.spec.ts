@@ -44,7 +44,10 @@ for (const width of [1440, 390]) {
     ).toHaveCount(0);
     await expect(page.getByLabel("Plan estimate")).toContainText("This week:");
     await expect(page.getByLabel("Plan estimate")).toContainText(
-      "Today's share",
+      "Today's total target",
+    );
+    await expect(page.getByLabel("Plan estimate")).toContainText(
+      "Time practiced today counts toward it",
     );
     await expect(
       page.getByRole("region", { name: "Daily and weekly plan" }),

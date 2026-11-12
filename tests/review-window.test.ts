@@ -189,6 +189,17 @@ test("manual review rejects duplicate, unpracticed, due, and break-day work", ()
   const invalid = structuredClone(state);
   invalid.planning!.days[target].reviews = [active[0].id, active[0].id];
   assert.throws(() => validateState(invalid));
+  const beforeStart = model.initialState(addDays(day, 5));
+  beforeStart.progress[active[0].id] = {
+    due: addDays(day, 20),
+    card: null,
+    imported: true,
+    note: "",
+    independent: false,
+  };
+  assert.throws(() =>
+    model.addManualReview(beforeStart, addDays(day, 2), active[0].id),
+  );
 });
 
 test("manual review reserves a limited slot for automatic review allocation", () => {
