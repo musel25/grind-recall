@@ -150,3 +150,43 @@ test("Again preview respects a full window reached after a study break", () => {
   assert.equal(preview.due, addDays(day, 3));
   assert.equal(saved.progress[id].due, preview.due);
 });
+
+test("manual review appears on a chosen day without changing saved memory", () => {
+  let state = model.initialState(day);
+  const id = activeProblems(state)[0].id;
+  state = model.recordAttempt(state, id, 3, day, 15, "saved note");
+  const target = addDays(day, 2);
+  state.progress[id].due = addDays(day, 20);
+  state.progress[id].card!.due = addDays(day, 20) + "T12:00:00.000Z";
+  const before = structuredClone(state.progress[id]);
+  const added = model.addManualReview(state, target, id);
+  assert.deepEqual(state.progress[id], before);
+  assert.deepEqual(added.progress[id], before);
+  assert.deepEqual(added.planning!.days[target].reviews, [id]);
+  assert.equal(dailyPlan(added, addDays(day, 1)).reviews.length, 0);
+  assert.ok(dailyPlan(added, target).reviews.some((p) => p.id === id));
+  assert.deepEqual(validateState(added), added);
+  const removed = model.removeManualReview(added, target, id);
+  assert.deepEqual(removed.progress[id], before);
+  assert.equal(dailyPlan(removed, target).reviews.length, 0);
+});
+
+test("manual review rejects duplicate, unpracticed, due, and break-day work", () => {
+  let state = model.initialState(day);
+  const active = activeProblems(state);
+  const target = addDays(day, 2);
+  assert.throws(() => model.addManualReview(state, target, active[0].id));
+  state = model.recordAttempt(state, active[0].id, 3, day, 15, "");
+  state.progress[active[0].id].due = addDays(day, 20);
+  state.progress[active[0].id].card!.due = addDays(day, 20) + "T12:00:00.000Z";
+  state = model.addManualReview(state, target, active[0].id);
+  assert.throws(() => model.addManualReview(state, target, active[0].id));
+  state = model.setStudyBreak(state, addDays(day, 3), addDays(day, 3));
+  assert.throws(() =>
+    model.addManualReview(state, addDays(day, 3), active[0].id),
+  );
+  assert.equal(dailyPlan(state, addDays(day, 3)).reviews.length, 0);
+  const invalid = structuredClone(state);
+  invalid.planning!.days[target].reviews = [active[0].id, active[0].id];
+  assert.throws(() => validateState(invalid));
+});

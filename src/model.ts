@@ -201,6 +201,40 @@ export function setDayMinutes(
   else adjustment.minutes = minutes;
   return next;
 }
+export function addManualReview(
+  state: StudyState,
+  day: string,
+  id: string,
+): StudyState {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day) || addDays(day, 0) !== day)
+    throw new Error("Choose a valid review day.");
+  const problem = activeProblems(state).find((p) => p.id === id);
+  if (!problem || problem.review === false || !state.progress[id])
+    throw new Error("Choose a practiced problem for this review.");
+  if (state.planning?.breaks?.includes(day))
+    throw new Error("Choose a day outside your study break.");
+  if (reviewDay(state.progress[id].due, state) <= day)
+    throw new Error("This review is already due by that day.");
+  if (state.planning?.days[day]?.reviews?.includes(id))
+    throw new Error("This review is already added to that day.");
+  const next = mutablePlan(state);
+  (next.planning.days[day] ??= { extras: [] }).reviews ??= [];
+  next.planning.days[day].reviews!.push(id);
+  return next;
+}
+
+export function removeManualReview(
+  state: StudyState,
+  day: string,
+  id: string,
+): StudyState {
+  if (!state.planning?.days[day]?.reviews?.includes(id)) return state;
+  const next = mutablePlan(state);
+  const adjustment = next.planning.days[day];
+  adjustment.reviews = adjustment.reviews!.filter((item) => item !== id);
+  if (adjustment.reviews.length === 0) delete adjustment.reviews;
+  return next;
+}
 export function setWeekHours(
   state: StudyState,
   day: string,
