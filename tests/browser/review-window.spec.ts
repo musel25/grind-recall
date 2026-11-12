@@ -124,7 +124,7 @@ test("daily summary adds row times and does not refill after fast completion", a
     page.getByRole("region", { name: "Today's summary" }),
   ).toContainText("1h 30mremaining");
   await expect(page.getByLabel("Plan estimate")).toContainText(
-    "Today's total target is 1h 18m",
+    "Today's target: 1h 18m",
   );
   await expect(page.locator(".problem-row")).toHaveCount(3);
   await page.locator(".problem-row").first().click();
@@ -185,11 +185,9 @@ test("automatic deadline forecasts keep the weekly time after reviews decrease",
     ).ok(),
   ).toBe(true);
   await page.goto("./");
-  await expect(page.getByLabel("Plan estimate")).toContainText(
-    "About 1h 18m a day",
-  );
-  await expect(page.getByLabel("Plan estimate")).toContainText(
-    "9.0 hours/week",
+  await expect(page.getByLabel("Plan estimate")).toContainText("Finish by");
+  await expect(page.getByLabel("Plan estimate")).not.toContainText(
+    "hours/week",
   );
   await page.getByText("Adjust time", { exact: true }).click();
   await page
@@ -199,9 +197,7 @@ test("automatic deadline forecasts keep the weekly time after reviews decrease",
     "Saved to your account",
   );
   await page.reload();
-  await expect(page.getByLabel("Plan estimate")).toContainText(
-    "About 1h 18m a day",
-  );
+  await expect(page.getByLabel("Plan estimate")).toContainText("Finish by");
   expect(
     (await (await page.request.get("/api/grind/state")).json()).state.settings
       .hours,
@@ -223,7 +219,7 @@ test("automatic deadline forecasts keep the weekly time after reviews decrease",
   ).toBe(9);
 });
 
-test("an extra review can be added to and removed from a selected day", async ({
+test("the plus beside an upcoming review adds that problem to today", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
@@ -232,7 +228,7 @@ test("an extra review can be added to and removed from a selected day", async ({
   const state = initialState(day);
   state.settings.timezone = "UTC";
   state.progress["two-sum"] = {
-    due: addDays(day, 30),
+    due: target,
     card: null,
     imported: true,
     note: "keep this note",
@@ -264,38 +260,34 @@ test("an extra review can be added to and removed from a selected day", async ({
   await page
     .getByRole("button", { name: `Reviews for ${dateLabel(target)}` })
     .click();
-  await page.getByLabel("Problem to review").selectOption("two-sum");
+  await expect(page.getByLabel("Problem to review")).toHaveCount(0);
+  await expect(
+    page.getByRole("button", { name: "Add Two Sum to today" }),
+  ).toBeVisible();
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= window.innerWidth,
     ),
   ).toBe(true);
-  await page.getByRole("button", { name: "Add review" }).click();
+  await page.getByRole("button", { name: "Add Two Sum to today" }).click();
   await expect(page.locator('.account-bar [role="status"]')).toHaveText(
     "Saved to your account",
   );
   await expect(
-    page.getByRole("button", {
-      name: `Remove Two Sum from ${dateLabel(target)}`,
-    }),
+    page.getByRole("button", { name: "Remove extra review of Two Sum" }),
   ).toBeVisible();
   let saved = (await (await page.request.get("/api/grind/state")).json()).state;
-  expect(saved.planning.days[target].reviews).toEqual(["two-sum"]);
+  expect(saved.planning.days[day].reviews).toEqual(["two-sum"]);
   expect(saved.progress["two-sum"]).toEqual(state.progress["two-sum"]);
   await page.reload();
   await page
-    .getByRole("button", { name: `Reviews for ${dateLabel(target)}` })
-    .click();
-  await page
-    .getByRole("button", {
-      name: `Remove Two Sum from ${dateLabel(target)}`,
-    })
+    .getByRole("button", { name: "Remove extra review of Two Sum" })
     .click();
   await expect(page.locator('.account-bar [role="status"]')).toHaveText(
     "Saved to your account",
   );
   saved = (await (await page.request.get("/api/grind/state")).json()).state;
-  expect(saved.planning.days[target].reviews).toBeUndefined();
+  expect(saved.planning.days[day].reviews).toBeUndefined();
   expect(saved.progress["two-sum"]).toEqual(state.progress["two-sum"]);
 });
 
