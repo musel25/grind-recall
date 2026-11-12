@@ -42,6 +42,19 @@ export function reviewDay(day: string, state?: StudyState) {
 }
 // A soft count target: never hide overdue work or delay failed retries.
 export const REVIEW_TARGET = 7;
+function isExtraReviewAttempt(
+  state: StudyState,
+  attempt: StudyState["history"][number],
+) {
+  return (
+    attempt.previous !== null &&
+    attempt.previous.due > attempt.day &&
+    Object.entries(state.planning?.days ?? {}).some(
+      ([date, adjustment]) =>
+        date <= attempt.day && adjustment.reviews?.includes(attempt.problemId),
+    )
+  );
+}
 export function reviewSlot(
   day: string,
   state?: StudyState,
@@ -65,31 +78,10 @@ export function reviewSlot(
   }
   // The explicit, temporary limit also counts reviews already completed.
   const window = state.planning?.reviewWindow;
-  if (window)
-    for (const [date, adjustment] of Object.entries(
-      state.planning?.days ?? {},
-    )) {
-      if (
-        date < window.start ||
-        date > window.end ||
-        state.planning?.breaks?.includes(date)
-      )
-        continue;
-      for (const id of adjustment.reviews ?? []) {
-        if (
-          id === problemId ||
-          !activeIds.has(id) ||
-          (state.progress[id] &&
-            reviewDay(state.progress[id].due, state) === date) ||
-          state.history.some((a) => a.day === date && a.problemId === id)
-        )
-          continue;
-        counts.set(date, (counts.get(date) ?? 0) + 1);
-      }
-    }
   for (const attempt of state.history)
     if (
       !attempt.wasNew &&
+      !isExtraReviewAttempt(state, attempt) &&
       activeIds.has(attempt.problemId) &&
       window &&
       attempt.day >= window.start &&
@@ -341,10 +333,14 @@ export function dailyPlan(s: StudyState, day: string) {
               s.progress[a.id].due.localeCompare(s.progress[b.id].due) ||
               a.order - b.order,
           );
-  const reviewMinutes = reviews.reduce(
-    (sum, p) => sum + Math.round(p.minutes * s.settings.reviewMultiplier),
-    0,
-  );
+  const budgetedReviewMinutes = reviews
+    .filter(
+      (p) => reviewDay(s.progress[p.id].due, s) <= day || eveningIds.has(p.id),
+    )
+    .reduce(
+      (sum, p) => sum + Math.round(p.minutes * s.settings.reviewMultiplier),
+      0,
+    );
   const week = studyWeek(s, day);
   const budgetMinutes = onBreak
     ? 0
@@ -356,7 +352,7 @@ export function dailyPlan(s: StudyState, day: string) {
   // This keeps the automatic queue stable when an extra is done first, or
   // when adding a long problem would otherwise expose a shorter one after it.
   const completedReviewEstimate = todays
-    .filter((a) => !a.wasNew)
+    .filter((a) => !a.wasNew && !isExtraReviewAttempt(s, a))
     .reduce((total, a) => {
       // History can include exercises that have since left the active plan.
       const p = catalog.find((p) => p.id === a.problemId)!;
@@ -364,7 +360,7 @@ export function dailyPlan(s: StudyState, day: string) {
     }, 0);
   let room = Math.max(
     0,
-    budgetMinutes - reviewMinutes - completedReviewEstimate,
+    budgetMinutes - budgetedReviewMinutes - completedReviewEstimate,
   );
   const startOfDayCandidates = learningOrder(
     problems.filter((p) => !s.progress[p.id] || newDoneIds.has(p.id)),

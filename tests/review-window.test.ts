@@ -202,7 +202,7 @@ test("manual review rejects duplicate, unpracticed, due, and break-day work", ()
   );
 });
 
-test("manual review reserves a limited slot for automatic review allocation", () => {
+test("manual review adds work above the automatic review limit", () => {
   let state = model.initialState(day);
   const [manual, automatic] = activeProblems(state);
   for (const [id, due] of [
@@ -218,10 +218,10 @@ test("manual review reserves a limited slot for automatic review allocation", ()
     };
   state = model.addManualReview(state, addDays(day, 1), manual.id);
   state = model.setReviewWindow(state, addDays(day, 1), addDays(day, 3), 1);
-  assert.equal(state.progress[automatic.id].due, addDays(day, 2));
+  assert.equal(state.progress[automatic.id].due, addDays(day, 1));
   assert.deepEqual(
     dailyPlan(state, addDays(day, 1)).reviews.map((p) => p.id),
-    [manual.id],
+    [automatic.id, manual.id],
   );
 });
 
@@ -245,4 +245,59 @@ test("manual review stays due after a missed day and clears after practice", () 
     dailyPlan(state, addDays(target, 2)).reviews.some((p) => p.id === id),
     false,
   );
+});
+
+test("adding a review to today keeps the original new problem list", () => {
+  let state = model.setDayMinutes(model.initialState(day), day, 80);
+  state.progress["two-sum"] = {
+    due: addDays(day, 30),
+    card: null,
+    imported: true,
+    note: "",
+    independent: false,
+  };
+  const before = dailyPlan(state, day);
+  assert.deepEqual(
+    before.newProblems.map((p) => p.id),
+    ["contains-duplicate", "valid-anagram", "ransom-note"],
+  );
+  state = model.addManualReview(state, day, "two-sum");
+  assert.deepEqual(
+    dailyPlan(state, day).newProblems.map((p) => p.id),
+    ["contains-duplicate", "valid-anagram", "ransom-note"],
+  );
+  assert.deepEqual(
+    dailyPlan(state, day).reviews.map((p) => p.id),
+    ["two-sum"],
+  );
+  state = model.recordAttempt(state, "two-sum", 3, day, 10, "extra recall");
+  assert.deepEqual(
+    dailyPlan(state, day).newProblems.map((p) => p.id),
+    ["contains-duplicate", "valid-anagram", "ransom-note"],
+  );
+});
+
+test("rating an extra review does not move an automatic review", () => {
+  let state = model.initialState(day);
+  const [manual, automatic] = activeProblems(state);
+  state.progress[manual.id] = {
+    due: addDays(day, 30),
+    card: null,
+    imported: true,
+    note: "",
+    independent: false,
+  };
+  state.progress[automatic.id] = {
+    due: day,
+    card: null,
+    imported: true,
+    note: "",
+    independent: false,
+  };
+  state = model.setReviewWindow(state, day, addDays(day, 2), 1);
+  state = model.addManualReview(state, day, manual.id);
+  state = model.recordAttempt(state, manual.id, 3, day, 10, "extra");
+  state = model.rebalanceReviewWindow(state, day);
+  assert.equal(state.progress[automatic.id].due, day);
+  assert.ok(dailyPlan(state, day).reviews.some((p) => p.id === automatic.id));
 });

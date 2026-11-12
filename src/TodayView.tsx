@@ -58,7 +58,6 @@ export function TodayView({
 }) {
   const active = activeProblems(state);
   const [upcomingDay, setUpcomingDay] = useState<string | null>(null);
-  const [reviewChoice, setReviewChoice] = useState("");
   const lastExtraId = [...(state.planning?.days[day]?.extras ?? [])]
     .reverse()
     .find(
@@ -96,15 +95,6 @@ export function TodayView({
     .sort();
   const upcomingProblems = upcomingDay
     ? scheduledReviews(state, upcomingDay)
-    : [];
-  const reviewCandidates = upcomingDay
-    ? active.filter(
-        (p) =>
-          p.review !== false &&
-          state.progress[p.id] &&
-          reviewDay(state.progress[p.id].due, state) > upcomingDay &&
-          !state.planning?.days[upcomingDay]?.reviews?.includes(p.id),
-      )
     : [];
 
   return (
@@ -427,7 +417,6 @@ export function TodayView({
                 aria-pressed={upcomingDay === date}
                 onClick={() => {
                   setUpcomingDay(upcomingDay === date ? null : date);
-                  setReviewChoice("");
                 }}
               >
                 <span>
@@ -458,6 +447,26 @@ export function TodayView({
                     {p.title}
                     <ChevronRight size={15} />
                   </button>
+                  {!plan.beforeStart &&
+                    !plan.onBreak &&
+                    !plan.reviews.some((review) => review.id === p.id) &&
+                    reviewDay(state.progress[p.id].due, state) > day && (
+                      <button
+                        className="upcoming-add"
+                        aria-label={`Add ${p.title} to today`}
+                        title={`Add ${p.title} to today`}
+                        onClick={() => {
+                          try {
+                            if (commit(addManualReview(state, day, p.id)))
+                              setToast(`${p.title} added to today's list.`);
+                          } catch (error) {
+                            setError((error as Error).message);
+                          }
+                        }}
+                      >
+                        <Plus size={16} />
+                      </button>
+                    )}
                   {state.planning?.days[upcomingDay]?.reviews?.includes(
                     p.id,
                   ) && (
@@ -485,47 +494,6 @@ export function TodayView({
                   : "No reviews scheduled yet."}
               </p>
             )}
-            {!state.planning?.breaks?.includes(upcomingDay) &&
-              reviewCandidates.length > 0 && (
-                <form
-                  className="add-review-form"
-                  onSubmit={(event) => {
-                    event.preventDefault();
-                    try {
-                      const next = addManualReview(
-                        state,
-                        upcomingDay,
-                        reviewChoice,
-                      );
-                      if (commit(next)) {
-                        setToast(`Review added to ${dateLabel(upcomingDay)}.`);
-                        setReviewChoice("");
-                      }
-                    } catch (error) {
-                      setError((error as Error).message);
-                    }
-                  }}
-                >
-                  <label>
-                    Problem to review
-                    <select
-                      required
-                      value={reviewChoice}
-                      onChange={(event) => setReviewChoice(event.target.value)}
-                    >
-                      <option value="">Choose a problem</option>
-                      {reviewCandidates.map((p) => (
-                        <option key={p.id} value={p.id}>
-                          {p.title}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                  <button className="button secondary" type="submit">
-                    <Plus size={14} /> Add review
-                  </button>
-                </form>
-              )}
           </div>
         )}
       </section>

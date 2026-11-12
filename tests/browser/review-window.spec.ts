@@ -219,7 +219,7 @@ test("automatic deadline forecasts keep the weekly time after reviews decrease",
   ).toBe(9);
 });
 
-test("an extra review can be added to and removed from a selected day", async ({
+test("the plus beside an upcoming review adds that problem to today", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
@@ -228,7 +228,7 @@ test("an extra review can be added to and removed from a selected day", async ({
   const state = initialState(day);
   state.settings.timezone = "UTC";
   state.progress["two-sum"] = {
-    due: addDays(day, 30),
+    due: target,
     card: null,
     imported: true,
     note: "keep this note",
@@ -260,38 +260,34 @@ test("an extra review can be added to and removed from a selected day", async ({
   await page
     .getByRole("button", { name: `Reviews for ${dateLabel(target)}` })
     .click();
-  await page.getByLabel("Problem to review").selectOption("two-sum");
+  await expect(page.getByLabel("Problem to review")).toHaveCount(0);
+  await expect(
+    page.getByRole("button", { name: "Add Two Sum to today" }),
+  ).toBeVisible();
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= window.innerWidth,
     ),
   ).toBe(true);
-  await page.getByRole("button", { name: "Add review" }).click();
+  await page.getByRole("button", { name: "Add Two Sum to today" }).click();
   await expect(page.locator('.account-bar [role="status"]')).toHaveText(
     "Saved to your account",
   );
   await expect(
-    page.getByRole("button", {
-      name: `Remove Two Sum from ${dateLabel(target)}`,
-    }),
+    page.getByRole("button", { name: "Remove extra review of Two Sum" }),
   ).toBeVisible();
   let saved = (await (await page.request.get("/api/grind/state")).json()).state;
-  expect(saved.planning.days[target].reviews).toEqual(["two-sum"]);
+  expect(saved.planning.days[day].reviews).toEqual(["two-sum"]);
   expect(saved.progress["two-sum"]).toEqual(state.progress["two-sum"]);
   await page.reload();
   await page
-    .getByRole("button", { name: `Reviews for ${dateLabel(target)}` })
-    .click();
-  await page
-    .getByRole("button", {
-      name: `Remove Two Sum from ${dateLabel(target)}`,
-    })
+    .getByRole("button", { name: "Remove extra review of Two Sum" })
     .click();
   await expect(page.locator('.account-bar [role="status"]')).toHaveText(
     "Saved to your account",
   );
   saved = (await (await page.request.get("/api/grind/state")).json()).state;
-  expect(saved.planning.days[target].reviews).toBeUndefined();
+  expect(saved.planning.days[day].reviews).toBeUndefined();
   expect(saved.progress["two-sum"]).toEqual(state.progress["two-sum"]);
 });
 
