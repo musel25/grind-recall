@@ -42,12 +42,14 @@ for (const width of [1440, 390]) {
     await expect(
       page.getByRole("navigation", { name: "Practice navigation" }),
     ).toHaveCount(0);
-    await expect(page.getByLabel("Plan estimate")).toContainText("This week:");
     await expect(page.getByLabel("Plan estimate")).toContainText(
-      "Today's total target",
+      "Today's target:",
     );
-    await expect(page.getByLabel("Plan estimate")).toContainText(
-      "Time practiced today counts toward it",
+    await expect(page.getByLabel("Plan estimate")).not.toContainText(
+      "This week:",
+    );
+    await expect(page.locator(".workload-note")).not.toContainText(
+      "Today's list takes about",
     );
     await expect(
       page.getByRole("region", { name: "Daily and weekly plan" }),

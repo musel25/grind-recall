@@ -124,7 +124,7 @@ test("daily summary adds row times and does not refill after fast completion", a
     page.getByRole("region", { name: "Today's summary" }),
   ).toContainText("1h 30mremaining");
   await expect(page.getByLabel("Plan estimate")).toContainText(
-    "Today's total target is 1h 18m",
+    "Today's target: 1h 18m",
   );
   await expect(page.locator(".problem-row")).toHaveCount(3);
   await page.locator(".problem-row").first().click();
@@ -185,11 +185,9 @@ test("automatic deadline forecasts keep the weekly time after reviews decrease",
     ).ok(),
   ).toBe(true);
   await page.goto("./");
-  await expect(page.getByLabel("Plan estimate")).toContainText(
-    "About 1h 18m a day",
-  );
-  await expect(page.getByLabel("Plan estimate")).toContainText(
-    "9.0 hours/week",
+  await expect(page.getByLabel("Plan estimate")).toContainText("Finish by");
+  await expect(page.getByLabel("Plan estimate")).not.toContainText(
+    "hours/week",
   );
   await page.getByText("Adjust time", { exact: true }).click();
   await page
@@ -199,9 +197,7 @@ test("automatic deadline forecasts keep the weekly time after reviews decrease",
     "Saved to your account",
   );
   await page.reload();
-  await expect(page.getByLabel("Plan estimate")).toContainText(
-    "About 1h 18m a day",
-  );
+  await expect(page.getByLabel("Plan estimate")).toContainText("Finish by");
   expect(
     (await (await page.request.get("/api/grind/state")).json()).state.settings
       .hours,

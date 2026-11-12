@@ -86,8 +86,6 @@ export function TodayView({
   });
   const readyNew = plan.newProblems.filter((p) => !eveningIds.has(p.id));
   const queue = [...readyReviews, ...readyNew, ...plan.eveningProblems];
-  const budget = plan.budgetMinutes;
-  const estimate = plan.totalMinutes + plan.doneMinutes;
   const nextDue = active
     .filter((p) => p.review !== false && state.progress[p.id])
     .map((p) => reviewDay(state.progress[p.id].due, state))
@@ -402,18 +400,7 @@ export function TodayView({
         <div className="workload-note">
           <Info size={18} />
           <div>
-            <PlanSummary
-              plan={projection}
-              week={plan.week}
-              todayMinutes={plan.budgetMinutes}
-              customToday={state.planning?.days[day]?.minutes !== undefined}
-            />
-            {estimate > budget && (
-              <p>
-                Today's list takes about {duration(estimate)}. Due reviews and
-                whole problems can exceed today's total target.
-              </p>
-            )}
+            <PlanSummary plan={projection} todayMinutes={plan.budgetMinutes} />
             <button className="text-button" onClick={() => setView("settings")}>
               Adjust your plan <ArrowRight size={14} />
             </button>

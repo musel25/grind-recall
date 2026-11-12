@@ -63,7 +63,7 @@ Timer’s sidebar (Tools → Grind Recall), or More → Grind Recall on mobile, 
 
 ## Daily time and fewer reviews
 
-Today shows the usual daily average and this week's remaining time in one plan summary. Today's total target uses the time practiced before today and the study days left this week. Time practiced today counts toward that target. The assigned list can exceed the target because due reviews stay visible and new problems are whole tasks. New problems use the closest whole-problem total in learning order after reviews. Completing or skipping work does not add replacement work. Shorter review estimates leave more time for new problems when the next whole problem fits that total.
+Today shows the finish date and today's target in a short plan summary. The target uses time practiced before today and study days left this week. Time practiced today counts toward it. Due reviews and whole problems can make the list exceed the target. Settings keeps the detailed forecast. New problems use the closest whole-problem total in learning order after reviews. Completing or skipping work does not add replacement work. Shorter review estimates leave more time for new problems when the next whole problem fits that total.
 
 Automatic deadline updates keep your saved weekly time so fewer reviews leave more time for new problems. They can increase the budget to meet the deadline. Changing the planning mode, start date, or finish date in Settings can recalculate a lower budget. Changing only the review duration keeps the saved weekly time.
 
