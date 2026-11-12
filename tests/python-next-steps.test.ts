@@ -20,6 +20,7 @@ test("a new Python plan uses the 40 Cojudge problems in course order", () => {
   assert.equal(active[0].id, "pns-01-sum-even-numbers");
   assert.equal(active[39].id, "pns-40-counter-class");
   assert.ok(active.every((p) => p.course === "python-next-steps"));
+  assert.equal(archivedProblems(saved).length, 0);
   assert.ok(active.every((p) => p.url.endsWith(`/problems/${p.id}`)));
   assert.deepEqual(progressSummary(saved), {
     total: 40,
