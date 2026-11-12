@@ -38,6 +38,7 @@ export type Attempt = {
   previous: Progress | null;
 };
 export type Settings = {
+  curriculum?: "python-next-steps";
   planMode?: "time" | "deadline";
   finishDate?: string;
   startDate: string;

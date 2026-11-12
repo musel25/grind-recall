@@ -147,6 +147,7 @@ export function validateState(input: unknown): StudyState {
   }
   const t = s.settings;
   if (
+    (t.curriculum !== undefined && t.curriculum !== "python-next-steps") ||
     (t.planMode !== undefined && !["time", "deadline"].includes(t.planMode)) ||
     !validDate(t.startDate) ||
     (t.finishDate !== undefined &&

@@ -14,12 +14,14 @@ export function StudySidebar({
   view,
   setView,
   queueLength,
+  curriculum,
   onClose,
   sidebarRef,
 }: {
   view: string;
   setView: (view: string) => void;
   queueLength: number;
+  curriculum?: "python-next-steps";
   onClose: () => void;
   sidebarRef: RefObject<HTMLElement | null>;
 }) {
@@ -85,11 +87,18 @@ export function StudySidebar({
         <ShieldCheck size={17} />
         <span>Saved on this device</span>
         <a
-          href="https://www.techinterviewhandbook.org/grind75/"
+          href={
+            curriculum === "python-next-steps"
+              ? "https://cojudge.musel.dev/?course=python-next-steps"
+              : "https://www.techinterviewhandbook.org/grind75/"
+          }
           target="_blank"
           rel="noreferrer"
         >
-          Inspired by Grind 75 <ArrowUpRight size={13} />
+          {curriculum === "python-next-steps"
+            ? "Python Next Steps on Cojudge"
+            : "Inspired by Grind 75"}{" "}
+          <ArrowUpRight size={13} />
         </a>
       </div>
     </aside>

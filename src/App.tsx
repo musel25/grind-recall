@@ -177,7 +177,7 @@ export default function App({
             Remember tomorrow.
           </h1>
           <p>
-            Grind 75 and your practiced LeetCode extras. All use spaced reviews.
+            Choose Grind 75 or Python Next Steps. Both use spaced reviews.
             <br />
             One clear list of what to work on each day.
           </p>
@@ -234,18 +234,25 @@ export default function App({
               >
                 Start from problem one
               </button>
+              <button
+                className="button secondary"
+                onClick={() =>
+                  commit(initialState(day, false, "python-next-steps"))
+                }
+              >
+                Start Python Next Steps
+              </button>
             </>
           )}
           <small>
-            Your pace · {activeProblems().length} active problems · Synced to
-            your account
+            Your pace · 75 Grind or 40 Python problems · Synced to your account
           </small>
         </div>
         <a
           className="welcome-credit"
           href="https://www.techinterviewhandbook.org/grind75/"
         >
-          Problem list by Grind 75 / Tech Interview Handbook
+          Grind 75 list by Tech Interview Handbook
         </a>
       </div>
     );
@@ -285,6 +292,7 @@ export default function App({
           view={view}
           setView={setView}
           queueLength={plan.reviews.length + plan.newProblems.length}
+          curriculum={state.settings.curriculum}
           onClose={() => {
             setNavigationOpen(false);
             navigationButton.current?.focus();
@@ -376,7 +384,11 @@ export default function App({
         )}
         <footer>
           <span>Consistency over cramming.</span>
-          <span>Grind 75 + practiced LeetCode extras</span>
+          <span>
+            {state.settings.curriculum === "python-next-steps"
+              ? "Python Next Steps · Cojudge"
+              : "Grind 75 + practiced LeetCode extras"}
+          </span>
         </footer>
       </main>
       {selected && (
