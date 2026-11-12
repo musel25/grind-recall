@@ -21,6 +21,7 @@ export function ProblemList({
   const [status, setStatus] = useState("All problems");
   const [collection, setCollection] = useState("Active plan");
   const archived = archivedProblems(state);
+  const pythonPlan = state.settings.curriculum === "python-next-steps";
   const bank = collection === "Archive" ? archived : activeProblems(state);
   const filtered = bank.filter(
     (p) =>
@@ -45,8 +46,10 @@ export function ProblemList({
           {activeProblems(state).length} active problems in prerequisite-based
           learning order, grouped across your {groups.length}-week plan by
           estimated effort. This is your roadmap; Today accounts for reviews and
-          study breaks. Includes 75 Grind problems and your practiced LeetCode
-          extras.
+          study breaks.{" "}
+          {pythonPlan
+            ? "Includes 40 Python Next Steps exercises on Cojudge."
+            : "Includes 75 Grind problems and your practiced LeetCode extras."}
         </p>
       </div>
       <div className="list-tools">
@@ -99,8 +102,9 @@ export function ProblemList({
       {collection === "Archive" && (
         <p className="results-count">
           Archived problems are excluded from daily assignments and forecasts.
-          Your practiced LeetCode extras remain in the active plan. The five
-          Pybites courses stay archived, including practiced exercises.
+          {pythonPlan
+            ? "Other problems stay available for history. They do not enter this Python plan."
+            : "Your practiced LeetCode extras remain in the active plan. The five Pybites courses stay archived, including practiced exercises."}
         </p>
       )}
       {collection === "Archive" &&

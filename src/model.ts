@@ -12,11 +12,16 @@ import {
 } from "./scheduler";
 import type { StudyState } from "./types";
 
-export function initialState(day: string, importTen = false): StudyState {
+export function initialState(
+  day: string,
+  importTen = false,
+  curriculum?: "python-next-steps",
+): StudyState {
   const state: StudyState = {
     version: 1,
     revision: 0,
     settings: {
+      ...(curriculum ? { curriculum } : {}),
       startDate: day,
       weeks: 15,
       hours: 10,

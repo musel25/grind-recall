@@ -2,6 +2,8 @@
 
 A daily planner for Grind 75, with spaced repetition. Choose a completion deadline or a daily time budget; the other is estimated including spaced reviews.
 
+New accounts can also start **Python Next Steps**, a separate 40-problem plan linked to the [Cojudge course](https://cojudge.musel.dev/?course=python-next-steps). The selected plan is saved with the account. Existing accounts and backups without a plan selection keep Grind 75. Cojudge and Grind Recall track progress separately.
+
 Built with React, TypeScript, Vite, and FSRS. Hosted on a personal VPS. Progress syncs to a separate account on the VPS through the Planner API. JSON backups remain available.
 
 ## Run locally
@@ -110,6 +112,8 @@ The bank uses the same plan length as the sidebar: the number of weeks covering 
 All nine Applied AI exercises and all five Pybites courses are archived. The default plan has 75 problems. An account with four practiced LeetCode extras has 79. Browse them through **All problems → Archive** to open them on Cojudge. There is no separate courses menu.
 
 Archiving keeps all 81 Cojudge catalog IDs, attempts, notes, recorded time, morning marks, and FSRS memory. Existing backups remain valid. Archived Cojudge work no longer appears in assignments, reviews, forecasts, or progress totals, even if you practiced it. Historical attempts remain available in completed study history.
+
+Python Next Steps is stored in [python-next-steps.json](src/python-next-steps.json), separate from the archived-course importer. Its 40 stable Cojudge IDs are active only in accounts that select that plan. They remain in the full catalog for backup validation and history in other accounts.
 
 The Pybites archive policy is stored in [python-first-pass.json](docs/catalog/python-first-pass.json). The importer also keeps Applied AI retired. All course selections are empty and all 72 exercise IDs are retired. Refreshing the catalog preserves this policy:
 
