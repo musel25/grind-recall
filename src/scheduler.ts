@@ -65,6 +65,28 @@ export function reviewSlot(
   }
   // The explicit, temporary limit also counts reviews already completed.
   const window = state.planning?.reviewWindow;
+  if (window)
+    for (const [date, adjustment] of Object.entries(
+      state.planning?.days ?? {},
+    )) {
+      if (
+        date < window.start ||
+        date > window.end ||
+        state.planning?.breaks?.includes(date)
+      )
+        continue;
+      for (const id of adjustment.reviews ?? []) {
+        if (
+          id === problemId ||
+          !activeIds.has(id) ||
+          (state.progress[id] &&
+            reviewDay(state.progress[id].due, state) === date) ||
+          state.history.some((a) => a.day === date && a.problemId === id)
+        )
+          continue;
+        counts.set(date, (counts.get(date) ?? 0) + 1);
+      }
+    }
   for (const attempt of state.history)
     if (
       !attempt.wasNew &&
@@ -273,7 +295,14 @@ export function dailyPlan(s: StudyState, day: string) {
   const manualReviewIds = new Set(
     Object.entries(s.planning?.days ?? {})
       .filter(([date]) => date <= day)
-      .flatMap(([, adjustment]) => adjustment.reviews ?? []),
+      .flatMap(([date, adjustment]) =>
+        (adjustment.reviews ?? []).filter(
+          (id) =>
+            !s.history.some(
+              (attempt) => attempt.problemId === id && attempt.day >= date,
+            ),
+        ),
+      ),
   );
   const remaining = learningOrder(
     problems.filter((p) => !s.progress[p.id]),

@@ -190,3 +190,48 @@ test("manual review rejects duplicate, unpracticed, due, and break-day work", ()
   invalid.planning!.days[target].reviews = [active[0].id, active[0].id];
   assert.throws(() => validateState(invalid));
 });
+
+test("manual review reserves a limited slot for automatic review allocation", () => {
+  let state = model.initialState(day);
+  const [manual, automatic] = activeProblems(state);
+  for (const [id, due] of [
+    [manual.id, addDays(day, 20)],
+    [automatic.id, addDays(day, 1)],
+  ])
+    state.progress[id] = {
+      due,
+      card: null,
+      imported: true,
+      note: "",
+      independent: false,
+    };
+  state = model.addManualReview(state, addDays(day, 1), manual.id);
+  state = model.setReviewWindow(state, addDays(day, 1), addDays(day, 3), 1);
+  assert.equal(state.progress[automatic.id].due, addDays(day, 2));
+  assert.deepEqual(
+    dailyPlan(state, addDays(day, 1)).reviews.map((p) => p.id),
+    [manual.id],
+  );
+});
+
+test("manual review stays due after a missed day and clears after practice", () => {
+  let state = model.initialState(day);
+  const id = activeProblems(state)[0].id;
+  state.progress[id] = {
+    due: addDays(day, 30),
+    card: null,
+    imported: true,
+    note: "keep",
+    independent: false,
+  };
+  const target = addDays(day, 2);
+  state = model.addManualReview(state, target, id);
+  assert.ok(
+    dailyPlan(state, addDays(target, 1)).reviews.some((p) => p.id === id),
+  );
+  state = model.recordAttempt(state, id, 3, addDays(target, 1), 15, "rated");
+  assert.equal(
+    dailyPlan(state, addDays(target, 2)).reviews.some((p) => p.id === id),
+    false,
+  );
+});

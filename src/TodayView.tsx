@@ -18,10 +18,12 @@ import { activeProblems } from "./catalog";
 import {
   problems,
   addExtraProblem,
+  addManualReview,
   removeExtraProblem,
+  removeManualReview,
   undoAttempt,
 } from "./model";
-import { addDays, dailyPlan, reviewDay } from "./scheduler";
+import { addDays, dailyPlan, reviewDay, scheduledReviews } from "./scheduler";
 import { PlanSummary } from "./PlanSummary";
 import type { PlanEstimate } from "./planning";
 import { TodayControls } from "./TodayControls";
@@ -56,6 +58,7 @@ export function TodayView({
 }) {
   const active = activeProblems(state);
   const [upcomingDay, setUpcomingDay] = useState<string | null>(null);
+  const [reviewChoice, setReviewChoice] = useState("");
   const lastExtraId = [...(state.planning?.days[day]?.extras ?? [])]
     .reverse()
     .find(
@@ -80,11 +83,15 @@ export function TodayView({
     .filter((date) => date >= day)
     .sort();
   const upcomingProblems = upcomingDay
+    ? scheduledReviews(state, upcomingDay)
+    : [];
+  const reviewCandidates = upcomingDay
     ? active.filter(
         (p) =>
           p.review !== false &&
           state.progress[p.id] &&
-          reviewDay(state.progress[p.id].due, state) === upcomingDay,
+          reviewDay(state.progress[p.id].due, state) > upcomingDay &&
+          !state.planning?.days[upcomingDay]?.reviews?.includes(p.id),
       )
     : [];
 
@@ -388,12 +395,7 @@ export function TodayView({
         <div className="upcoming-days">
           {Array.from({ length: 14 }, (_, i) => {
             const date = addDays(day, i + 1);
-            const n = active.filter(
-              (p) =>
-                p.review !== false &&
-                state.progress[p.id] &&
-                reviewDay(state.progress[p.id].due, state) === date,
-            ).length;
+            const n = scheduledReviews(state, date).length;
             return (
               <button
                 key={date}
@@ -403,9 +405,10 @@ export function TodayView({
                 }
                 aria-label={`Reviews for ${dateLabel(date)}`}
                 aria-pressed={upcomingDay === date}
-                onClick={() =>
-                  setUpcomingDay(upcomingDay === date ? null : date)
-                }
+                onClick={() => {
+                  setUpcomingDay(upcomingDay === date ? null : date);
+                  setReviewChoice("");
+                }}
               >
                 <span>
                   {new Date(date + "T12:00:00Z").toLocaleDateString(undefined, {
@@ -430,10 +433,30 @@ export function TodayView({
             <h3>{dateLabel(upcomingDay)}</h3>
             {upcomingProblems.length ? (
               upcomingProblems.map((p) => (
-                <button key={p.id} onClick={() => setSelected(p)}>
-                  {p.title}
-                  <ChevronRight size={15} />
-                </button>
+                <div className="upcoming-review" key={p.id}>
+                  <button onClick={() => setSelected(p)}>
+                    {p.title}
+                    <ChevronRight size={15} />
+                  </button>
+                  {state.planning?.days[upcomingDay]?.reviews?.includes(
+                    p.id,
+                  ) && (
+                    <button
+                      className="text-button"
+                      aria-label={`Remove ${p.title} from ${dateLabel(upcomingDay)}`}
+                      onClick={() => {
+                        if (
+                          commit(removeManualReview(state, upcomingDay, p.id))
+                        )
+                          setToast(
+                            `${p.title} removed from ${dateLabel(upcomingDay)}.`,
+                          );
+                      }}
+                    >
+                      Remove
+                    </button>
+                  )}
+                </div>
               ))
             ) : (
               <p>
@@ -442,6 +465,47 @@ export function TodayView({
                   : "No reviews scheduled yet."}
               </p>
             )}
+            {!state.planning?.breaks?.includes(upcomingDay) &&
+              reviewCandidates.length > 0 && (
+                <form
+                  className="add-review-form"
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    try {
+                      const next = addManualReview(
+                        state,
+                        upcomingDay,
+                        reviewChoice,
+                      );
+                      if (commit(next)) {
+                        setToast(`Review added to ${dateLabel(upcomingDay)}.`);
+                        setReviewChoice("");
+                      }
+                    } catch (error) {
+                      setError((error as Error).message);
+                    }
+                  }}
+                >
+                  <label>
+                    Problem to review
+                    <select
+                      required
+                      value={reviewChoice}
+                      onChange={(event) => setReviewChoice(event.target.value)}
+                    >
+                      <option value="">Choose a problem</option>
+                      {reviewCandidates.map((p) => (
+                        <option key={p.id} value={p.id}>
+                          {p.title}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <button className="button secondary" type="submit">
+                    <Plus size={14} /> Add review
+                  </button>
+                </form>
+              )}
           </div>
         )}
       </section>
