@@ -45,6 +45,7 @@ test("complete daily work, preserve it on reload, undo and backup round trip", a
   await expect(
     page.getByRole("heading", { name: "All set for today." }),
   ).toBeVisible();
+  await expect(page.getByRole("status")).toContainText("Today's list complete");
   await expect(
     page.getByText("Your daily list is clear.", { exact: false }),
   ).toHaveCount(0);

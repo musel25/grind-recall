@@ -232,10 +232,6 @@ a {
 .sidebar-plan strong {
   color: #243650;
 }
-.sidebar-caption {
-  font-size: 11px;
-  color: var(--muted);
-}
 .sidebar-bottom {
   margin-top: auto;
   padding: 30px 8px 0;
@@ -317,6 +313,51 @@ a {
   padding: 25px 22px;
   margin-bottom: 24px;
 }
+.daily-overview > .practice-progress {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  padding: 0 0 20px;
+  margin-bottom: 20px;
+  border-right: 0;
+  border-bottom: 1px solid var(--line);
+}
+.practice-progress-item > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.daily-overview .practice-progress-item strong {
+  font-size: 14px;
+  letter-spacing: 0;
+}
+.practice-progress-item span {
+  color: var(--muted);
+  font-size: 11px;
+  text-align: right;
+}
+.practice-progress-item progress {
+  display: block;
+  width: 100%;
+  height: 6px;
+  margin-top: 10px;
+  border: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #eef1f7;
+  accent-color: var(--blue);
+}
+.practice-progress-item progress::-webkit-progress-bar {
+  background: #eef1f7;
+}
+.practice-progress-item progress::-webkit-progress-value {
+  background: var(--blue);
+}
+.practice-progress-item progress::-moz-progress-bar {
+  background: var(--blue);
+}
 .daily-overview > div {
   display: flex;
   align-items: center;
@@ -325,6 +366,9 @@ a {
   border-right: 1px solid var(--line);
 }
 .daily-overview > div:first-child {
+  padding-left: 0;
+}
+.daily-overview > .practice-progress + div {
   padding-left: 0;
 }
 .daily-overview > div:last-child {
@@ -1424,6 +1468,12 @@ footer {
     text-align: left;
   }
 }
+@media (max-width: 520px) {
+  .daily-overview > .practice-progress {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;
@@ -1855,13 +1905,9 @@ footer {
 .sidebar-plan .progress-track {
   margin: 9px 0;
 }
-.sidebar-plan p,
-.sidebar-plan .sidebar-caption {
+.sidebar-plan p {
   display: inline;
   font-size: 12px;
-}
-.sidebar-plan .sidebar-caption::before {
-  content: " · ";
 }
 .today-controls {
   margin-top: 0;

@@ -39,6 +39,8 @@ First-ten import records no fictional solve date or rating: baseline reviews are
 
 The practice page starts with the left panel closed. Use the menu button for Today, All problems, Settings, and the link back to Planner. The progress summary stays at the top of the page. Use the account button for sync status, backups, Sync now, and Sign out.
 
+Today shows active attempts done, work left in the current list, and practice time against the Monday–Sunday goal. Archived attempts still count toward practiced time. The top progress summary shows active problems practiced out of the active total. After an attempt is saved, a message shows today's updated counts and the next review date. Finishing due reviews or the rest of the current list gives a completion message. An Again rating counts as practice done today. These displays use existing saved attempts; they do not change scheduling or backup data.
+
 ## Deployment
 
 Production: https://timer.musel.dev/grind/

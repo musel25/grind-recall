@@ -124,7 +124,7 @@ export default function App({
     [savedState, day],
   );
   const active = useMemo(() => activeProblems(savedState), [savedState]);
-  const { total, practiced, independent } = useMemo(
+  const { total, practiced } = useMemo(
     () => progressSummary(savedState),
     [savedState],
   );
@@ -313,7 +313,6 @@ export default function App({
           projection={projection!}
           total={total}
           practiced={practiced}
-          independent={independent}
         />
         {error && (
           <div role="alert" className="notice error">
@@ -403,10 +402,30 @@ export default function App({
                 note,
               );
               if (commit(next)) {
+                const nextPlan = dailyPlan(next, day);
+                const activeIds = new Set(
+                  activeProblems(next).map((p) => p.id),
+                );
+                const doneToday = nextPlan.todays.filter((attempt) =>
+                  activeIds.has(attempt.problemId),
+                ).length;
+                const remaining =
+                  nextPlan.reviews.length + nextPlan.newProblems.length;
+                const reviewsDone =
+                  !!state.progress[selected.id] &&
+                  reviewDay(state.progress[selected.id].due, state) <= day &&
+                  plan.reviews.some((problem) => problem.id === selected.id) &&
+                  nextPlan.reviews.length === 0;
+                const milestone = reviewsDone
+                  ? "All due reviews done today. "
+                  : remaining === 0 && nextPlan.skippedProblems.length === 0
+                    ? "Today's list complete. "
+                    : "";
+                const feedback = `${doneToday} done today, ${remaining} left. ${milestone}`;
                 setToast(
                   selected.review === false
-                    ? `${selected.title} completed. No repeat reviews.`
-                    : `${selected.title} recorded. Next review ${dateLabel(reviewDay(next.progress[selected.id].due, next))}.`,
+                    ? `${selected.title} completed. ${feedback}No repeat reviews.`
+                    : `${selected.title} recorded. ${feedback}Next review ${dateLabel(reviewDay(next.progress[selected.id].due, next))}.`,
                 );
                 return true;
               }
