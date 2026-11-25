@@ -1,12 +1,32 @@
 import data from "./problems.json" with { type: "json" };
 import courses from "./cojudge-courses.json" with { type: "json" };
 import pythonNextSteps from "./python-next-steps.json" with { type: "json" };
-import type { Problem, StudyState } from "./types";
+import pythonAssessments from "./python-assessments.json" with { type: "json" };
+import type { Curriculum, Problem, StudyState } from "./types";
+
+export const studyCurricula = [
+  {
+    id: "python-next-steps",
+    title: pythonNextSteps.title,
+    url: "https://cojudge.musel.dev/?course=python-next-steps",
+  },
+  {
+    id: "python-assessments",
+    title: pythonAssessments.title,
+    url: "https://cojudge.musel.dev/assessments",
+  },
+] as const satisfies readonly { id: Curriculum; title: string; url: string }[];
+const studyCurriculumIds = new Set<string>(studyCurricula.map(({ id }) => id));
+
+export function isStudyCurriculum(value: unknown): value is Curriculum {
+  return typeof value === "string" && studyCurriculumIds.has(value);
+}
+
 export const cojudgeCourses: {
   id: string;
   title: string;
   problems: Problem[];
-}[] = [...courses, pythonNextSteps];
+}[] = [...courses, pythonNextSteps, pythonAssessments];
 export const problems: Problem[] = [
   ...data,
   ...cojudgeCourses.flatMap((course) => course.problems),
@@ -24,14 +44,16 @@ export const initialTen = [
   "lowest-common-ancestor-of-a-binary-search-tree",
 ];
 export function activeProblems(state?: StudyState | null): Problem[] {
-  if (state?.settings.curriculum === "python-next-steps")
+  const curriculum = state?.settings.curriculum;
+  if (curriculum)
     return problems
-      .filter((p) => p.course === "python-next-steps" && !p.retired)
+      .filter((p) => p.course === curriculum && !p.retired)
       .map((p, i) => ({ ...p, order: i + 1 }));
   return problems
     .filter(
       (p) =>
         !p.retired &&
+        !isStudyCurriculum(p.course) &&
         ((!!p.course && !p.deferred) ||
           p.core ||
           (p.bloomberg && !p.deferred) ||
@@ -41,10 +63,10 @@ export function activeProblems(state?: StudyState | null): Problem[] {
     .map((p, i) => ({ ...p, order: i + 1 }));
 }
 export function archivedProblems(state?: StudyState | null): Problem[] {
-  if (state?.settings.curriculum === "python-next-steps") return [];
+  if (state?.settings.curriculum) return [];
   const active = new Set(activeProblems(state).map((p) => p.id));
   return problems.filter(
-    (p) => !active.has(p.id) && p.course !== "python-next-steps",
+    (p) => !active.has(p.id) && !isStudyCurriculum(p.course),
   );
 }
 export function progressSummary(state?: StudyState | null) {

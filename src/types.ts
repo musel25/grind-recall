@@ -37,8 +37,9 @@ export type Attempt = {
   wasNew: boolean;
   previous: Progress | null;
 };
+export type Curriculum = "python-next-steps" | "python-assessments";
 export type Settings = {
-  curriculum?: "python-next-steps";
+  curriculum?: Curriculum;
   planMode?: "time" | "deadline";
   finishDate?: string;
   startDate: string;

@@ -1,4 +1,4 @@
-import { problems } from "./model";
+import { isStudyCurriculum, problems } from "./catalog";
 import type { Progress, StudyState } from "./types";
 import { dayDiff } from "./scheduler";
 export const STORAGE_KEY = "grind-recall:v1";
@@ -147,7 +147,7 @@ export function validateState(input: unknown): StudyState {
   }
   const t = s.settings;
   if (
-    (t.curriculum !== undefined && t.curriculum !== "python-next-steps") ||
+    (t.curriculum !== undefined && !isStudyCurriculum(t.curriculum)) ||
     (t.planMode !== undefined && !["time", "deadline"].includes(t.planMode)) ||
     !validDate(t.startDate) ||
     (t.finishDate !== undefined &&

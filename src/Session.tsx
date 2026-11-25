@@ -164,6 +164,7 @@ function ReviewSession({
   }, []);
   const morning = awaitingEvening(state, p.id, day);
   const rated = history.some((a) => a.day === day);
+  const assessment = p.course === "python-assessments";
   const labels = ["Again", "Hard", "Good", "Easy"] as const;
   const descriptions = [
     "Needed help or forgot",
@@ -192,13 +193,18 @@ function ReviewSession({
         </span>
         <span>Plan week {planWeek}</span>
         <span>
-          <Clock3 size={14} /> {duration(p.minutes)} solving estimate
+          <Clock3 size={14} />{" "}
+          {assessment
+            ? `${p.minutes * 2}-minute assessment`
+            : `${duration(p.minutes)} solving estimate`}
         </span>
       </div>
       <p className="session-prompt">
-        {p.course
-          ? "Try the exercise on Cojudge without hints. Explain the Python concepts you used, then rate it Again, Hard, Good, or Easy. Your rating schedules the next review."
-          : "Try it without hints. Explain your approach and its time and space complexity, then rate it Again, Hard, Good, or Easy. Practicing a problem does not retire it from reviews."}
+        {assessment
+          ? "On Cojudge, work through the levels you unlock. Before you review, recall the validation rules, state changes, and edge cases. Rate the assessment to schedule your next review."
+          : p.course
+            ? "Try the exercise on Cojudge without hints. Explain the Python concepts you used, then rate it Again, Hard, Good, or Easy. Your rating schedules the next review."
+            : "Try it without hints. Explain your approach and its time and space complexity, then rate it Again, Hard, Good, or Easy. Practicing a problem does not retire it from reviews."}
       </p>
       <a
         className="button primary"

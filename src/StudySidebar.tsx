@@ -9,7 +9,8 @@ import {
 } from "lucide-react";
 import type { RefObject } from "react";
 import type { PlanEstimate } from "./planning";
-import type { progressSummary } from "./catalog";
+import { studyCurricula, type progressSummary } from "./catalog";
+import type { Curriculum } from "./types";
 export function StudySidebar({
   view,
   setView,
@@ -21,10 +22,11 @@ export function StudySidebar({
   view: string;
   setView: (view: string) => void;
   queueLength: number;
-  curriculum?: "python-next-steps";
+  curriculum?: Curriculum;
   onClose: () => void;
   sidebarRef: RefObject<HTMLElement | null>;
 }) {
+  const selected = studyCurricula.find(({ id }) => id === curriculum);
   return (
     <aside ref={sidebarRef} className="sidebar">
       <div className="sidebar-heading">
@@ -88,16 +90,12 @@ export function StudySidebar({
         <span>Saved on this device</span>
         <a
           href={
-            curriculum === "python-next-steps"
-              ? "https://cojudge.musel.dev/?course=python-next-steps"
-              : "https://www.techinterviewhandbook.org/grind75/"
+            selected?.url ?? "https://www.techinterviewhandbook.org/grind75/"
           }
           target="_blank"
           rel="noreferrer"
         >
-          {curriculum === "python-next-steps"
-            ? "Python Next Steps on Cojudge"
-            : "Inspired by Grind 75"}{" "}
+          {selected ? `${selected.title} on Cojudge` : "Inspired by Grind 75"}{" "}
           <ArrowUpRight size={13} />
         </a>
       </div>
