@@ -5,6 +5,7 @@ import { StudyBreak } from "./StudyBreak";
 import { estimatePlan, applyEstimate } from "./planning";
 import { addDays, planEndDate, todayIn } from "./scheduler";
 import { PlanSummary } from "./PlanSummary";
+import { isStudyCurriculum, studyCurricula } from "./catalog";
 import type { StudyState } from "./types";
 function settingsDraft(settings: StudyState["settings"]) {
   return settings.planMode === "deadline"
@@ -58,6 +59,7 @@ export function Settings({
       </div>
       <form
         className="settings-panel"
+        aria-labelledby="study-plan-heading"
         onSubmit={(e) => {
           e.preventDefault();
           try {
@@ -79,8 +81,29 @@ export function Settings({
           }
         }}
       >
-        <h2>Your study plan</h2>
+        <h2 id="study-plan-heading">Your study plan</h2>
         <div className="settings-grid">
+          <label>
+            Study curriculum
+            <select
+              name="curriculum"
+              value={draft.curriculum ?? ""}
+              onChange={(e) => {
+                const value = e.target.value;
+                setDraft({
+                  ...draft,
+                  curriculum: isStudyCurriculum(value) ? value : undefined,
+                });
+              }}
+            >
+              <option value="">Grind 75</option>
+              {studyCurricula.map(({ id, title }) => (
+                <option key={id} value={id}>
+                  {title}
+                </option>
+              ))}
+            </select>
+          </label>
           <label>
             Start date
             <input

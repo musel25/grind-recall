@@ -10,12 +10,12 @@ import {
   reviewSlot,
   moveReview,
 } from "./scheduler";
-import type { StudyState } from "./types";
+import type { Curriculum, StudyState } from "./types";
 
 export function initialState(
   day: string,
   importTen = false,
-  curriculum?: "python-next-steps",
+  curriculum?: Curriculum,
 ): StudyState {
   const state: StudyState = {
     version: 1,

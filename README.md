@@ -2,7 +2,7 @@
 
 A daily planner for Grind 75, with spaced repetition. Choose a completion deadline or a daily time budget; the other is estimated including spaced reviews.
 
-New accounts can also start **Python Next Steps**, a separate 40-problem plan linked to the [Cojudge course](https://cojudge.musel.dev/?course=python-next-steps). The selected plan is saved with the account. Existing accounts and backups without a plan selection keep Grind 75. Cojudge and Grind Recall track progress separately.
+Choose Grind 75, **Python Next Steps**, or **Python Assessments** when you start or in **Settings → Study curriculum**. Python Next Steps has 40 problems. Python Assessments has two four-level problems and budgets 90 minutes for a first attempt. Rate each whole assessment to schedule a spaced review. The assessment links require a Cojudge build that includes the assessment routes. Grind Recall saves the selected plan with your account and keeps your study history when you switch. Existing accounts and backups without a selection use Grind 75. Cojudge stores its code, scores, and attempt history separately. [Python Next Steps course](https://cojudge.musel.dev/?course=python-next-steps), [Cojudge assessments](https://cojudge.musel.dev/assessments)
 
 Built with React, TypeScript, Vite, and FSRS. Hosted on a personal VPS. Progress syncs to a separate account on the VPS through the Planner API. JSON backups remain available.
 
@@ -113,7 +113,7 @@ All nine Applied AI exercises and all five Pybites courses are archived. The def
 
 Archiving keeps all 81 Cojudge catalog IDs, attempts, notes, recorded time, morning marks, and FSRS memory. Existing backups remain valid. Archived Cojudge work no longer appears in assignments, reviews, forecasts, or progress totals, even if you practiced it. Historical attempts remain available in completed study history.
 
-Python Next Steps is stored in [python-next-steps.json](src/python-next-steps.json), separate from the archived-course importer. Its 40 stable Cojudge IDs are active only in accounts that select that plan. They remain in the full catalog for backup validation and history in other accounts.
+The two Python plans are stored in [python-next-steps.json](src/python-next-steps.json) and [python-assessments.json](src/python-assessments.json). Their stable Cojudge IDs are active only while their plan is selected. The full catalog includes both plans for backup validation and history. The archived-course importer leaves these files unchanged.
 
 The Pybites archive policy is stored in [python-first-pass.json](docs/catalog/python-first-pass.json). The importer also keeps Applied AI retired. All course selections are empty and all 72 exercise IDs are retired. Refreshing the catalog preserves this policy:
 

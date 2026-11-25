@@ -1,0 +1,34 @@
+{
+  "id": "python-assessments",
+  "title": "Python Assessments",
+  "problems": [
+    {
+      "id": "tool-lending-desk",
+      "title": "Tool Lending Desk",
+      "url": "https://cojudge.musel.dev/assessments/tool-lending-desk",
+      "difficulty": "Medium",
+      "minutes": 45,
+      "estimatedMinutes": true,
+      "week": 1,
+      "order": 1,
+      "course": "python-assessments",
+      "stage": "Progressive assessments",
+      "review": true,
+      "deferred": true
+    },
+    {
+      "id": "community-workshop",
+      "title": "Community Workshop",
+      "url": "https://cojudge.musel.dev/assessments/community-workshop",
+      "difficulty": "Hard",
+      "minutes": 45,
+      "estimatedMinutes": true,
+      "week": 1,
+      "order": 2,
+      "course": "python-assessments",
+      "stage": "Progressive assessments",
+      "review": true,
+      "deferred": true
+    }
+  ]
+}

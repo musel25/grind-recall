@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Search, ArrowUpRight, ChevronRight } from "lucide-react";
-import { activeProblems, archivedProblems } from "./catalog";
+import { activeProblems, archivedProblems, studyCurricula } from "./catalog";
 import { ProblemRow } from "./ProblemRow";
 import { reviewDay } from "./scheduler";
 import type { BankWeek } from "./bank";
@@ -20,10 +20,12 @@ export function ProblemList({
   const [difficulty, setDifficulty] = useState("All difficulties");
   const [status, setStatus] = useState("All problems");
   const [collection, setCollection] = useState("Active plan");
-  const archived = archivedProblems(state);
-  const pythonPlan = state.settings.curriculum === "python-next-steps";
-  const bank =
-    collection === "Archive" && !pythonPlan ? archived : activeProblems(state);
+  const active = activeProblems(state);
+  const curriculum = studyCurricula.find(
+    ({ id }) => id === state.settings.curriculum,
+  );
+  const showArchive = !curriculum && collection === "Archive";
+  const bank = showArchive ? archivedProblems(state) : active;
   const filtered = bank.filter(
     (p) =>
       (!search || p.title.toLowerCase().includes(search.toLowerCase())) &&
@@ -44,17 +46,16 @@ export function ProblemList({
       <div className="page-heading">
         <h1>A little progress, every week.</h1>
         <p>
-          {activeProblems(state).length} active problems in prerequisite-based
-          learning order, grouped across your {groups.length}-week plan by
-          estimated effort. This is your roadmap; Today accounts for reviews and
-          study breaks.{" "}
-          {pythonPlan
-            ? "Includes 40 Python Next Steps exercises on Cojudge."
+          {active.length} active problems in prerequisite-based learning order,
+          grouped across your {groups.length}-week plan by estimated effort.
+          This is your roadmap; Today accounts for reviews and study breaks.{" "}
+          {curriculum
+            ? `Practice ${curriculum.title} on Cojudge.`
             : "Includes 75 Grind problems and your practiced LeetCode extras."}
         </p>
       </div>
       <div className="list-tools">
-        {!pythonPlan && (
+        {!curriculum && (
           <select
             aria-label="Problem collection"
             value={collection}
@@ -102,15 +103,14 @@ export function ProblemList({
           <p>Try a different search or filter.</p>
         </div>
       )}
-      {collection === "Archive" && !pythonPlan && (
+      {showArchive && (
         <p className="results-count">
           Archived problems are excluded from daily assignments and forecasts.
           Your practiced LeetCode extras remain in the active plan. The five
           Pybites courses stay archived, including practiced exercises.
         </p>
       )}
-      {collection === "Archive" &&
-        !pythonPlan &&
+      {showArchive &&
         filtered.map((p) => (
           <a
             className="problem-row"
@@ -131,7 +131,7 @@ export function ProblemList({
             <ArrowUpRight size={17} />
           </a>
         ))}
-      {collection === "Active plan" &&
+      {!showArchive &&
         groups.map(({ week: w, problems: all }) => {
           const list = all.filter((p) => filteredIds.has(p.id));
           const count = all.filter((p) => state.progress[p.id]).length;
